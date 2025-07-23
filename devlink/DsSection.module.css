@@ -1,0 +1,74 @@
+.ds__card {
+  display: flex;
+  overflow: hidden;
+  margin-top: 36px;
+  margin-right: 0px;
+  margin-left: 0px;
+  flex-direction: row;
+
+  border: 0.0625rem solid var(--color--n300);
+  border-radius: 0.5rem;
+
+  box-shadow: 0 2px 15px 1px var(--color--n200);
+}
+
+.ds__card-main {
+  flex-direction: column;
+  flex: 1;
+}
+
+.ds_doc_card-preview {
+  flex-direction: column;
+  justify-content: center;
+  flex-wrap: nowrap;
+  align-items: stretch;
+}
+
+.ds_doc_card-preview {
+  flex: 1;
+}
+
+.ds__card-sample {
+  display: flex;
+  width: 100%;
+  padding: 16px;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  grid-column-gap: 16px;
+  grid-row-gap: 16px;
+}
+
+.ds__card-sample.cc-stk {
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: stretch;
+}
+
+.ds__card-sample.cc-hug {
+  flex: 0 auto;
+}
+
+.ds__card-detail {
+  display: flex;
+  width: 250px;
+  min-width: 25%;
+  padding: 0.5rem;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+
+  background-color: var(--color--n100);
+}
+
+@media screen and (max-width: 767px) {
+  .ds__card-detail {
+    padding: 1.25rem;
+  }
+}
+
+.ds__wrap-props {
+  flex-direction: column;
+  grid-column-gap: 4px;
+  grid-row-gap: 4px;
+}

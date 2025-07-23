@@ -1,0 +1,16 @@
+.notice-space {
+  width: 100%;
+  height: 32px;
+}
+
+.notice-msg {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  padding-right: 20px;
+  padding-left: 16px;
+  justify-content: space-between;
+  align-items: stretch;
+
+  color: var(--color--n000);
+}

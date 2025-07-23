@@ -1,0 +1,40 @@
+.togglesq-ctrl {
+  display: flex;
+  align-items: center;
+  grid-column-gap: 14px;
+}
+
+.toggletracksq {
+  position: relative;
+
+  display: flex;
+  width: 56px;
+  height: 32px;
+  padding: 2px;
+  justify-content: flex-start;
+  align-items: center;
+
+  border-radius: 4px;
+
+  background-color: var(--n300-03baa38b);
+
+  box-shadow: inset 1px 1px 2px 0 hsla(214.15384615384616, 82.28%, 15.49%, 0.20), 17px 17px 24px -18px hsla(214.39999999999998, 80.65%, 36.47%, 0.10);
+
+  color: var(--n900-8b5806af);
+
+  cursor: pointer;
+}
+
+.toggledragsq {
+  position: absolute;
+  z-index: 1;
+
+  width: 28px;
+  height: 28px;
+
+  border-radius: 4px;
+
+  background-color: hsla(255.8426966292135, 0.00%, 100.00%, 1.00);
+
+  box-shadow: 3px 3px 8px 0 hsla(238.84615384615384, 26.26%, 38.82%, 0.24);
+}

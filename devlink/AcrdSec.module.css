@@ -1,0 +1,30 @@
+.acrd-sec_main {
+  display: flex;
+  flex-direction: column;
+}
+
+.acrd-sec-trig {
+  display: flex;
+  min-height: 48px;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: stretch;
+  flex: 1;
+
+  cursor: pointer;
+}
+
+.acrd-sec-trig:focus-visible {
+  outline-color: var(--accessibleComponentsDarkGrey-c4d8099c);
+  outline-offset: 4px;
+  outline-style: solid;
+  outline-width: 2px;
+}
+
+.acrd-sec-body {
+  display: flex;
+  overflow: hidden;
+  padding-left: 32px;
+  flex-direction: column;
+  align-items: stretch;
+}

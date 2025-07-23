@@ -1,0 +1,12 @@
+.post-resp {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+
+.post-resp-body {
+  color: var(--n700-73308aad);
+  font-size: 0.75rem;
+  line-height: 1.2;
+}

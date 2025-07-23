@@ -1,0 +1,26 @@
+.u-container {
+  position: relative;
+
+  width: 100%;
+  max-width: var(--container--main);
+  margin-right: auto;
+  margin-left: auto;
+
+  container-type: inline-size;
+}
+
+.u-grid-autofit {
+  display: grid;
+  grid-auto-columns: minmax(0px, 1fr);
+  grid-column-gap: var(--site--gutter);
+  grid-row-gap: var(--site--gutter);
+  grid-template-rows: auto;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
+}
+
+.u-align-self-center {
+  align-self: center;
+}
+
+#w-node-e1723b58-4d11-9ce8-65d4-7c6f2957147f-2957147b {
+}

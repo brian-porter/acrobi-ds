@@ -1,0 +1,37 @@
+.cell-placeprice {
+  position: relative;
+
+  display: flex;
+  overflow: hidden;
+  width: 100%;
+  height: auto;
+  min-height: 56px;
+  min-width: 250px;
+  justify-content: flex-start;
+  align-items: center;
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+}
+
+.lic-primary-wrap {
+  position: relative;
+
+  display: flex;
+  height: auto;
+  flex-direction: row;
+  align-self: stretch;
+  flex: 1;
+
+  color: var(--n900-8b5806af);
+  text-decoration: none;
+}
+
+.lic-primary-link {
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  right: 0%;
+  bottom: 0%;
+
+  flex-direction: row;
+}

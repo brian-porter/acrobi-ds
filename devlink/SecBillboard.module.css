@@ -1,0 +1,15 @@
+.billboard_main {
+  position: relative;
+
+  display: flex;
+  overflow: hidden;
+  width: 100%;
+  flex-direction: column;
+  flex-wrap: nowrap;
+}
+
+@media screen and (max-width: 767px) {
+  .billboard_main {
+    border-radius: 8px;
+  }
+}

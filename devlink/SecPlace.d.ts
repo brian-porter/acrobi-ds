@@ -1,0 +1,38 @@
+import * as React from "react";
+import * as Types from "./types";
+
+declare function SecPlace(props: {
+  as?: React.ElementType;
+  sec?: Types.Visibility.VisibilityConditions;
+  secHead?: Types.Visibility.VisibilityConditions;
+  stats?: Types.Visibility.VisibilityConditions;
+  secHeadTitleIcn?: Types.Visibility.VisibilityConditions;
+  secHeadAct1?: Types.Visibility.VisibilityConditions;
+  secHeadAct1Txt?: Types.Visibility.VisibilityConditions;
+  secHeadAct1Icn?: Types.Visibility.VisibilityConditions;
+  secHeadTitleIcnSrc?: React.ReactNode;
+  secHeadTitleSrc?: React.ReactNode;
+  secHeadAct1IcnSrc?: React.ReactNode;
+  secHeadAct1TxtSrc?: React.ReactNode;
+  secHeadAct1Click?: Types.Devlink.RuntimeProps;
+  conCellMap?: Types.Devlink.Slot;
+  conExampleCellPlace?: Types.Visibility.VisibilityConditions;
+  stat1Src?: React.ReactNode;
+  stat2Src?: React.ReactNode;
+  stat3Src?: React.ReactNode;
+  stat4Src?: React.ReactNode;
+  stat2?: Types.Visibility.VisibilityConditions;
+  stat3?: Types.Visibility.VisibilityConditions;
+  stat4?: Types.Visibility.VisibilityConditions;
+  exampleVizSrc?: Types.Asset.Image;
+  exampleVizAlt?: Types.Basic.AltText;
+  exampleCaptTitleSrc?: React.ReactNode;
+  exampleCellClick?: Types.Devlink.RuntimeProps;
+  emptyEmpty?: Types.Visibility.VisibilityConditions;
+  emptyEmptyIcnSrc?: React.ReactNode;
+  emptyEmptyHlineSrc?: React.ReactNode;
+  emptyEmptySubTxtSrc?: React.ReactNode;
+  emptyEmptyCtaTxtSrc?: React.ReactNode;
+  emptyEmptyClick?: Types.Devlink.RuntimeProps;
+  conSideFade?: Types.Visibility.VisibilityConditions;
+}): React.JSX.Element;

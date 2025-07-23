@@ -1,0 +1,36 @@
+import * as React from "react";
+import * as Types from "./types";
+
+declare function MShare(props: {
+  as?: React.ElementType;
+  cancelClick?: Types.Devlink.RuntimeProps;
+  objImgSrc?: Types.Asset.Image;
+  objImgAltTxt?: Types.Basic.AltText;
+  objTitleSrc?: React.ReactNode;
+  objSubtxtSrc?: React.ReactNode;
+  peepSearchClick?: Types.Devlink.RuntimeProps;
+  peepExample?: Types.Visibility.VisibilityConditions;
+  peepEmpty?: Types.Visibility.VisibilityConditions;
+  peepEmptyClick?: Types.Devlink.RuntimeProps;
+  peepMap?: Types.Devlink.Slot;
+  groupSearchClick?: Types.Devlink.RuntimeProps;
+  groupExample?: Types.Visibility.VisibilityConditions;
+  groupEmpty?: Types.Visibility.VisibilityConditions;
+  groupEmptyClick?: Types.Devlink.RuntimeProps;
+  groupMap?: Types.Devlink.Slot;
+  socialAddClick?: Types.Devlink.RuntimeProps;
+  socialEmpty?: Types.Visibility.VisibilityConditions;
+  socialEmptyClick?: Types.Devlink.RuntimeProps;
+  socialMap?: Types.Devlink.Slot;
+  smsClick?: Types.Devlink.RuntimeProps;
+  emailClick?: Types.Devlink.RuntimeProps;
+  qrClick?: Types.Devlink.RuntimeProps;
+  linkClick?: Types.Devlink.RuntimeProps;
+  printClick?: Types.Devlink.RuntimeProps;
+  sideFade?: Types.Visibility.VisibilityConditions;
+  conMetaClick?: Types.Devlink.RuntimeProps;
+  conInstaClick?: Types.Devlink.RuntimeProps;
+  conTwitterClick?: Types.Devlink.RuntimeProps;
+  conPinterestClick?: Types.Devlink.RuntimeProps;
+  conSnapClick?: Types.Devlink.RuntimeProps;
+}): React.JSX.Element;

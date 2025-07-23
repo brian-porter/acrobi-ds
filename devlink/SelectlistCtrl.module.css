@@ -1,0 +1,138 @@
+.selectlist_wrap {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  flex-wrap: nowrap;
+}
+
+.selectlist_main {
+  width: 100%;
+  flex-direction: column;
+  flex-wrap: nowrap;
+}
+
+.a_selectlist-tgl {
+  position: relative;
+
+  display: flex;
+  width: 100%;
+  height: 36px;
+  min-height: 36px;
+  padding: 0px 20px 0px 0px;
+  justify-content: space-between;
+  align-items: center;
+
+  border: 1px solid var(--color--n200);
+  border-radius: 4px;
+
+  background-color: var(--color--n000);
+
+  transition: border-color 300ms ease;
+}
+
+.a_selectlist-tgl:hover {
+  border-color: var(--color--p300);
+  outline-color: hsla(214.32558139534882, 87.76%, 51.96%, 0.00);
+  outline-offset: 2px;
+  outline-style: solid;
+  outline-width: 2px;
+}
+
+.a_selectlist-tgl:focus {
+  border-color: var(--color--f500);
+  background-color: var(--color--n000);
+}
+
+.a_selectlist-tgl:global(.w--open) {
+  border-color: var(--color--n500);
+  background-color: var(--color--n000);
+}
+
+.a_selectlist-arw {
+  margin-top: 0px;
+  margin-right: 8px;
+  margin-bottom: 0px;
+  align-self: center;
+
+  color: var(--color--n500);
+  font-size: 14px;
+}
+
+.selecteditem {
+  position: relative;
+
+  display: flex;
+  min-height: 36px;
+  padding-right: 6px;
+  justify-content: flex-start;
+  align-items: stretch;
+  flex: 1;
+
+  cursor: pointer;
+}
+
+.si-lead {
+  display: flex;
+  min-width: 8px;
+  margin-right: auto;
+  margin-left: auto;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-self: stretch;
+  flex: 0 auto;
+
+  color: var(--color--p500);
+}
+
+.sic-lead-icn {
+  display: flex;
+  padding-right: 16px;
+  padding-left: 16px;
+  align-items: center;
+  flex: 1;
+
+  color: var(--color--p500);
+}
+
+.si-primary {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  align-self: stretch;
+  flex: 1;
+}
+
+.a_feedback-txt-sel {
+  position: absolute;
+  left: auto;
+  top: auto;
+  right: 0%;
+  bottom: 0%;
+
+  display: flex;
+  min-height: 36px;
+  min-width: 48px;
+  padding-right: 28px;
+  padding-left: 8px;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.selectlist-drop {
+  border: 1px solid var(--color--n200);
+  border-radius: var(--radius--br2);
+  background-color: var(--color--n000);
+}
+
+.selectlist-drop:global(.w--open) {
+  overflow: hidden;
+  border-radius: var(--radius--br3);
+  box-shadow: 0 4px 20px 0 hsla(216.52173913043478, 0.00%, 0.00%, 0.30);
+}
+
+._w-icon-dropdown-toggle-close {
+  display: none;
+  transform: rotate(0deg);
+}

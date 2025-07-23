@@ -1,0 +1,34 @@
+import * as React from "react";
+import * as Types from "./types";
+
+declare function MenuAdmin(props: {
+  as?: React.ElementType;
+  menu?: Types.Visibility.VisibilityConditions;
+  mini?: Types.Builtin.Text;
+  popId?: Types.Basic.IdTextInput;
+  anchorId?: Types.Builtin.Text;
+  reportRoom?: Types.Visibility.VisibilityConditions;
+  report?: Types.Visibility.VisibilityConditions;
+  removeRoom?: Types.Visibility.VisibilityConditions;
+  remove?: Types.Visibility.VisibilityConditions;
+  reorder?: Types.Visibility.VisibilityConditions;
+  assignRole?: Types.Visibility.VisibilityConditions;
+  pin?: Types.Visibility.VisibilityConditions;
+  announce?: Types.Visibility.VisibilityConditions;
+  message?: Types.Visibility.VisibilityConditions;
+  connect?: Types.Visibility.VisibilityConditions;
+  assignOwn?: Types.Visibility.VisibilityConditions;
+  leave?: Types.Visibility.VisibilityConditions;
+  reportRoomClick?: Types.Devlink.RuntimeProps;
+  reportClick?: Types.Devlink.RuntimeProps;
+  removeRoomClick?: Types.Devlink.RuntimeProps;
+  removeClick?: Types.Devlink.RuntimeProps;
+  reorderClick?: Types.Devlink.RuntimeProps;
+  assignRoleClick?: Types.Devlink.RuntimeProps;
+  pinClick?: Types.Devlink.RuntimeProps;
+  announceClick?: Types.Devlink.RuntimeProps;
+  messageClick?: Types.Devlink.RuntimeProps;
+  connectClick?: Types.Devlink.RuntimeProps;
+  assignOwnClick?: Types.Devlink.RuntimeProps;
+  leaveClick?: Types.Devlink.RuntimeProps;
+}): React.JSX.Element;

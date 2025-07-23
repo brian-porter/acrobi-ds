@@ -1,0 +1,35 @@
+import * as React from "react";
+import * as Types from "./types";
+
+declare function MAddItem(props: {
+  as?: React.ElementType;
+  titleSrc?: React.ReactNode;
+  titleClick?: Types.Devlink.RuntimeProps;
+  doneClick?: Types.Devlink.RuntimeProps;
+  trend?: Types.Visibility.VisibilityConditions;
+  trendMap?: Types.Devlink.Slot;
+  trendEmpty?: Types.Visibility.VisibilityConditions;
+  trendEmptyClick?: Types.Devlink.RuntimeProps;
+  trendChipMap?: Types.Devlink.Slot;
+  exampleOfAllProd?: Types.Visibility.VisibilityConditions;
+  exampleOfAllProdGen?: Types.Visibility.VisibilityConditions;
+  scan?: Types.Visibility.VisibilityConditions;
+  scanMap?: Types.Devlink.Slot;
+  scanEmpty?: Types.Visibility.VisibilityConditions;
+  scanEmptyClick?: Types.Devlink.RuntimeProps;
+  scanChipMap?: Types.Devlink.Slot;
+  inteli?: Types.Visibility.VisibilityConditions;
+  inteliMap?: Types.Devlink.Slot;
+  inteliEmpty?: Types.Visibility.VisibilityConditions;
+  inteliEmptyClick?: Types.Devlink.RuntimeProps;
+  inteliChipMap?: Types.Devlink.Slot;
+  buy?: Types.Visibility.VisibilityConditions;
+  buyMap?: Types.Devlink.Slot;
+  buyEmpty?: Types.Visibility.VisibilityConditions;
+  buyEmptyClick?: Types.Devlink.RuntimeProps;
+  buyChipMap?: Types.Devlink.Slot;
+  scanBtnClick?: Types.Devlink.RuntimeProps;
+  searchChange?: Types.Builtin.Text;
+  searchClick?: Types.Devlink.RuntimeProps;
+  fltrBtnClick?: Types.Devlink.RuntimeProps;
+}): React.JSX.Element;

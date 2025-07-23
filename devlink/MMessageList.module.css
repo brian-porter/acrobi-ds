@@ -1,0 +1,40 @@
+.message_detail {
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  right: 0%;
+  bottom: 0%;
+
+  width: 100%;
+  height: 100%;
+  min-width: 600px;
+  flex-direction: column;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  align-items: stretch;
+
+  background-color: var(--color--n000);
+}
+
+@media screen and (max-width: 991px) {
+  .message_detail {
+    min-width: 644px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .message_detail {
+    min-width: 568px;
+  }
+}
+
+@media screen and (max-width: 479px) {
+  .message_detail {
+    width: 100%;
+    min-width: 320px;
+  }
+}
+
+.a-bbc-btm-spacer {
+  height: 160px;
+}

@@ -1,0 +1,33 @@
+import * as React from "react";
+import * as Types from "./types";
+
+declare function MMedia(props: {
+  as?: React.ElementType;
+  gallery?: Types.Visibility.VisibilityConditions;
+  capture?: Types.Visibility.VisibilityConditions;
+  video?: Types.Visibility.VisibilityConditions;
+  image?: Types.Visibility.VisibilityConditions;
+  gif?: Types.Visibility.VisibilityConditions;
+  galMap?: Types.Devlink.Slot;
+  captMap?: Types.Devlink.Slot;
+  vidMap?: Types.Devlink.Slot;
+  imageMap?: Types.Devlink.Slot;
+  gifMap?: Types.Devlink.Slot;
+  backBtnSrc?: React.ReactNode;
+  backBtnClick?: Types.Devlink.RuntimeProps;
+  galBtn?: Types.Visibility.VisibilityConditions;
+  galIcnSrc?: React.ReactNode;
+  galBtnClick?: Types.Devlink.RuntimeProps;
+  captBtn?: Types.Visibility.VisibilityConditions;
+  captIcnSrc?: React.ReactNode;
+  captClick?: Types.Devlink.RuntimeProps;
+  vidBtn?: Types.Visibility.VisibilityConditions;
+  vidIcnSrc?: React.ReactNode;
+  vidClick?: Types.Devlink.RuntimeProps;
+  imgBtn?: Types.Visibility.VisibilityConditions;
+  imgIcnSrc?: React.ReactNode;
+  imgClick?: Types.Devlink.RuntimeProps;
+  gifBtn?: Types.Visibility.VisibilityConditions;
+  gifIcnSrc?: React.ReactNode;
+  gifClick?: Types.Devlink.RuntimeProps;
+}): React.JSX.Element;

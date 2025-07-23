@@ -1,0 +1,37 @@
+import * as React from "react";
+import * as Types from "./types";
+
+declare function MCaptResult(props: {
+  as?: React.ElementType;
+  result?: Types.Visibility.VisibilityConditions;
+  img?: Types.Visibility.VisibilityConditions;
+  avtr?: Types.Visibility.VisibilityConditions;
+  imgSrc?: Types.Asset.Image;
+  imgAlt?: Types.Basic.AltText;
+  avtrSrc?: Types.Asset.Image;
+  avtrAlt?: Types.Basic.AltText;
+  itmTitleSrc?: React.ReactNode;
+  itmDescSrc?: React.ReactNode;
+  itmPriceSrc?: React.ReactNode;
+  itmPrice?: Types.Visibility.VisibilityConditions;
+  itmRate?: Types.Visibility.VisibilityConditions;
+  itmRateSrc?: React.ReactNode;
+  itmClick?: Types.Devlink.RuntimeProps;
+  itmAddClick?: Types.Devlink.RuntimeProps;
+  itmStep?: Types.Visibility.VisibilityConditions;
+  itmStepMoreClick?: Types.Devlink.RuntimeProps;
+  itmStepQty?: React.ReactNode;
+  itmStepLessClick?: Types.Devlink.RuntimeProps;
+  btn?: Types.Visibility.VisibilityConditions;
+  btnTxtSrc?: React.ReactNode;
+  btnStyl?: Types.Builtin.Text;
+  btnClick?: Types.Devlink.RuntimeProps;
+  addtoSrc?: React.ReactNode;
+  addtoClick?: Types.Devlink.RuntimeProps;
+  more?: Types.Visibility.VisibilityConditions;
+  moreClick?: Types.Devlink.RuntimeProps;
+  dtl?: Types.Visibility.VisibilityConditions;
+  dtlTitleSrc?: React.ReactNode;
+  dtlCellMap?: Types.Devlink.Slot;
+  dtlCellExample?: Types.Visibility.VisibilityConditions;
+}): React.JSX.Element;

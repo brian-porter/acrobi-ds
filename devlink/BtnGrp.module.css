@@ -1,0 +1,16 @@
+.btn-grp_main {
+  display: flex;
+  height: var(--size--36px);
+  flex-direction: row;
+  flex-wrap: nowrap;
+  border-radius: var(--radius--br3);
+}
+
+.example-btngrp {
+  display: flex;
+}
+
+#w-node-_7f02c4cb-d14b-cf66-ee13-597b66659058-66659058 {
+}
+#w-node-_7f02c4cb-d14b-cf66-ee13-597b66659059-66659058 {
+}

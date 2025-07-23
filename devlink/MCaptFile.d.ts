@@ -1,0 +1,33 @@
+import * as React from "react";
+import * as Types from "./types";
+
+declare function MCaptFile(props: {
+  as?: React.ElementType;
+  diaTitleSrc?: React.ReactNode;
+  cancelClick?: Types.Devlink.RuntimeProps;
+  upldDzIcn?: Types.Visibility.VisibilityConditions;
+  upldDzImg?: Types.Visibility.VisibilityConditions;
+  upldDzAvtr?: Types.Visibility.VisibilityConditions;
+  upldDzIcnSrc?: React.ReactNode;
+  upldDzIcnSz?: Types.Builtin.Text;
+  upldDzImgSrc?: Types.Asset.Image;
+  upldDzImgAlt?: Types.Basic.AltText;
+  upldDzAvtrSrc?: Types.Asset.Image;
+  upldDzAvtrAlt?: Types.Basic.AltText;
+  upldDzTxtSrc?: React.ReactNode;
+  upldDzChange?: Types.Builtin.Text;
+  upldDzClick?: Types.Devlink.RuntimeProps;
+  upldOpt?: Types.Visibility.VisibilityConditions;
+  upldOptCamera?: Types.Visibility.VisibilityConditions;
+  upldOptLib?: Types.Visibility.VisibilityConditions;
+  upldOptUnsplash?: Types.Visibility.VisibilityConditions;
+  upldOptUrl?: Types.Visibility.VisibilityConditions;
+  upldOptCameraClick?: Types.Devlink.RuntimeProps;
+  upldOptLibClick?: Types.Devlink.RuntimeProps;
+  upldOptUnsplashClick?: Types.Devlink.RuntimeProps;
+  upldOptUrlClick?: Types.Devlink.RuntimeProps;
+  hlineTitleSrc?: React.ReactNode;
+  subtxtSrc?: React.ReactNode;
+  fileGuide?: React.ReactNode;
+  doClick?: Types.Devlink.RuntimeProps;
+}): React.JSX.Element;

@@ -1,0 +1,55 @@
+.hero-wrap {
+  position: relative;
+
+  display: block;
+  max-width: 30rem;
+  margin-right: auto;
+  margin-left: auto;
+  padding-bottom: 16px;
+  flex-direction: column;
+  align-items: center;
+  flex: 0 auto;
+}
+
+.hero-img {
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  text-align: center;
+}
+
+.image-hero-sq {
+  width: 100%;
+  max-width: 400px;
+  aspect-ratio: 1/1;
+  object-fit: contain;
+}
+
+.hero-icn {
+  display: flex;
+  width: 100%;
+  padding-top: 64px;
+  padding-bottom: 16px;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-backbtn {
+  position: absolute;
+  left: 0%;
+  top: 16px;
+  right: auto;
+  bottom: auto;
+
+  width: 56px;
+  height: 56px;
+  justify-content: center;
+  align-items: center;
+}
+
+@media screen and (max-width: 991px) {
+  .hero-backbtn {
+    display: block;
+  }
+}

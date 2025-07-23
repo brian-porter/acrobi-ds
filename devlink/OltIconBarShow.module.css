@@ -1,0 +1,13 @@
+.ol-iconbar {
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  right: 0%;
+  bottom: auto;
+
+  display: flex;
+  min-height: 48px;
+  justify-content: space-between;
+
+  color: var(--color--n000);
+}

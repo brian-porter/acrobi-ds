@@ -1,0 +1,35 @@
+import * as React from "react";
+import * as Types from "./types";
+
+declare function RadioForm(props: {
+  as?: React.ElementType;
+  fld?: Types.Visibility.VisibilityConditions;
+  lblTop?: Types.Visibility.VisibilityConditions;
+  lblTopLblSrc?: React.ReactNode;
+  lblTopLblFor?: Types.Builtin.Text;
+  lblTopLblSz?: Types.Builtin.Text;
+  lblTopLblClr?: Types.Builtin.Text;
+  lblTopLblShdw?: Types.Builtin.Text;
+  lblTopOpt?: Types.Visibility.VisibilityConditions;
+  lblTopOptSrc?: React.ReactNode;
+  lblTopOptSz?: Types.Builtin.Text;
+  lblTopOptClr?: Types.Builtin.Text;
+  fldHelp?: Types.Visibility.VisibilityConditions;
+  fieldItmMap?: Types.Devlink.Slot;
+  fieldExampleRdoItm?: Types.Visibility.VisibilityConditions;
+  fldHelpHelpL?: Types.Visibility.VisibilityConditions;
+  fldHelpHelpR?: Types.Visibility.VisibilityConditions;
+  fldHelpHelpLSrc?: React.ReactNode;
+  fldHelpHelpRSrc?: React.ReactNode;
+  fldHelpHelpShdw?: Types.Builtin.Text;
+  fieldItmName?: Types.Builtin.Text;
+  fieldItmValue?: Types.Builtin.Text;
+  fieldItmLblTxtSrc?: React.ReactNode;
+  fieldAlign?: Types.Builtin.Text;
+  fieldItmClick?: Types.Devlink.RuntimeProps;
+  fieldFbk?: Types.Visibility.VisibilityConditions;
+  fieldFbkTxtSrc?: React.ReactNode;
+  fieldFbkIcnSrc?: React.ReactNode;
+  fieldFbkClr?: Types.Builtin.Text;
+  fieldFbkIcnLoc?: Types.Builtin.Text;
+}): React.JSX.Element;

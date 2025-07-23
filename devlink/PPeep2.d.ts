@@ -1,0 +1,31 @@
+import * as React from "react";
+import * as Types from "./types";
+
+declare function PPeep2(props: {
+  as?: React.ElementType;
+  heroImgSrc?: Types.Asset.Image;
+  heroHlineSrc?: React.ReactNode;
+  heroSubtxtSrc?: React.ReactNode;
+  heroSubtxt?: Types.Visibility.VisibilityConditions;
+  heroQrClick?: Types.Devlink.RuntimeProps;
+  heroMoreClick?: Types.Devlink.RuntimeProps;
+  heroBtn?: Types.Visibility.VisibilityConditions;
+  heroBtnClick?: Types.Devlink.RuntimeProps;
+  scanQrBtnClick?: Types.Devlink.RuntimeProps;
+  addGroupClick?: Types.Devlink.RuntimeProps;
+  chatClick?: Types.Devlink.RuntimeProps;
+  addMbrClick?: Types.Devlink.RuntimeProps;
+  alertClick?: Types.Devlink.RuntimeProps;
+  settingClick?: Types.Devlink.RuntimeProps;
+  topPeepMap?: Types.Devlink.Slot;
+  exampleTopPeep?: Types.Visibility.VisibilityConditions;
+  group?: Types.Visibility.VisibilityConditions;
+  groupMap?: Types.Devlink.Slot;
+  exampleGroup?: Types.Visibility.VisibilityConditions;
+  peepMap?: Types.Devlink.Slot;
+  examplePeep?: Types.Visibility.VisibilityConditions;
+  empty?: Types.Visibility.VisibilityConditions;
+  emptyFindClick?: Types.Devlink.RuntimeProps;
+  emptyGroupClick?: Types.Devlink.RuntimeProps;
+  emptyBrandClick?: Types.Devlink.RuntimeProps;
+}): React.JSX.Element;

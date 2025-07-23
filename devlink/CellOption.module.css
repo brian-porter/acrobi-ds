@@ -1,0 +1,9 @@
+.conf-cell {
+  padding: 4px;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  color: var(--n900-8b5806af);
+  text-decoration: none;
+}

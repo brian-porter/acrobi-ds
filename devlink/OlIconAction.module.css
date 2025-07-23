@@ -1,0 +1,17 @@
+.icn-act {
+  position: relative;
+
+  display: flex;
+  min-height: 48px;
+  min-width: 40px;
+  justify-content: center;
+  align-items: center;
+
+  color: var(--color--n000);
+}
+
+@media screen and (max-width: 479px) {
+  .icn-act {
+    min-width: 32px;
+  }
+}

@@ -1,0 +1,11 @@
+.action-bar-r {
+  display: flex;
+  height: 100%;
+  padding-right: 8px;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: flex-start;
+  flex: 0 auto;
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+}

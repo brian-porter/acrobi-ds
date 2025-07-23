@@ -1,0 +1,62 @@
+.bar-sidescroll {
+  position: relative;
+  z-index: 1;
+
+  display: flex;
+  overflow: hidden;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  align-items: flex-start;
+  align-self: stretch;
+  flex: 0 auto;
+}
+
+.u-bargap-ss {
+  display: flex;
+  overflow: auto;
+  margin-bottom: -20px;
+  padding-right: 12px;
+  padding-bottom: 20px;
+  padding-left: 12px;
+  align-items: center;
+  align-content: flex-start;
+  grid-column-gap: 4px;
+  grid-row-gap: 4px;
+}
+
+.side-fade {
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  right: 0%;
+  bottom: 0%;
+  z-index: 3;
+
+  pointer-events: none;
+}
+
+.side-fade-l {
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  right: auto;
+  bottom: 0%;
+  z-index: 100;
+
+  width: 20px;
+
+  background-image: linear-gradient(270deg, var(--color--t000), var(--color--n000));
+}
+
+.side-fade-r {
+  position: absolute;
+  left: auto;
+  top: 0%;
+  right: 0%;
+  bottom: 0%;
+  z-index: 100;
+
+  width: 20px;
+
+  background-image: linear-gradient(90deg, var(--color--t000), var(--color--n000));
+}

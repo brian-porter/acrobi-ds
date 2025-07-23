@@ -1,0 +1,90 @@
+.upload_wrap {
+  position: relative;
+}
+
+.upload_main {
+  position: relative;
+
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-self: stretch;
+  flex: 1;
+  grid-column-gap: 4px;
+  grid-row-gap: 4px;
+}
+
+.upload_opt {
+  display: flex;
+  width: 100%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: nowrap;
+  grid-column-gap: 4px;
+  grid-row-gap: 4px;
+}
+
+.upld_opt-url {
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  right: 0%;
+  bottom: 0%;
+
+  backdrop-filter: blur(1.5px);
+}
+
+.upld_url-modal {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+
+  display: flex;
+  width: 100%;
+  max-width: 368px;
+  padding-right: 72px;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: nowrap;
+  align-items: center;
+
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+
+  background-color: var(--color--n000);
+
+  transform: translate(-50%,-50%);
+}
+
+.upld_url-close {
+  position: absolute;
+  left: auto;
+  top: 0%;
+  right: 0%;
+  bottom: auto;
+
+  display: flex;
+  margin-top: -28px;
+  justify-content: center;
+  align-items: center;
+}
+
+.upld_url-btn-shift {
+  position: absolute;
+  left: auto;
+  top: 0%;
+  right: 0%;
+  bottom: 0%;
+
+  display: flex;
+  padding-right: 16px;
+  padding-bottom: 2px;
+  justify-content: center;
+  align-items: center;
+}

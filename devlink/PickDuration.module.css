@@ -1,0 +1,32 @@
+.pickduration {
+  display: flex;
+  flex-direction: column;
+  color: var(--color--n900);
+}
+
+.pick-4-2col {
+  display: grid;
+  flex-direction: row;
+  justify-content: space-between;
+  grid-auto-columns: 1fr;
+  grid-column-gap: 48px;
+  grid-row-gap: 48px;
+  grid-template-columns: 4fr 2fr;
+  grid-template-rows: auto;
+}
+
+.pick-1col {
+  display: flex;
+  flex-direction: column;
+}
+
+.pickgrid-4col {
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.pickgrid-2col {
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+}

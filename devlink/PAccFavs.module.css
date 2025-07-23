@@ -1,0 +1,107 @@
+.page_wrap {
+  position: relative;
+  z-index: 0;
+
+  display: flex;
+  overflow: clip;
+  min-height: 100svh;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+
+.page_main {
+  display: flex;
+  width: 100%;
+  max-width: 1440px;
+  margin-bottom: 124px;
+  padding-top: 16px;
+  padding-right: 16px;
+  padding-left: 16px;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  flex: 1;
+}
+
+@media screen and (max-width: 991px) {
+  .page_main {
+    max-width: 991px;
+    padding-top: 0px;
+    padding-right: 0px;
+    padding-left: 0px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .page_main {
+    margin-bottom: 116px;
+  }
+}
+
+.qs-50-50 {
+  padding: 0px;
+  grid-column-gap: 16px;
+  grid-row-gap: 16px;
+}
+
+@media screen and (max-width: 991px) {
+  .qs-50-50 {
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .qs-50-50.cc-top {
+    padding-top: 16px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .qs-50-50.cc-top {
+    padding-top: 0px;
+  }
+}
+
+#w-node-_9d0af86e-e41f-0755-a430-527c57d7f817-580d694d {
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: auto auto auto;
+}
+#w-node-_9d0af86e-e41f-0755-a430-527c57d7f818-580d694d {
+  grid-column-start: span 12;
+  grid-column-end: span 12;
+}
+#w-node-_9d0af86e-e41f-0755-a430-527c57d7f81c-580d694d {
+  grid-column-start: span 4;
+  grid-column-end: span 4;
+}
+#w-node-_7181ebe2-2096-d976-819b-59abcde13eb8-580d694d {
+  grid-column-start: span 4;
+  grid-column-end: span 4;
+}
+#w-node-_815df77c-ef3c-cd2b-212d-d06a7f82f20f-580d694d {
+  grid-column-start: span 4;
+  grid-column-end: span 4;
+}
+#w-node-a19c1bc0-30ff-aad0-f5e5-396119886c5c-580d694d {
+  grid-column-start: span 4;
+  grid-column-end: span 4;
+}
+#w-node-_4facd819-4ec5-0f48-a2ce-5228df4c13ba-580d694d {
+  grid-column-start: span 4;
+  grid-column-end: span 4;
+}
+#w-node-c2532257-c4d0-12f5-e8d8-493e9bfffe9f-580d694d {
+  grid-column-start: span 4;
+  grid-column-end: span 4;
+}
+@media screen and (max-width: 991px) {
+  #w-node-_9d0af86e-e41f-0755-a430-527c57d7f817-580d694d {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: auto auto;
+  }
+  #w-node-_9d0af86e-e41f-0755-a430-527c57d7f818-580d694d {
+    grid-column-start: span 4;
+    grid-column-end: span 4;
+  }
+}

@@ -1,0 +1,37 @@
+import * as React from "react";
+import * as Types from "./types";
+
+declare function MGrpMngDetail(props: {
+  as?: React.ElementType;
+  dDCancelClick?: Types.Devlink.RuntimeProps;
+  dTypePHoldSrc?: React.ReactNode;
+  dTypePHoldClr?: Types.Builtin.Text;
+  dTypeFldId?: Types.Basic.IdTextInput;
+  dTypeFldValue?: Types.Builtin.Text;
+  dTypeSelectDrpHide?: Types.Visibility.VisibilityConditions;
+  dTypeMap?: Types.Devlink.Slot;
+  dNameChange?: Types.Builtin.Text;
+  dHandleChange?: Types.Builtin.Text;
+  dDescChange?: Types.Builtin.Text;
+  dLocationChange?: Types.Builtin.Text;
+  dLocationFindClick?: Types.Devlink.RuntimeProps;
+  dPrivacyPHoldSrc?: React.ReactNode;
+  dPrivacyPHoldClr?: Types.Builtin.Text;
+  dPrivacyFldId?: Types.Basic.IdTextInput;
+  dPrivacyFldValue?: Types.Builtin.Text;
+  dPrivacySelectDrpHide?: Types.Visibility.VisibilityConditions;
+  dPrivacyMap?: Types.Devlink.Slot;
+  dRulesChange?: Types.Builtin.Text;
+  dRulesAddClick?: Types.Devlink.RuntimeProps;
+  dRolesMap?: Types.Devlink.Slot;
+  dRolesExample?: Types.Visibility.VisibilityConditions;
+  dRolesAddClick?: Types.Devlink.RuntimeProps;
+  dAdminMap?: Types.Devlink.Slot;
+  dAdminExample?: Types.Visibility.VisibilityConditions;
+  dAdminAddClick?: Types.Devlink.RuntimeProps;
+  dMbrInvtClick?: Types.Devlink.RuntimeProps;
+  dGalPostClick?: Types.Devlink.RuntimeProps;
+  dPostApproveClick?: Types.Devlink.RuntimeProps;
+  dEraseClick?: Types.Devlink.RuntimeProps;
+  dTypeOnChange?: Types.Builtin.Text;
+}): React.JSX.Element;

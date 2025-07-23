@@ -1,0 +1,143 @@
+.m-add-group {
+  position: relative;
+
+  display: block;
+  width: 100%;
+  height: 850px;
+  max-width: 30rem;
+  min-height: 850px;
+  min-width: 750px;
+  margin-right: auto;
+  margin-left: auto;
+
+  background-color: var(--n000White-0065a3d9);
+}
+
+@media screen and (max-width: 479px) {
+  .m-add-group {
+    width: 100%;
+  }
+}
+
+.tabs {
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  right: 0%;
+  bottom: 0%;
+  z-index: 0;
+
+  height: 100%;
+  flex-direction: column;
+  flex-wrap: nowrap;
+}
+
+.tab-content-default {
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  right: 0%;
+  bottom: 64px;
+
+  flex: 1;
+}
+
+.tab-detail-default {
+  position: relative;
+  left: 0%;
+  top: 0%;
+  right: 0%;
+  bottom: 0%;
+  z-index: 1;
+
+  height: 100%;
+  align-self: stretch;
+  flex: 1;
+
+  background-color: var(--color--n000);
+}
+
+@media screen and (max-width: 991px) {
+  .tab-detail-default {
+    padding-right: 0px;
+    padding-left: 0px;
+  }
+}
+
+.tab-detail {
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  right: 0%;
+  bottom: 0%;
+  z-index: 1;
+
+  width: 100%;
+  align-self: stretch;
+  flex: 1;
+
+  background-color: var(--color--n000);
+}
+
+@media screen and (max-width: 991px) {
+  .tab-detail {
+    padding-right: 0px;
+    padding-left: 0px;
+  }
+}
+
+.tab-menu-default {
+  position: absolute;
+  left: 0%;
+  top: auto;
+  right: 0%;
+  bottom: 0%;
+  z-index: 2;
+
+  display: flex;
+  height: 64px;
+  min-height: 48px;
+
+  background-color: var(--color--n000);
+}
+
+.tab-link-default {
+  display: flex;
+  min-height: 48px;
+  padding: 0px 16px 16px;
+  justify-content: flex-start;
+  align-items: center;
+
+  background-color: transparent;
+
+  color: var(--n700-73308aad);
+}
+
+.tab-link-default:global(.w--current) {
+  background-color: transparent;
+  opacity: 1;
+  color: var(--p500-741eaba2);
+  font-weight: 700;
+}
+
+.action-block {
+  position: absolute;
+  left: auto;
+  top: auto;
+  right: 0%;
+  bottom: 0%;
+  z-index: 80;
+
+  display: flex;
+  height: 64px;
+  padding-top: 8px;
+  padding-right: 16px;
+  justify-content: flex-end;
+  align-items: flex-start;
+
+  background-color: var(--color--n000);
+}
+
+.css-tab {
+  display: block;
+}

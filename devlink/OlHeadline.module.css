@@ -1,0 +1,7 @@
+.ol-headline {
+  z-index: 5;
+  width: 100%;
+  padding: 2%;
+  flex-direction: column;
+  text-shadow: 0 0 8px var(--n700-73308aad), 0 0 4px var(--n999Black-53d573b6);
+}

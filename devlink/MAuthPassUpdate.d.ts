@@ -1,0 +1,36 @@
+import * as React from "react";
+import * as Types from "./types";
+
+declare function MAuthPassUpdate(props: {
+  as?: React.ElementType;
+  updatePass?: Types.Visibility.VisibilityConditions;
+  emailOnChange?: Types.Builtin.Text;
+  emailFbk?: Types.Visibility.VisibilityConditions;
+  emailFldBrdClr?: Types.Builtin.Text;
+  emailFldType?: Types.Builtin.Text;
+  emailReadOnly?: Types.Builtin.Text;
+  emailAutoFocus?: Types.Builtin.Text;
+  emailFbkTxtSrc?: React.ReactNode;
+  codeFldBrdClr?: Types.Builtin.Text;
+  codeFldType?: Types.Builtin.Text;
+  codeOnChange?: Types.Builtin.Text;
+  codeHelpL?: Types.Visibility.VisibilityConditions;
+  codeHelpLSrc?: React.ReactNode;
+  codeFbk?: Types.Visibility.VisibilityConditions;
+  codeFbkTxtSrc?: React.ReactNode;
+  newPassFldType?: Types.Builtin.Text;
+  newPassFldBtnIcnSrc?: React.ReactNode;
+  newPassOnChange?: Types.Builtin.Text;
+  newPassFldBtnClick?: Types.Devlink.RuntimeProps;
+  newPassFbk?: Types.Visibility.VisibilityConditions;
+  newPassFldBrdClr?: Types.Builtin.Text;
+  newPassFbkTxtSrc?: React.ReactNode;
+  doClick?: Types.Devlink.RuntimeProps;
+  resendTxtSrc?: React.ReactNode;
+  resendTxtClr?: Types.Builtin.Text;
+  resendBtnClick?: Types.Devlink.RuntimeProps;
+  sb?: Types.Visibility.VisibilityConditions;
+  sbStyle?: Types.Builtin.Text;
+  sbTxtSrc?: React.ReactNode;
+  sbBtnClick?: Types.Devlink.RuntimeProps;
+}): React.JSX.Element;

@@ -1,0 +1,6 @@
+.cell-connect {
+  display: flex;
+  padding-top: 4px;
+  flex-direction: column;
+  flex: 0 0 auto;
+}

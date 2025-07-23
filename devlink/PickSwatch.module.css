@@ -1,0 +1,44 @@
+.edalt-swatch {
+  position: relative;
+
+  width: 48px;
+  height: 48px;
+  justify-content: center;
+  align-items: center;
+
+  background-color: transparent;
+}
+
+.edalt-colorbox {
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  right: 0%;
+  bottom: 0%;
+
+  width: 42px;
+  height: 42px;
+  margin: 3px;
+  justify-content: center;
+  align-items: center;
+
+  border: 1px solid transparent;
+  border-radius: 3px;
+}
+
+.edalt-colorselect {
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  right: 0%;
+  bottom: 0%;
+
+  width: 46px;
+  height: 46px;
+  margin: 1px;
+  justify-content: center;
+  align-items: center;
+
+  border: 1px solid var(--p500-741eaba2);
+  border-radius: 4px;
+}

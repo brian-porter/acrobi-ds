@@ -1,0 +1,32 @@
+import * as React from "react";
+import * as Types from "./types";
+
+declare function MPlaceAdd(props: {
+  as?: React.ElementType;
+  dDCancelClick?: Types.Devlink.RuntimeProps;
+  dDAvtrSrc?: Types.Asset.Image;
+  dDAvtrAlt?: Types.Basic.AltText;
+  dDAvtrClick?: Types.Devlink.RuntimeProps;
+  dTypePHoldSrc?: React.ReactNode;
+  dTypePHoldClr?: Types.Builtin.Text;
+  dTypeSelectDrpHide?: Types.Visibility.VisibilityConditions;
+  dDTypeMap?: Types.Devlink.Slot;
+  dDNameChange?: Types.Builtin.Text;
+  dDNameClick?: Types.Devlink.RuntimeProps;
+  dCountryPHoldSrc?: React.ReactNode;
+  dCountryPHoldClr?: Types.Builtin.Text;
+  dCountrySelectDrpHide?: Types.Visibility.VisibilityConditions;
+  dDCountryMap?: Types.Devlink.Slot;
+  dDStreetChange?: Types.Builtin.Text;
+  dDStreetBtnClick?: Types.Devlink.RuntimeProps;
+  dDAddress2Change?: Types.Builtin.Text;
+  dDCityChange?: Types.Builtin.Text;
+  dDStateChange?: Types.Builtin.Text;
+  dDZipChange?: Types.Builtin.Text;
+  dDPhoneChange?: Types.Builtin.Text;
+  dDNoteChange?: Types.Builtin.Text;
+  dDDefaultChange?: Types.Builtin.Text;
+  dDDoClick?: Types.Devlink.RuntimeProps;
+  dDErase?: Types.Visibility.VisibilityConditions;
+  dDEraseClick?: Types.Devlink.RuntimeProps;
+}): React.JSX.Element;

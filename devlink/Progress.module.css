@@ -1,0 +1,21 @@
+.progress-bar {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.progress-track {
+  position: relative;
+  width: 100%;
+  height: 8px;
+  border-radius: 4px;
+  background-color: var(--n200-32c117f2);
+}
+
+.progress-indicator {
+  position: absolute;
+  width: 25%;
+  height: 100%;
+  border-radius: 4px;
+  background-color: var(--p500-741eaba2);
+}

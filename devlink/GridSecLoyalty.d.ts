@@ -1,0 +1,38 @@
+import * as React from "react";
+import * as Types from "./types";
+
+declare function GridSecLoyalty(props: {
+  as?: React.ElementType;
+  sec?: Types.Visibility.VisibilityConditions;
+  secHeadTitleIcn?: Types.Visibility.VisibilityConditions;
+  secHeadAct1?: Types.Visibility.VisibilityConditions;
+  secHeadTitleIcnSrc?: React.ReactNode;
+  secHeadTitleSrc?: React.ReactNode;
+  secHeadAct1TxtSrc?: React.ReactNode;
+  secHeadAct1Click?: Types.Devlink.RuntimeProps;
+  conCellMap?: Types.Devlink.Slot;
+  conSlotId?: Types.Basic.IdTextInput;
+  conExampleCell?: Types.Visibility.VisibilityConditions;
+  exampleVizSrc?: Types.Asset.Image;
+  exampleVizAlt?: Types.Basic.AltText;
+  exampleNameSrc?: React.ReactNode;
+  exampleHookSrc?: React.ReactNode;
+  exampleHook2?: Types.Visibility.VisibilityConditions;
+  exampleHook2Src?: React.ReactNode;
+  exampleCellClick?: Types.Devlink.RuntimeProps;
+  secHead?: Types.Visibility.VisibilityConditions;
+  emptyEmpty?: Types.Visibility.VisibilityConditions;
+  emptySecBtn?: Types.Visibility.VisibilityConditions;
+  emptyTirBtn?: Types.Visibility.VisibilityConditions;
+  emptyBtmDoc?: Types.Visibility.VisibilityConditions;
+  emptyIcnSrc?: React.ReactNode;
+  emptyHeadlineSrc?: React.ReactNode;
+  emptySubtxtSrc?: React.ReactNode;
+  emptySecBtnTxtSrc?: React.ReactNode;
+  emptyTirBtnTxtSrc?: React.ReactNode;
+  emptyPrimeBtnTxtSrc?: React.ReactNode;
+  emptyPrimeBtnStyl?: Types.Builtin.Text;
+  emptySecBtnClick?: Types.Devlink.RuntimeProps;
+  emptyTirBtnClick?: Types.Devlink.RuntimeProps;
+  emptyPrimeBtnClick?: Types.Devlink.RuntimeProps;
+}): React.JSX.Element;

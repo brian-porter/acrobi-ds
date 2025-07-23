@@ -1,0 +1,37 @@
+import * as React from "react";
+import * as Types from "./types";
+
+declare function MenuSortStyle(props: {
+  as?: React.ElementType;
+  menu?: Types.Visibility.VisibilityConditions;
+  mini?: Types.Builtin.Text;
+  popId?: Types.Basic.IdTextInput;
+  anchorId?: Types.Builtin.Text;
+  relevance?: Types.Visibility.VisibilityConditions;
+  relevanceOn?: Types.Visibility.VisibilityConditions;
+  popularity?: Types.Visibility.VisibilityConditions;
+  popularityOn?: Types.Visibility.VisibilityConditions;
+  rank?: Types.Visibility.VisibilityConditions;
+  rankOn?: Types.Visibility.VisibilityConditions;
+  history?: Types.Visibility.VisibilityConditions;
+  historyOn?: Types.Visibility.VisibilityConditions;
+  priceH2L?: Types.Visibility.VisibilityConditions;
+  priceH2LOn?: Types.Visibility.VisibilityConditions;
+  priceL2H?: Types.Visibility.VisibilityConditions;
+  priceL2HOn?: Types.Visibility.VisibilityConditions;
+  alpha?: Types.Visibility.VisibilityConditions;
+  alphaOn?: Types.Visibility.VisibilityConditions;
+  number?: Types.Visibility.VisibilityConditions;
+  numberOn?: Types.Visibility.VisibilityConditions;
+  custom?: Types.Visibility.VisibilityConditions;
+  customOn?: Types.Visibility.VisibilityConditions;
+  relevanceClick?: Types.Devlink.RuntimeProps;
+  popularityClick?: Types.Devlink.RuntimeProps;
+  rankClick?: Types.Devlink.RuntimeProps;
+  historyClick?: Types.Devlink.RuntimeProps;
+  priceH2LClick?: Types.Devlink.RuntimeProps;
+  priceL2HClick?: Types.Devlink.RuntimeProps;
+  alphaClick?: Types.Devlink.RuntimeProps;
+  numberClick?: Types.Devlink.RuntimeProps;
+  customClick?: Types.Devlink.RuntimeProps;
+}): React.JSX.Element;

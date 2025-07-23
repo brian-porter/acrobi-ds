@@ -1,0 +1,36 @@
+import * as React from "react";
+import * as Types from "./types";
+
+declare function PItemVid(props: {
+  as?: React.ElementType;
+  heroGttrPin?: Types.Visibility.VisibilityConditions;
+  heroGttrBkmrk?: Types.Visibility.VisibilityConditions;
+  heroVideoSrc?: Types.Embed.Video;
+  heroTitle?: React.ReactNode;
+  heroAvtr?: Types.Asset.Image;
+  heroAvtrAlt?: Types.Basic.AltText;
+  heroName?: React.ReactNode;
+  heroView?: React.ReactNode;
+  heroVizValueSrc?: React.ReactNode;
+  heroTime?: React.ReactNode;
+  heroClick?: Types.Devlink.RuntimeProps;
+  heroMoreClick?: Types.Devlink.RuntimeProps;
+  vidAddClick?: Types.Devlink.RuntimeProps;
+  scanBtn?: Types.Visibility.VisibilityConditions;
+  scanBtnClick?: Types.Devlink.RuntimeProps;
+  searchClick?: Types.Devlink.RuntimeProps;
+  searchChange?: Types.Builtin.Text;
+  fltrBtn?: Types.Visibility.VisibilityConditions;
+  fltrClick?: Types.Devlink.RuntimeProps;
+  postMap?: Types.Devlink.Slot;
+  postExample?: Types.Visibility.VisibilityConditions;
+  pop?: Types.Visibility.VisibilityConditions;
+  popMap?: Types.Devlink.Slot;
+  popExample?: Types.Visibility.VisibilityConditions;
+  peep?: Types.Visibility.VisibilityConditions;
+  peepMap?: Types.Devlink.Slot;
+  peepExample?: Types.Visibility.VisibilityConditions;
+  peepStat1Src?: React.ReactNode;
+  peepStat2Src?: React.ReactNode;
+  slotId?: Types.Basic.IdTextInput;
+}): React.JSX.Element;

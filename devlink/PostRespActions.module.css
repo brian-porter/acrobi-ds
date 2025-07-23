@@ -1,0 +1,23 @@
+.post-resp-act {
+  display: flex;
+  height: 48px;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+
+  border-bottom: 1px solid var(--color--n200);
+}
+
+.post-resp-act-item {
+  display: flex;
+  width: 64px;
+  flex-direction: row;
+  justify-content: center;
+  align-items: stretch;
+  align-self: stretch;
+  flex: 0 auto;
+
+  color: var(--color--n700);
+
+  cursor: pointer;
+}

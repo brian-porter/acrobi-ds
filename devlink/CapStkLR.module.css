@@ -1,0 +1,15 @@
+.caption-lr {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  align-self: stretch;
+  grid-column-gap: 4px;
+  grid-row-gap: 4px;
+}
+
+.capt-lr {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

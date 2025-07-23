@@ -1,0 +1,16 @@
+.ol-icnbar-act {
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  right: 0%;
+  bottom: auto;
+  z-index: 10;
+
+  display: flex;
+  min-height: 48px;
+  justify-content: space-between;
+}
+
+.icn_group {
+  display: flex;
+}

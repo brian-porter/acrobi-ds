@@ -1,0 +1,34 @@
+import * as React from "react";
+import * as Types from "./types";
+
+declare function PItemNote(props: {
+  as?: React.ElementType;
+  itmHead?: Types.Visibility.VisibilityConditions;
+  itmImgSrc?: Types.Asset.Image;
+  itmImgAlt?: Types.Basic.AltText;
+  itmName?: React.ReactNode;
+  noteAddClick?: Types.Devlink.RuntimeProps;
+  scanBtn?: Types.Visibility.VisibilityConditions;
+  scanBtnClick?: Types.Devlink.RuntimeProps;
+  searchClick?: Types.Devlink.RuntimeProps;
+  searchChange?: Types.Builtin.Text;
+  fltrBtn?: Types.Visibility.VisibilityConditions;
+  fltrClick?: Types.Devlink.RuntimeProps;
+  note?: Types.Visibility.VisibilityConditions;
+  noteMap?: Types.Devlink.Slot;
+  noteExample?: Types.Visibility.VisibilityConditions;
+  review?: Types.Visibility.VisibilityConditions;
+  reviewMap?: Types.Devlink.Slot;
+  reviewExample?: Types.Visibility.VisibilityConditions;
+  quest?: Types.Visibility.VisibilityConditions;
+  questMap?: Types.Devlink.Slot;
+  questExample?: Types.Visibility.VisibilityConditions;
+  video?: Types.Visibility.VisibilityConditions;
+  videoMap?: Types.Devlink.Slot;
+  videoExample?: Types.Visibility.VisibilityConditions;
+  group?: Types.Visibility.VisibilityConditions;
+  groupMap?: Types.Devlink.Slot;
+  groupExample?: Types.Visibility.VisibilityConditions;
+  groupStat1Src?: React.ReactNode;
+  groupStat2Src?: React.ReactNode;
+}): React.JSX.Element;

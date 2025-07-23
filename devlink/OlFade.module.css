@@ -1,0 +1,15 @@
+.ol-fade-btm {
+  position: absolute;
+  left: 0%;
+  top: auto;
+  right: 0%;
+  bottom: 0%;
+
+  width: 100%;
+  height: 56px;
+  justify-content: space-between;
+
+  background-image: linear-gradient(to bottom, var(--_colors-holding-space---theme--dark--t000), var(--color--n000) 98%);
+
+  color: var(--n000White-0065a3d9);
+}

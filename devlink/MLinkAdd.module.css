@@ -1,0 +1,19 @@
+.g-editor-link {
+  display: block;
+  width: 100%;
+  height: 260px;
+  margin-right: auto;
+  margin-left: auto;
+
+  background-color: var(--n000White-0065a3d9);
+}
+
+@media screen and (max-width: 479px) {
+  .g-editor-link {
+    width: 100%;
+  }
+}
+
+.form-addlink {
+  margin-bottom: 0px;
+}

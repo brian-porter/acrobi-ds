@@ -1,0 +1,28 @@
+.sec-loyalty {
+  padding-top: 16px;
+}
+
+.loyalty-grid {
+  padding-right: 16px;
+  padding-left: 16px;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: auto auto auto auto;
+}
+
+@media screen and (max-width: 991px) {
+  .loyalty-grid {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .loyalty-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media screen and (max-width: 479px) {
+  .loyalty-grid {
+    grid-template-columns: 1fr;
+  }
+}

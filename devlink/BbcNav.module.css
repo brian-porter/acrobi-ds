@@ -1,0 +1,68 @@
+.bbc-bar {
+  position: relative;
+  z-index: 0;
+
+  display: block;
+  overflow: hidden;
+  height: 48px;
+  flex: 0 0 auto;
+
+  background-color: var(--color--n000);
+}
+
+.bbc-ss {
+  display: flex;
+  overflow: auto;
+  margin-bottom: -20px;
+  padding-bottom: 20px;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  flex: 0 0 auto;
+}
+
+.nav-marketing {
+  display: flex;
+  overflow: auto;
+  margin-bottom: -20px;
+  padding-bottom: 20px;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  flex: 0 0 auto;
+}
+
+.side-fade {
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  right: 0%;
+  bottom: 0%;
+  z-index: 3;
+
+  pointer-events: none;
+}
+
+.side-fade-l {
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  right: auto;
+  bottom: 0%;
+  z-index: 100;
+
+  width: 20px;
+
+  background-image: linear-gradient(270deg, var(--color--t000), var(--color--n000));
+}
+
+.side-fade-r {
+  position: absolute;
+  left: auto;
+  top: 0%;
+  right: 0%;
+  bottom: 0%;
+  z-index: 100;
+
+  width: 20px;
+
+  background-image: linear-gradient(90deg, var(--color--t000), var(--color--n000));
+}

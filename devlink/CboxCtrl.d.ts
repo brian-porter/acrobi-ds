@@ -1,0 +1,32 @@
+import * as React from "react";
+import * as Types from "./types";
+
+declare function CboxCtrl(props: {
+  as?: React.ElementType;
+  comp?: Types.Visibility.VisibilityConditions;
+  txt?: Types.Visibility.VisibilityConditions;
+  link?: Types.Visibility.VisibilityConditions;
+  fbk?: Types.Visibility.VisibilityConditions;
+  id?: Types.Basic.IdTextInput;
+  itmName?: Types.Builtin.Text;
+  itmValue?: Types.Builtin.Text;
+  itmActive?: Types.Builtin.Text;
+  itmLblSrc?: React.ReactNode;
+  itmLblSz?: Types.Builtin.Text;
+  lblFor?: Types.Builtin.Text;
+  itmClick?: Types.Devlink.RuntimeProps;
+  align?: Types.Builtin.Text;
+  tabOrder?: Types.Builtin.Text;
+  linkTxtSrc?: React.ReactNode;
+  fbkFbkTxt?: Types.Visibility.VisibilityConditions;
+  fbkFbkIcn?: Types.Visibility.VisibilityConditions;
+  fbkFbkTxtSrc?: React.ReactNode;
+  fbkFbkIcnSrc?: React.ReactNode;
+  fbkFbkClr?: Types.Builtin.Text;
+  onChange?: Types.Builtin.Text;
+  linkSrc?: Types.Basic.Link;
+  linkClick?: Types.Devlink.RuntimeProps;
+  lblShdw?: Types.Builtin.Text;
+  linkShdw?: Types.Builtin.Text;
+  fbkFbkIcnLoc?: Types.Builtin.Text;
+}): React.JSX.Element;

@@ -1,0 +1,55 @@
+.btn-grp_itm {
+  position: relative;
+
+  display: flex;
+  padding-right: 0.75rem;
+  padding-left: 0.75rem;
+  justify-content: center;
+  align-items: center;
+
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: var(--color--n9992);
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: var(--color--n9992);
+  border-left-style: solid;
+  border-left-width: 1px;
+  border-left-color: var(--color--n9992);
+
+  background-color: var(--color--n000);
+
+  transition-property: background-color, color;
+  transition-duration: 200ms, 200ms;
+  transition-timing-function: ease, ease;
+
+  cursor: pointer;
+
+  color: inherit;
+}
+
+.btn-grp_itm:hover {
+  background-color: var(--color--n9991);
+  text-decoration: none;
+}
+
+.btn-grp_itm:active {
+  background-color: var(--color--n9992);
+}
+
+.btn-grp_itm:focus-visible {
+  outline-offset: 0rem;
+}
+
+.btn-grp_itm:global(.w--current) {
+  background-color: rgba(0, 0, 0, 0.06);
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.btn-grp_itm-link {
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  right: 0%;
+  bottom: 0%;
+}

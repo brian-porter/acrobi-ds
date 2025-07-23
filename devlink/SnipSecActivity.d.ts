@@ -1,0 +1,30 @@
+import * as React from "react";
+import * as Types from "./types";
+
+declare function SnipSecActivity(props: {
+  as?: React.ElementType;
+  sec?: Types.Visibility.VisibilityConditions;
+  secHead?: Types.Visibility.VisibilityConditions;
+  secHeadTitleIcn?: Types.Visibility.VisibilityConditions;
+  secHeadAct1?: Types.Visibility.VisibilityConditions;
+  secHeadTitleIcnSrc?: React.ReactNode;
+  secHeadTitleSrc?: React.ReactNode;
+  secHeadAct1TxtSrc?: React.ReactNode;
+  secHeadAct1Click?: Types.Devlink.RuntimeProps;
+  conSec1Map?: Types.Devlink.Slot;
+  conExampleSec1LatestPost?: Types.Visibility.VisibilityConditions;
+  conSec2Map?: Types.Devlink.Slot;
+  conExampleSec2CellPastPost?: Types.Visibility.VisibilityConditions;
+  exSec2Sec2VizSrc?: Types.Asset.Image;
+  exSec2Sec2VizAlt?: Types.Basic.AltText;
+  exSec2Sec2TitleSrc?: React.ReactNode;
+  exSec2Sec2CellClick?: Types.Devlink.RuntimeProps;
+  stat1Src?: React.ReactNode;
+  stat2Src?: React.ReactNode;
+  stat3Src?: React.ReactNode;
+  stat4Src?: React.ReactNode;
+  stats?: Types.Visibility.VisibilityConditions;
+  stat2?: Types.Visibility.VisibilityConditions;
+  stat3?: Types.Visibility.VisibilityConditions;
+  stat4?: Types.Visibility.VisibilityConditions;
+}): React.JSX.Element;

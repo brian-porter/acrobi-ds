@@ -1,0 +1,13 @@
+.g-report-menu {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  background-color: var(--n000White-0065a3d9);
+}
+
+@media screen and (max-width: 479px) {
+  .g-report-menu {
+    width: 100%;
+  }
+}

@@ -1,0 +1,30 @@
+import * as React from "react";
+import * as Types from "./types";
+
+declare function MRoomDetail(props: {
+  as?: React.ElementType;
+  rmDetail?: Types.Visibility.VisibilityConditions;
+  head?: Types.Visibility.VisibilityConditions;
+  hHeadGttrBdgPin?: Types.Visibility.VisibilityConditions;
+  hHeadGttrBdgAlarm?: Types.Visibility.VisibilityConditions;
+  hHeadGttrBdgBkmrk?: Types.Visibility.VisibilityConditions;
+  hHeadIcn?: Types.Visibility.VisibilityConditions;
+  hHeadIcnSrc?: React.ReactNode;
+  hHeadAvtr?: Types.Visibility.VisibilityConditions;
+  hHeadAvtr2?: Types.Visibility.VisibilityConditions;
+  hHeadAvtr3?: Types.Visibility.VisibilityConditions;
+  hHeadAvtrSrc?: Types.Asset.Image;
+  hHeadAvtrAlt?: Types.Basic.AltText;
+  hHeadAvtr2Src?: Types.Asset.Image;
+  hHeadAvtr2Alt?: Types.Basic.AltText;
+  hHeadAvtr3Src?: Types.Asset.Image;
+  hHeadAvtr3Alt?: Types.Basic.AltText;
+  hHeadTitleSrc?: React.ReactNode;
+  hHeadSubtxtSrc?: React.ReactNode;
+  hHeadMoreClick?: Types.Devlink.RuntimeProps;
+  msgListMap?: Types.Devlink.Slot;
+  mediaListMap?: Types.Devlink.Slot;
+  mediaViewMap?: Types.Devlink.Slot;
+  atchListMap?: Types.Devlink.Slot;
+  atchViewMap?: Types.Devlink.Slot;
+}): React.JSX.Element;

@@ -1,0 +1,29 @@
+.cell-product {
+  display: flex;
+  overflow: visible;
+  padding-top: 8px;
+  flex-direction: column;
+  flex: 0 0 auto;
+  grid-column-gap: 8px;
+  grid-row-gap: 8px;
+
+  border-radius: 8px;
+}
+
+.div-block-139 {
+  position: relative;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  grid-column-gap: 8px;
+  grid-row-gap: 8px;
+}
+
+.div-block-140 {
+  position: absolute;
+  left: auto;
+  top: auto;
+  right: 0%;
+  bottom: 0%;
+}

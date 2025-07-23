@@ -1,0 +1,12 @@
+.post-more {
+  position: relative;
+
+  display: flex;
+  height: 36px;
+  justify-content: flex-start;
+  align-items: center;
+  grid-column-gap: 4px;
+  grid-row-gap: 4px;
+
+  color: var(--n700-73308aad);
+}

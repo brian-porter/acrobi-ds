@@ -1,0 +1,37 @@
+import * as React from "react";
+import * as Types from "./types";
+
+declare function TextareaForm(props: {
+  as?: React.ElementType;
+  fld?: Types.Visibility.VisibilityConditions;
+  lblTop?: Types.Visibility.VisibilityConditions;
+  lblTopLblSrc?: React.ReactNode;
+  lblTopLblFor?: Types.Builtin.Text;
+  lblTopLblSz?: Types.Builtin.Text;
+  lblTopLblClr?: Types.Builtin.Text;
+  lblTopLblShdw?: Types.Builtin.Text;
+  lblTopOpt?: Types.Visibility.VisibilityConditions;
+  lblTopOptSrc?: React.ReactNode;
+  lblTopOptSz?: Types.Builtin.Text;
+  lblTopOptClr?: Types.Builtin.Text;
+  fldHelp?: Types.Visibility.VisibilityConditions;
+  fieldFldId?: Types.Basic.IdTextInput;
+  fieldFldName?: Types.Builtin.Text;
+  fieldFldPholdSrc?: Types.Builtin.Text;
+  fieldFldBrdClr?: Types.Builtin.Text;
+  fieldFldHeight?: Types.Builtin.Text;
+  fieldTabOrder?: Types.Builtin.Text;
+  fieldOnChange?: Types.Builtin.Text;
+  fieldFldClick?: Types.Devlink.RuntimeProps;
+  fldHelpHelpL?: Types.Visibility.VisibilityConditions;
+  fldHelpHelpR?: Types.Visibility.VisibilityConditions;
+  fldHelpHelpLSrc?: React.ReactNode;
+  fldHelpHelpRSrc?: React.ReactNode;
+  fldHelpHelpShdw?: Types.Builtin.Text;
+  fbk?: Types.Visibility.VisibilityConditions;
+  fbkFbkTxt?: Types.Visibility.VisibilityConditions;
+  fbkFbkIcn?: Types.Visibility.VisibilityConditions;
+  fbkFbkTxtSrc?: React.ReactNode;
+  fbkFbkIcnSrc?: React.ReactNode;
+  fbkFbkClr?: Types.Builtin.Text;
+}): React.JSX.Element;

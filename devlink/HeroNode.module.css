@@ -1,0 +1,35 @@
+.hero_main {
+  position: relative;
+
+  display: flex;
+  overflow: hidden;
+  width: 100%;
+  min-height: 80px;
+  flex-direction: column;
+  flex-wrap: nowrap;
+
+  border-radius: 16px;
+}
+
+@media screen and (max-width: 991px) {
+  .hero_main {
+    border-radius: 0px;
+  }
+}
+
+.node-ss-wrap {
+  position: absolute;
+  left: 0%;
+  top: auto;
+  right: 0%;
+  bottom: 0%;
+
+  background-color: var(--color--n9996);
+}
+
+#w-node-_20cef16f-b383-ed1b-94eb-d2d5cb79d57a-cb79d579 {
+  grid-column-start: span 12;
+  grid-column-end: span 12;
+  grid-row-start: span 1;
+  grid-row-end: span 1;
+}

@@ -1,0 +1,34 @@
+import * as React from "react";
+import * as Types from "./types";
+
+declare function POffer2(props: {
+  as?: React.ElementType;
+  heroImgSrc?: Types.Asset.Image;
+  heroImgAlt?: Types.Basic.AltText;
+  heroHlineSrc?: React.ReactNode;
+  heroSubtxt?: Types.Visibility.VisibilityConditions;
+  heroSubtxtSrc?: React.ReactNode;
+  heroQrClick?: Types.Devlink.RuntimeProps;
+  heroMoreClick?: Types.Devlink.RuntimeProps;
+  scanQrBtnClick?: Types.Devlink.RuntimeProps;
+  searchClick?: Types.Devlink.RuntimeProps;
+  favClick?: Types.Devlink.RuntimeProps;
+  addClick?: Types.Devlink.RuntimeProps;
+  highRate?: Types.Visibility.VisibilityConditions;
+  hrMap?: Types.Devlink.Slot;
+  exampleHighRateCell?: Types.Visibility.VisibilityConditions;
+  hrCellOffVizSrc?: Types.Asset.Image;
+  hrCellOffVizAlt?: Types.Basic.AltText;
+  hrCellOffNameSrc?: React.ReactNode;
+  hrCellOffHookSrc?: React.ReactNode;
+  hrCellOffByVizSrc?: Types.Asset.Image;
+  hrCellOffTypeSrc?: React.ReactNode;
+  hrCellOffLimitSrc?: React.ReactNode;
+  hrCellOffActClick?: Types.Devlink.RuntimeProps;
+  hrCellOffCellClick?: Types.Devlink.RuntimeProps;
+  bodySecMap?: Types.Devlink.Slot;
+  categories?: Types.Visibility.VisibilityConditions;
+  featured?: Types.Visibility.VisibilityConditions;
+  prodOff?: Types.Visibility.VisibilityConditions;
+  brands?: Types.Visibility.VisibilityConditions;
+}): React.JSX.Element;

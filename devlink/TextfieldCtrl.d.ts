@@ -1,0 +1,33 @@
+import * as React from "react";
+import * as Types from "./types";
+
+declare function TextfieldCtrl(props: {
+  as?: React.ElementType;
+  fldTxt?: Types.Visibility.VisibilityConditions;
+  fldIcn?: Types.Visibility.VisibilityConditions;
+  fldBtn?: Types.Visibility.VisibilityConditions;
+  fbk?: Types.Visibility.VisibilityConditions;
+  fldIcnSrc?: React.ReactNode;
+  fldIcnDisp?: Types.Builtin.Text;
+  fldBrdClr?: Types.Builtin.Text;
+  fbkFbkTxt?: Types.Visibility.VisibilityConditions;
+  fbkFbkIcn?: Types.Visibility.VisibilityConditions;
+  fbkFbkTxtSrc?: React.ReactNode;
+  fbkFbkIcnSrc?: React.ReactNode;
+  fbkFbkClr?: Types.Builtin.Text;
+  fldPholdSrc?: Types.Builtin.Text;
+  fldPholdSrcX?: Types.Builtin.Text;
+  fldBtnIcnSrc?: React.ReactNode;
+  fldBtnIcnAlt?: React.ReactNode;
+  autoComp?: Types.Builtin.Text;
+  tabOrder?: Types.Builtin.Text;
+  autoFocus?: Types.Builtin.Text;
+  readOnly?: Types.Builtin.Text;
+  fldId?: Types.Basic.IdTextInput;
+  onChange?: Types.Builtin.Text;
+  fldBtnClick?: Types.Devlink.RuntimeProps;
+  fldClick?: Types.Devlink.RuntimeProps;
+  inpName?: Types.Builtin.Text;
+  inpType?: Types.Builtin.Text;
+  required?: Types.Builtin.Text;
+}): React.JSX.Element;

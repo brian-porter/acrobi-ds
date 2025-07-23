@@ -1,0 +1,35 @@
+import * as React from "react";
+import * as Types from "./types";
+
+declare function SnipSecMembers(props: {
+  as?: React.ElementType;
+  secHeadTitleIcn?: Types.Visibility.VisibilityConditions;
+  secHeadAct1?: Types.Visibility.VisibilityConditions;
+  secHeadAct1Txt?: Types.Visibility.VisibilityConditions;
+  secHeadAct1Icn?: Types.Visibility.VisibilityConditions;
+  conAdminAvtrSrc?: Types.Asset.Image;
+  conAdminAvtrAlt?: Types.Basic.AltText;
+  conAdminTitleSrc?: React.ReactNode;
+  conAdminHndlSrc?: React.ReactNode;
+  conSec1Map?: Types.Devlink.Slot;
+  conExampleSec1Members?: Types.Visibility.VisibilityConditions;
+  exSec1Sec1VizSrc?: Types.Asset.Image;
+  exSec1Sec1VizAlt?: Types.Basic.AltText;
+  exSec1Sec1TitleSrc?: React.ReactNode;
+  exSec1Sec1CellClick?: Types.Devlink.RuntimeProps;
+  stat1Src?: React.ReactNode;
+  stat2Src?: React.ReactNode;
+  stat3Src?: React.ReactNode;
+  sec?: Types.Visibility.VisibilityConditions;
+  secHead?: Types.Visibility.VisibilityConditions;
+  stats?: Types.Visibility.VisibilityConditions;
+  stat4Src?: React.ReactNode;
+  stat2?: Types.Visibility.VisibilityConditions;
+  stat3?: Types.Visibility.VisibilityConditions;
+  stat4?: Types.Visibility.VisibilityConditions;
+  secHeadTitleIcnSrc?: React.ReactNode;
+  secHeadTitleSrc?: React.ReactNode;
+  secHeadAct1TxtSrc?: React.ReactNode;
+  secHeadAct1IcnSrc?: React.ReactNode;
+  secHeadAct1Click?: Types.Devlink.RuntimeProps;
+}): React.JSX.Element;

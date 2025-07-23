@@ -1,0 +1,31 @@
+import * as React from "react";
+import * as Types from "./types";
+
+declare function ActionBar(props: {
+  as?: React.ElementType;
+  act1?: Types.Visibility.VisibilityConditions;
+  act2?: Types.Visibility.VisibilityConditions;
+  act3?: Types.Visibility.VisibilityConditions;
+  act1Txt?: Types.Visibility.VisibilityConditions;
+  act1Icn?: Types.Visibility.VisibilityConditions;
+  act2Txt?: Types.Visibility.VisibilityConditions;
+  act2Icn?: Types.Visibility.VisibilityConditions;
+  act3Txt?: Types.Visibility.VisibilityConditions;
+  act3Icn?: Types.Visibility.VisibilityConditions;
+  act1IcnSrc?: React.ReactNode;
+  act1TxtSrc?: React.ReactNode;
+  act1Styl?: Types.Builtin.Text;
+  act1Clr?: Types.Builtin.Text;
+  act1IcnLoc?: Types.Builtin.Text;
+  act2IcnSrc?: React.ReactNode;
+  act2TxtSrc?: React.ReactNode;
+  act2IcnLoc?: Types.Builtin.Text;
+  act2Styl?: Types.Builtin.Text;
+  act2Clr?: Types.Builtin.Text;
+  act3IcnSrc?: React.ReactNode;
+  act3TxtSrc?: React.ReactNode;
+  act3IcnLoc?: Types.Builtin.Text;
+  act1Click?: Types.Devlink.RuntimeProps;
+  act2Click?: Types.Devlink.RuntimeProps;
+  act3Click?: Types.Devlink.RuntimeProps;
+}): React.JSX.Element;

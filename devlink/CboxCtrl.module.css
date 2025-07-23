@@ -1,0 +1,87 @@
+.itm_ctrl {
+  position: relative;
+
+  display: flex;
+  width: 100%;
+  min-height: 32px;
+  margin-bottom: 0px;
+  padding-left: 8px;
+  justify-content: flex-start;
+  align-items: center;
+  flex: 1;
+}
+
+@media screen and (max-width: 991px) {
+  .itm_ctrl {
+    min-height: 40px;
+  }
+}
+
+.cbox {
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-left: 0px;
+  padding-left: 0px;
+
+  border-width: 2px;
+  border-color: var(--n300-03baa38b);
+  border-radius: 4px;
+
+  background-color: var(--n000White-0065a3d9);
+
+  cursor: pointer;
+}
+
+.cbox:hover {
+  border-color: var(--n700-73308aad);
+}
+
+.cbox:active {
+  border-color: var(--n900-8b5806af);
+}
+
+.cbox:global(.w--redirected-checked) {
+  border-width: 2px;
+  border-color: var(--p500-741eaba2);
+  background-color: var(--p500-741eaba2);
+  background-size: contain;
+}
+
+.cbox:global(.w--redirected-focus) {
+  box-shadow: 0 0 8px 0 var(--f500-1ea0875d);
+}
+
+@media screen and (max-width: 991px) {
+  .cbox {
+    width: 20px;
+  }
+}
+
+.cbox-label {
+  display: flex;
+  padding-left: 8px;
+}
+
+.cbox-link {
+  display: flex;
+  margin-left: 4px;
+  align-self: center;
+  flex: 1;
+  color: var(--color--f500);
+}
+
+.itm_fbk {
+  position: absolute;
+  left: auto;
+  top: auto;
+  right: 0%;
+  bottom: auto;
+
+  display: flex;
+  min-width: 48px;
+  justify-content: flex-end;
+  align-items: center;
+}

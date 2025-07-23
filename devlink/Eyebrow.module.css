@@ -1,0 +1,27 @@
+.g_eyebrow_wrap {
+  display: flex;
+  justify-content: var(--_alignment---direction);
+}
+
+.g_eyebrow_layout {
+  display: inline-flex;
+  grid-column-gap: 1rem;
+  grid-row-gap: 1rem;
+  vertical-align: baseline;
+}
+
+.g_eyebrow_marker {
+  width: 0.094rem;
+  padding-right: 0px;
+  padding-bottom: 0px;
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: auto;
+
+  background-color: currentColor;
+}
+
+.g_eyebrow_text {
+  margin-top: 0rem;
+  margin-bottom: 0rem;
+}

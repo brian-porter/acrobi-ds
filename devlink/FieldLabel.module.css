@@ -1,0 +1,10 @@
+.fieldlabel {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  grid-column-gap: 4px;
+  grid-row-gap: 4px;
+
+  font-size: var(--_typography---size--r4);
+}

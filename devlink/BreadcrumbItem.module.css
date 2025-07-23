@@ -1,0 +1,20 @@
+.brdcrm_itm {
+  display: flex;
+  min-height: 36px;
+  margin-bottom: 0em;
+  padding-right: 8px;
+  align-items: center;
+
+  border-radius: 4px;
+}
+
+.brdcrm_itm:hover {
+  background-color: var(--color--n0001);
+  color: var(--color--n000);
+}
+
+.brdcrm_line {
+  height: 12px;
+  padding-left: 8px;
+  border-left: 1px solid var(--color--n500);
+}

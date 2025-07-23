@@ -1,0 +1,30 @@
+import * as React from "react";
+import * as Types from "./types";
+
+declare function MAuthEmail(props: {
+  as?: React.ElementType;
+  signUpEmail?: Types.Visibility.VisibilityConditions;
+  emailOnChange?: Types.Builtin.Text;
+  passOnChange?: Types.Builtin.Text;
+  toSOnChange?: Types.Builtin.Text;
+  toSLinkSrc?: Types.Basic.Link;
+  toSLinkClick?: Types.Devlink.RuntimeProps;
+  doBtnClick?: Types.Devlink.RuntimeProps;
+  signInClick?: Types.Devlink.RuntimeProps;
+  emailFbk?: Types.Visibility.VisibilityConditions;
+  emailFldBrdClr?: Types.Builtin.Text;
+  emailFbkTxtSrc?: React.ReactNode;
+  emailFldType?: Types.Builtin.Text;
+  passFbk?: Types.Visibility.VisibilityConditions;
+  passFldBrdClr?: Types.Builtin.Text;
+  passFbkTxtSrc?: React.ReactNode;
+  passFldType?: Types.Builtin.Text;
+  passFldBtnIcnSrc?: React.ReactNode;
+  fldBtnClick?: Types.Devlink.RuntimeProps;
+  doBtnDisabled?: Types.Builtin.Text;
+  sb?: Types.Visibility.VisibilityConditions;
+  sbTxtSrc?: React.ReactNode;
+  sbStyle?: Types.Builtin.Text;
+  toSChecked?: Types.Builtin.Text;
+  toSChange?: Types.Builtin.Text;
+}): React.JSX.Element;

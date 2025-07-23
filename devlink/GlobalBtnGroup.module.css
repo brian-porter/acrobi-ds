@@ -1,0 +1,15 @@
+.u-display-contents {
+  display: contents;
+}
+
+.u-btn-group {
+  display: flex;
+  margin-top: 2.5rem;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  align-content: center;
+  grid-column-gap: var(--size--8px);
+  grid-row-gap: var(--size--8px);
+  justify-content: var(--_alignment---direction);
+}

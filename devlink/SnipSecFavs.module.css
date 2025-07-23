@@ -1,0 +1,92 @@
+.fav-sec {
+  align-self: stretch;
+}
+
+.sec-wrap {
+  display: flex;
+  overflow: hidden;
+  width: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+
+  border-radius: 8px;
+
+  background-color: var(--color--n100);
+  background-image: linear-gradient(180deg, var(--color--n000), var(--color--n100) 75%);
+
+  color: var(--color--n500);
+}
+
+@media screen and (min-width: 1280px) {
+  .sec-wrap {
+    max-width: 770px;
+  }
+}
+
+.bar-adpticn {
+  position: relative;
+
+  overflow: hidden;
+  width: 100%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  align-self: stretch;
+  flex: 0 0 auto;
+}
+
+.u-bar-ss {
+  display: flex;
+  overflow: auto;
+  margin-bottom: -20px;
+  padding-right: 16px;
+  padding-bottom: 20px;
+  padding-left: 16px;
+  flex: 0 0 auto;
+  grid-column-gap: 16px;
+  grid-row-gap: 16px;
+}
+
+@media screen and (max-width: 991px) {
+  .u-bar-ss {
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+}
+
+.side-fade {
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  right: 0%;
+  bottom: 0%;
+  z-index: 3;
+
+  pointer-events: none;
+}
+
+.side-fade-l {
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  right: auto;
+  bottom: 0%;
+  z-index: 100;
+
+  width: 20px;
+
+  background-image: linear-gradient(270deg, var(--color--t000), var(--color--n000));
+}
+
+.side-fade-r {
+  position: absolute;
+  left: auto;
+  top: 0%;
+  right: 0%;
+  bottom: 0%;
+  z-index: 100;
+
+  width: 20px;
+
+  background-image: linear-gradient(90deg, var(--color--t000), var(--color--n000));
+}

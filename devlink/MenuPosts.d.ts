@@ -1,0 +1,36 @@
+import * as React from "react";
+import * as Types from "./types";
+
+declare function MenuPosts(props: {
+  as?: React.ElementType;
+  menu?: Types.Visibility.VisibilityConditions;
+  mini?: Types.Builtin.Text;
+  popId?: Types.Basic.IdTextInput;
+  anchorId?: Types.Builtin.Text;
+  report?: Types.Visibility.VisibilityConditions;
+  feedback?: Types.Visibility.VisibilityConditions;
+  remove?: Types.Visibility.VisibilityConditions;
+  noInterest?: Types.Visibility.VisibilityConditions;
+  block?: Types.Visibility.VisibilityConditions;
+  mute?: Types.Visibility.VisibilityConditions;
+  copyText?: Types.Visibility.VisibilityConditions;
+  copyLink?: Types.Visibility.VisibilityConditions;
+  share?: Types.Visibility.VisibilityConditions;
+  pin?: Types.Visibility.VisibilityConditions;
+  bookmark?: Types.Visibility.VisibilityConditions;
+  comment?: Types.Visibility.VisibilityConditions;
+  edit?: Types.Visibility.VisibilityConditions;
+  reportClick?: Types.Devlink.RuntimeProps;
+  feedbackClick?: Types.Devlink.RuntimeProps;
+  removeClick?: Types.Devlink.RuntimeProps;
+  noInterestClick?: Types.Devlink.RuntimeProps;
+  blockClick?: Types.Devlink.RuntimeProps;
+  muteClick?: Types.Devlink.RuntimeProps;
+  copyTextClick?: Types.Devlink.RuntimeProps;
+  copyLinkClick?: Types.Devlink.RuntimeProps;
+  shareClick?: Types.Devlink.RuntimeProps;
+  pinClick?: Types.Devlink.RuntimeProps;
+  bookmarkClick?: Types.Devlink.RuntimeProps;
+  commentClick?: Types.Devlink.RuntimeProps;
+  editClick?: Types.Devlink.RuntimeProps;
+}): React.JSX.Element;

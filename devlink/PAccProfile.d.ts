@@ -1,0 +1,32 @@
+import * as React from "react";
+import * as Types from "./types";
+
+declare function PAccProfile(props: {
+  as?: React.ElementType;
+  avtrSrc?: Types.Asset.Image;
+  avtrAlt?: Types.Basic.AltText;
+  avtrClick?: Types.Devlink.RuntimeProps;
+  doClick?: Types.Devlink.RuntimeProps;
+  metaBtnTxt?: React.ReactNode;
+  metaBtnStyl?: Types.Builtin.Text;
+  metaBtnClick?: Types.Devlink.RuntimeProps;
+  googleBtnTxt?: React.ReactNode;
+  googleBtnStyl?: Types.Builtin.Text;
+  googleBtnClick?: Types.Devlink.RuntimeProps;
+  xBtnTxt?: React.ReactNode;
+  xBtnStyl?: Types.Builtin.Text;
+  xBtnClick?: Types.Devlink.RuntimeProps;
+  pintBtnTxt?: React.ReactNode;
+  pintBtnStyl?: Types.Builtin.Text;
+  pintBtnClick?: Types.Devlink.RuntimeProps;
+  instaBtnTxt?: React.ReactNode;
+  instaBtnStyl?: Types.Builtin.Text;
+  instaBtnClick?: Types.Devlink.RuntimeProps;
+  fnameOnChange?: Types.Builtin.Text;
+  lnameOnChange?: Types.Builtin.Text;
+  handleOnChange?: Types.Builtin.Text;
+  locOnChange?: Types.Builtin.Text;
+  websiteOnChange?: Types.Builtin.Text;
+  aboutOnChange?: Types.Builtin.Text;
+  aboutCount?: React.ReactNode;
+}): React.JSX.Element;

@@ -1,0 +1,26 @@
+.color-palette {
+  overflow: hidden;
+  flex-direction: row;
+  align-items: stretch;
+  align-self: flex-start;
+}
+
+.toolbar-ss {
+  display: flex;
+  overflow: auto;
+  margin-bottom: -20px;
+  padding-right: 8px;
+  padding-bottom: 20px;
+  flex: 0 0 auto;
+}
+
+.color-grid {
+  margin-top: 4px;
+  margin-right: 12px;
+  margin-left: 12px;
+  grid-auto-flow: column;
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: auto auto auto auto;
+}

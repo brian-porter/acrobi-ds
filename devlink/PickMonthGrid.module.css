@@ -1,0 +1,12 @@
+.pickgrid-month {
+  grid-auto-columns: auto;
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+  grid-template-areas: "Area"
+  "."
+  "."
+  "."
+  ".";
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: auto auto auto auto auto;
+}

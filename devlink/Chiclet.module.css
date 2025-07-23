@@ -1,0 +1,42 @@
+.bbc_l2-btn {
+  position: relative;
+
+  display: flex;
+  overflow: hidden;
+  min-width: 48px;
+  justify-content: center;
+  align-items: center;
+  align-self: stretch;
+  flex: 1;
+
+  box-shadow: inset 0 0 0 0 transparent;
+
+  transition: box-shadow 300ms cubic-bezier(.165, .84, .44, 1),border-color 300ms cubic-bezier(.165, .84, .44, 1);
+}
+
+.bbc_l2-btn:hover {
+  box-shadow: inset 0 0 0 6.25rem rgba(0, 0, 0, 0.05);
+}
+
+.bbc_l2-btn:focus-visible {
+  border-color: var(--color--f500);
+}
+
+@media screen and (max-width: 767px) {
+  .bbc_l2-btn {
+    width: 100%;
+  }
+}
+
+.chiclet-lbl-sp {
+  padding-right: 12px;
+  padding-left: 12px;
+}
+
+.link-block-2 {
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  right: 0%;
+  bottom: 0%;
+}

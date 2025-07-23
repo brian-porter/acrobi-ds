@@ -1,0 +1,33 @@
+import * as React from "react";
+import * as Types from "./types";
+
+declare function MGrant(props: {
+  as?: React.ElementType;
+  geo?: Types.Visibility.VisibilityConditions;
+  geoAll?: Types.Visibility.VisibilityConditions;
+  cal?: Types.Visibility.VisibilityConditions;
+  mic?: Types.Visibility.VisibilityConditions;
+  contacts?: Types.Visibility.VisibilityConditions;
+  camera?: Types.Visibility.VisibilityConditions;
+  ble?: Types.Visibility.VisibilityConditions;
+  bio?: Types.Visibility.VisibilityConditions;
+  lib?: Types.Visibility.VisibilityConditions;
+  geoYesClick?: Types.Devlink.RuntimeProps;
+  geoNoClick?: Types.Devlink.RuntimeProps;
+  geoAllYesClick?: Types.Devlink.RuntimeProps;
+  geoAllNoClick?: Types.Devlink.RuntimeProps;
+  calYesClick?: Types.Devlink.RuntimeProps;
+  calNoClick?: Types.Devlink.RuntimeProps;
+  micYesClick?: Types.Devlink.RuntimeProps;
+  micNoClick?: Types.Devlink.RuntimeProps;
+  contactsYesClick?: Types.Devlink.RuntimeProps;
+  contactsNoClick?: Types.Devlink.RuntimeProps;
+  cameraYesClick?: Types.Devlink.RuntimeProps;
+  cameraNoClick?: Types.Devlink.RuntimeProps;
+  bleYesClick?: Types.Devlink.RuntimeProps;
+  bleNoClick?: Types.Devlink.RuntimeProps;
+  bioYesClick?: Types.Devlink.RuntimeProps;
+  bioNoClick?: Types.Devlink.RuntimeProps;
+  libYesClick?: Types.Devlink.RuntimeProps;
+  libNoClick?: Types.Devlink.RuntimeProps;
+}): React.JSX.Element;

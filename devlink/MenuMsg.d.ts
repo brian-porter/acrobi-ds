@@ -1,0 +1,35 @@
+import * as React from "react";
+import * as Types from "./types";
+
+declare function MenuMsg(props: {
+  as?: React.ElementType;
+  menu?: Types.Visibility.VisibilityConditions;
+  mini?: Types.Builtin.Text;
+  popId?: Types.Basic.IdTextInput;
+  anchorId?: Types.Builtin.Text;
+  emojiBar?: Types.Visibility.VisibilityConditions;
+  emojiExample?: Types.Visibility.VisibilityConditions;
+  emojiMap?: Types.Devlink.Slot;
+  emojiSrc?: React.ReactNode;
+  emojiSz?: Types.Builtin.Text;
+  emojiClick?: Types.Devlink.RuntimeProps;
+  report?: Types.Visibility.VisibilityConditions;
+  feedback?: Types.Visibility.VisibilityConditions;
+  remove?: Types.Visibility.VisibilityConditions;
+  copyTxt?: Types.Visibility.VisibilityConditions;
+  copyLink?: Types.Visibility.VisibilityConditions;
+  share?: Types.Visibility.VisibilityConditions;
+  pin?: Types.Visibility.VisibilityConditions;
+  pinSrc?: React.ReactNode;
+  reply?: Types.Visibility.VisibilityConditions;
+  edit?: Types.Visibility.VisibilityConditions;
+  reportClick?: Types.Devlink.RuntimeProps;
+  feedbackClick?: Types.Devlink.RuntimeProps;
+  removeClick?: Types.Devlink.RuntimeProps;
+  copyTxtClick?: Types.Devlink.RuntimeProps;
+  copyLinkClick?: Types.Devlink.RuntimeProps;
+  shareClick?: Types.Devlink.RuntimeProps;
+  pinClick?: Types.Devlink.RuntimeProps;
+  replyClick?: Types.Devlink.RuntimeProps;
+  editClick?: Types.Devlink.RuntimeProps;
+}): React.JSX.Element;

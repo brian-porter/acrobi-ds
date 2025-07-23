@@ -1,0 +1,25 @@
+.onboarding2 {
+  position: relative;
+
+  display: flex;
+  width: 700px;
+  height: 600px;
+  margin-bottom: 0px;
+  flex-direction: column;
+  flex-wrap: nowrap;
+}
+
+@media screen and (max-width: 767px) {
+  .onboarding2 {
+    width: 100svw;
+    height: 100svh;
+  }
+}
+
+.terms-height {
+  height: 100%;
+}
+
+.code-embed {
+  height: 100%;
+}

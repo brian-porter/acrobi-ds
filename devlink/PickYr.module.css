@@ -1,0 +1,10 @@
+.pickyr {
+  display: flex;
+  flex-direction: column;
+}
+
+.pickgrid-5col {
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+}

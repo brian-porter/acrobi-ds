@@ -1,0 +1,17 @@
+.ol_bnr_full_wrap {
+  position: absolute;
+  left: 0%;
+  top: auto;
+  right: 0%;
+  bottom: 0%;
+
+  display: flex;
+  width: 100%;
+  padding: 8px;
+  grid-column-gap: 8px;
+  grid-row-gap: 8px;
+
+  background-color: rgba(29, 28, 26, 0.4);
+
+  color: var(--n000White-0065a3d9);
+}

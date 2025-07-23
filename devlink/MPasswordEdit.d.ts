@@ -1,0 +1,33 @@
+import * as React from "react";
+import * as Types from "./types";
+
+declare function MPasswordEdit(props: {
+  as?: React.ElementType;
+  changePass?: Types.Visibility.VisibilityConditions;
+  closeClick?: Types.Devlink.RuntimeProps;
+  currentChange?: Types.Builtin.Text;
+  newChange?: Types.Builtin.Text;
+  confChange?: Types.Builtin.Text;
+  forceChange?: Types.Builtin.Text;
+  doClick?: Types.Devlink.RuntimeProps;
+  currentFbk?: Types.Visibility.VisibilityConditions;
+  currentFbkTxtSrc?: React.ReactNode;
+  currentFldBrdClr?: Types.Builtin.Text;
+  newFbk?: Types.Visibility.VisibilityConditions;
+  newFbkTxtSrc?: React.ReactNode;
+  newFldBrdClr?: Types.Builtin.Text;
+  confFbk?: Types.Visibility.VisibilityConditions;
+  confFbkTxtSrc?: React.ReactNode;
+  confFldBrdClr?: Types.Builtin.Text;
+  forceFbk?: Types.Visibility.VisibilityConditions;
+  forceFbkTxtSrc?: React.ReactNode;
+  sb?: Types.Visibility.VisibilityConditions;
+  sbTxtSrc?: React.ReactNode;
+  sbStyle?: Types.Builtin.Text;
+  passFldBtnIcnSrc?: React.ReactNode;
+  nPassFldBtnIcnSrc?: React.ReactNode;
+  cPassFldBtnIcnSrc?: React.ReactNode;
+  passFldBtnClick?: Types.Devlink.RuntimeProps;
+  nPassFldBtnClick?: Types.Devlink.RuntimeProps;
+  cPassFldBtnClick?: Types.Devlink.RuntimeProps;
+}): React.JSX.Element;

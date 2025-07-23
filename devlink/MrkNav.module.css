@@ -1,0 +1,372 @@
+.mrk_bbc {
+  position: fixed;
+  left: 0%;
+  top: 0%;
+  right: 0%;
+  bottom: auto;
+  z-index: 999;
+
+  display: flex;
+  width: 100%;
+  height: auto;
+  min-height: 56px;
+  flex-direction: column;
+  justify-content: flex-end;
+  flex-wrap: nowrap;
+  align-items: stretch;
+}
+
+@media screen and (max-width: 767px) {
+  .mrk_bbc {
+    bottom: 0px;
+  }
+}
+
+.bbc-container {
+  position: relative;
+  left: 0%;
+  top: 0%;
+  right: 0%;
+  bottom: 0%;
+  z-index: 5;
+
+  display: flex;
+  padding: 16px;
+  flex-direction: column;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  align-items: stretch;
+}
+
+@media screen and (max-width: 767px) {
+  .bbc-container {
+    bottom: 0px;
+    padding: 0px;
+  }
+}
+
+.bbc-shell {
+  z-index: 5;
+
+  display: flex;
+  overflow: hidden;
+  width: 100%;
+  max-width: 1440px;
+  min-width: 56px;
+  flex-direction: column;
+  justify-content: flex-end;
+  flex-wrap: nowrap;
+  align-items: center;
+  align-self: center;
+
+  border: 4px solid var(--color--n000);
+  border-radius: 15px;
+
+  background-color: var(--n000White-0065a3d9);
+}
+
+@media screen and (max-width: 767px) {
+  .bbc-shell {
+    bottom: 0px;
+    margin-right: 0px;
+    margin-left: 0px;
+    border-radius: 0px;
+  }
+}
+
+.bbc_wrap {
+  position: relative;
+
+  display: flex;
+  overflow: hidden;
+  width: 100%;
+  flex-direction: column;
+  justify-content: flex-end;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  align-self: stretch;
+  flex: 0 0 auto;
+}
+
+.bbc_main {
+  position: relative;
+
+  display: flex;
+  overflow: hidden;
+  width: 100%;
+  align-items: flex-end;
+  align-self: stretch;
+  flex: 0 0 auto;
+
+  background-color: var(--color--n000);
+}
+
+.bbc_lead {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  flex-wrap: nowrap;
+  flex: 0 auto;
+}
+
+.bbc_l1 {
+  position: relative;
+  bottom: 0px;
+
+  display: flex;
+  overflow: hidden;
+  width: auto;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.mrk-bbc_logo {
+  position: relative;
+
+  display: flex;
+  overflow: hidden;
+  min-width: 48px;
+  padding-top: 8px;
+  padding-right: 8px;
+  padding-left: 8px;
+  justify-content: center;
+  align-items: center;
+  align-self: stretch;
+  flex: 1;
+
+  box-shadow: inset 0 0 0 0 transparent;
+
+  transition: box-shadow 300ms cubic-bezier(.165, .84, .44, 1),border-color 300ms cubic-bezier(.165, .84, .44, 1);
+}
+
+.mrk-bbc_logo:hover {
+  box-shadow: inset 0 0 0 6.25rem rgba(0, 0, 0, 0.05);
+}
+
+.mrk-bbc_logo:focus-visible {
+  border-color: var(--color--f500);
+}
+
+@media screen and (max-width: 767px) {
+  .mrk-bbc_logo {
+    width: 100%;
+  }
+}
+
+.link-block-3 {
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  right: 0%;
+  bottom: 0%;
+}
+
+.bbc_prime {
+  position: relative;
+
+  display: flex;
+  overflow: hidden;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  flex: 1;
+}
+
+.bbc-bar {
+  position: relative;
+  z-index: 0;
+
+  display: block;
+  overflow: hidden;
+  height: 48px;
+  flex: 0 0 auto;
+
+  background-color: var(--color--n000);
+}
+
+.nav-marketing {
+  display: flex;
+  overflow: auto;
+  margin-bottom: -20px;
+  padding-bottom: 20px;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  flex: 0 0 auto;
+}
+
+.mrk-bbc-itm {
+  position: relative;
+
+  display: flex;
+  overflow: hidden;
+  width: auto;
+  height: 100%;
+  min-height: 48px;
+  min-width: 48px;
+  padding-right: 20px;
+  padding-left: 20px;
+  justify-content: center;
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: auto;
+
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+
+  box-shadow: inset 0 0 0 0 hsla(0, 0.00%, 0.00%, 0.00);
+
+  transition-property: border-color, box-shadow;
+  transition-duration: 300ms, 300ms;
+  transition-timing-function: cubic-bezier(.165, .84, .44, 1), cubic-bezier(.165, .84, .44, 1);
+
+  cursor: pointer;
+
+  user-select: none;
+}
+
+.mrk-bbc-itm:hover {
+  background-color: var(--color--n9991);
+  box-shadow: inset 0 0 0 0 hsla(0, 0.00%, 0.00%, 0.05);
+}
+
+.bbc-itm-link {
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  right: 0%;
+  bottom: 0%;
+}
+
+.side-fade {
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  right: 0%;
+  bottom: 0%;
+  z-index: 3;
+
+  pointer-events: none;
+}
+
+.side-fade-l {
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  right: auto;
+  bottom: 0%;
+  z-index: 100;
+
+  width: 20px;
+
+  background-image: linear-gradient(270deg, var(--color--t000), var(--color--n000));
+}
+
+.side-fade-r {
+  position: absolute;
+  left: auto;
+  top: 0%;
+  right: 0%;
+  bottom: 0%;
+  z-index: 100;
+
+  width: 20px;
+
+  background-image: linear-gradient(90deg, var(--color--t000), var(--color--n000));
+}
+
+.bbc_trail {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  align-self: stretch;
+  flex: 0 auto;
+}
+
+.bbc_l2-action {
+  display: flex;
+  width: 100%;
+  min-width: 48px;
+  flex-direction: column;
+  justify-content: flex-end;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  align-self: center;
+  flex: 1;
+}
+
+.bbc_l1-auth {
+  display: flex;
+  overflow: hidden;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.bbc_sign-in {
+  min-width: 48px;
+  align-items: center;
+  align-self: center;
+}
+
+.bbc_profile {
+  display: flex;
+  overflow: hidden;
+  min-width: 48px;
+  padding-right: 8px;
+  justify-content: flex-end;
+  align-items: center;
+  align-self: stretch;
+  flex: 1;
+
+  box-shadow: inset 0 0 0 0 transparent;
+
+  transition: box-shadow 300ms cubic-bezier(.165, .84, .44, 1),border-color 300ms cubic-bezier(.165, .84, .44, 1);
+}
+
+.bbc_profile:hover {
+  box-shadow: inset 0 0 0 6.25rem rgba(0, 0, 0, 0.05);
+}
+
+.bbc_profile:focus-visible {
+  border-color: var(--color--f500);
+}
+
+@media screen and (max-width: 767px) {
+  .bbc_profile {
+    width: 100%;
+  }
+}
+
+.bg-fade {
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  right: 0%;
+  bottom: 0%;
+
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+}
+
+@media screen and (max-width: 767px) {
+  .bg-fade {
+    display: none;
+  }
+}
+
+.bbc-fade {
+  z-index: 4;
+  width: 100%;
+  height: 32px;
+  background-image: linear-gradient(180deg, var(--color--t000), var(--color--n0002) 20%, var(--_theme---background));
+}
+
+.bbc-bg {
+  z-index: 2;
+  height: 100%;
+  flex: 1;
+  background-color: var(--_theme---background);
+}

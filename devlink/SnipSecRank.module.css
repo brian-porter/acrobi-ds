@@ -1,0 +1,31 @@
+.rank-sec {
+  align-self: stretch;
+}
+
+.sec-wrap {
+  display: flex;
+  overflow: hidden;
+  width: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+
+  border-radius: 8px;
+
+  background-color: var(--color--n100);
+  background-image: linear-gradient(180deg, var(--color--n000), var(--color--n100) 75%);
+
+  color: var(--color--n500);
+}
+
+@media screen and (min-width: 1280px) {
+  .sec-wrap {
+    max-width: 770px;
+  }
+}
+
+.list_wrap {
+  margin-bottom: 0em;
+  padding-left: 0em;
+  align-self: stretch;
+}

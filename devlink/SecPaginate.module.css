@@ -1,0 +1,7 @@
+.paginate_main {
+  display: flex;
+  padding-top: var(--size--48px);
+  padding-bottom: var(--size--48px);
+  justify-content: center;
+  align-items: center;
+}

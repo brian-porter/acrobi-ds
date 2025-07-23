@@ -1,0 +1,105 @@
+.page_wrap {
+  position: relative;
+  z-index: 0;
+
+  display: flex;
+  overflow: clip;
+  min-height: 100svh;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+
+.page_main {
+  display: flex;
+  width: 100%;
+  max-width: 1440px;
+  margin-bottom: 124px;
+  padding-top: 16px;
+  padding-right: 16px;
+  padding-left: 16px;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  flex: 1;
+}
+
+@media screen and (max-width: 991px) {
+  .page_main {
+    max-width: 991px;
+    padding-top: 0px;
+    padding-right: 0px;
+    padding-left: 0px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .page_main {
+    margin-bottom: 116px;
+  }
+}
+
+.qs-50-50 {
+  padding: 0px;
+  grid-column-gap: 16px;
+  grid-row-gap: 16px;
+}
+
+@media screen and (max-width: 991px) {
+  .qs-50-50 {
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .qs-50-50.cc-top {
+    padding-top: 16px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .qs-50-50.cc-top {
+    padding-top: 0px;
+  }
+}
+
+.cell-6 {
+  align-items: stretch;
+}
+
+.cell-7 {
+  align-items: stretch;
+}
+
+.list_wrap {
+  margin-bottom: 0em;
+  padding-left: 0em;
+  align-self: stretch;
+}
+
+#w-node-_0b3d555f-a98c-7d5c-73b7-df236f8098ff-b4f4fb3a {
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: auto auto;
+}
+#w-node-_0b3d555f-a98c-7d5c-73b7-df236f809900-b4f4fb3a {
+  grid-column-start: span 12;
+  grid-column-end: span 12;
+}
+#w-node-_0b3d555f-a98c-7d5c-73b7-df236f809904-b4f4fb3a {
+  grid-column-start: span 6;
+  grid-column-end: span 6;
+}
+#w-node-_0b3d555f-a98c-7d5c-73b7-df236f80992c-b4f4fb3a {
+  grid-column-start: span 6;
+  grid-column-end: span 6;
+}
+@media screen and (max-width: 991px) {
+  #w-node-_0b3d555f-a98c-7d5c-73b7-df236f8098ff-b4f4fb3a {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: auto auto;
+  }
+  #w-node-_0b3d555f-a98c-7d5c-73b7-df236f809900-b4f4fb3a {
+    grid-column-start: span 4;
+    grid-column-end: span 4;
+  }
+}

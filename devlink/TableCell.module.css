@@ -1,0 +1,7 @@
+.table-cell {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex: 1;
+  color: var(--color--n700);
+}

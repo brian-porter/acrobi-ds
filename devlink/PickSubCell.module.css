@@ -1,0 +1,9 @@
+.pickcell {
+  position: relative;
+
+  display: flex;
+  min-height: 48px;
+  min-width: 48px;
+  justify-content: center;
+  align-items: center;
+}

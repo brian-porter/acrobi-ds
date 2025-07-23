@@ -1,0 +1,10 @@
+.ol-btn--ds-m {
+  position: absolute;
+  left: auto;
+  top: auto;
+  right: 0%;
+  bottom: 0%;
+  z-index: 10;
+
+  padding: 5%;
+}

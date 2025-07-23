@@ -1,0 +1,44 @@
+.bbc-itm {
+  position: relative;
+
+  display: flex;
+  overflow: hidden;
+  width: auto;
+  height: 100%;
+  min-height: 48px;
+  min-width: 48px;
+  padding-right: 8px;
+  padding-left: 8px;
+  justify-content: center;
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: auto;
+
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+
+  box-shadow: inset 0 0 0 0 hsla(0, 0.00%, 0.00%, 0.00);
+
+  transition-property: border-color, box-shadow;
+  transition-duration: 300ms, 300ms;
+  transition-timing-function: cubic-bezier(.165, .84, .44, 1), cubic-bezier(.165, .84, .44, 1);
+
+  cursor: pointer;
+
+  user-select: none;
+}
+
+.bbc-itm:hover {
+  background-color: var(--color--n9991);
+  box-shadow: inset 0 0 0 0 hsla(0, 0.00%, 0.00%, 0.05);
+}
+
+.bbc-itm-link {
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  right: 0%;
+  bottom: 0%;
+}

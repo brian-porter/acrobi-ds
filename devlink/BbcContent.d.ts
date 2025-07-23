@@ -1,0 +1,35 @@
+import * as React from "react";
+import * as Types from "./types";
+
+declare function BbcContent(props: {
+  as?: React.ElementType;
+  content?: Types.Visibility.VisibilityConditions;
+  lBack?: Types.Visibility.VisibilityConditions;
+  lProfile?: Types.Visibility.VisibilityConditions;
+  lAction?: Types.Visibility.VisibilityConditions;
+  lDown?: Types.Visibility.VisibilityConditions;
+  lBackIcnSrc?: React.ReactNode;
+  pNavMap?: Types.Devlink.Slot;
+  tSignIn?: Types.Visibility.VisibilityConditions;
+  tSignInClick?: Types.Devlink.RuntimeProps;
+  lBackClr?: Types.Builtin.Text;
+  lBackStyl?: Types.Builtin.Text;
+  lBackClick?: Types.Devlink.RuntimeProps;
+  lProfBdg?: Types.Visibility.VisibilityConditions;
+  lProfAvtrSrc?: Types.Asset.Image;
+  lProfAvtrAlt?: Types.Basic.AltText;
+  lProfClick?: Types.Devlink.RuntimeProps;
+  lActionIcnSrc?: React.ReactNode;
+  lActionClick?: Types.Devlink.RuntimeProps;
+  lDownIcnSrc?: React.ReactNode;
+  lDownLblClr?: Types.Builtin.Text;
+  lDownClick?: Types.Devlink.RuntimeProps;
+  lChicMulti?: Types.Builtin.Text;
+  pMarketing?: Types.Visibility.VisibilityConditions;
+  pMarketing2?: Types.Visibility.VisibilityConditions;
+  pExampleNav?: Types.Visibility.VisibilityConditions;
+  tAction?: Types.Visibility.VisibilityConditions;
+  exampleLvl1?: Types.Visibility.VisibilityConditions;
+  exampleSegBtn?: Types.Visibility.VisibilityConditions;
+  exampleField?: Types.Visibility.VisibilityConditions;
+}): React.JSX.Element;

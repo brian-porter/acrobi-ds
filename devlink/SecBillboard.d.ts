@@ -1,0 +1,30 @@
+import * as React from "react";
+import * as Types from "./types";
+
+declare function SecBillboard(props: {
+  as?: React.ElementType;
+  sec?: Types.Visibility.VisibilityConditions;
+  secHead?: Types.Visibility.VisibilityConditions;
+  bgClr?: Types.Builtin.Text;
+  secHeadTitleSrc?: React.ReactNode;
+  secHeadSubtxt?: Types.Visibility.VisibilityConditions;
+  secHeadSubtxtSrc?: React.ReactNode;
+  secHeadVizDeskSrc?: Types.Asset.Image;
+  secHeadVizMoSrc?: Types.Asset.Image;
+  secHeadVizAlt?: Types.Basic.AltText;
+  secHeadCopyW?: Types.Builtin.Text;
+  secHeadTitleSz?: Types.Builtin.Text;
+  secHeadTitleClr?: Types.Builtin.Text;
+  secHeadSubtxtSz?: Types.Builtin.Text;
+  secHeadSubtxtClr?: Types.Builtin.Text;
+  conProdFeat?: Types.Visibility.VisibilityConditions;
+  conProdFeatMap?: Types.Devlink.Slot;
+  conExampleProdFeat?: Types.Visibility.VisibilityConditions;
+  conProdFeatCellBgClr?: Types.Builtin.Text;
+  conProd?: Types.Visibility.VisibilityConditions;
+  conProdHead?: Types.Visibility.VisibilityConditions;
+  conProdHeadTitleSrc?: React.ReactNode;
+  conProdHeadTitleSz?: Types.Builtin.Text;
+  conProdHeadTitleClr?: Types.Builtin.Text;
+  conProdMap?: Types.Devlink.Slot;
+}): React.JSX.Element;

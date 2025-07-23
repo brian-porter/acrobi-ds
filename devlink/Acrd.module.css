@@ -1,0 +1,14 @@
+.hide {
+  display: none;
+}
+
+.acrdn_main {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  grid-auto-columns: 1fr;
+  grid-column-gap: var(--gap--xs);
+  grid-row-gap: var(--gap--xs);
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+}

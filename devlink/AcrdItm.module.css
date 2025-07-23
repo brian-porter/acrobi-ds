@@ -1,0 +1,61 @@
+.acrd-itm_main {
+  border: 1px solid var(--color--n9991);
+  border-radius: var(--radius--br2);
+  background-color: var(--color--n000);
+  box-shadow: 0 2px 1px 0 rgba(20, 20, 20, 0.01);
+  transition: box-shadow 200ms ease,border-color 200ms ease,background-color 200ms ease;
+}
+
+.acrd-itm_main:hover {
+  border-color: transparent;
+  background-color: var(--color--n9991);
+  box-shadow: none;
+}
+
+.acrd-itm_main:active {
+  background-color: var(--color--n9991);
+}
+
+.acrd-itm_main.is-active-accordion {
+  border-color: transparent;
+  box-shadow: none;
+}
+
+.acrd-itm_head {
+  display: flex;
+  height: 3rem;
+  padding-right: 1rem;
+  padding-left: 1rem;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  grid-column-gap: 0.5rem;
+  grid-row-gap: 0.5rem;
+
+  border-top: 1px solid var(--color--n200);
+
+  cursor: pointer;
+}
+
+.acrd-itm_head:focus-visible {
+  outline-color: rgba(223, 3, 0, 0.45);
+  outline-offset: 0px;
+  outline-style: solid;
+  outline-width: 0.125rem;
+}
+
+.acrd_arrow-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  transition: transform 200ms ease;
+  color: var(--color--n500);
+}
+
+.acrd_arrow-icon.is-active-accordion {
+  transform: rotate(180deg);
+}
+
+.acrd-itm_body {
+  overflow: hidden;
+  transition: max-height 200ms ease;
+}

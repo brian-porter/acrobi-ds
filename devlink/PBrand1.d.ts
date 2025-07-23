@@ -1,0 +1,36 @@
+import * as React from "react";
+import * as Types from "./types";
+
+declare function PBrand1(props: {
+  as?: React.ElementType;
+  heroImgSrc?: Types.Asset.Image;
+  heroImgAlt?: Types.Basic.AltText;
+  heroHlineSrc?: React.ReactNode;
+  heroSubtxt?: Types.Visibility.VisibilityConditions;
+  heroSubtxtSrc?: React.ReactNode;
+  heroQrClick?: Types.Devlink.RuntimeProps;
+  heroMoreClick?: Types.Devlink.RuntimeProps;
+  scanQrBtnClick?: Types.Devlink.RuntimeProps;
+  searchClick?: Types.Devlink.RuntimeProps;
+  favClick?: Types.Devlink.RuntimeProps;
+  addClick?: Types.Devlink.RuntimeProps;
+  highRate?: Types.Visibility.VisibilityConditions;
+  hrMap?: Types.Devlink.Slot;
+  exampleHrCell?: Types.Visibility.VisibilityConditions;
+  bodySecMap?: Types.Devlink.Slot;
+  categories?: Types.Visibility.VisibilityConditions;
+  featured?: Types.Visibility.VisibilityConditions;
+  brandOff?: Types.Visibility.VisibilityConditions;
+  prodOff?: Types.Visibility.VisibilityConditions;
+  hrCellVizSrc?: Types.Asset.Image;
+  hrCellVizAlt?: Types.Basic.AltText;
+  hrCellCapt?: Types.Visibility.VisibilityConditions;
+  hrCellNameSrc?: React.ReactNode;
+  hrCellCellClick?: Types.Devlink.RuntimeProps;
+  hrCellBtn?: Types.Visibility.VisibilityConditions;
+  hrCellBtnTxtSrc?: React.ReactNode;
+  hrCellBtnIcnSrc?: React.ReactNode;
+  hrCellBtnStyl?: Types.Builtin.Text;
+  hrCellBtnDis?: Types.Builtin.Text;
+  hrCellBtnClick?: Types.Devlink.RuntimeProps;
+}): React.JSX.Element;

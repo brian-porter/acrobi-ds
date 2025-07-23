@@ -1,0 +1,35 @@
+import * as React from "react";
+import * as Types from "./types";
+
+declare function LicPrime(props: {
+  as?: React.ElementType;
+  titleSubtxt?: Types.Visibility.VisibilityConditions;
+  msg?: Types.Visibility.VisibilityConditions;
+  rate?: Types.Visibility.VisibilityConditions;
+  atrb?: Types.Visibility.VisibilityConditions;
+  titleSrc?: React.ReactNode;
+  titleSz?: Types.Builtin.Text;
+  titleClr?: Types.Builtin.Text;
+  titleLc?: Types.Builtin.Text;
+  subtxt?: Types.Visibility.VisibilityConditions;
+  subtxtSrc?: React.ReactNode;
+  subtxtSz?: Types.Builtin.Text;
+  subtxtClr?: Types.Builtin.Text;
+  subtxtLc?: Types.Builtin.Text;
+  subtxt2?: Types.Visibility.VisibilityConditions;
+  subtxt2Src?: React.ReactNode;
+  subtxt2Sz?: Types.Builtin.Text;
+  subtxt2Clr?: Types.Builtin.Text;
+  subtxt2Lc?: Types.Builtin.Text;
+  msgName?: React.ReactNode;
+  msgTime?: React.ReactNode;
+  msgBody?: React.ReactNode;
+  msgNameSz?: Types.Builtin.Text;
+  msgNameCl?: Types.Builtin.Text;
+  msgTimeSz?: Types.Builtin.Text;
+  msgTimeCl?: Types.Builtin.Text;
+  msgBodySz?: Types.Builtin.Text;
+  msgBodyCl?: Types.Builtin.Text;
+  rateValue?: React.ReactNode;
+  primeDiv?: Types.Builtin.Text;
+}): React.JSX.Element;

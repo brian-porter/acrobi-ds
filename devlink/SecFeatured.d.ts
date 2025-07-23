@@ -1,0 +1,34 @@
+import * as React from "react";
+import * as Types from "./types";
+
+declare function SecFeatured(props: {
+  as?: React.ElementType;
+  sec?: Types.Visibility.VisibilityConditions;
+  secHead?: Types.Visibility.VisibilityConditions;
+  secHeadTitleIcn?: Types.Visibility.VisibilityConditions;
+  secHeadAct1?: Types.Visibility.VisibilityConditions;
+  secHeadTitleIcnSrc?: React.ReactNode;
+  secHeadTitleSrc?: React.ReactNode;
+  brand?: Types.Visibility.VisibilityConditions;
+  offer?: Types.Visibility.VisibilityConditions;
+  conCellMap?: Types.Devlink.Slot;
+  conSlotId?: Types.Basic.IdTextInput;
+  conSlotIdOff?: Types.Basic.IdTextInput;
+  conExampleBrandCell?: Types.Visibility.VisibilityConditions;
+  conExampleOfferCell?: Types.Visibility.VisibilityConditions;
+  exampleVizSrc?: Types.Asset.Image;
+  exampleVizAlt?: Types.Basic.AltText;
+  exampleByVizSrc?: Types.Asset.Image;
+  exampleByVizAlt?: Types.Basic.AltText;
+  exampleNameSrc?: React.ReactNode;
+  exampleHookSrc?: React.ReactNode;
+  exampleHook2?: Types.Visibility.VisibilityConditions;
+  exampleHook2Src?: React.ReactNode;
+  exampleTypeSrc?: React.ReactNode;
+  exampleLimitSrc?: React.ReactNode;
+  exampleAct?: Types.Visibility.VisibilityConditions;
+  exampleActClick?: Types.Devlink.RuntimeProps;
+  exampleCellClick?: Types.Devlink.RuntimeProps;
+  secHeadAct1TxtSrc?: React.ReactNode;
+  secHeadAct1Click?: Types.Devlink.RuntimeProps;
+}): React.JSX.Element;

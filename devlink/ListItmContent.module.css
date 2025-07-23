@@ -1,0 +1,26 @@
+.list_item_wrap {
+  position: relative;
+
+  display: flex;
+  overflow: hidden;
+  width: 100%;
+  height: auto;
+  min-height: 56px;
+  margin-bottom: 0em;
+  align-items: center;
+
+  list-style-type: none;
+}
+
+.lic-primary-wrap {
+  position: relative;
+
+  display: flex;
+  height: auto;
+  flex-direction: row;
+  align-self: stretch;
+  flex: 1;
+
+  color: var(--n900-8b5806af);
+  text-decoration: none;
+}

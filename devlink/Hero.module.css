@@ -1,0 +1,62 @@
+.hero_sec {
+  position: relative;
+  overflow: hidden;
+  align-self: stretch;
+  flex: 0 0 auto;
+  border-radius: 16px;
+}
+
+@media screen and (max-width: 991px) {
+  .hero_sec {
+    border-radius: 0px;
+  }
+}
+
+.hero {
+  position: relative;
+
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+
+  color: var(--color--n000);
+
+  object-fit: cover;
+}
+
+.heroimg {
+  overflow: hidden;
+  height: 100%;
+  object-fit: cover;
+}
+
+.herovid {
+  overflow: hidden;
+  aspect-ratio: 16/9;
+  border-radius: 8px;
+}
+
+.herolink {
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  right: 0%;
+  bottom: 0%;
+  z-index: 1;
+}
+
+.ol-fade-btm {
+  position: absolute;
+  left: 0%;
+  top: auto;
+  right: 0%;
+  bottom: 0%;
+
+  width: 100%;
+  height: 56px;
+  justify-content: space-between;
+
+  background-image: linear-gradient(to bottom, var(--_colors-holding-space---theme--dark--t000), var(--color--n000) 98%);
+
+  color: var(--n000White-0065a3d9);
+}

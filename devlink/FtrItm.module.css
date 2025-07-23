@@ -1,0 +1,15 @@
+.feature_main {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  grid-column-gap: 4px;
+  grid-row-gap: 4px;
+}
+
+.text-block-10 {
+  text-align: center;
+}
+
+#w-node-_5a95b607-f02c-3ec6-32b1-77bb0d148d6a-0d148d6a {
+  justify-self: center;
+}

@@ -1,0 +1,10 @@
+.u-container {
+  position: relative;
+
+  width: 100%;
+  max-width: var(--container--main);
+  margin-right: auto;
+  margin-left: auto;
+
+  container-type: inline-size;
+}

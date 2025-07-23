@@ -1,0 +1,17 @@
+.cat_wrap {
+  position: relative;
+  overflow: hidden;
+  margin-top: 0px;
+  flex-direction: column;
+  flex: 0 0 auto;
+}
+
+.img {
+  position: relative;
+  left: 0%;
+  top: 0%;
+  right: 0%;
+  bottom: 0%;
+
+  overflow: hidden;
+}

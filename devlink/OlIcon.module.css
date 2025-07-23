@@ -1,0 +1,15 @@
+.ol_icn_super_wrap {
+  position: relative;
+
+  display: flex;
+  min-height: 48px;
+  min-width: 48px;
+  justify-content: center;
+  align-items: center;
+}
+
+@media screen and (max-width: 479px) {
+  .ol_icn_super_wrap {
+    min-width: 32px;
+  }
+}

@@ -1,0 +1,32 @@
+.bar-stats {
+  display: flex;
+  height: 36px;
+  padding-right: 16px;
+  padding-left: 16px;
+  align-items: stretch;
+  grid-column-gap: 8px;
+  grid-row-gap: 8px;
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  grid-column-gap: 8px;
+  grid-row-gap: 8px;
+}
+
+.stat-r4 {
+  display: flex;
+  align-items: center;
+  grid-column-gap: 4px;
+  grid-row-gap: 4px;
+
+  font-size: 0.75rem;
+  line-height: 1.2;
+  text-transform: lowercase;
+}
+
+.statdiv {
+  font-size: 0.75rem;
+  line-height: 1.2;
+}

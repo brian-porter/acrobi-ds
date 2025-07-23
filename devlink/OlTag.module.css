@@ -1,0 +1,11 @@
+.ol_tag {
+  position: absolute;
+
+  display: flex;
+  padding-left: 8px;
+  justify-content: center;
+  grid-column-gap: 8px;
+  grid-row-gap: 8px;
+
+  color: var(--n000White-0065a3d9);
+}

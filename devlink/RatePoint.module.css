@@ -1,0 +1,37 @@
+.rating_point {
+  position: relative;
+}
+
+.rating_point:hover {
+  transform: translate(0px, 0px);
+}
+
+.rate_bg {
+  font-family: var(--_typography---icn1);
+  color: var(--n200-32c117f2);
+  line-height: 1;
+}
+
+.rate_half {
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  right: 0%;
+  bottom: 0%;
+
+  font-family: var(--_typography---icn1);
+  color: var(--color--f500);
+  line-height: 1;
+}
+
+.rate_on {
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  right: 0%;
+  bottom: 0%;
+
+  font-family: var(--_typography---icn1);
+  color: var(--f500-1ea0875d);
+  line-height: 1;
+}

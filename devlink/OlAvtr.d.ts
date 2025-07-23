@@ -1,0 +1,35 @@
+import * as React from "react";
+import * as Types from "./types";
+
+declare function OlAvtr(props: {
+  as?: React.ElementType;
+  avtr?: Types.Visibility.VisibilityConditions;
+  avtrBdg?: Types.Visibility.VisibilityConditions;
+  hline?: Types.Visibility.VisibilityConditions;
+  avtrSrc?: Types.Asset.Image;
+  avtrAlt?: Types.Basic.AltText;
+  avtrSz?: Types.Builtin.Text;
+  avtrShape?: Types.Builtin.Text;
+  avtrLoc?: Types.Builtin.Text;
+  avtrClick?: Types.Devlink.RuntimeProps;
+  avtrBdgIcn?: Types.Visibility.VisibilityConditions;
+  avtrBdgTxt?: Types.Visibility.VisibilityConditions;
+  avtrBdgTxtSrc?: React.ReactNode;
+  avtrBdgIcnSrc?: React.ReactNode;
+  avtrBdgSz?: Types.Builtin.Text;
+  avtrBdgIcnSz?: Types.Builtin.Text;
+  avtrBdgClr?: Types.Builtin.Text;
+  hlineTitleSrc?: React.ReactNode;
+  hlineSubTxtSrc?: React.ReactNode;
+  hlineTitleClr?: Types.Builtin.Text;
+  hlineTitleSz?: Types.Builtin.Text;
+  hlineTitleDrpShdw?: Types.Builtin.Text;
+  hlineSubTxtClr?: Types.Builtin.Text;
+  hlineSubTxtSz?: Types.Builtin.Text;
+  hlineSubTxtDrpShdw?: Types.Builtin.Text;
+  hlineSubTxt2?: Types.Visibility.VisibilityConditions;
+  hlineSubTxt2Src?: React.ReactNode;
+  hlineSubTxt2Clr?: Types.Builtin.Text;
+  hlineSubTxt2DrpShdw?: Types.Builtin.Text;
+  hlineSubTxt2Sz?: Types.Builtin.Text;
+}): React.JSX.Element;

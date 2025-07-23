@@ -1,0 +1,45 @@
+.ds_doc_card-preview {
+  flex-direction: column;
+  justify-content: center;
+  flex-wrap: nowrap;
+  align-items: stretch;
+}
+
+.ds_doc_card-preview {
+  flex: 1;
+}
+
+.ds__card-sample {
+  display: flex;
+  width: 100%;
+  padding: 16px;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  grid-column-gap: 16px;
+  grid-row-gap: 16px;
+}
+
+.ds__card-sample.cc-stk {
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: stretch;
+}
+
+.ds__card-sample.cc-hug {
+  flex: 0 auto;
+}
+
+.listitem {
+  position: relative;
+
+  display: flex;
+  overflow: hidden;
+  width: 100%;
+  height: auto;
+  min-height: 56px;
+  justify-content: flex-start;
+  align-items: center;
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+}

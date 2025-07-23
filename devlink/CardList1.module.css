@@ -1,0 +1,10 @@
+.masonry-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.list-link {
+  display: block;
+  color: var(--color--n000);
+}

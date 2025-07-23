@@ -1,0 +1,111 @@
+.label_wrap {
+  display: flex;
+  min-width: 1rem;
+  margin-bottom: 0rem;
+  flex-direction: row;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  align-items: center;
+  align-self: stretch;
+  grid-auto-columns: 1fr;
+  grid-column-gap: var(--gap--s);
+  grid-row-gap: var(--gap--s);
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+
+  font-size: var(--_typography---size--r3);
+}
+
+.icn {
+  align-self: center;
+  font-family: var(--_typography---icn1);
+  user-select: none;
+}
+
+.icn:where(.w-variant-653f4018-5d0f-4f2a-2632-b29947684b8a) {
+  color: var(--color--n900);
+}
+
+.icn:where(.w-variant-ac72e2ca-07ab-27bd-9032-4d5ed6647831) {
+  color: var(--color--n700);
+}
+
+.icn:where(.w-variant-3e6a32c5-faae-179b-cc67-652ec72e9a58) {
+  color: var(--color--n500);
+}
+
+.icn:where(.w-variant-9011924e-3338-cfb0-b095-266af5ddedf4) {
+  color: var(--color--n300);
+}
+
+.icn:where(.w-variant-68f36dda-8f0e-4a75-3818-6d813fa02e5d) {
+  color: var(--color--n200);
+}
+
+.icn:where(.w-variant-52667a87-7047-c539-8498-2aeebb437d68) {
+  color: var(--color--n100);
+}
+
+.icn:where(.w-variant-c7e03f2d-d7af-0bea-627e-f88f41b13f9f) {
+  color: var(--color--n000);
+}
+
+.icn:where(.w-variant-87402f36-25fd-7410-7069-6cb471ac4740) {
+  color: var(--color--p500);
+}
+
+.icn:where(.w-variant-a58216d7-f0dc-4094-117c-7c18780c2267) {
+  color: var(--color--f500);
+}
+
+.icn:where(.w-variant-11525bda-4e4a-18c8-4ae3-31d9c737d617) {
+  color: var(--color--fd500);
+}
+
+.icn:where(.w-variant-bb63e74c-85e3-032b-2d13-6489c16ee8f2) {
+  color: var(--color--fs500);
+}
+
+.icn:where(.w-variant-3ee8bbdd-cb50-71bf-714b-9fdb8bb7485d) {
+  color: var(--color--fw500);
+}
+
+.icn:where(.w-variant-9c252a2d-932d-2c6e-6ccf-d7cbd9a7d1c5) {
+  color: inherit;
+}
+
+.icn:where(.w-variant-caef1363-eb6a-81c2-aebd-27f22526a58a) {
+  color: inherit;
+}
+
+.icn:where(.w-variant-70858a83-692e-574d-286a-165590eca9b3) {
+  color: inherit;
+}
+
+.icn:where(.w-variant-a506c360-5428-5644-9bc2-fb0070bc85cb) {
+  color: inherit;
+}
+
+.icn:where(.w-variant-ac25b967-fad2-15d9-b8b3-b8cf2ed85fb8) {
+  color: inherit;
+}
+
+.icn:where(.w-variant-a49820aa-f2cf-527c-5ee9-9e7d454151e8) {
+  color: inherit;
+}
+
+.icn:where(.w-variant-6712bb44-a3e6-a023-5f8d-aedf00d7d5c4) {
+  color: inherit;
+}
+
+.icn:where(.w-variant-d838dd92-fb1e-55f2-eaf3-89cde4361fbd) {
+  color: inherit;
+}
+
+.txt {
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  align-items: center;
+  white-space: nowrap;
+  user-select: none;
+}

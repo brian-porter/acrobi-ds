@@ -1,0 +1,143 @@
+.a-footer-pad {
+  padding-right: 5%;
+  padding-left: 5%;
+}
+
+@media screen and (max-width: 991px) {
+  .a-footer-pad {
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+}
+
+.a-footer-contain {
+  width: 100%;
+  max-width: 1440px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.a-footer-sec-pad {
+  padding-top: 5rem;
+  padding-bottom: 4rem;
+}
+
+@media screen and (max-width: 991px) {
+  .a-footer-sec-pad {
+    padding-top: 3rem;
+    padding-bottom: 1rem;
+  }
+}
+
+.a-footer-nav {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.a-footer-link {
+  padding: 8px 16px;
+}
+
+.a-footer-link:hover {
+  text-decoration: underline;
+}
+
+.label-6 {
+  display: flex;
+  align-items: center;
+  flex: 0 auto;
+
+  color: var(--color--n700);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.icn-13 {
+  line-height: 1;
+  font-style: normal;
+}
+
+.txt-8 {
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.u-sp48 {
+  height: 48px;
+}
+
+.a-div {
+  width: 100%;
+  height: 1px;
+  background-color: #c4c4c4;
+}
+
+.a-footer-disclaim {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  grid-auto-columns: 1fr;
+  grid-column-gap: 16px;
+  grid-row-gap: 16px;
+  grid-template-columns: 0.25fr 0.5fr 0.25fr;
+  grid-template-rows: auto;
+}
+
+@media screen and (max-width: 991px) {
+  .a-footer-disclaim {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap-reverse;
+  }
+}
+
+.a-footer-dis {
+  display: flex;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+
+  color: #9a9a9a;
+}
+
+.html-embed-2 {
+  display: none;
+}
+
+.a-footer-tos {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.a-disclaim-link {
+  display: flex;
+  padding: 8px 16px;
+  color: #6d6d6d;
+}
+
+.a-disclaim-link:hover {
+  text-decoration: underline;
+}
+
+.a-footer-social {
+  display: none;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.a-footer-social-link {
+  display: flex;
+  padding: 16px;
+  align-items: center;
+  color: #6d6d6d;
+  text-decoration: none;
+}
+
+.a-icon-social {
+  width: 1.5rem;
+  height: 1.5rem;
+}

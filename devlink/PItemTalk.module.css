@@ -1,0 +1,108 @@
+.page_wrap {
+  position: relative;
+  z-index: 0;
+
+  display: flex;
+  overflow: clip;
+  min-height: 100svh;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+
+.page_main {
+  display: flex;
+  width: 100%;
+  max-width: 1440px;
+  margin-bottom: 124px;
+  padding-top: 16px;
+  padding-right: 16px;
+  padding-left: 16px;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  flex: 1;
+}
+
+@media screen and (max-width: 991px) {
+  .page_main {
+    max-width: 991px;
+    padding-top: 0px;
+    padding-right: 0px;
+    padding-left: 0px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .page_main {
+    margin-bottom: 116px;
+  }
+}
+
+.qs-60-40 {
+  padding: 0px;
+  grid-column-gap: 16px;
+  grid-row-gap: 16px;
+}
+
+@media screen and (max-width: 991px) {
+  .qs-60-40 {
+    padding-top: 16px;
+    grid-column-gap: 8px;
+    grid-row-gap: 8px;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .qs-60-40.cc-top {
+    padding-top: 0px;
+  }
+}
+
+#w-node-_81cab9ff-66f0-16e4-84ee-b0d69a315e26-822586b4 {
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: auto auto;
+}
+#w-node-_81cab9ff-66f0-16e4-84ee-b0d69a315e27-822586b4 {
+  grid-column-start: span 7;
+  grid-column-end: span 7;
+}
+#w-node-_81cab9ff-66f0-16e4-84ee-b0d69a315e2f-822586b4 {
+  grid-column-start: span 5;
+  grid-column-end: span 5;
+}
+#w-node-_81cab9ff-66f0-16e4-84ee-b0d69a315e38-822586b4 {
+  grid-column-start: span 7;
+  grid-column-end: span 7;
+}
+#w-node-_81cab9ff-66f0-16e4-84ee-b0d69a315e3e-822586b4 {
+  grid-column-start: span 5;
+  grid-column-end: span 5;
+}
+@media screen and (max-width: 991px) {
+  #w-node-_81cab9ff-66f0-16e4-84ee-b0d69a315e27-822586b4 {
+    grid-column-start: span 7;
+    grid-column-end: span 7;
+  }
+  #w-node-_81cab9ff-66f0-16e4-84ee-b0d69a315e2f-822586b4 {
+    grid-column-start: span 5;
+    grid-column-end: span 5;
+  }
+}
+@media screen and (max-width: 767px) {
+  #w-node-_81cab9ff-66f0-16e4-84ee-b0d69a315e27-822586b4 {
+    grid-column-start: span 12;
+    grid-column-end: span 12;
+  }
+  #w-node-_81cab9ff-66f0-16e4-84ee-b0d69a315e2f-822586b4 {
+    grid-column-start: span 12;
+    grid-column-end: span 12;
+  }
+  #w-node-_81cab9ff-66f0-16e4-84ee-b0d69a315e38-822586b4 {
+    grid-column-start: span 12;
+    grid-column-end: span 12;
+  }
+  #w-node-_81cab9ff-66f0-16e4-84ee-b0d69a315e3e-822586b4 {
+    grid-column-start: span 12;
+    grid-column-end: span 12;
+  }
+}

@@ -1,0 +1,34 @@
+import * as React from "react";
+import * as Types from "./types";
+
+declare function CapStkPriceBadge(props: {
+  as?: React.ElementType;
+  amtBdg?: Types.Visibility.VisibilityConditions;
+  amtL?: React.ReactNode;
+  amtLSz?: Types.Builtin.Text;
+  amtLClr?: Types.Builtin.Text;
+  amtHigh?: Types.Visibility.VisibilityConditions;
+  amtH?: React.ReactNode;
+  amtHSz?: Types.Builtin.Text;
+  badges?: Types.Visibility.VisibilityConditions;
+  bdg1?: Types.Visibility.VisibilityConditions;
+  bdg2?: Types.Visibility.VisibilityConditions;
+  bdg3?: Types.Visibility.VisibilityConditions;
+  bdg1TxtSrc?: React.ReactNode;
+  bdg1IcnSrc?: React.ReactNode;
+  bdg2TxtSrc?: React.ReactNode;
+  bdg2IcnSrc?: React.ReactNode;
+  bdg3TxtSrc?: React.ReactNode;
+  bdg3IcnSrc?: React.ReactNode;
+  imgGrp?: Types.Visibility.VisibilityConditions;
+  imgGrpSz?: Types.Builtin.Text;
+  img2?: Types.Visibility.VisibilityConditions;
+  img3?: Types.Visibility.VisibilityConditions;
+  img4?: Types.Visibility.VisibilityConditions;
+  img5?: Types.Visibility.VisibilityConditions;
+  img1Src?: Types.Asset.Image;
+  img2Src?: Types.Asset.Image;
+  img3Src?: Types.Asset.Image;
+  img4Src?: Types.Asset.Image;
+  img5Src?: Types.Asset.Image;
+}): React.JSX.Element;

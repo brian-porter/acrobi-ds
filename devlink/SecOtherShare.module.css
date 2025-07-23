@@ -1,0 +1,26 @@
+.bar-share-types {
+  display: flex;
+  overflow: hidden;
+  width: 100%;
+  align-self: flex-start;
+  flex: 0 0 auto;
+}
+
+.u-bar-ss {
+  display: flex;
+  overflow: auto;
+  margin-bottom: -20px;
+  padding-right: 16px;
+  padding-bottom: 20px;
+  padding-left: 16px;
+  flex: 0 0 auto;
+  grid-column-gap: 16px;
+  grid-row-gap: 16px;
+}
+
+@media screen and (max-width: 991px) {
+  .u-bar-ss {
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+}

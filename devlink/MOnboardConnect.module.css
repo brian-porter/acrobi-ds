@@ -1,0 +1,117 @@
+.onboarding {
+  position: relative;
+  display: flex;
+  width: 700px;
+  height: 600px;
+  margin-bottom: 0px;
+}
+
+@media screen and (max-width: 767px) {
+  .onboarding {
+    width: 100svw;
+    height: 100svh;
+  }
+}
+
+.dialog-wrap {
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  right: 0%;
+  bottom: 0%;
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+
+  background-color: var(--color--n000);
+}
+
+@media screen and (max-width: 767px) {
+  .dialog-wrap {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    flex: 1;
+  }
+}
+
+.dialog_prev-btn {
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  right: auto;
+  bottom: auto;
+  z-index: 1000001;
+
+  padding: 16px;
+
+  cursor: pointer;
+}
+
+.dialog-main {
+  width: 350px;
+  margin: 16px;
+  align-self: flex-end;
+}
+
+@media screen and (max-width: 767px) {
+  .dialog-main {
+    position: absolute;
+    left: 0%;
+    top: auto;
+    right: 0%;
+    bottom: 0%;
+    z-index: 10;
+
+    width: 100%;
+    margin: 0px;
+  }
+}
+
+.fg-dock-btm {
+  position: relative;
+  z-index: 10;
+
+  display: flex;
+  margin-bottom: 0px;
+  padding-bottom: 40px;
+  flex-direction: column;
+  justify-content: flex-end;
+  flex-wrap: nowrap;
+
+  border-top: 1px solid var(--color--n000);
+  border-top-left-radius: 32px;
+  border-top-right-radius: 32px;
+
+  background-color: var(--color--n000);
+}
+
+@media screen and (max-width: 767px) {
+  .fg-dock-btm {
+    background-color: #ffffff80;
+  }
+}
+
+.dialog-hero {
+  width: 350px;
+  aspect-ratio: 9/16;
+}
+
+@media screen and (max-width: 767px) {
+  .dialog-hero {
+    position: absolute;
+    left: 0%;
+    top: 0%;
+    right: 0%;
+    bottom: 0%;
+
+    width: 100%;
+    height: 100svh;
+  }
+}
+
+@media screen and (max-width: 479px) {
+  .dialog-hero {
+    height: 100svh;
+  }
+}

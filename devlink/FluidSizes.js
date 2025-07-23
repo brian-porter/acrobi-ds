@@ -1,0 +1,10 @@
+"use client";
+import React from "react";
+import * as _Builtin from "./_Builtin";
+
+export function FluidSizes({
+  as: _Component = _Builtin.DOM,
+  fluidCode = ":root {--site--margin: clamp(1rem, 0.42857142857142855rem + 2.857142857142857vw, 3rem);--size--2rem: clamp(1.75rem, 1.6785714285714286rem + 0.35714285714285715vw, 2rem);--size--2-5rem: clamp(2rem, 1.8571428571428572rem + 0.7142857142857143vw, 2.5rem);--size--3rem: clamp(2.25rem, 2.0357142857142856rem + 1.0714285714285714vw, 3rem);--size--3-5rem: clamp(2.375rem, 2.0535714285714284rem + 1.607142857142857vw, 3.5rem);--size--4rem: clamp(2.5rem, 2.0714285714285716rem + 2.142857142857143vw, 4rem);--size--4-5rem: clamp(2.75rem, 2.25rem + 2.5vw, 4.5rem);--size--5rem: clamp(3rem, 2.4285714285714284rem + 2.857142857142857vw, 5rem);--size--5-5rem: clamp(3.25rem, 2.607142857142857rem + 3.214285714285714vw, 5.5rem);--size--6rem: clamp(3.5rem, 2.7857142857142856rem + 3.571428571428571vw, 6rem);--size--6-5rem: clamp(3.75rem, 2.9642857142857144rem + 3.9285714285714284vw, 6.5rem);--size--7rem: clamp(4rem, 3.142857142857143rem + 4.285714285714286vw, 7rem);--size--7-5rem: clamp(4.25rem, 3.3214285714285716rem + 4.642857142857143vw, 7.5rem);--size--8rem: clamp(4.5rem, 3.5rem + 5vw, 8rem);--size--8-5rem: clamp(4.75rem, 3.6785714285714284rem + 5.357142857142857vw, 8.5rem);--size--9rem: clamp(5rem, 3.857142857142857rem + 5.714285714285714vw, 9rem);--size--9-5rem: clamp(5.25rem, 4.035714285714286rem + 6.071428571428571vw, 9.5rem);--size--10rem: clamp(5.5rem, 4.214285714285714rem + 6.428571428571428vw, 10rem);--size--11rem: clamp(5.75rem, 4.25rem + 7.5vw, 11rem);--size--12rem: clamp(6rem, 4.285714285714286rem + 8.571428571428571vw, 12rem);--size--13rem: clamp(6.5rem, 4.642857142857143rem + 9.285714285714286vw, 13rem);--size--14rem: clamp(7rem, 5rem + 10vw, 14rem);--size--15rem: clamp(7.5rem, 5.357142857142857rem + 10.714285714285714vw, 15rem);--size--16rem: clamp(8rem, 5.714285714285714rem + 11.428571428571429vw, 16rem);}",
+}) {
+  return <_Component tag="style">{fluidCode}</_Component>;
+}

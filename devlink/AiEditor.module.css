@@ -1,0 +1,113 @@
+.ai-form {
+  margin-bottom: 0px;
+  flex: 1;
+}
+
+.ai-sheet-grab {
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  right: 0%;
+  bottom: auto;
+
+  display: flex;
+  height: 100%;
+  padding-top: 3px;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.grab-bar {
+  width: 80px;
+  height: 2px;
+  border-radius: 4px;
+  background-color: var(--color--n200);
+}
+
+.ai-output {
+  align-items: center;
+}
+
+.field-out {
+  position: relative;
+
+  display: flex;
+  overflow: hidden;
+  height: 100%;
+  min-height: 56px;
+  margin-bottom: 0px;
+  flex-direction: row;
+  flex: 1;
+
+  border: 1px solid var(--n200-32c117f2);
+  border-radius: 8px;
+
+  background-color: var(--n000White-0065a3d9);
+
+  color: var(--n900-8b5806af);
+  text-align: left;
+}
+
+.fo-col {
+  display: flex;
+  width: 48px;
+  height: 100%;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  flex-direction: column;
+
+  background-color: var(--n100-f16457a0);
+}
+
+.fo-stage {
+  display: flex;
+  height: 100%;
+  padding-top: 14px;
+  padding-right: 8px;
+  padding-left: 8px;
+  flex-direction: column;
+  flex: 1;
+}
+
+.output-txt {
+  line-height: 1.35;
+}
+
+.ai-input {
+  align-items: center;
+}
+
+.ai-input.cc-btn-leadtrail {
+  position: relative;
+
+  display: flex;
+  padding-top: 8px;
+  justify-content: flex-start;
+  align-items: flex-end;
+  grid-column-gap: 4px;
+  grid-row-gap: 4px;
+}
+
+.fi-col {
+  position: relative;
+  display: flex;
+  width: 48px;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.fi-txtarea {
+  position: relative;
+
+  margin-bottom: 0px;
+  flex-direction: column;
+  flex: 1;
+  grid-column-gap: 4px;
+  grid-row-gap: 4px;
+
+  background-color: var(--n000White-0065a3d9);
+
+  color: var(--n900-8b5806af);
+  text-align: left;
+}

@@ -1,0 +1,23 @@
+.g_section_space {
+  height: var(--_spacing---section--none);
+}
+
+.g_section_space:where(.w-variant-00843078-7ce6-b975-abf9-1014d965425a) {
+  height: var(--site--margin);
+}
+
+.g_section_space:where(.w-variant-bb6c054c-397c-2aa5-6897-4672b5c32300) {
+  height: var(--_spacing---section--small);
+}
+
+.g_section_space:where(.w-variant-c8734953-ec55-5423-0c1e-d1977af733f2) {
+  height: var(--_spacing---section--main);
+}
+
+.g_section_space:where(.w-variant-40f51d7c-3e5a-6629-c2f8-67d0bc1d21a1) {
+  height: var(--_spacing---section--large);
+}
+
+.g_section_space:where(.w-variant-80e0edf9-8fd0-8268-a3ab-ea1edb4439c3) {
+  height: var(--_spacing---section--page-top);
+}

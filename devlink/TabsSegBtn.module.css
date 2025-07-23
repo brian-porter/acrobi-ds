@@ -1,0 +1,54 @@
+.segbtns {
+  width: 100%;
+  flex-direction: column;
+  flex: 1;
+}
+
+.segbtn_menu {
+  display: flex;
+  overflow: hidden;
+  height: var(--_c---segbtn--height);
+  flex: 1;
+
+  border: 1px solid var(--_c---segbtn--bdr);
+  border-radius: var(--_c---segbtn--radius);
+}
+
+.segbtn_menu:hover {
+  border-color: var(--_c---segbtn--bdr-hover);
+}
+
+.segbtn {
+  position: relative;
+
+  display: flex;
+  justify-content: center;
+  flex: 1;
+
+  border-left: 1px solid var(--_c---segbtn--bdr);
+
+  background-color: var(--color--t000);
+
+  color: var(--_c---segbtn--txt);
+}
+
+.segbtn:hover {
+  border-left-color: var(--_c---segbtn--bdr-hover);
+  background-color: var(--_c---segbtn--bg-hover);
+  color: var(--_c---segbtn--txt-hover);
+}
+
+.segbtn:global(.w--current) {
+  flex: 1;
+}
+
+.seg-detail {
+  width: 100%;
+}
+
+@media screen and (max-width: 991px) {
+  .seg-detail {
+    padding-right: 0px;
+    padding-left: 0px;
+  }
+}

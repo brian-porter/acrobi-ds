@@ -1,0 +1,28 @@
+.ts-none {
+  color: inherit;
+}
+
+.ts-none:where(.w-variant-94a7755d-3b97-b01a-7d5f-525969586123) {
+  text-shadow: 0 -1px 1px var(--n0001), 1px 1px 2px var(--n0003), 1px 2px 4px var(--n0001), 2px 2px 4px var(--n0001);
+  color: inherit;
+}
+
+.ts-none:where(.w-variant-86dce184-bf08-99ee-cea2-df3561b4cca9) {
+  text-shadow: 0 -1px 2px var(--n0001), 1px 1px 2px var(--n0004), 2px 2px 4px var(--n0002), 2px 4px 6px var(--n9991);
+  color: inherit;
+}
+
+.ts-none:where(.w-variant-d8d65c7f-47b2-6036-613b-0b07739e8fb3) {
+  text-shadow: 0 -1px 2px var(--n0002), 1px 1px 2px var(--n0003), 1px 2px 4px var(--n0002), 1px 4px 8px var(--n0001), 1px 7px 8px var(--n0002);
+  color: inherit;
+}
+
+.ts-none:where(.w-variant-729c33b2-e431-f006-fc96-b3509fcb4c04) {
+  text-shadow: 0 -1px 0px var(--n0002), 1px 1px 2px var(--n0003), 2px 5px 9px var(--n0003), 2px 6px 8px var(--n0003), 2px 7px 15px var(--n0003);
+  color: inherit;
+}
+
+.ts-none:where(.w-variant-5ee5bed1-3611-233d-7d06-a4d645bc832d) {
+  text-shadow: 0 -1px 2px var(--n0003), 1px 1px 3px var(--n0004), 2px 7px 10px var(--n0004), 3px 8px 12px var(--n0002), 5px 10px 16px var(--n0002), 7px 15px 20px var(--n0004);
+  color: inherit;
+}

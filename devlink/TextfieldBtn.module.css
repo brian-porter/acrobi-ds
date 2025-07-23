@@ -1,0 +1,20 @@
+.field-btn {
+  position: absolute;
+  left: auto;
+  top: 0%;
+  right: 0%;
+  bottom: 0%;
+
+  display: flex;
+  min-height: 36px;
+  min-width: 48px;
+  padding-left: 16px;
+  justify-content: center;
+  align-items: center;
+
+  color: var(--color--n500);
+}
+
+.field-btn:hover {
+  color: var(--color--n900);
+}

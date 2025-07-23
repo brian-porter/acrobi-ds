@@ -1,0 +1,146 @@
+.c-media-item {
+  position: relative;
+  display: flex;
+}
+
+.post-contain {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  flex: 1;
+}
+
+.empty-visual {
+  flex-direction: column;
+  align-self: stretch;
+  color: var(--color--p500);
+}
+
+@media screen and (max-width: 479px) {
+  .empty-visual {
+    padding-top: 16px;
+  }
+}
+
+.post-img-wrap {
+  position: relative;
+
+  overflow: hidden;
+  width: 100%;
+  flex: 1;
+  aspect-ratio: 16/9;
+
+  border-radius: 8px;
+
+  background-color: var(--color--n200);
+}
+
+@media screen and (max-width: 479px) {
+  .post-img-wrap {
+    border-radius: 4px;
+  }
+}
+
+.ol-length-br {
+  position: absolute;
+  left: auto;
+  top: auto;
+  right: 0%;
+  bottom: 0%;
+
+  display: flex;
+  padding: 4px;
+
+  border-top-left-radius: 4px;
+
+  background-color: var(--n999Black-53d573b6);
+
+  color: var(--n000White-0065a3d9);
+}
+
+.post-caption {
+  position: relative;
+
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  align-self: stretch;
+  flex: 1;
+}
+
+.post-stack {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  flex: 1;
+}
+
+@media screen and (max-width: 479px) {
+  .post-stack {
+    padding-top: 4px;
+  }
+}
+
+.post-desc {
+  padding-top: 8px;
+  padding-right: 40px;
+  padding-bottom: 2px;
+
+  color: var(--color--n900);
+  font-size: 0.75rem;
+  line-height: 1.2;
+}
+
+.postsubtxt {
+  justify-content: center;
+  align-items: center;
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+
+  color: var(--color--n700);
+  font-size: 0.875rem;
+  line-height: 1.25;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.post-aside {
+  position: absolute;
+  left: auto;
+  top: 0%;
+  right: 0%;
+  bottom: auto;
+
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  align-self: stretch;
+}
+
+@media screen and (max-width: 479px) {
+  .post-aside {
+    padding-bottom: 12px;
+    justify-content: space-between;
+  }
+}
+
+.post-time {
+  display: flex;
+  height: 100%;
+  min-height: 24px;
+  min-width: 36px;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+}
+
+.atrb-time {
+  color: var(--n500-65f33ecd);
+  font-size: 0.75rem;
+  line-height: 1.2;
+}

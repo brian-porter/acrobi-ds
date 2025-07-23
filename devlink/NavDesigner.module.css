@@ -1,0 +1,60 @@
+.g-dsg-nav {
+  width: 100%;
+}
+
+.dsgnav-base {
+  overflow: hidden;
+  min-height: 48px;
+  flex-direction: row;
+  align-items: stretch;
+  align-self: flex-start;
+}
+
+.toolbar-ss {
+  display: flex;
+  overflow: auto;
+  margin-bottom: -20px;
+  padding-right: 8px;
+  padding-bottom: 20px;
+  flex: 0 0 auto;
+}
+
+.dsgnav-adj {
+  overflow: hidden;
+  min-height: 48px;
+  flex-direction: row;
+  align-items: stretch;
+  align-self: flex-start;
+}
+
+.dsgnav-style {
+  overflow: hidden;
+  min-height: 48px;
+  flex-direction: row;
+  align-items: stretch;
+  align-self: flex-start;
+}
+
+.dsgnav-alter {
+  overflow: hidden;
+  min-height: 48px;
+  flex-direction: row;
+  align-items: stretch;
+  align-self: flex-start;
+}
+
+.dsgnav-trim {
+  overflow: hidden;
+  min-height: 48px;
+  flex-direction: row;
+  align-items: stretch;
+  align-self: flex-start;
+}
+
+.dsgnav-orn {
+  overflow: hidden;
+  min-height: 48px;
+  flex-direction: row;
+  align-items: stretch;
+  align-self: flex-start;
+}

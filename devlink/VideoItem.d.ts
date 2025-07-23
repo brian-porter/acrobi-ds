@@ -1,0 +1,31 @@
+import * as React from "react";
+import * as Types from "./types";
+
+declare function VideoItem(props: {
+  as?: React.ElementType;
+  videoItem?: Types.Visibility.VisibilityConditions;
+  type?: Types.Builtin.Text;
+  cellSz?: Types.Builtin.Text;
+  rank?: Types.Visibility.VisibilityConditions;
+  rankMoreClick?: Types.Devlink.RuntimeProps;
+  gttrBdg?: Types.Visibility.VisibilityConditions;
+  gttrPin?: Types.Visibility.VisibilityConditions;
+  gttrAlarm?: Types.Visibility.VisibilityConditions;
+  gttrBookmark?: Types.Visibility.VisibilityConditions;
+  moreClick?: Types.Devlink.RuntimeProps;
+  postImg?: Types.Asset.Image;
+  postImgAlt?: Types.Basic.AltText;
+  postLength?: React.ReactNode;
+  postImgClick?: Types.Devlink.RuntimeProps;
+  bodySrc?: React.ReactNode;
+  bodyLc?: Types.Builtin.Text;
+  atrb?: Types.Visibility.VisibilityConditions;
+  atrbAvtr?: Types.Asset.Image;
+  atrbAvtrAlt?: Types.Basic.AltText;
+  atrbName?: React.ReactNode;
+  atrbBdg?: Types.Visibility.VisibilityConditions;
+  atrbStat1TxtSrc?: React.ReactNode;
+  atrbClick?: Types.Devlink.RuntimeProps;
+  atrbTime?: Types.Visibility.VisibilityConditions;
+  atrbTimeSrc?: React.ReactNode;
+}): React.JSX.Element;

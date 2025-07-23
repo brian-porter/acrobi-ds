@@ -1,0 +1,6 @@
+.example-ss {
+  display: flex;
+  padding-left: 16px;
+  grid-column-gap: 16px;
+  grid-row-gap: 16px;
+}

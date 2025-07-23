@@ -1,0 +1,33 @@
+import * as React from "react";
+import * as Types from "./types";
+
+declare function Tabs(props: {
+  as?: React.ElementType;
+  tabMap?: Types.Devlink.Slot;
+  tabUline?: Types.Builtin.Text;
+  tab1Txt?: Types.Visibility.VisibilityConditions;
+  tab1Icn?: Types.Visibility.VisibilityConditions;
+  tab1TxtSrc?: React.ReactNode;
+  tab1IcnSrc?: React.ReactNode;
+  tab2Txt?: Types.Visibility.VisibilityConditions;
+  tab2Icn?: Types.Visibility.VisibilityConditions;
+  tab2TxtSrc?: React.ReactNode;
+  tab2IcnSrc?: React.ReactNode;
+  tab3Txt?: Types.Visibility.VisibilityConditions;
+  tab3Icn?: Types.Visibility.VisibilityConditions;
+  tab3TxtSrc?: React.ReactNode;
+  tab3IcnSrc?: React.ReactNode;
+  tab4Txt?: Types.Visibility.VisibilityConditions;
+  tab4Icn?: Types.Visibility.VisibilityConditions;
+  tab4TxtSrc?: React.ReactNode;
+  tab4IcnSrc?: React.ReactNode;
+  tab5Txt?: Types.Visibility.VisibilityConditions;
+  tab5Icn?: Types.Visibility.VisibilityConditions;
+  tab5TxtSrc?: React.ReactNode;
+  tab5IcnSrc?: React.ReactNode;
+  tab6Txt?: Types.Visibility.VisibilityConditions;
+  tab6Icn?: Types.Visibility.VisibilityConditions;
+  tab6TxtSrc?: React.ReactNode;
+  tab6IcnSrc?: React.ReactNode;
+  tabContMap?: Types.Devlink.Slot;
+}): React.JSX.Element;

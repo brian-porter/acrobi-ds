@@ -1,0 +1,7 @@
+.adpt_wrap {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--color--t000);
+}

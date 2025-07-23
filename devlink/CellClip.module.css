@@ -1,0 +1,35 @@
+.clip-cell {
+  position: relative;
+
+  display: flex;
+  overflow: hidden;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  flex: 0 0 auto;
+}
+
+.cell-select {
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  right: 0%;
+  bottom: 0%;
+  z-index: 2;
+
+  justify-content: center;
+  align-items: center;
+
+  border: 2px solid var(--p500-741eaba2);
+  border-radius: 8px;
+}
+
+.cell-caption-h {
+  width: 100%;
+  padding-right: 10px;
+  padding-left: 8px;
+  align-self: center;
+  flex: 1;
+}

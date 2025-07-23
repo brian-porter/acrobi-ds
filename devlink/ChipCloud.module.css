@@ -1,0 +1,8 @@
+.chip_cloud {
+  display: flex;
+  padding: 8px 16px 16px;
+  flex-direction: row;
+  flex-wrap: wrap;
+  grid-column-gap: 8px;
+  grid-row-gap: 0px;
+}

@@ -1,0 +1,35 @@
+import * as React from "react";
+import * as Types from "./types";
+
+declare function SecPosts(props: {
+  as?: React.ElementType;
+  secHeadTitleIcn?: Types.Visibility.VisibilityConditions;
+  secHeadAct1?: Types.Visibility.VisibilityConditions;
+  secHeadTitleIcnSrc?: React.ReactNode;
+  secHeadTitleSrc?: React.ReactNode;
+  secHeadAct1TxtSrc?: React.ReactNode;
+  secHeadAct1Click?: Types.Devlink.RuntimeProps;
+  conSideFade?: Types.Visibility.VisibilityConditions;
+  conCellMap?: Types.Devlink.Slot;
+  conExampleCellPastPost?: Types.Visibility.VisibilityConditions;
+  exampleVizSrc?: Types.Asset.Image;
+  exampleVizAlt?: Types.Basic.AltText;
+  exampleTitleSrc?: React.ReactNode;
+  exampleCellClick?: Types.Devlink.RuntimeProps;
+  stat1Src?: React.ReactNode;
+  stat2Src?: React.ReactNode;
+  stat3Src?: React.ReactNode;
+  stat4Src?: React.ReactNode;
+  sec?: Types.Visibility.VisibilityConditions;
+  secHead?: Types.Visibility.VisibilityConditions;
+  stat2?: Types.Visibility.VisibilityConditions;
+  stat3?: Types.Visibility.VisibilityConditions;
+  stat4?: Types.Visibility.VisibilityConditions;
+  stats?: Types.Visibility.VisibilityConditions;
+  emptyEmpty?: Types.Visibility.VisibilityConditions;
+  emptyEmptyIcnSrc?: React.ReactNode;
+  emptyEmptyHlineSrc?: React.ReactNode;
+  emptyEmptySubTxtSrc?: React.ReactNode;
+  emptyEmptyCtaTxtSrc?: React.ReactNode;
+  emptyEmptyClick?: Types.Devlink.RuntimeProps;
+}): React.JSX.Element;

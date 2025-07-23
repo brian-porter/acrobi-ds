@@ -1,0 +1,35 @@
+import * as React from "react";
+import * as Types from "./types";
+
+declare function PostAtrbItem(props: {
+  as?: React.ElementType;
+  atrb?: Types.Visibility.VisibilityConditions;
+  atrbAvtr2?: Types.Visibility.VisibilityConditions;
+  atrbAvtr3?: Types.Visibility.VisibilityConditions;
+  atrbAvtr4?: Types.Visibility.VisibilityConditions;
+  atrbAvtr5?: Types.Visibility.VisibilityConditions;
+  atrbName?: Types.Visibility.VisibilityConditions;
+  atrbNameSrc?: React.ReactNode;
+  atrbAvtrSrc?: Types.Asset.Image;
+  atrbAvtrAlt?: Types.Basic.AltText;
+  atrbAvtr2Src?: Types.Asset.Image;
+  atrbAvtr2Alt?: Types.Basic.AltText;
+  atrbAvtr3Src?: Types.Asset.Image;
+  atrbAvtr3Alt?: Types.Basic.AltText;
+  atrbAvtr4Src?: Types.Asset.Image;
+  atrbAvtr4Alt?: Types.Basic.AltText;
+  atrbAvtr5Src?: Types.Asset.Image;
+  atrbAvtr5Alt?: Types.Basic.AltText;
+  atrbClick?: Types.Devlink.RuntimeProps;
+  atrbBdg?: Types.Visibility.VisibilityConditions;
+  atrbBdg1?: Types.Visibility.VisibilityConditions;
+  atrbBdg1Icn?: Types.Visibility.VisibilityConditions;
+  atrbBdg1TxtSrc?: React.ReactNode;
+  atrbBdg1IcnSrc?: React.ReactNode;
+  atrbBdg2?: Types.Visibility.VisibilityConditions;
+  atrbBdg2Icn?: Types.Visibility.VisibilityConditions;
+  atrbBdg2TxtSrc?: React.ReactNode;
+  atrbBdg2IcnSrc?: React.ReactNode;
+  atrbTime?: Types.Visibility.VisibilityConditions;
+  atrbTimeSrc?: React.ReactNode;
+}): React.JSX.Element;

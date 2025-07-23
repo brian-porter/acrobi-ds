@@ -1,0 +1,39 @@
+.btn_main_wrap {
+  position: relative;
+
+  display: inline-flex;
+  padding: 0.75rem 1.5rem;
+  justify-content: center;
+  align-items: center;
+
+  border: var(--border-width--main) solid var(--_button---border);
+  border-radius: var(--radius--br3);
+
+  background-color: var(--_button---background);
+
+  transition: border-color 200ms ease,color 200ms ease,background-color 200ms ease;
+
+  color: var(--_button---text);
+  line-height: 1;
+  text-align: center;
+
+  vertical-align: middle;
+
+  ---mode--collection-62997c52-f0f2-af96-56fc-2d3a55e17001: base;
+}
+
+.btn_main_wrap:where(.w-variant-b9d747e3-ad23-da0b-f202-a2c2154cba6f) {
+  ---mode--collection-62997c52-f0f2-af96-56fc-2d3a55e17001: mode-69e08b9a-5983-b132-dab0-dd7c231577e3;
+}
+
+.btn_main_wrap:hover {
+  border-color: var(--_button---border-hover);
+  background-color: var(--_button---background-hover);
+  color: var(--_button---text-hover);
+}
+
+.btn_main_text {
+  position: relative;
+  z-index: 2;
+  line-height: inherit;
+}

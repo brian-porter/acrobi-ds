@@ -1,0 +1,38 @@
+import * as React from "react";
+import * as Types from "./types";
+
+declare function SnipSecFavs(props: {
+  as?: React.ElementType;
+  sec?: Types.Visibility.VisibilityConditions;
+  secHead?: Types.Visibility.VisibilityConditions;
+  secHeadTitleIcn?: Types.Visibility.VisibilityConditions;
+  secHeadAct1?: Types.Visibility.VisibilityConditions;
+  secHeadTitleIcnSrc?: React.ReactNode;
+  secHeadTitleSrc?: React.ReactNode;
+  secHeadAct1TxtSrc?: React.ReactNode;
+  secHeadAct1Click?: Types.Devlink.RuntimeProps;
+  conSideFade?: Types.Visibility.VisibilityConditions;
+  conFavProd?: Types.Visibility.VisibilityConditions;
+  conFavPlace?: Types.Visibility.VisibilityConditions;
+  conFavCreator?: Types.Visibility.VisibilityConditions;
+  conFavStore?: Types.Visibility.VisibilityConditions;
+  conFavBrand?: Types.Visibility.VisibilityConditions;
+  conFavProdQty?: React.ReactNode;
+  conFavPlaceQty?: React.ReactNode;
+  conFavCreatorQty?: React.ReactNode;
+  conFavStoreQty?: React.ReactNode;
+  conFavBrandQty?: React.ReactNode;
+  conFavProdClick?: Types.Devlink.RuntimeProps;
+  conFavPlaceClick?: Types.Devlink.RuntimeProps;
+  conFavCreatorClick?: Types.Devlink.RuntimeProps;
+  conFavStoreClick?: Types.Devlink.RuntimeProps;
+  conFavBrandClick?: Types.Devlink.RuntimeProps;
+  stats?: Types.Visibility.VisibilityConditions;
+  stat1Src?: React.ReactNode;
+  stat2Src?: React.ReactNode;
+  stat3Src?: React.ReactNode;
+  stat4Src?: React.ReactNode;
+  stat2?: Types.Visibility.VisibilityConditions;
+  stat3?: Types.Visibility.VisibilityConditions;
+  stat4?: Types.Visibility.VisibilityConditions;
+}): React.JSX.Element;

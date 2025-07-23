@@ -1,0 +1,16 @@
+.grp_main {
+  position: relative;
+  z-index: 0;
+
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  align-self: stretch;
+}
+
+@media screen and (max-width: 991px) {
+  .grp_main {
+    min-height: 56px;
+  }
+}

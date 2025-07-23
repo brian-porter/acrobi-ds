@@ -1,0 +1,35 @@
+import * as React from "react";
+import * as Types from "./types";
+
+declare function SliderForm(props: {
+  as?: React.ElementType;
+  fld?: Types.Visibility.VisibilityConditions;
+  lblTop?: Types.Visibility.VisibilityConditions;
+  lblTopLblSrc?: React.ReactNode;
+  lblTopLblFor?: Types.Builtin.Text;
+  fldHelp?: Types.Visibility.VisibilityConditions;
+  fieldSingleSlide?: Types.Visibility.VisibilityConditions;
+  fieldDualSlide?: Types.Visibility.VisibilityConditions;
+  fieldSliderMin?: Types.Builtin.Text;
+  fieldSliderMax?: Types.Builtin.Text;
+  fieldSliderStep?: Types.Builtin.Text;
+  fieldSliderValue?: Types.Builtin.Text;
+  fieldFillId?: Types.Builtin.Text;
+  fieldHandleId?: Types.Builtin.Text;
+  fieldTrackId?: Types.Builtin.Text;
+  fieldWrapperId?: Types.Builtin.Text;
+  fieldStart?: Types.Builtin.Text;
+  fieldStart2?: Types.Builtin.Text;
+  fldHelpHelpL?: Types.Visibility.VisibilityConditions;
+  fldHelpHelpR?: Types.Visibility.VisibilityConditions;
+  fldHelpHelpLSrc?: React.ReactNode;
+  fldHelpHelpRSrc?: React.ReactNode;
+  lblTopLblSz?: Types.Builtin.Text;
+  lblTopLblClr?: Types.Builtin.Text;
+  lblTopLblShdw?: Types.Builtin.Text;
+  lblTopOpt?: Types.Visibility.VisibilityConditions;
+  lblTopOptSrc?: React.ReactNode;
+  lblTopOptSz?: Types.Builtin.Text;
+  lblTopOptClr?: Types.Builtin.Text;
+  fieldValue?: Types.Builtin.Text;
+}): React.JSX.Element;

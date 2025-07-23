@@ -1,0 +1,35 @@
+import * as React from "react";
+import * as Types from "./types";
+
+declare function AvatarGroup(props: {
+  as?: React.ElementType;
+  avtrGrp?: Types.Visibility.VisibilityConditions;
+  avtr2?: Types.Visibility.VisibilityConditions;
+  avtr3?: Types.Visibility.VisibilityConditions;
+  avtr4?: Types.Visibility.VisibilityConditions;
+  avtr5?: Types.Visibility.VisibilityConditions;
+  avtrSz?: Types.Builtin.Text;
+  avtr1Src?: Types.Asset.Image;
+  avtr1Alt?: Types.Basic.AltText;
+  avtr1Shape?: Types.Builtin.Text;
+  grpShp?: Types.Builtin.Text;
+  avtr1Bdg?: Types.Visibility.VisibilityConditions;
+  avtr1BdgClr?: Types.Builtin.Text;
+  avtr1BdgSz?: Types.Builtin.Text;
+  avtr2Src?: Types.Asset.Image;
+  avtr2Alt?: Types.Basic.AltText;
+  avtr2Bdg?: Types.Visibility.VisibilityConditions;
+  avtr2BdgClr?: Types.Builtin.Text;
+  avtr3Src?: Types.Asset.Image;
+  avtr3Alt?: Types.Basic.AltText;
+  avtr3Bdg?: Types.Visibility.VisibilityConditions;
+  avtr3BdgClr?: Types.Builtin.Text;
+  avtr4Src?: Types.Asset.Image;
+  avtr4Alt?: Types.Basic.AltText;
+  avtr4Bdg?: Types.Visibility.VisibilityConditions;
+  avtr4BdgClr?: Types.Builtin.Text;
+  avtr5Src?: Types.Asset.Image;
+  avtr5Alt?: Types.Basic.AltText;
+  avtr5Bdg?: Types.Visibility.VisibilityConditions;
+  avtr5BdgClr?: Types.Builtin.Text;
+}): React.JSX.Element;

@@ -1,0 +1,27 @@
+.filter_choice {
+  display: flex;
+  width: 60%;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+
+  border-radius: 8px;
+
+  background-color: var(--color--n000);
+}
+
+.filter_range {
+  width: 100%;
+}
+
+.filter_choice-grid {
+  width: 100%;
+  padding: 8px 16px;
+  grid-column-gap: 8px;
+  grid-row-gap: 8px;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.show-more {
+  padding-left: 16px;
+}

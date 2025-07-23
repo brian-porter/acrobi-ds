@@ -1,0 +1,98 @@
+.spacer {
+  width: 0px;
+  height: 0px;
+}
+
+.spacer:where(.w-variant-68c5de7e-c2d3-c3f9-82ec-e1ad9e704f4d) {
+  width: var(--_spacing---80);
+  height: var(--_spacing---80);
+}
+
+.spacer:where(.w-variant-ffaf40be-b9d8-90f5-195e-0d7b30df881d) {
+  width: var(--_spacing---56);
+  height: var(--_spacing---56);
+}
+
+.spacer:where(.w-variant-ec88e1ae-7ba4-19e2-29e1-398f6e3e4dd6) {
+  width: var(--_spacing---8);
+  height: var(--_spacing---8);
+}
+
+.spacer:where(.w-variant-eae3a6a1-cc08-efe6-2dbf-c96623bc2e0b) {
+  width: var(--_spacing---24);
+  height: var(--_spacing---24);
+}
+
+.spacer:where(.w-variant-c639535a-4aa9-58e6-7ebb-87becf0069d2) {
+  width: var(--_spacing---32);
+  height: var(--_spacing---32);
+}
+
+.spacer:where(.w-variant-3605e632-9def-fc25-82f4-9fae9620c5de) {
+  width: var(--_spacing---40);
+  height: var(--_spacing---40);
+}
+
+.spacer:where(.w-variant-4029e4d7-cbab-b3c2-f3d7-6ce63ddaaf55) {
+  width: var(--_spacing---48);
+  height: var(--_spacing---48);
+}
+
+.spacer:where(.w-variant-8055e9df-2c07-2e01-f459-31e94e0e14fd) {
+  width: var(--_spacing---64);
+  height: var(--_spacing---64);
+}
+
+.spacer:where(.w-variant-d0cd7684-6318-7ac2-6dfd-16b63a40a486) {
+  width: var(--_spacing---16);
+  height: var(--_spacing---16);
+}
+
+.spacer:where(.w-variant-8366c044-9b9e-657e-3358-9054138598d6) {
+  width: var(--_spacing---80);
+  height: var(--_spacing---80);
+}
+
+.spacer:where(.w-variant-eebe72dd-fde8-94eb-2ed5-6da540893aa8) {
+  width: var(--_spacing---8);
+  height: var(--_spacing---8);
+}
+
+.spacer:where(.w-variant-10da6dc4-fb45-0010-edbf-a7904ecba2d7) {
+  width: var(--_spacing---16);
+  height: var(--_spacing---16);
+}
+
+.spacer:where(.w-variant-359dd8e9-a93e-936d-3c0c-948510ed60d8) {
+  width: var(--_spacing---24);
+  height: var(--_spacing---24);
+}
+
+.spacer:where(.w-variant-5794c7aa-d76b-b1ca-87e0-a2f83a75586b) {
+  width: var(--_spacing---32);
+  height: var(--_spacing---32);
+}
+
+.spacer:where(.w-variant-95ae253a-bd74-459a-bbd8-ba430361bd31) {
+  width: var(--_spacing---40);
+  height: var(--_spacing---40);
+}
+
+.spacer:where(.w-variant-32625d59-783a-b416-add1-6202dfbec895) {
+  width: var(--_spacing---48);
+  height: var(--_spacing---48);
+}
+
+.spacer:where(.w-variant-907b6a25-e302-af88-3916-7ec753b44551) {
+  width: var(--_spacing---56);
+  height: var(--_spacing---56);
+}
+
+.spacer:where(.w-variant-4860724b-7478-3845-1153-cedab3b410be) {
+  width: var(--_spacing---64);
+  height: var(--_spacing---64);
+}
+
+.spacer:where(.w-variant-8a5f6e5d-bbef-cc1c-68ce-3b59a32be1b7) {
+  height: var(--size--1px);
+}

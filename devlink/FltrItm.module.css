@@ -1,0 +1,22 @@
+.dropdown-toggle {
+  display: flex;
+  height: 36px;
+  padding: 6px 24px 6px 8px;
+  border: 1px solid var(--color--n200);
+  border-radius: 4px;
+}
+
+.icon {
+  margin-right: 6px;
+  color: var(--color--n9993);
+}
+
+.dropdown-list {
+  z-index: 5;
+}
+
+.dropdown-list:global(.w--open) {
+  border: 1px solid var(--color--n100);
+  border-radius: 4px;
+  background-color: var(--color--n000);
+}

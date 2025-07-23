@@ -1,0 +1,35 @@
+import * as React from "react";
+import * as Types from "./types";
+
+declare function TabsSegBtn(props: {
+  as?: React.ElementType;
+  segBtnClr?: Types.Builtin.Text;
+  btn1Txt?: Types.Visibility.VisibilityConditions;
+  btn1Icn?: Types.Visibility.VisibilityConditions;
+  btn1TxtSrc?: React.ReactNode;
+  btn1IcnSrc?: React.ReactNode;
+  btn2Txt?: Types.Visibility.VisibilityConditions;
+  btn2Icn?: Types.Visibility.VisibilityConditions;
+  btn2TxtSrc?: React.ReactNode;
+  btn2IcnSrc?: React.ReactNode;
+  segBtn3?: Types.Visibility.VisibilityConditions;
+  btn3Txt?: Types.Visibility.VisibilityConditions;
+  btn3Icn?: Types.Visibility.VisibilityConditions;
+  btn3TxtSrc?: React.ReactNode;
+  btn3IcnSrc?: React.ReactNode;
+  segBtn4?: Types.Visibility.VisibilityConditions;
+  btn4Txt?: Types.Visibility.VisibilityConditions;
+  btn4Icn?: Types.Visibility.VisibilityConditions;
+  btn4TxtSrc?: React.ReactNode;
+  btn4IcnSrc?: React.ReactNode;
+  segBtn5?: Types.Visibility.VisibilityConditions;
+  btn5Txt?: Types.Visibility.VisibilityConditions;
+  btn5Cn?: Types.Visibility.VisibilityConditions;
+  btn5TxtSrc?: React.ReactNode;
+  btn5IcnSrc?: React.ReactNode;
+  seg1Map?: Types.Devlink.Slot;
+  seg2Map?: Types.Devlink.Slot;
+  seg3Map?: Types.Devlink.Slot;
+  seg4Map?: Types.Devlink.Slot;
+  seg5Map?: Types.Devlink.Slot;
+}): React.JSX.Element;
