@@ -1,0 +1,57 @@
+{
+  "name": "acrobi-design-system",
+  "version": "0.1.0",
+  "description": "A comprehensive design system for building modern, theme-able web applications",
+  "private": true,
+  "scripts": {
+    "dev": "pnpm --filter ui dev",
+    "build": "pnpm --recursive --filter ui build && pnpm --recursive --filter cli build",
+    "test": "pnpm --recursive test",
+    "test:coverage": "pnpm --recursive test -- --coverage",
+    "lint": "pnpm --recursive lint",
+    "lint:fix": "pnpm --recursive lint:fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "type-check": "pnpm --recursive type-check",
+    "clean": "pnpm --recursive clean",
+    "changeset": "changeset",
+    "changeset:version": "changeset version",
+    "changeset:publish": "changeset publish",
+    "release": "pnpm build && pnpm changeset:publish",
+    "docs:dev": "cd packages/ui && npm run docs:dev",
+    "docs:build": "cd packages/ui && npm run docs:build",
+    "storybook:dev": "cd packages/ui && pnpm dev",
+    "storybook:build": "cd packages/ui && pnpm build-storybook",
+    "deploy:test": ".github/scripts/test-deployments.sh",
+    "deploy:docs": "echo '🚀 Triggering VitePress deployment...' && git add . && git commit -m 'docs: update documentation' && git push origin main",
+    "deploy:storybook": "echo '🚀 Triggering Storybook deployment...' && git add . && git commit -m 'feat: update components' && git push origin main",
+    "precommit": "pnpm lint && pnpm type-check && pnpm test",
+    "prepare": "husky install"
+  },
+  "keywords": [
+    "design-system",
+    "react",
+    "typescript",
+    "tailwind",
+    "components",
+    "ui",
+    "aae"
+  ],
+  "author": "Acrobi",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.38.0",
+    "@typescript-eslint/parser": "^8.38.0",
+    "eslint": "^8.0.0",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "prettier": "^3.0.0",
+    "typescript": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=9.0.0"
+  },
+  "packageManager": "pnpm@10.13.1"
+}

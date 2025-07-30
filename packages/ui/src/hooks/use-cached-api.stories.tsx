@@ -1,0 +1,819 @@
+/**
+ * @fileoverview Cached API Hook Stories for Epic 64
+ * Interactive demonstrations of stale-while-revalidate API caching
+ */
+
+import React, { useState, useEffect } from 'react';
+import type { Meta, StoryObj } from '@storybook/react';
+import { useCachedApi, CachedApiUtils } from './use-cached-api';
+
+const meta: Meta = {
+  title: "Hooks/useCachedApi',"
+  parameters: {
+    docs: {
+      description: {
+        component: 'Hook for API caching with stale-while-revalidate pattern. Provides offline-first data loading with background refresh using localStorage.'
+      }
+    }
+  }
+};
+
+export default meta;
+type Story = StoryObj;
+
+// Mock API data for demos
+const mockUsers = [
+  { id: 1, name: 'John Doe', email: 'john@example.com', role: 'Admin' },
+  { id: 2, name: 'Jane Smith', email: 'jane@example.com', role: 'User' },
+  { id: 3, name: 'Bob Johnson', email: 'bob@example.com', role: 'Moderator' }
+];
+
+const mockPosts = [
+  { id: 1, title: 'Getting Started with AAEs', content: 'Acrobi's Advanced Experiencess are...', author: 'John Doe' },
+  { id: 2, title: 'React Hooks Best Practices', content: 'When using hooks...', author: 'Jane Smith' },
+  { id: 3, title: 'Performance Optimization', content: 'To improve performance...', author: 'Bob Johnson' }
+];
+
+// Mock fetch functions with realistic delays
+const createMockFetcher = <T>(data: T, delay: number = 1000, failureRate: number = 0) => {
+  return async (): Promise<T> => {
+    await new Promise(resolve => setTimeout(resolve, delay));
+    
+    if (Math.random() < failureRate) {
+      throw new Error('Network request failed (simulated)');
+    }
+    
+    return data;
+  };
+};
+
+// Basic Cached API Demo
+const BasicCachedApiDemo: React.FC = () => {
+  const [cacheTime, setCacheTime] = useState(5 * 60 * 1000); // 5 minutes
+  const [refreshCount, setRefreshCount] = useState(0);
+
+  const usersFetcher = createMockFetcher(mockUsers, 1500);
+  const postsFetcher = createMockFetcher(mockPosts, 2000);
+
+  const {
+    state: usersState,
+    refetch: refetchUsers,
+    mutate: mutateUsers,
+    invalidate: invalidateUsers,
+    clearCache: clearUsersCache,
+    getCacheInfo: getUsersCacheInfo,
+    isSupported
+  } = useCachedApi('demo-users', usersFetcher, {
+    cacheTime,
+    staleWhileRevalidate: true,
+    debug: true,
+    onSuccess: (data, fromCache) => {
+      console.log(`Users loaded from ${fromCache ? 'cache' : 'network'}:`, data);
+      if (!fromCache) {
+        setRefreshCount(prev => prev + 1);
+      }
+    },
+    onError: (error) => {
+      console.error('Users fetch error:', error);
+    }
+  });
+
+  const {
+    state: postsState,
+    refetch: refetchPosts,
+    clearCache: clearPostsCache
+  } = useCachedApi('demo-posts', postsFetcher, {
+    cacheTime,
+    staleWhileRevalidate: true,
+    debug: true
+  });
+
+  const usersCacheInfo = getUsersCacheInfo();
+
+  return (
+    <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
+      <h2>Basic Cached API</h2>
+      
+      {!isSupported && (
+        <div style={{ 
+          padding: '10px', 
+          backgroundColor: '#fee', 
+          border: '1px solid #fcc',
+          borderRadius: '4px',
+          marginBottom: '20px'
+        }}>
+          ⚠️ LocalStorage is not supported, caching disabled
+        </div>
+      )}
+
+      {/* Cache Controls */}
+      <div style={{ 
+        marginBottom: '20px',
+        padding: '15px', 
+        backgroundColor: '#f8f9fa', 
+        borderRadius: '8px',
+        border: '1px solid #dee2e6'
+      }}>
+        <h3>Cache Configuration</h3>
+        
+        <div style={{ display: 'flex', gap: '15px', alignItems: 'center', marginBottom: '15px' }}>
+          <label style={{ display: 'flex', alignItems: 'center' }}>
+            Cache Time:
+            <select
+              value={cacheTime}
+              onChange={(e) => setCacheTime(Number(e.target.value))}
+              style={{
+                marginLeft: '8px',
+                padding: '4px',
+                borderRadius: '4px',
+                border: '1px solid #ccc'
+              }}
+            >
+              <option value={30 * 1000}>30 seconds</option>
+              <option value={60 * 1000}>1 minute</option>
+              <option value={5 * 60 * 1000}>5 minutes</option>
+              <option value={30 * 60 * 1000}>30 minutes</option>
+            </select>
+          </label>
+          
+          <div style={{ fontSize: '12px', color: '#666' }}>
+            Network requests: {refreshCount}
+          </div>
+        </div>
+
+        <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+          <button
+            onClick={() => refetchUsers()}
+            disabled={usersState.isValidating}
+            style={{
+              padding: '8px 16px',
+              backgroundColor: usersState.isValidating ? '#ccc' : '#007bff',
+              color: 'white',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: usersState.isValidating ? 'not-allowed' : 'pointer'
+            }}
+          >
+            {usersState.isValidating ? 'Refetching...' : 'Refetch Users'}
+          </button>
+          
+          <button
+            onClick={() => invalidateUsers()}
+            style={{
+              padding: '8px 16px',
+              backgroundColor: '#28a745',
+              color: 'white',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer'
+            }}
+          >
+            Invalidate Users
+          </button>
+          
+          <button
+            onClick={() => clearUsersCache()}
+            style={{
+              padding: '8px 16px',
+              backgroundColor: '#dc3545',
+              color: 'white',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer'
+            }}
+          >
+            Clear Users Cache
+          </button>
+        </div>
+      </div>
+
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+        {/* Users Data */}
+        <div style={{ 
+          padding: '15px', 
+          backgroundColor: '#f9f9f9', 
+          borderRadius: '8px',
+          border: '1px solid #ddd'
+        }}>
+          <h3>Users Data</h3>
+          
+          <div style={{ marginBottom: '15px', fontSize: '12px' }}>
+            <div><strong>Status:</strong> {usersState.isLoading ? 'Loading...' : usersState.isValidating ? 'Validating...' : 'Ready'}</div>
+            <div><strong>Source:</strong> {usersState.source || 'None'}</div>
+            <div><strong>Is Stale:</strong> {usersState.isStale ? 'Yes' : 'No'}</div>
+            <div><strong>Last Fetch:</strong> {usersState.lastFetch ? new Date(usersState.lastFetch).toLocaleTimeString() : 'Never'}</div>
+            <div><strong>Cache Size:</strong> {(usersCacheInfo.size / 1024).toFixed(2)} KB</div>
+            <div><strong>Cache Age:</strong> {(usersCacheInfo.age / 1000).toFixed(0)}s</div>
+            <div><strong>Is Expired:</strong> {usersCacheInfo.isExpired ? 'Yes' : 'No'}</div>
+          </div>
+
+          {usersState.error && (
+            <div style={{ 
+              padding: '8px', 
+              backgroundColor: '#fee', 
+              border: '1px solid #fcc',
+              borderRadius: '4px',
+              marginBottom: '10px',
+              fontSize: '12px'
+            }}>
+              <strong>Error:</strong> {usersState.error.message}
+            </div>
+          )}
+
+          <div style={{ 
+            maxHeight: '200px', 
+            overflowY: 'auto',
+            backgroundColor: 'white',
+            border: '1px solid #ddd',
+            borderRadius: '4px'
+          }}>
+            {!usersState.data ? (
+              <div style={{ padding: '20px', textAlign: 'center', color: '#666' }}>
+                {usersState.isLoading ? 'Loading users...' : 'No data'}
+              </div>
+            ) : (
+              usersState.data.map((user, index) => (
+                <div
+                  key={user.id}
+                  style={{
+                    padding: '10px',
+                    borderBottom: index < usersState.data.length - 1 ? '1px solid #eee' : 'none'
+                  }}
+                >
+                  <div style={{ fontWeight: 'bold' }}>{user.name}</div>
+                  <div style={{ fontSize: '12px', color: '#666' }}>
+                    {user.email} • {user.role}
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
+
+        {/* Posts Data */}
+        <div style={{ 
+          padding: '15px', 
+          backgroundColor: '#f9f9f9', 
+          borderRadius: '8px',
+          border: '1px solid #ddd'
+        }}>
+          <h3>Posts Data</h3>
+          
+          <div style={{ marginBottom: '15px', fontSize: '12px' }}>
+            <div><strong>Status:</strong> {postsState.isLoading ? 'Loading...' : postsState.isValidating ? 'Validating...' : 'Ready'}</div>
+            <div><strong>Source:</strong> {postsState.source || 'None'}</div>
+            <div><strong>Is Stale:</strong> {postsState.isStale ? 'Yes' : 'No'}</div>
+            <div><strong>Last Fetch:</strong> {postsState.lastFetch ? new Date(postsState.lastFetch).toLocaleTimeString() : 'Never'}</div>
+            
+            <button
+              onClick={() => clearPostsCache()}
+              style={{
+                marginTop: '8px',
+                padding: '4px 8px',
+                backgroundColor: '#dc3545',
+                color: 'white',
+                border: 'none',
+                borderRadius: '3px',
+                cursor: 'pointer',
+                fontSize: '11px'
+              }}
+            >
+              Clear Cache
+            </button>
+          </div>
+
+          {postsState.error && (
+            <div style={{ 
+              padding: '8px', 
+              backgroundColor: '#fee', 
+              border: '1px solid #fcc',
+              borderRadius: '4px',
+              marginBottom: '10px',
+              fontSize: '12px'
+            }}>
+              <strong>Error:</strong> {postsState.error.message}
+            </div>
+          )}
+
+          <div style={{ 
+            maxHeight: '200px', 
+            overflowY: 'auto',
+            backgroundColor: 'white',
+            border: '1px solid #ddd',
+            borderRadius: '4px'
+          }}>
+            {!postsState.data ? (
+              <div style={{ padding: '20px', textAlign: 'center', color: '#666' }}>
+                {postsState.isLoading ? 'Loading posts...' : 'No data'}
+              </div>
+            ) : (
+              postsState.data.map((post, index) => (
+                <div
+                  key={post.id}
+                  style={{
+                    padding: '10px',
+                    borderBottom: index < postsState.data.length - 1 ? '1px solid #eee' : 'none'
+                  }}
+                >
+                  <div style={{ fontWeight: 'bold', fontSize: '14px' }}>{post.title}</div>
+                  <div style={{ fontSize: '11px', color: '#666', marginTop: '4px' }}>
+                    by {post.author}
+                  </div>
+                  <div style={{ fontSize: '12px', marginTop: '4px' }}>
+                    {post.content.substring(0, 50)}...
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
+      </div>
+
+      <div style={{ 
+        marginTop: '20px', 
+        padding: '10px', 
+        backgroundColor: '#e7f3ff', 
+        borderRadius: '4px',
+        fontSize: '14px'
+      }}>
+        <strong>Stale-While-Revalidate Demo:</strong> Data loads instantly from cache, then refreshes in background.
+        Try changing cache time and refreshing the page to see different behaviors.
+        Check browser console for detailed logging.
+      </div>
+    </div>
+  );
+};
+
+// Error Handling Demo
+const ErrorHandlingDemo: React.FC = () => {
+  const [failureRate, setFailureRate] = useState(0.3);
+  const [timeout, setTimeout] = useState(2000);
+
+  const unreliableFetcher = createMockFetcher(
+    { message: 'Success!', timestamp: Date.now() }, 
+    1000, 
+    failureRate
+  );
+
+  const {
+    state,
+    refetch,
+    clearCache,
+    isSupported
+  } = useCachedApi('demo-unreliable', unreliableFetcher, {
+    cacheTime: 30 * 1000, // 30 seconds
+    timeout,
+    debug: true,
+    onSuccess: (data, fromCache) => {
+      console.log(`Unreliable API ${fromCache ? 'cached' : 'fetched'}:`, data);
+    },
+    onError: (error) => {
+      console.error('Unreliable API error:', error);
+    }
+  });
+
+  return (
+    <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
+      <h2>Error Handling & Reliability</h2>
+
+      {/* Configuration */}
+      <div style={{ 
+        marginBottom: '20px',
+        padding: '15px', 
+        backgroundColor: '#f8f9fa', 
+        borderRadius: '8px',
+        border: '1px solid #dee2e6'
+      }}>
+        <h3>Failure Simulation</h3>
+        
+        <div style={{ display: 'flex', gap: '20px', alignItems: 'center', marginBottom: '15px' }}>
+          <label style={{ display: 'flex', alignItems: 'center' }}>
+            Failure Rate:
+            <input
+              type="range"
+              min="0"
+              max="1"
+              step="0.1"
+              value={failureRate}
+              onChange={(e) => setFailureRate(Number(e.target.value))}
+              style={{ margin: '0 8px' }}
+            />
+            {(failureRate * 100).toFixed(0)}%
+          </label>
+          
+          <label style={{ display: 'flex', alignItems: 'center' }}>
+            Timeout:
+            <select
+              value={timeout}
+              onChange={(e) => setTimeout(Number(e.target.value))}
+              style={{ marginLeft: '8px', padding: '4px' }}
+            >
+              <option value={1000}>1 second</option>
+              <option value={2000}>2 seconds</option>
+              <option value={5000}>5 seconds</option>
+              <option value={10000}>10 seconds</option>
+            </select>
+          </label>
+        </div>
+
+        <button
+          onClick={() => refetch()}
+          disabled={state.isValidating}
+          style={{
+            padding: '8px 16px',
+            backgroundColor: state.isValidating ? '#ccc' : '#007bff',
+            color: 'white',
+            border: 'none',
+            borderRadius: '4px',
+            cursor: state.isValidating ? 'not-allowed' : 'pointer'
+          }}
+        >
+          {state.isValidating ? 'Fetching...' : 'Test Request'}
+        </button>
+      </div>
+
+      {/* Status Display */}
+      <div style={{ 
+        padding: '15px', 
+        backgroundColor: state.error ? '#f8d7da' : state.data ? '#d4edda' : '#f9f9f9', 
+        borderRadius: '8px',
+        border: `1px solid ${state.error ? '#f5c6cb' : state.data ? '#c3e6cb' : '#ddd'}`
+      }}>
+        <h3>Request Status</h3>
+        
+        <div style={{ marginBottom: '15px' }}>
+          <div><strong>Status:</strong> {
+            state.isLoading ? 'Loading...' : 
+            state.isValidating ? 'Validating...' : 
+            state.error ? 'Error' : 
+            state.data ? 'Success' : 'Idle'
+          }</div>
+          <div><strong>Source:</strong> {state.source || 'None'}</div>
+          <div><strong>Last Fetch:</strong> {state.lastFetch ? new Date(state.lastFetch).toLocaleTimeString() : 'Never'}</div>
+        </div>
+
+        {state.error && (
+          <div style={{ 
+            padding: '10px', 
+            backgroundColor: '#721c24',
+            color: 'white',
+            borderRadius: '4px',
+            marginBottom: '15px'
+          }}>
+            <div><strong>Error Type:</strong> {state.error.type}</div>
+            <div><strong>Message:</strong> {state.error.message}</div>
+            {state.error.status && (
+              <div><strong>Status:</strong> {state.error.status}</div>
+            )}
+          </div>
+        )}
+
+        {state.data && (
+          <div style={{ 
+            padding: '10px', 
+            backgroundColor: '#155724',
+            color: 'white',
+            borderRadius: '4px',
+            marginBottom: '15px'
+          }}>
+            <div><strong>Success!</strong></div>
+            <div>Message: {state.data.message}</div>
+            <div>Timestamp: {new Date(state.data.timestamp).toLocaleTimeString()}</div>
+          </div>
+        )}
+
+        <div style={{ display: 'flex', gap: '10px' }}>
+          <button
+            onClick={() => refetch()}
+            disabled={state.isValidating}
+            style={{
+              padding: '8px 16px',
+              backgroundColor: state.isValidating ? '#ccc' : '#28a745',
+              color: 'white',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: state.isValidating ? 'not-allowed' : 'pointer'
+            }}
+          >
+            Retry
+          </button>
+          
+          <button
+            onClick={() => clearCache()}
+            style={{
+              padding: '8px 16px',
+              backgroundColor: '#dc3545',
+              color: 'white',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer'
+            }}
+          >
+            Clear Cache
+          </button>
+        </div>
+      </div>
+
+      <div style={{ 
+        marginTop: '20px', 
+        padding: '10px', 
+        backgroundColor: '#fff3cd', 
+        borderRadius: '4px',
+        fontSize: '14px'
+      }}>
+        <strong>Error Handling Demo:</strong> Adjust failure rate and timeout to simulate network issues.
+        The hook gracefully handles errors while preserving cached data when possible.
+        Retry mechanisms and fallback strategies are built-in.
+      </div>
+    </div>
+  );
+};
+
+// Cache Statistics Demo
+const CacheStatisticsDemo: React.FC = () => {
+  const [stats, setStats] = useState(CachedApiUtils.getCacheStats());
+
+  const refreshStats = () => {
+    setStats(CachedApiUtils.getCacheStats());
+  };
+
+  const clearPattern = (pattern: string) => {
+    const removed = CachedApiUtils.invalidatePattern(pattern);
+    alert(`Removed ${removed} cache entries matching "${pattern}"`);
+    refreshStats();
+  };
+
+  // Multiple API endpoints for demonstration
+  const { state: weatherState } = useCachedApi('weather', 
+    createMockFetcher({ temp: 72, condition: 'Sunny', humidity: 45 }, 800), 
+    { cacheTime: 10 * 60 * 1000 }
+  );
+
+  const { state: newsState } = useCachedApi('news', 
+    createMockFetcher([
+      { id: 1, headline: 'Breaking: New React Features', category: 'Tech' },
+      { id: 2, headline: 'Market Update: Stocks Rise', category: 'Finance' }
+    ], 1200), 
+    { cacheTime: 5 * 60 * 1000 }
+  );
+
+  const { state: profileState } = useCachedApi('user-profile', 
+    createMockFetcher({ name: 'Demo User', avatar: '👤', settings: { theme: 'dark' } }, 600), 
+    { cacheTime: 30 * 60 * 1000 }
+  );
+
+  useEffect(() => {
+    const interval = setInterval(refreshStats, 2000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
+      <h2>Cache Statistics & Management</h2>
+
+      {/* Global Cache Stats */}
+      <div style={{ 
+        marginBottom: '20px',
+        padding: '15px', 
+        backgroundColor: '#f8f9fa', 
+        borderRadius: '8px',
+        border: '1px solid #dee2e6'
+      }}>
+        <h3>Global Cache Statistics</h3>
+        
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '15px', marginBottom: '15px' }}>
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#007bff' }}>
+              {stats.keys}
+            </div>
+            <div style={{ fontSize: '12px', color: '#666' }}>Cache Entries</div>
+          </div>
+          
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#28a745' }}>
+              {(stats.size / 1024).toFixed(1)}KB
+            </div>
+            <div style={{ fontSize: '12px', color: '#666' }}>Total Size</div>
+          </div>
+          
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#ffc107' }}>
+              {stats.averageSize}B
+            </div>
+            <div style={{ fontSize: '12px', color: '#666' }}>Average Size</div>
+          </div>
+        </div>
+
+        <div style={{ display: 'flex', gap: '10px' }}>
+          <button
+            onClick={refreshStats}
+            style={{
+              padding: '8px 16px',
+              backgroundColor: '#007bff',
+              color: 'white',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer'
+            }}
+          >
+            Refresh Stats
+          </button>
+          
+          <button
+            onClick={() => clearPattern('demo')}
+            style={{
+              padding: '8px 16px',
+              backgroundColor: '#dc3545',
+              color: 'white',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer'
+            }}
+          >
+            Clear Demo Caches
+          </button>
+        </div>
+      </div>
+
+      {/* Individual Cache Status */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '20px', marginBottom: '20px' }}>
+        {/* Weather Cache */}
+        <div style={{ 
+          padding: '15px', 
+          backgroundColor: '#e3f2fd', 
+          borderRadius: '8px',
+          border: '1px solid #90caf9'
+        }}>
+          <h4>Weather API</h4>
+          <div style={{ fontSize: '12px', marginBottom: '10px' }}>
+            <div>Status: {weatherState.isLoading ? 'Loading' : weatherState.data ? 'Cached' : 'Empty'}</div>
+            <div>Source: {weatherState.source || 'None'}</div>
+            <div>Age: {weatherState.lastFetch ? `${Math.round((Date.now() - weatherState.lastFetch) / 1000)}s` : 'N/A'}</div>
+          </div>
+          {weatherState.data && (
+            <div style={{ fontSize: '11px' }}>
+              🌤️ {weatherState.data.temp}°F, {weatherState.data.condition}
+            </div>
+          )}
+        </div>
+
+        {/* News Cache */}
+        <div style={{ 
+          padding: '15px', 
+          backgroundColor: '#e8f5e8', 
+          borderRadius: '8px',
+          border: '1px solid #81c784'
+        }}>
+          <h4>News API</h4>
+          <div style={{ fontSize: '12px', marginBottom: '10px' }}>
+            <div>Status: {newsState.isLoading ? 'Loading' : newsState.data ? 'Cached' : 'Empty'}</div>
+            <div>Source: {newsState.source || 'None'}</div>
+            <div>Age: {newsState.lastFetch ? `${Math.round((Date.now() - newsState.lastFetch) / 1000)}s` : 'N/A'}</div>
+          </div>
+          {newsState.data && (
+            <div style={{ fontSize: '11px' }}>
+              📰 {newsState.data.length} articles cached
+            </div>
+          )}
+        </div>
+
+        {/* Profile Cache */}
+        <div style={{ 
+          padding: '15px', 
+          backgroundColor: '#fff3e0', 
+          borderRadius: '8px',
+          border: '1px solid #ffb74d'
+        }}>
+          <h4>Profile API</h4>
+          <div style={{ fontSize: '12px', marginBottom: '10px' }}>
+            <div>Status: {profileState.isLoading ? 'Loading' : profileState.data ? 'Cached' : 'Empty'}</div>
+            <div>Source: {profileState.source || 'None'}</div>
+            <div>Age: {profileState.lastFetch ? `${Math.round((Date.now() - profileState.lastFetch) / 1000)}s` : 'N/A'}</div>
+          </div>
+          {profileState.data && (
+            <div style={{ fontSize: '11px' }}>
+              👤 {profileState.data.name}
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Cache Management Tools */}
+      <div style={{ 
+        padding: '15px', 
+        backgroundColor: '#f0f8ff', 
+        borderRadius: '8px',
+        border: '1px solid #b6d7ff'
+      }}>
+        <h3>Cache Management Tools</h3>
+        
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
+          <div>
+            <h4>Quick Actions</h4>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <button
+                onClick={() => clearPattern('weather')}
+                style={{
+                  padding: '6px 12px',
+                  backgroundColor: '#17a2b8',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '4px',
+                  cursor: 'pointer',
+                  fontSize: '12px'
+                }}
+              >
+                Clear Weather Cache
+              </button>
+              
+              <button
+                onClick={() => clearPattern('news')}
+                style={{
+                  padding: '6px 12px',
+                  backgroundColor: '#28a745',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '4px',
+                  cursor: 'pointer',
+                  fontSize: '12px'
+                }}
+              >
+                Clear News Cache
+              </button>
+              
+              <button
+                onClick={() => clearPattern('user')}
+                style={{
+                  padding: '6px 12px',
+                  backgroundColor: '#fd7e14',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '4px',
+                  cursor: 'pointer',
+                  fontSize: '12px'
+                }}
+              >
+                Clear Profile Cache
+              </button>
+            </div>
+          </div>
+          
+          <div>
+            <h4>Cache Health</h4>
+            <div style={{ fontSize: '12px' }}>
+              <div>✅ All caches operational</div>
+              <div>📊 Memory usage: {stats.size > 0 ? 'Normal' : 'Empty'}</div>
+              <div>🔄 Auto-refresh: Enabled</div>
+              <div>⚡ Performance: Good</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style={{ 
+        marginTop: '20px', 
+        padding: '10px', 
+        backgroundColor: '#d1ecf1', 
+        borderRadius: '4px',
+        fontSize: '14px'
+      }}>
+        <strong>Cache Management:</strong> Monitor cache statistics in real-time.
+        Each API endpoint maintains its own cache with independent expiration.
+        Use pattern matching to selectively clear related caches.
+      </div>
+    </div>
+  );
+};
+
+export const BasicDemo: Story = {
+  render: () => <BasicCachedApiDemo />,
+  parameters: {
+    docs: {
+      description: {
+        story: 'Basic cached API functionality with stale-while-revalidate pattern. Shows instant cache loading with background refresh and configurable cache timing.'
+      }
+    }
+  }
+};
+
+export const ErrorHandling: Story = {
+  render: () => <ErrorHandlingDemo />,
+  parameters: {
+    docs: {
+      description: {
+        story: 'Error handling and reliability features. Demonstrates graceful error handling, retry mechanisms, and fallback strategies with configurable failure simulation.'
+      }
+    }
+  }
+};
+
+export const CacheStatistics: Story = {
+  render: () => <CacheStatisticsDemo />,
+  parameters: {
+    docs: {
+      description: {
+        story: 'Cache statistics and management tools. Shows real-time cache monitoring, selective cache clearing, and multi-endpoint cache coordination.'
+      }
+    }
+  }
+};

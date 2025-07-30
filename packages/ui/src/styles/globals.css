@@ -1,0 +1,116 @@
+/* Acrobi Design System - Global Styles */
+
+/* Import our theme CSS variables */
+@import './themes/theme-acrobi.css';
+
+/* Import Tailwind CSS base styles */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base styles using our design tokens */
+@layer base {
+  /* Set default theme */
+  html {
+    @apply theme-transition;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+    @apply theme-transition;
+  }
+
+  /* Ensure proper contrast for links */
+  a {
+    @apply text-primary hover:text-primary/80;
+    @apply theme-transition;
+  }
+
+  /* Form elements inherit theme */
+  input,
+  textarea,
+  select {
+    @apply bg-background text-foreground border-input;
+    @apply theme-transition;
+  }
+
+  /* Focus styles */
+  *:focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
+
+  /* Scrollbar styling for webkit browsers */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-muted;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-border rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-border/80;
+  }
+}
+
+@layer components {
+  /* Base component styles that respect theming */
+  .btn {
+    @apply inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
+    @apply disabled:pointer-events-none disabled:opacity-50;
+    @apply theme-transition;
+  }
+
+  .card {
+    @apply rounded-lg border border-border bg-card text-card-foreground shadow-sm;
+    @apply theme-transition;
+  }
+
+  .input {
+    @apply flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm;
+    @apply ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium;
+    @apply placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2;
+    @apply focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
+    @apply theme-transition;
+  }
+}
+
+@layer utilities {
+  /* Theme-aware utilities */
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Animation utilities */
+  .animate-in {
+    animation-duration: 0.3s;
+    animation-fill-mode: both;
+  }
+
+  .animate-out {
+    animation-duration: 0.2s;
+    animation-fill-mode: both;
+  }
+
+  /* Theme switching utilities */
+  .theme-light {
+    color-scheme: light;
+  }
+
+  .theme-dark {
+    color-scheme: dark;
+  }
+
+  /* Theme transition utility */
+  .theme-transition {
+    transition:
+      background-color 0.2s ease-in-out,
+      color 0.2s ease-in-out,
+      border-color 0.2s ease-in-out;
+  }
+}

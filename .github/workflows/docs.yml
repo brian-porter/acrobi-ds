@@ -1,0 +1,515 @@
+name: Documentation
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'packages/ui/docs/**'
+      - 'packages/ui/README.md'
+      - 'packages/ui/registry.json'
+      - '.github/workflows/docs.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'packages/ui/docs/**'
+      - 'packages/ui/README.md'
+      - 'packages/ui/registry.json'
+
+concurrency:
+  group: docs-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # Validate documentation
+  validate-docs:
+    name: Validate Documentation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Validate markdown links
+        run: |
+          echo "🔍 Validating markdown links..."
+
+          # Install markdown link checker
+          npm install -g markdown-link-check
+
+          # Check all markdown files in docs
+          find packages/ui/docs -name "*.md" -exec markdown-link-check --config .github/markdown-link-check.json {} \;
+
+          # Check README files
+          markdown-link-check --config .github/markdown-link-check.json README.md
+          markdown-link-check --config .github/markdown-link-check.json packages/ui/README.md
+
+      - name: Validate component examples
+        run: |
+          echo "🧪 Validating component examples in documentation..."
+
+          node -e "
+            const fs = require('fs');
+            const path = require('path');
+            
+            function validateCodeBlocks(filePath) {
+              const content = fs.readFileSync(filePath, 'utf8');
+              const codeBlocks = content.match(/\`\`\`tsx?[\\s\\S]*?\`\`\`/g) || [];
+              
+              let errors = [];
+              
+              codeBlocks.forEach((block, index) => {
+                const code = block.replace(/\`\`\`tsx?\\n?/, '').replace(/\`\`\`$/, '');
+                
+                // Check for common React/TypeScript patterns
+                if (code.includes('import') && code.includes('from') && !code.includes(\"'\") && !code.includes('\"')) {
+                  errors.push({ file: filePath, block: index + 1, error: 'Import statement missing quotes' });
+                }
+                
+                // Check for unclosed JSX tags
+                const openTags = (code.match(/<[^\/][^>]*[^\/]>/g) || []).length;
+                const closeTags = (code.match(/<\/[^>]+>/g) || []).length;
+                const selfClosing = (code.match(/<[^>]*\/>/g) || []).length;
+                
+                // Basic JSX balance check (not perfect but catches obvious issues)
+                if (openTags - selfClosing !== closeTags && code.includes('<')) {
+                  errors.push({ file: filePath, block: index + 1, error: 'Potentially unbalanced JSX tags' });
+                }
+                
+                // Check for @acrobi/ui imports
+                if (code.includes('import') && code.includes('acrobi') && !code.includes('@acrobi/ui')) {
+                  errors.push({ file: filePath, block: index + 1, error: 'Should import from @acrobi/ui' });
+                }
+              });
+              
+              return errors;
+            }
+            
+            // Validate all markdown files
+            function validateDirectory(dir) {
+              const files = fs.readdirSync(dir, { withFileTypes: true });
+              let allErrors = [];
+              
+              for (const file of files) {
+                const fullPath = path.join(dir, file.name);
+                if (file.isDirectory()) {
+                  allErrors = allErrors.concat(validateDirectory(fullPath));
+                } else if (file.name.endsWith('.md')) {
+                  allErrors = allErrors.concat(validateCodeBlocks(fullPath));
+                }
+              }
+              
+              return allErrors;
+            }
+            
+            const errors = validateDirectory('packages/ui/docs');
+            
+            if (errors.length > 0) {
+              console.log('❌ Documentation validation errors:');
+              errors.forEach(error => {
+                console.log(\`  \${error.file} (block \${error.block}): \${error.error}\`);
+              });
+              process.exit(1);
+            } else {
+              console.log('✅ All documentation examples are valid!');
+            }
+          "
+
+      - name: Check registry consistency
+        run: |
+          echo "🔍 Checking registry consistency with documentation..."
+
+          node -e "
+            const fs = require('fs');
+            const registry = require('./packages/ui/registry.json');
+            
+            console.log('📦 Registry validation:');
+            console.log('Components:', Object.keys(registry.components).length);
+            console.log('Version:', registry.version);
+            
+            // Check if all components have examples
+            let missingExamples = [];
+            for (const [key, component] of Object.entries(registry.components)) {
+              if (!component.examples || component.examples.length === 0) {
+                missingExamples.push(key);
+              }
+            }
+            
+            if (missingExamples.length > 0) {
+              console.log('⚠️ Components missing examples:', missingExamples.join(', '));
+            } else {
+              console.log('✅ All components have examples!');
+            }
+            
+            // Validate example code in registry
+            let invalidExamples = [];
+            for (const [key, component] of Object.entries(registry.components)) {
+              if (component.examples) {
+                component.examples.forEach((example, i) => {
+                  if (!example.code || example.code.trim() === '') {
+                    invalidExamples.push(\`\${key}[example \${i + 1}]\`);
+                  }
+                });
+              }
+            }
+            
+            if (invalidExamples.length > 0) {
+              console.log('❌ Invalid examples found:', invalidExamples.join(', '));
+              process.exit(1);
+            } else {
+              console.log('✅ All registry examples are valid!');
+            }
+          "
+
+  # Generate documentation artifacts
+  generate-docs:
+    name: Generate Documentation
+    runs-on: ubuntu-latest
+    needs: validate-docs
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate component documentation
+        run: |
+          echo "📚 Generating component documentation from registry..."
+
+          node -e "
+            const fs = require('fs');
+            const path = require('path');
+            const registry = require('./packages/ui/registry.json');
+            
+            // Create auto-generated docs directory
+            const autoDocsDir = 'packages/ui/docs/auto-generated';
+            if (!fs.existsSync(autoDocsDir)) {
+              fs.mkdirSync(autoDocsDir, { recursive: true });
+            }
+            
+            // Generate component list
+            let componentList = '# Component List\\n\\n';
+            componentList += 'Auto-generated from registry.json\\n\\n';
+            componentList += \`Total: \${Object.keys(registry.components).length} components\\n\\n\`;
+            
+            const categories = {};
+            for (const [key, component] of Object.entries(registry.components)) {
+              if (!categories[component.category]) {
+                categories[component.category] = [];
+              }
+              categories[component.category].push({ key, ...component });
+            }
+            
+            for (const [category, components] of Object.entries(categories)) {
+              componentList += \`## \${category.charAt(0).toUpperCase() + category.slice(1)} Components (\${components.length})\\n\\n\`;
+              
+              components.sort((a, b) => a.name.localeCompare(b.name));
+              
+              for (const component of components) {
+                componentList += \`### \${component.name}\\n\`;
+                componentList += \`\${component.description}\\n\\n\`;
+                componentList += \`**Tags:** \${component.tags?.join(', ') || 'none'}\\n\\n\`;
+                
+                if (component.examples && component.examples.length > 0) {
+                  componentList += '**Examples:**\\n\\n';
+                  component.examples.forEach(example => {
+                    componentList += \`#### \${example.name}\\n\`;
+                    componentList += '\\`\\`\\`tsx\\n';
+                    componentList += example.code;
+                    componentList += '\\n\\`\\`\\`\\n\\n';
+                  });
+                }
+              }
+            }
+            
+            fs.writeFileSync(path.join(autoDocsDir, 'component-list.md'), componentList);
+            console.log('✅ Generated component list documentation');
+            
+            // Generate installation guide
+            let installGuide = '# Installation Guide\\n\\n';
+            installGuide += 'Auto-generated installation commands for all components.\\n\\n';
+            
+            for (const [category, components] of Object.entries(categories)) {
+              installGuide += \`## \${category.charAt(0).toUpperCase() + category.slice(1)} Components\\n\\n\`;
+              
+              for (const component of components) {
+                installGuide += \`### \${component.name}\\n\`;
+                installGuide += \`\\`\\`bash\\n\`;
+                installGuide += \`npx @acrobi/cli add \${component.key}\\n\`;
+                installGuide += \`\\`\\`\\n\\n\`;
+                
+                if (component.dependencies && component.dependencies.length > 0) {
+                  installGuide += '**Dependencies:**\\n';
+                  component.dependencies.forEach(dep => {
+                    installGuide += \`- \${dep}\\n\`;
+                  });
+                  installGuide += '\\n';
+                }
+              }
+            }
+            
+            fs.writeFileSync(path.join(autoDocsDir, 'installation.md'), installGuide);
+            console.log('✅ Generated installation guide');
+            
+            // Generate statistics
+            const stats = {
+              totalComponents: Object.keys(registry.components).length,
+              categories: Object.keys(categories).length,
+              componentsPerCategory: Object.entries(categories).map(([cat, comps]) => ({
+                category: cat,
+                count: comps.length
+              })),
+              averageExamplesPerComponent: Object.values(registry.components)
+                .reduce((sum, comp) => sum + (comp.examples?.length || 0), 0) / Object.keys(registry.components).length,
+              totalExamples: Object.values(registry.components)
+                .reduce((sum, comp) => sum + (comp.examples?.length || 0), 0)
+            };
+            
+            let statsDoc = '# Component Statistics\\n\\n';
+            statsDoc += 'Auto-generated statistics from the component registry.\\n\\n';
+            statsDoc += \`- **Total Components:** \${stats.totalComponents}\\n\`;
+            statsDoc += \`- **Categories:** \${stats.categories}\\n\`;
+            statsDoc += \`- **Total Examples:** \${stats.totalExamples}\\n\`;
+            statsDoc += \`- **Average Examples per Component:** \${stats.averageExamplesPerComponent.toFixed(1)}\\n\\n\`;
+            
+            statsDoc += '## Components by Category\\n\\n';
+            stats.componentsPerCategory.forEach(cat => {
+              statsDoc += \`- **\${cat.category}:** \${cat.count} components\\n\`;
+            });
+            
+            fs.writeFileSync(path.join(autoDocsDir, 'statistics.md'), statsDoc);
+            console.log('✅ Generated component statistics');
+          "
+
+      - name: Generate API documentation
+        run: |
+          echo "📖 Generating API documentation..."
+
+          # Generate TypeScript API docs if available
+          if npx typedoc --version > /dev/null 2>&1; then
+            npx typedoc packages/ui/src/index.ts --out packages/ui/docs/auto-generated/api --theme minimal
+            echo "✅ Generated TypeScript API documentation"
+          else
+            echo "ℹ️ TypeDoc not available, skipping API generation"
+          fi
+
+      - name: Update documentation index
+        run: |
+          echo "📋 Updating documentation index..."
+
+          node -e "
+            const fs = require('fs');
+            const path = require('path');
+            
+            // Read existing docs structure
+            function getDocsStructure(dir, basePath = '') {
+              const items = [];
+              const files = fs.readdirSync(dir, { withFileTypes: true });
+              
+              for (const file of files) {
+                const fullPath = path.join(dir, file.name);
+                const relativePath = path.join(basePath, file.name);
+                
+                if (file.isDirectory() && file.name !== 'auto-generated') {
+                  items.push({
+                    type: 'directory',
+                    name: file.name,
+                    path: relativePath,
+                    children: getDocsStructure(fullPath, relativePath)
+                  });
+                } else if (file.name.endsWith('.md') && file.name !== 'index.md') {
+                  const content = fs.readFileSync(fullPath, 'utf8');
+                  const titleMatch = content.match(/^# (.+)$/m);
+                  const title = titleMatch ? titleMatch[1] : file.name.replace('.md', '');
+                  
+                  items.push({
+                    type: 'file',
+                    name: file.name,
+                    title: title,
+                    path: relativePath
+                  });
+                }
+              }
+              
+              return items.sort((a, b) => {
+                if (a.type !== b.type) return a.type === 'directory' ? -1 : 1;
+                return a.name.localeCompare(b.name);
+              });
+            }
+            
+            const docsStructure = getDocsStructure('packages/ui/docs');
+            
+            // Generate index content
+            let indexContent = '# Documentation Index\\n\\n';
+            indexContent += 'Complete documentation for the Acrobi Design System.\\n\\n';
+            
+            function renderStructure(items, level = 2) {
+              let content = '';
+              
+              for (const item of items) {
+                const indent = '#'.repeat(level);
+                
+                if (item.type === 'directory') {
+                  content += \`\${indent} 📁 \${item.name.charAt(0).toUpperCase() + item.name.slice(1)}\\n\\n\`;
+                  if (item.children && item.children.length > 0) {
+                    content += renderStructure(item.children, level + 1);
+                  }
+                } else {
+                  content += \`\${indent} 📄 [\${item.title}](./ + item.path.replace(/\\\\/g, '/') + )\\n\\n\`;
+                }
+              }
+              
+              return content;
+            }
+            
+            indexContent += renderStructure(docsStructure);
+            
+            // Add auto-generated section
+            indexContent += '## 🤖 Auto-Generated Documentation\\n\\n';
+            indexContent += '- 📊 [Component Statistics](./auto-generated/statistics.md)\\n';
+            indexContent += '- 📋 [Component List](./auto-generated/component-list.md)\\n';
+            indexContent += '- 💿 [Installation Guide](./auto-generated/installation.md)\\n';
+            
+            if (fs.existsSync('packages/ui/docs/auto-generated/api')) {
+              indexContent += '- 📖 [API Documentation](./auto-generated/api/index.html)\\n';
+            }
+            
+            indexContent += '\\n---\\n\\n';
+            indexContent += '*Documentation automatically updated on ' + new Date().toISOString() + '*\\n';
+            
+            fs.writeFileSync('packages/ui/docs/index.md', indexContent);
+            console.log('✅ Updated documentation index');
+          "
+
+      - name: Cache documentation artifacts
+        uses: actions/cache@v3
+        with:
+          path: packages/ui/docs/auto-generated
+          key: docs-${{ github.sha }}
+
+  # Deploy documentation (only on main branch)
+  deploy-docs:
+    name: Deploy Documentation
+    runs-on: ubuntu-latest
+    needs: [validate-docs, generate-docs]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Restore documentation artifacts
+        uses: actions/cache@v3
+        with:
+          path: packages/ui/docs/auto-generated
+          key: docs-${{ github.sha }}
+
+      - name: Prepare docs for deployment
+        run: |
+          echo "🚀 Preparing documentation for deployment..."
+
+          # Create deployment directory
+          mkdir -p docs-site
+
+          # Copy all documentation
+          cp -r packages/ui/docs/* docs-site/
+
+          # Create a simple HTML wrapper for markdown files
+          node -e "
+            const fs = require('fs');
+            const path = require('path');
+            
+            function convertMdToHtml(dir) {
+              const files = fs.readdirSync(dir, { withFileTypes: true });
+              
+              for (const file of files) {
+                const fullPath = path.join(dir, file.name);
+                
+                if (file.isDirectory()) {
+                  convertMdToHtml(fullPath);
+                } else if (file.name.endsWith('.md')) {
+                  const mdContent = fs.readFileSync(fullPath, 'utf8');
+                  const htmlFile = fullPath.replace('.md', '.html');
+                  
+                  // Simple HTML wrapper (in production, you'd use a proper markdown processor)
+                  const html = \`<!DOCTYPE html>
+          <html>
+          <head>
+            <meta charset='utf-8'>
+            <title>Acrobi Design System - \${file.name.replace('.md', '')}</title>
+            <meta name='viewport' content='width=device-width, initial-scale=1'>
+            <style>
+              body { font-family: system-ui, sans-serif; max-width: 1000px; margin: 0 auto; padding: 2rem; line-height: 1.6; }
+              pre { background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto; }
+              code { background: #f5f5f5; padding: 0.2rem 0.4rem; border-radius: 2px; }
+              h1, h2, h3 { color: #333; }
+              a { color: #0066cc; }
+            </style>
+          </head>
+          <body>
+            <div id='content'></div>
+            <script src='https://cdn.jsdelivr.net/npm/marked/marked.min.js'></script>
+            <script>
+              const mdContent = \` + '`' + mdContent.replace(/\`/g, '\\`') + '`' + \`;
+              document.getElementById('content').innerHTML = marked.parse(mdContent);
+            </script>
+          </body>
+          </html>\`;
+                  
+                  fs.writeFileSync(htmlFile, html);
+                }
+              }
+            }
+            
+            convertMdToHtml('docs-site');
+            console.log('✅ Converted markdown files to HTML');
+          "
+
+          # Create main index.html
+          cat > docs-site/index.html << 'EOF'
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <meta charset="utf-8">
+            <title>Acrobi Design System Documentation</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <meta http-equiv="refresh" content="0; url=./getting-started.html">
+          </head>
+          <body>
+            <p>Redirecting to <a href="./getting-started.html">Getting Started Guide</a>...</p>
+          </body>
+          </html>
+          EOF
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs-site
+          cname: design.acrobi.com
+
+      - name: Update README badges
+        run: |
+          echo "🏷️ Updating documentation badges..."
+
+          # This would update README badges with doc links
+          echo "✅ Documentation deployed to https://design.acrobi.com"

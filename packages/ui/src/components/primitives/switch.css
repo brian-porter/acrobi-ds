@@ -1,0 +1,108 @@
+/* Switch Field Layout */
+.switch-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 100%;
+}
+
+.switch-field-label {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.toggle-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.switch-feedback {
+  margin-top: 4px;
+}
+
+/* Authentic Acrobi Toggle Control Styles */
+.toggle-ctrl {
+  display: flex;
+  align-items: center;
+}
+
+.toggletrack {
+  position: relative;
+  display: flex;
+  width: 56px;
+  height: 32px;
+  padding: 2px;
+  justify-content: flex-start;
+  align-items: center;
+  border-radius: 50px;
+  background-color: #c4c4c4; /* Gray background for unchecked state */
+  box-shadow:
+    inset 1px 1px 2px 0 hsla(214.15384615384616, 82.28%, 15.49%, 0.2),
+    17px 17px 24px -18px hsla(214.39999999999998, 80.65%, 36.47%, 0.1);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.toggletrack:hover {
+  background-color: #b0b0b0;
+}
+
+/* Checked state styling */
+.toggle-ctrl[aria-checked='true'] .toggletrack {
+  background-color: #1975f0; /* Blue background for checked state */
+}
+
+.toggle-ctrl[aria-checked='true'] .toggletrack:hover {
+  background-color: #1565c0;
+}
+
+.toggledrag {
+  position: absolute;
+  z-index: 1;
+  display: flex;
+  width: 28px;
+  height: 28px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 30px;
+  background-color: #ffffff; /* White handle */
+  box-shadow: 3px 3px 8px 0 hsla(238.84615384615384, 26.26%, 38.82%, 0.24);
+  color: #666666;
+  font-size: 0.75rem;
+}
+
+/* Disabled state */
+.toggle-ctrl[aria-disabled='true'] {
+  opacity: 0.5;
+}
+
+.toggle-ctrl[aria-disabled='true'] .toggletrack {
+  cursor: not-allowed;
+}
+
+.toggle-ctrl[aria-disabled='true'] .toggletrack:hover {
+  background-color: #c4c4c4;
+}
+
+.toggle-ctrl[aria-disabled='true'][aria-checked='true'] .toggletrack:hover {
+  background-color: #1975f0;
+}
+
+/* Focus styles for accessibility */
+.toggle-ctrl:focus-visible {
+  outline: 2px solid #1975f0;
+  outline-offset: 2px;
+}
+
+/* Hidden input for form compatibility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

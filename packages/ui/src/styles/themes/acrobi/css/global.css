@@ -1,0 +1,513 @@
+/* Corner Radius: Initially for Cards */
+[data-corner-radius='4'] {
+  border-radius: 8px;
+}
+
+[data-corner-radius='8'] {
+  border-radius: 8px;
+}
+
+[data-corner-radius='16'] {
+  border-radius: 16px;
+}
+
+/* Card Caption: Padding for the sides */
+[data-cap-pad='y'] {
+  padding: 0 8px;
+}
+
+/* Object Aspect Ratio */
+[data-obj-asp='na'] {
+  aspect-ratio: auto;
+}
+
+[data-obj-asp='1-1'] {
+  aspect-ratio: 1/1;
+}
+
+[data-obj-asp='16-9'] {
+  aspect-ratio: 16/9;
+}
+
+[data-obj-asp='9-16'] {
+  aspect-ratio: 9/16;
+}
+
+[data-obj-asp='21-9'] {
+  aspect-ratio: 2.39/1;
+}
+
+[data-obj-asp='9-21'] {
+  aspect-ratio: 9/21;
+}
+
+[data-obj-asp='3-2'] {
+  aspect-ratio: 3/2;
+}
+
+[data-obj-asp='2-3'] {
+  aspect-ratio: 2/3;
+}
+
+[data-obj-asp='3-4'] {
+  aspect-ratio: 3/4;
+}
+
+[data-obj-asp='4-3'] {
+  aspect-ratio: 4/3;
+}
+
+[data-obj-asp='5-4'] {
+  aspect-ratio: 5/4;
+}
+
+[data-obj-asp='4-5'] {
+  aspect-ratio: 4/5;
+}
+
+[data-obj-asp='3-5'] {
+  aspect-ratio: 3/5.35;
+}
+
+[data-obj-asp='5-3'] {
+  aspect-ratio: 5.35/3;
+}
+
+/* For standard billboard hero graphic aspect ratios */
+[data-obj-asp='72-9'] {
+  aspect-ratio: 72/9;
+}
+
+[data-obj-asp='64-9'] {
+  aspect-ratio: 64/9;
+}
+
+/* MenuItem & ListItem Btm Divider */
+[data-div='y'] {
+  border-bottom: 1px solid var(--color--n9991);
+}
+
+[data-div='in'] {
+  border-bottom: inherit;
+}
+
+/* Radio, Checkbox & Toggle Alignment */
+[data-input-align='l'] {
+  justify-content: flex-start;
+}
+
+[data-input-align='c'] {
+  justify-content: center;
+}
+
+[data-input-align='r'] {
+  justify-content: flex-end;
+}
+
+[data-input-align='r'] .label {
+  justify-content: flex-end;
+}
+
+[data-input-align='r'] .itm_ctrl {
+  justify-content: flex-end;
+  flex-direction: row-reverse;
+}
+
+[data-input-align='r'] .itm_fbk {
+  width: 100%;
+  justify-content: flex-start;
+}
+
+/** LABEL, BUTTON, CHICLET ICON - LOCATION ***********/
+/** Left (l), Right (r), Top (t)   **/
+/************************************/
+[data-loc='l'] {
+  flex-direction: row;
+}
+
+[data-loc='r'] {
+  flex-direction: row-reverse;
+}
+
+[data-loc='t'] {
+  flex-direction: column;
+  grid-row-gap: 0px;
+}
+
+[data-loc='top'] {
+  flex-direction: column-reverse;
+  grid-row-gap: 0px;
+  padding-top: 4px;
+}
+
+[data-loc='bottom'] {
+  flex-direction: column;
+  grid-row-gap: 0px;
+  padding-bottom: 4px;
+}
+
+/* Badge Location */
+[data-loc='tl'] {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+[data-loc='tr'] {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+[data-loc='bl'] {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+[data-loc='br'] {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+[data-loc='c'] {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Overlay Object Location */
+[data-loc='top'] {
+  position: absolute;
+  top: 0%;
+}
+
+[data-loc='top5'] {
+  position: absolute;
+  top: 5%;
+}
+
+[data-loc='top10'] {
+  position: absolute;
+  top: 10%;
+}
+
+[data-loc='top25'] {
+  position: absolute;
+  top: 25%;
+}
+
+[data-loc='tl'] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: auto;
+}
+
+[data-loc='tr'] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: auto;
+}
+
+[data-loc='btm'] {
+  position: absolute;
+  bottom: 0;
+}
+
+[data-loc='btm5'] {
+  position: absolute;
+  bottom: 5%;
+}
+
+[data-loc='btm10'] {
+  position: absolute;
+  bottom: 10%;
+}
+
+[data-loc='bl'] {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: auto;
+}
+
+[data-loc='br'] {
+  position: absolute;
+  bottom: 0;
+  left: auto;
+  right: 0;
+}
+
+/* Banner Location */
+[data-bnr-loc='tl'] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 0px 0px 8px 0px;
+}
+
+[data-bnr-loc='tr'] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  border-radius: 0px 0px 0px 8px;
+}
+
+[data-bnr-loc='bl'] {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  border-radius: 0px 8px 0px 0px;
+}
+
+[data-bnr-loc='br'] {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  border-radius: 8px 0px 0px 0px;
+}
+
+/* Tag Location */
+[data-tag-loc='tl'] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 0px 0px 8px 0px;
+}
+
+[data-tag-loc='tr'] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  border-radius: 0px 0px 0px 8px;
+}
+
+[data-tag-loc='bl'] {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  border-radius: 0px 8px 0px 0px;
+}
+
+[data-tag-loc='br'] {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  border-radius: 8px 0px 0px 0px;
+}
+
+/** LABEL GAP *******************************************/
+/** Used px values instead of variables, need to fix   **/
+/********************************************************/
+[data-gap='16'] {
+  gap: var(--size--16px);
+}
+
+[data-gap='8'] {
+  gap: var(--size--8px);
+}
+
+[data-gap='4'] {
+  gap: var(--size--4px);
+}
+
+/** BUTTON PANEL **************************************************************************************/
+/** Orientation: Verical (v), Horizontal (h), Horizontal Right (hr) which is used with btn-hug above **/
+/******************************************************************************************************/
+[data-ori='v'] {
+  flex-direction: column;
+}
+
+[data-ori='h'] {
+  flex-direction: row;
+}
+
+[data-ori='h'] a {
+  width: 100%;
+}
+
+[data-ori='hr'] {
+  flex-direction: row;
+  justify-content: flex-start;
+  direction: rtl;
+}
+
+[data-ori='hr'] a {
+  width: auto;
+}
+
+/* This fixes some issues found with form padding and button panels */
+[data-ori='hr'] [data-btn-size='l'] {
+  padding: 8px 28px;
+}
+
+/* Cell alignment might be for btn-search-btn */
+[data-cell-align='l'] {
+  justify-content: flex-start;
+}
+
+[data-cell-align='c'] {
+  justify-content: center;
+}
+
+[data-cell-align='r'] {
+  justify-content: flex-end;
+}
+
+[data-obj-link='true'] {
+  cursor: pointer;
+}
+
+/* Object Align */
+[data-align='l'] {
+  text-align: left;
+}
+
+[data-align='c'] {
+  text-align: center;
+}
+
+[data-align='r'] {
+  text-align: right;
+}
+
+[data-align='j'] {
+  text-align: justify;
+}
+
+/* Flex Content Align: Initially for Banners */
+[data-cont-align='l'] {
+  justify-content: flex-start;
+}
+
+[data-cont-align='c'] {
+  justify-content: center;
+}
+
+[data-cont-align='r'] {
+  justify-content: flex-end;
+}
+
+[data-cont-align='sb'] {
+  justify-content: space-between;
+}
+
+[data-cont-align='sa'] {
+  justify-content: space-around;
+}
+
+/************************************************/
+/** BOX & TEXT SHADOW                          **/
+/************************************************/
+
+/** BOX SHADOW - SIZE ***************************/
+/** None, XSmall, Small, Medium, Large, XLarge **/
+/************************************************/
+[data-bs='n'] {
+  box-shadow: none;
+}
+
+[data-bs='xs'] {
+  box-shadow:
+    0 1px 8px var(--color--n9992),
+    0 3px 3px var(--color--n9991),
+    0 3px 4px var(--color--n9991);
+}
+
+[data-bs='s'] {
+  box-shadow:
+    0 1px 10px var(--color--n9992),
+    0 2px 4px var(--color--n9991),
+    0 4px 5px var(--color--n9991);
+}
+
+[data-bs='m'] {
+  box-shadow:
+    0 3px 5px var(--color--n9992),
+    0 1px 18px var(--color--n9991),
+    0 6px 10px var(--color--n9991);
+}
+
+[data-bs='l'] {
+  box-shadow:
+    0 3px 14px 3px var(--color--n9991),
+    0 4px 15px var(--color--n9992),
+    0 8px 10px 1px var(--color--n9991);
+}
+
+[data-bs='xl'] {
+  box-shadow:
+    0 5px 6px var(--color--n9992),
+    0 9px 12px 1px var(--color--n9991),
+    0 3px 16px 2px var(--color--n9991);
+}
+
+/* Card: Glow effect 
+box-shadow: 0 0 var(--color--p500), 0 1.4px 4.5px var(--color--p500),
+    0 4.5px 11.9px var(--color--p500);
+*/
+[data-shadow='y'] {
+  box-shadow:
+    rgba(25, 117, 240, 0.25) 0px 0px 3px 0px,
+    rgba(25, 117, 240, 0.1) 0px 0px 6px 5px;
+}
+
+/** TEXT SHADOW - SIZE **************************/
+/** None, XSmall, Small, Medium, Large, XLarge **/
+/************************************************/
+[data-ts='n'] {
+  text-shadow: none;
+}
+
+[data-ts='xs'] {
+  text-shadow:
+    0px 1px 8px var(--color--n9992),
+    0px 3px 3px var(--color--n9991),
+    0px 3px 4px var(--color--n9991);
+}
+
+[data-ts='s'] {
+  text-shadow:
+    0px 1px 10px var(--color--n9992),
+    0px 2px 4px var(--color--n9991),
+    0px 4px 5px var(--color--n9991);
+}
+
+[data-ts='m'] {
+  text-shadow:
+    0px 3px 5px var(--color--n9992),
+    0px 1px 18px var(--color--n9991),
+    0px 6px 10px var(--color--n9991);
+}
+
+[data-ts='l'] {
+  text-shadow:
+    0 3px 14px var(--color--n9991),
+    0px 4px 15px var(--color--n9992),
+    0px 8px 10px var(--color--n9991);
+}
+
+[data-ts='xl'] {
+  text-shadow:
+    0px 5px 6px var(--color--n9992),
+    0px 9px 12px var(--color--n9991),
+    0px 3px 16px var(--color--n9991);
+}
+
+[data-ts='bold'] {
+  text-shadow:
+    0 0 4px var(--color--n9997),
+    0px 0px 8px var(--color--n9994),
+    0px 0px 16px var(--color--n9992);
+}
+
+[data-ts='bold-light'] {
+  text-shadow:
+    0 0 4px var(--color--n0007),
+    0px 0px 8px var(--color--n0004),
+    0px 0px 16px var(--color--n0002);
+}

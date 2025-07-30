@@ -1,0 +1,11 @@
+{
+  "name": "@acrobi/tsconfig",
+  "version": "0.1.0",
+  "description": "Shared TypeScript configuration for the Acrobi Design System",
+  "main": "./base.json",
+  "files": [
+    "base.json",
+    "nextjs.json",
+    "react.json"
+  ]
+}

@@ -1,0 +1,225 @@
+name: Deploy Documentation to Cloudflare Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'packages/ui/docs/**'
+      - 'packages/ui/README.md'
+      - 'packages/ui/registry.json'
+      - '.github/workflows/deploy-docs-cloudflare.yml'
+
+jobs:
+  deploy-docs:
+    name: Deploy VitePress Documentation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 10
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build VitePress documentation
+        run: |
+          echo "📚 Building VitePress documentation..."
+          
+          # Check if VitePress is configured
+          if [ ! -f "packages/ui/docs/.vitepress/config.ts" ] && [ ! -f "packages/ui/docs/.vitepress/config.js" ]; then
+            echo "Setting up VitePress configuration..."
+            
+            mkdir -p packages/ui/docs/.vitepress
+            
+            cat > packages/ui/docs/.vitepress/config.ts << 'EOF'
+          import { defineConfig } from 'vitepress'
+
+          export default defineConfig({
+            title: 'Acrobi Design System',
+            description: 'A comprehensive design system for building modern, accessible web applications with Acrobi\'s Advanced Experiences (AAE)',
+            base: '/',
+            cleanUrls: true,
+            
+            head: [
+              ['meta', { name: 'viewport', content: 'width=device-width, initial-scale=1' }],
+              ['meta', { name: 'description', content: 'Acrobi Design System - Production-ready React components with TypeScript, Tailwind CSS, and AAE hooks' }],
+              ['meta', { name: 'keywords', content: 'React, TypeScript, Design System, Components, AAE, Progressive Web Apps, Accessibility' }],
+              ['meta', { property: 'og:title', content: 'Acrobi Design System Documentation' }],
+              ['meta', { property: 'og:description', content: 'Complete documentation for the Acrobi Design System with 49+ components and AAE capabilities' }],
+              ['meta', { property: 'og:type', content: 'website' }],
+              ['link', { rel: 'icon', href: '/favicon.ico' }],
+            ],
+
+            themeConfig: {
+              logo: '/logo.svg',
+              siteTitle: 'Acrobi Design System',
+              
+              nav: [
+                { text: 'Guide', link: '/guide/getting-started' },
+                { text: 'Components', link: '/components/' },
+                { text: 'AAE Hooks', link: '/hooks/' },
+                { text: 'Themes', link: '/themes/' },
+                { text: 'CLI', link: '/cli/' },
+                { text: 'Examples', link: '/examples/' }
+              ],
+
+              sidebar: {
+                '/guide/': [
+                  {
+                    text: 'Getting Started',
+                    items: [
+                      { text: 'Introduction', link: '/guide/getting-started' },
+                      { text: 'Installation', link: '/guide/installation' },
+                      { text: 'Quick Start', link: '/guide/quick-start' },
+                      { text: 'Configuration', link: '/guide/configuration' }
+                    ]
+                  },
+                  {
+                    text: 'Development',
+                    items: [
+                      { text: 'Contributing', link: '/guide/contributing' },
+                      { text: 'Architecture', link: '/guide/architecture' },
+                      { text: 'Testing', link: '/guide/testing' }
+                    ]
+                  }
+                ],
+                '/components/': [
+                  {
+                    text: 'Primitives',
+                    items: [
+                      { text: 'Overview', link: '/components/primitives/' },
+                      { text: 'Button', link: '/components/primitives/button' },
+                      { text: 'Input', link: '/components/primitives/input' },
+                      { text: 'Card', link: '/components/primitives/card' }
+                    ]
+                  },
+                  {
+                    text: 'Structures',  
+                    items: [
+                      { text: 'Overview', link: '/components/structures/' },
+                      { text: 'Form Fields', link: '/components/structures/form-fields' },
+                      { text: 'Data Tables', link: '/components/structures/data-tables' }
+                    ]
+                  }
+                ],
+                '/hooks/': [
+                  {
+                    text: 'AAE Hooks',
+                    items: [
+                      { text: 'Overview', link: '/hooks/' },
+                      { text: 'useGeolocation', link: '/hooks/use-geolocation' },
+                      { text: 'useCamera', link: '/hooks/use-camera' },
+                      { text: 'useBarcodeScanner', link: '/hooks/use-barcode-scanner' }
+                    ]
+                  }
+                ]
+              },
+
+              socialLinks: [
+                { icon: 'github', link: 'https://github.com/acrobi/design-system' }
+              ],
+
+              footer: {
+                message: 'Released under the MIT License (Non-Commercial) / Commercial License',
+                copyright: 'Copyright © 2025 Acrobi, a DBA of Bucca.com Inc.'
+              },
+
+              search: {
+                provider: 'local'
+              },
+
+              editLinkText: 'Edit this page on GitHub',
+              lastUpdatedText: 'Last updated',
+
+              carbonAds: {
+                code: 'your-carbon-code',
+                placement: 'your-carbon-placement'
+              }
+            },
+
+            markdown: {
+              theme: 'github-dark',
+              lineNumbers: true
+            },
+
+            vite: {
+              build: {
+                chunkSizeWarningLimit: 1000
+              }
+            }
+          })
+          EOF
+          
+            echo "✅ VitePress configuration created"
+          fi
+
+          # Build VitePress site
+          cd packages/ui/docs && npx vitepress build
+          
+          # Copy built files to deployment directory
+          mkdir -p ../../../docs-dist
+          cp -r .vitepress/dist/* ../../../docs-dist/
+          
+          # Add robots.txt for SEO
+          cat > ../../../docs-dist/robots.txt << 'EOF'
+          User-agent: *
+          Allow: /
+
+          Sitemap: https://docs.acrobi.com/sitemap.xml
+          EOF
+          
+          # Generate sitemap.xml
+          cat > ../../../docs-dist/sitemap.xml << 'EOF'
+          <?xml version="1.0" encoding="UTF-8"?>
+          <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+            <url>
+              <loc>https://docs.acrobi.com/</loc>
+              <lastmod>$(date -Iseconds)</lastmod>
+              <changefreq>weekly</changefreq>
+              <priority>1.0</priority>
+            </url>
+            <url>
+              <loc>https://docs.acrobi.com/guide/getting-started</loc>
+              <lastmod>$(date -Iseconds)</lastmod>
+              <changefreq>weekly</changefreq>
+              <priority>0.9</priority>
+            </url>
+            <url>
+              <loc>https://docs.acrobi.com/components/</loc>
+              <lastmod>$(date -Iseconds)</lastmod>
+              <changefreq>weekly</changefreq>
+              <priority>0.8</priority>
+            </url>
+            <url>
+              <loc>https://docs.acrobi.com/hooks/</loc>
+              <lastmod>$(date -Iseconds)</lastmod>
+              <changefreq>weekly</changefreq>
+              <priority>0.8</priority>
+            </url>
+          </urlset>
+          EOF
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: acrobi-docs
+          directory: docs-dist
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update deployment status
+        run: |
+          echo "🎉 Documentation deployed successfully!"
+          echo "📖 Documentation URL: https://docs.acrobi.com"
+          echo "🔍 SEO: Sitemap and robots.txt configured"

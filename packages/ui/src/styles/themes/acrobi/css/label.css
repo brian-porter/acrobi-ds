@@ -1,0 +1,168 @@
+/*********************************************************/
+/** LABEL                                               **/
+/*********************************************************/
+
+/** LABEL WRAPPER ****************************************/
+/** Base label wrapper styles                           **/
+/*********************************************************/
+.label_wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--size--8px);
+}
+
+.label_wrap .icn {
+  font-family: var(--_typography---icn1);
+  line-height: 1;
+}
+
+.label_wrap .txt {
+  line-height: var(--_typography---line-height--1-3);
+}
+
+/** LABEL SIZE *******************************************/
+/** Inherit, H1 - H5, R1 - R4, with Bold (b) follows FS **/
+/*********************************************************/
+[data-lbl-size='in'] {
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+[data-lbl-size='r4'] {
+  font-size: var(--_typography---size--r4);
+  font-weight: var(--_typography---fw4);
+}
+
+[data-lbl-size='r4b'] {
+  font-size: var(--_typography---size--r4);
+  font-weight: var(--_typography---fw7);
+}
+
+[data-lbl-size='r3'] {
+  font-size: var(--_typography---size--r3);
+  font-weight: var(--_typography---fw4);
+}
+
+[data-lbl-size='r3b'] {
+  font-size: var(--_typography---size--r3);
+  font-weight: var(--_typography---fw7);
+}
+
+[data-lbl-size='r2'] {
+  font-size: var(--_typography---size--r2);
+  font-weight: var(--_typography---fw4);
+}
+
+[data-lbl-size='r2b'] {
+  font-size: var(--_typography---size--r2);
+  font-weight: var(--_typography---fw7);
+}
+
+[data-lbl-size='r1'] {
+  font-size: var(--_typography---size--r1);
+  font-weight: var(--_typography---fw4);
+}
+
+[data-lbl-size='r1b'] {
+  font-size: var(--_typography---size--r1);
+  font-weight: var(--_typography---fw7);
+}
+
+[data-lbl-size='h5'] {
+  font-size: var(--_typography---size--h5);
+  font-weight: var(--_typography---fw4);
+}
+
+[data-lbl-size='h5b'] {
+  font-size: var(--_typography---size--h5);
+  font-weight: var(--_typography---fw7);
+}
+
+[data-lbl-size='h4'] {
+  font-size: var(--_typography---size--h4);
+  font-weight: var(--_typography---fw4);
+}
+
+[data-lbl-size='h4b'] {
+  font-size: var(--_typography---size--h4);
+  font-weight: var(--_typography---fw7);
+}
+
+[data-lbl-size='h3'] {
+  font-size: var(--_typography---size--h3);
+  font-weight: var(--_typography---fw4);
+}
+
+[data-lbl-size='h3b'] {
+  font-size: var(--_typography---size--h3);
+  font-weight: var(--_typography---fw7);
+}
+
+[data-lbl-size='h2'] {
+  font-size: var(--_typography---size--h2);
+  font-weight: var(--_typography---fw4);
+}
+
+[data-lbl-size='h2b'] {
+  font-size: var(--_typography---size--h2);
+  font-weight: var(--_typography---fw7);
+}
+
+[data-lbl-size='h1'] {
+  font-size: var(--_typography---size--h1);
+  font-weight: var(--_typography---fw4);
+}
+
+[data-lbl-size='h1b'] {
+  font-size: var(--_typography---size--h1);
+  font-weight: var(--_typography---fw7);
+}
+
+/** LABEL ICON - SIZE ****************************************************************/
+/** 2XSmall, XSmall, Small, Smedium, Medium, Medium Large, Large, XLarge, 2XLarge   **/
+/*************************************************************************************/
+[data-icn-size='xxs'] {
+  font-size: var(--icn--xxs);
+  line-height: var(--icn--lh);
+}
+
+[data-icn-size='xs'] {
+  font-size: var(--icn--xs);
+  line-height: var(--icn--lh);
+}
+
+[data-icn-size='s'] {
+  font-size: var(--icn--s);
+  line-height: var(--icn--lh);
+}
+
+[data-icn-size='sm'] {
+  font-size: var(--icn--sm);
+  line-height: var(--icn--lh);
+}
+
+[data-icn-size='m'] {
+  font-size: var(--icn--m);
+  line-height: var(--icn--lh);
+}
+
+[data-icn-size='ml'] {
+  font-size: var(--icn--ml);
+  line-height: var(--icn--lh);
+}
+
+[data-icn-size='l'] {
+  font-size: var(--icn--l);
+  line-height: var(--icn--lh);
+}
+
+[data-icn-size='xl'] {
+  font-size: var(--icn--xl);
+  line-height: var(--icn--lh);
+}
+
+[data-icn-size='2xl'] {
+  font-size: var(--icn--xxl);
+  line-height: var(--icn--lh);
+}

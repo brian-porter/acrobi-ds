@@ -593,7 +593,7 @@ var Nr = c((mr) => {
       PLUGIN_LOTTIE: "PLUGIN_LOTTIE",
       PLUGIN_SPLINE: "PLUGIN_SPLINE",
       PLUGIN_RIVE: "PLUGIN_RIVE",
-      PLUGIN_VARIABLE: "PLUGIN_VARIABLE",
+      PLUGIN_VARIAcrobi: "PLUGIN_VARIAcrobi",
       GENERAL_DISPLAY: "GENERAL_DISPLAY",
       GENERAL_START_ACTION: "GENERAL_START_ACTION",
       GENERAL_CONTINUOUS_ACTION: "GENERAL_CONTINUOUS_ACTION",
@@ -4077,7 +4077,7 @@ var Jc = c((Nn) => {
           target: { objectId: n },
           value: { unit: i },
         } = r.config,
-        o = t.PLUGIN_VARIABLE,
+        o = t.PLUGIN_VARIAcrobi,
         u = Object.values(WC).find((a) => a.match(o, i));
       u && document.documentElement.style.setProperty(n, u.getValue(o, i));
     },
@@ -4127,7 +4127,7 @@ var tl = c((Pn) => {
     [xt.ActionTypeConsts.PLUGIN_LOTTIE, { ...KC }],
     [xt.ActionTypeConsts.PLUGIN_SPLINE, { ...YC }],
     [xt.ActionTypeConsts.PLUGIN_RIVE, { ...zC }],
-    [xt.ActionTypeConsts.PLUGIN_VARIABLE, { ...kC }],
+    [xt.ActionTypeConsts.PLUGIN_VARIAcrobi, { ...kC }],
   ]);
 });
 var Ln = c((bn) => {

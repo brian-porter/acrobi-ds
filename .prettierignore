@@ -1,0 +1,50 @@
+# Dependencies
+node_modules/
+pnpm-lock.yaml
+
+# Build outputs
+dist/
+build/
+.next/
+coverage/
+.turbo/
+
+# Generated files
+*.min.js
+*.min.css
+.swarm/
+devlink/
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Temporary files
+*.tmp
+*.temp
+
+# Documentation build
+docs/.vitepress/dist/
+docs/.vitepress/cache/
+
+# Storybook build
+storybook-static/
+
+# Test coverage
+coverage/

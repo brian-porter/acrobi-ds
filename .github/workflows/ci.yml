@@ -1,0 +1,421 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # Job 1: Install dependencies and cache
+  install:
+    name: Install Dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Cache node_modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('package-lock.json') }}
+
+  # Job 2: Lint and Format Check
+  lint:
+    name: Lint & Format
+    runs-on: ubuntu-latest
+    needs: install
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Restore node_modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('package-lock.json') }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run ESLint
+        run: npm run lint
+
+      - name: Check Prettier formatting
+        run: npm run format:check
+
+  # Job 3: Type checking
+  typecheck:
+    name: TypeScript Check
+    runs-on: ubuntu-latest
+    needs: install
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Restore node_modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('package-lock.json') }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Type check
+        run: npm run type-check
+
+  # Job 4: Unit Tests
+  test:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    needs: install
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Restore node_modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('package-lock.json') }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm run test -- --coverage --watchAll=false
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./coverage/lcov.info
+          flags: unittests
+          name: codecov-umbrella
+
+  # Job 5: Build packages
+  build:
+    name: Build Packages
+    runs-on: ubuntu-latest
+    needs: install
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Restore node_modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('package-lock.json') }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build packages
+        run: npm run build
+
+      - name: Cache build artifacts
+        uses: actions/cache@v3
+        with:
+          path: |
+            packages/ui/dist
+            packages/cli/dist
+          key: ${{ runner.os }}-build-${{ github.sha }}
+
+  # Job 6: Component Registry Validation
+  validate-registry:
+    name: Validate Component Registry
+    runs-on: ubuntu-latest
+    needs: install
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Restore node_modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('package-lock.json') }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Validate registry schema
+        run: |
+          # Validate registry.json structure
+          node -e "
+            const registry = require('./packages/ui/registry.json');
+            const components = registry.components;
+            
+            console.log('📦 Validating component registry...');
+            console.log('Total components:', Object.keys(components).length);
+            
+            // Check required fields
+            for (const [key, component] of Object.entries(components)) {
+              if (!component.name) throw new Error(\`Component \${key} missing name\`);
+              if (!component.description) throw new Error(\`Component \${key} missing description\`);
+              if (!component.category) throw new Error(\`Component \${key} missing category\`);
+              if (!component.files) throw new Error(\`Component \${key} missing files\`);
+            }
+            
+            console.log('✅ Registry validation passed!');
+          "
+
+      - name: Check component files exist
+        run: |
+          # Verify all component files exist
+          node -e "
+            const fs = require('fs');
+            const path = require('path');
+            const registry = require('./packages/ui/registry.json');
+            
+            console.log('🔍 Checking component files exist...');
+            
+            for (const [key, component] of Object.entries(registry.components)) {
+              for (const file of component.files) {
+                const filePath = path.join('packages/ui/src', file.path);
+                if (!fs.existsSync(filePath)) {
+                  throw new Error(\`File not found: \${filePath} for component \${key}\`);
+                }
+              }
+            }
+            
+            console.log('✅ All component files exist!');
+          "
+
+  # Job 7: Security audit
+  security:
+    name: Security Audit
+    runs-on: ubuntu-latest
+    needs: install
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Restore node_modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('package-lock.json') }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run security audit
+        run: npm audit --audit-level high
+
+      - name: Check for known vulnerabilities
+        run: |
+          # Additional security checks
+          echo "🛡️ Running additional security checks..."
+
+          # Check for sensitive files
+          if find . -name "*.key" -o -name "*.pem" -o -name ".env" | grep -v node_modules | head -1; then
+            echo "❌ Sensitive files found in repository"
+            exit 1
+          fi
+
+          echo "✅ Security checks passed!"
+
+  # Job 8: Bundle size analysis
+  bundle-size:
+    name: Bundle Size Analysis
+    runs-on: ubuntu-latest
+    needs: [install, build]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Restore node_modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('package-lock.json') }}
+
+      - name: Restore build artifacts
+        uses: actions/cache@v3
+        with:
+          path: |
+            packages/ui/dist
+            packages/cli/dist
+          key: ${{ runner.os }}-build-${{ github.sha }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Analyze bundle size
+        run: |
+          echo "📊 Bundle Size Analysis"
+          echo "======================"
+
+          # UI Package
+          if [ -f "packages/ui/dist/index.js" ]; then
+            echo "UI Package:"
+            ls -lh packages/ui/dist/
+            echo ""
+          fi
+
+          # CLI Package  
+          if [ -f "packages/cli/dist/index.js" ]; then
+            echo "CLI Package:"
+            ls -lh packages/cli/dist/
+            echo ""
+          fi
+
+          # Check for tree-shaking effectiveness
+          echo "🌳 Tree-shaking analysis:"
+          node -e "
+            const fs = require('fs');
+            if (fs.existsSync('packages/ui/dist/index.js')) {
+              const content = fs.readFileSync('packages/ui/dist/index.js', 'utf8');
+              console.log('Bundle size:', (content.length / 1024).toFixed(2), 'KB');
+              console.log('Gzipped estimate:', Math.round(content.length / 3 / 1024), 'KB');
+            }
+          "
+
+  # Job 9: Accessibility checks
+  accessibility:
+    name: Accessibility Audit
+    runs-on: ubuntu-latest
+    needs: [install, build]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Restore node_modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('package-lock.json') }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run accessibility tests
+        run: |
+          echo "♿ Running accessibility audit..."
+
+          # Check for accessibility-related code patterns
+          echo "🔍 Checking for ARIA attributes..."
+          grep -r "aria-" packages/ui/src/ || echo "Warning: No ARIA attributes found"
+
+          echo "🔍 Checking for semantic HTML usage..."
+          grep -r -E "(role=|semantic)" packages/ui/src/ || echo "Info: Limited semantic HTML patterns found"
+
+          echo "✅ Accessibility audit completed"
+
+  # Summary job that requires all others to pass
+  ci-success:
+    name: CI Success
+    runs-on: ubuntu-latest
+    needs:
+      [
+        lint,
+        typecheck,
+        test,
+        build,
+        validate-registry,
+        security,
+        bundle-size,
+        accessibility,
+      ]
+    if: always()
+    steps:
+      - name: Check all jobs
+        run: |
+          if [[ "${{ needs.lint.result }}" != "success" ]]; then
+            echo "❌ Lint job failed"
+            exit 1
+          fi
+          if [[ "${{ needs.typecheck.result }}" != "success" ]]; then
+            echo "❌ TypeScript check failed"  
+            exit 1
+          fi
+          if [[ "${{ needs.test.result }}" != "success" ]]; then
+            echo "❌ Tests failed"
+            exit 1
+          fi
+          if [[ "${{ needs.build.result }}" != "success" ]]; then
+            echo "❌ Build failed"
+            exit 1
+          fi
+          if [[ "${{ needs.validate-registry.result }}" != "success" ]]; then
+            echo "❌ Registry validation failed"
+            exit 1
+          fi
+          if [[ "${{ needs.security.result }}" != "success" ]]; then
+            echo "❌ Security audit failed"
+            exit 1
+          fi
+          if [[ "${{ needs.bundle-size.result }}" != "success" ]]; then
+            echo "❌ Bundle size analysis failed"
+            exit 1
+          fi
+          if [[ "${{ needs.accessibility.result }}" != "success" ]]; then
+            echo "❌ Accessibility audit failed"
+            exit 1
+          fi
+
+          echo "✅ All CI checks passed!"

@@ -1,0 +1,317 @@
+name: Deploy Storybook to Cloudflare Pages (Password Protected)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'packages/ui/src/**'
+      - 'packages/ui/.storybook/**'
+      - 'packages/ui/registry.json'
+      - '.github/workflows/deploy-storybook-cloudflare.yml'
+
+jobs:
+  deploy-storybook:
+    name: Deploy Protected Storybook
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 10
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build Storybook
+        run: |
+          echo "📚 Building Storybook..."
+          cd packages/ui
+          pnpm run build-storybook
+          
+          # Copy to deployment directory
+          mkdir -p ../../storybook-dist
+          cp -r storybook-static/* ../../storybook-dist/
+
+      - name: Create password protection middleware
+        run: |
+          echo "🔒 Setting up password protection..."
+          
+          # Create Cloudflare Pages Functions directory
+          mkdir -p storybook-dist/functions
+          
+          # Create authentication middleware
+          cat > storybook-dist/functions/_middleware.js << 'EOF'
+          const PASSWORD = 'acrobi-storybook-2024';
+          const COOKIE_NAME = 'acrobi-storybook-auth';
+          const SESSION_DURATION = 24 * 60 * 60 * 1000; // 24 hours
+
+          export async function onRequest(context) {
+            const { request, next, env } = context;
+            const url = new URL(request.url);
+            
+            // Skip authentication for static assets
+            if (url.pathname.match(/\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot)$/)) {
+              return next();
+            }
+            
+            // Check for existing valid session
+            const cookies = request.headers.get('Cookie') || '';
+            const authCookie = cookies.split(';')
+              .find(cookie => cookie.trim().startsWith(`${COOKIE_NAME}=`));
+            
+            if (authCookie) {
+              try {
+                const cookieValue = authCookie.split('=')[1];
+                const sessionData = JSON.parse(atob(cookieValue));
+                
+                if (sessionData.expires > Date.now()) {
+                  // Valid session, proceed
+                  return next();
+                }
+              } catch (e) {
+                // Invalid cookie, continue to auth
+              }
+            }
+            
+            // Handle login form submission
+            if (request.method === 'POST' && url.pathname === '/auth') {
+              const formData = await request.formData();
+              const submittedPassword = formData.get('password');
+              
+              if (submittedPassword === PASSWORD) {
+                // Password correct, set cookie and redirect
+                const sessionData = {
+                  authenticated: true,
+                  expires: Date.now() + SESSION_DURATION
+                };
+                
+                const cookieValue = btoa(JSON.stringify(sessionData));
+                
+                return new Response('', {
+                  status: 302,
+                  headers: {
+                    'Location': url.pathname === '/auth' ? '/' : url.pathname,
+                    'Set-Cookie': `${COOKIE_NAME}=${cookieValue}; HttpOnly; Secure; SameSite=Strict; Max-Age=${SESSION_DURATION / 1000}; Path=/`
+                  }
+                });
+              } else {
+                // Wrong password, show error
+                return new Response(getLoginPage(true), {
+                  headers: { 'Content-Type': 'text/html' }
+                });
+              }
+            }
+            
+            // Show login page
+            return new Response(getLoginPage(), {
+              headers: { 'Content-Type': 'text/html' }
+            });
+          }
+
+          function getLoginPage(error = false) {
+            return `<!DOCTYPE html>
+          <html lang="en">
+          <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Acrobi Storybook - Access Required</title>
+            <style>
+              * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+              }
+              
+              body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                min-height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 20px;
+              }
+              
+              .login-container {
+                background: white;
+                padding: 2rem;
+                border-radius: 8px;
+                box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+                width: 100%;
+                max-width: 400px;
+                text-align: center;
+              }
+              
+              .logo {
+                font-size: 2rem;
+                font-weight: bold;
+                color: #333;
+                margin-bottom: 0.5rem;
+              }
+              
+              .subtitle {
+                color: #666;
+                margin-bottom: 2rem;
+                font-size: 0.9rem;
+              }
+              
+              .form-group {
+                margin-bottom: 1rem;
+                text-align: left;
+              }
+              
+              label {
+                display: block;
+                margin-bottom: 0.5rem;
+                color: #333;
+                font-weight: 500;
+              }
+              
+              input[type="password"] {
+                width: 100%;
+                padding: 0.75rem;
+                border: 2px solid #ddd;
+                border-radius: 4px;
+                font-size: 1rem;
+                transition: border-color 0.2s;
+              }
+              
+              input[type="password"]:focus {
+                outline: none;
+                border-color: #667eea;
+              }
+              
+              .submit-btn {
+                width: 100%;
+                padding: 0.75rem;
+                background: #667eea;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                font-size: 1rem;
+                cursor: pointer;
+                transition: background 0.2s;
+              }
+              
+              .submit-btn:hover {
+                background: #5a6fd8;
+              }
+              
+              .error {
+                color: #e53e3e;
+                margin-top: 0.5rem;
+                font-size: 0.9rem;
+              }
+              
+              .info {
+                margin-top: 2rem;
+                padding: 1rem;
+                background: #f7fafc;
+                border-radius: 4px;
+                font-size: 0.85rem;
+                color: #4a5568;
+              }
+              
+              .robots-meta {
+                display: none;
+              }
+            </style>
+            <meta name="robots" content="noindex, nofollow">
+          </head>
+          <body>
+            <div class="login-container">
+              <div class="logo">🎨 Acrobi</div>
+              <div class="subtitle">Storybook Development Environment</div>
+              
+              <form method="POST" action="/auth">
+                <div class="form-group">
+                  <label for="password">Access Password:</label>
+                  <input 
+                    type="password" 
+                    id="password" 
+                    name="password" 
+                    required 
+                    autocomplete="current-password"
+                    ${error ? 'class="error-input"' : ''}
+                  >
+                  ${error ? '<div class="error">❌ Incorrect password. Please try again.</div>' : ''}
+                </div>
+                
+                <button type="submit" class="submit-btn">
+                  🔓 Access Storybook
+                </button>
+              </form>
+              
+              <div class="info">
+                <strong>🔒 Protected Development Environment</strong><br>
+                This Storybook contains development components and internal documentation. 
+                Access is restricted to authorized team members only.
+              </div>
+            </div>
+            
+            <script>
+              // Focus password field on load
+              document.getElementById('password').focus();
+              
+              // Handle form submission feedback
+              document.querySelector('form').addEventListener('submit', function(e) {
+                const btn = document.querySelector('.submit-btn');
+                btn.textContent = '🔄 Authenticating...';
+                btn.disabled = true;
+              });
+            </script>
+          </body>
+          </html>`;
+          }
+          EOF
+          
+          echo "✅ Password protection middleware created"
+
+      - name: Add security headers
+        run: |
+          echo "🛡️ Adding security headers..."
+          
+          # Create _headers file for additional security
+          cat > storybook-dist/_headers << 'EOF'
+          /*
+            X-Frame-Options: DENY
+            X-Content-Type-Options: nosniff
+            X-XSS-Protection: 1; mode=block
+            Referrer-Policy: strict-origin-when-cross-origin
+            Permissions-Policy: camera=(), microphone=(), geolocation=()
+            
+          /functions/*
+            Cache-Control: no-cache, no-store, must-revalidate
+          EOF
+          
+          # Add robots.txt to prevent indexing
+          cat > storybook-dist/robots.txt << 'EOF'
+          User-agent: *
+          Disallow: /
+          EOF
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: acrobi-storybook
+          directory: storybook-dist
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update deployment status
+        run: |
+          echo "🎉 Storybook deployed successfully!"
+          echo "🔒 Protected Storybook URL: https://dev.acrobi.com"
+          echo "🔑 Access Password: acrobi-storybook-2024"
+          echo "🛡️ Security: Password protection and headers configured"
+          echo "🚫 SEO: Search engine indexing disabled"

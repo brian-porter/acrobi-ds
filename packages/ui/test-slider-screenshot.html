@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Slider Screenshot Test</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <style>
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+          'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+          sans-serif;
+        padding: 40px;
+        background: #f8f9fa;
+      }
+
+      .sample-container {
+        background: white;
+        border: 1px solid #e1e5e9;
+        border-radius: 8px;
+        padding: 40px;
+        max-width: 600px;
+      }
+
+      .sample-title {
+        font-size: 24px;
+        margin-bottom: 40px;
+        color: #1a1a1a;
+      }
+
+      .field-label {
+        font-size: 14px;
+        margin-bottom: 12px;
+        color: #1a1a1a;
+        display: block;
+      }
+
+      /* Slider styles to match the screenshot */
+      .slider {
+        width: 100%;
+        position: relative;
+      }
+
+      .slider_wrapper {
+        position: relative;
+        width: 100%;
+      }
+
+      .slider_track {
+        position: relative;
+        width: 100%;
+        height: 8px;
+        background-color: #e1e5e9;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      .slider_fill {
+        position: absolute;
+        height: 100%;
+        background-color: #0066cc;
+        border-radius: 4px;
+        width: 30%;
+        pointer-events: none;
+      }
+
+      .slider_handle {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background-color: #0066cc;
+        border-radius: 50%;
+        cursor: grab;
+        top: 50%;
+        left: 30%;
+        transform: translate(-50%, -50%);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .slider_handle:active {
+        cursor: grabbing;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="sample-container">
+      <h1 class="sample-title">Sample</h1>
+
+      <label class="field-label">Label</label>
+
+      <div class="slider">
+        <div class="slider_wrapper">
+          <div class="slider_track">
+            <div class="slider_fill"></div>
+            <div class="slider_handle"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,40 @@
+{
+  "default": [
+    {
+      "key": "v9-epics-overview",
+      "value": "{\"totalEpics\": 42, \"epicRange\": \"40-81\", \"status\": \"coordination-initialized\", \"coordinationStarted\": \"2025-07-28T09:13:30Z\"}",
+      "namespace": "default",
+      "timestamp": 1753694054812
+    },
+    {
+      "key": "v9-epic-groups-hardware",
+      "value": "{\"epics\": [40, 41, 42, 43, 44, 45, 46, 47, 48], \"category\": \"Core Hardware & Sensor Hooks\", \"count\": 9, \"status\": \"pending\", \"description\": \"AAE hardware integration hooks\"}",
+      "namespace": "default",
+      "timestamp": 1753694086859
+    },
+    {
+      "key": "v9-epic-groups-connectivity",
+      "value": "{\"epics\": [49, 50, 51, 52, 53, 54, 55, 56], \"category\": \"Connectivity & Communication\", \"count\": 8, \"status\": \"pending\", \"description\": \"AAE communication and connectivity hooks\"}",
+      "namespace": "default",
+      "timestamp": 1753694091882
+    },
+    {
+      "key": "v9-epic-groups-storage",
+      "value": "{\"epics\": [57, 58, 59, 60, 61, 62], \"category\": \"Storage & Background\", \"count\": 6, \"status\": \"pending\", \"description\": \"AAE storage and background processing hooks\"}",
+      "namespace": "default",
+      "timestamp": 1753694096729
+    },
+    {
+      "key": "v9-epic-groups-integration",
+      "value": "{\"epics\": [63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78], \"category\": \"App & OS Integration\", \"count\": 16, \"status\": \"pending\", \"description\": \"AAE OS integration and advanced capabilities\"}",
+      "namespace": "default",
+      "timestamp": 1753694101407
+    },
+    {
+      "key": "v9-epic-groups-finalization",
+      "value": "{\"epics\": [79, 80, 81], \"category\": \"Finalization & Guides\", \"count\": 3, \"status\": \"pending\", \"description\": \"V9 finalization and comprehensive guides\"}",
+      "namespace": "default",
+      "timestamp": 1753694106245
+    }
+  ]
+}

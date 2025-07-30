@@ -14,6 +14,8 @@ export declare namespace Basic {
     href: string;
   } & PreloadedAndTargetedLink;
   export type RichTextChildren = React.ReactNode;
+  export type AltText = string;
+  export type IdTextInput = string;
   export {};
 }
 export declare namespace Asset {
@@ -29,4 +31,12 @@ export declare namespace Embed {
 }
 export declare namespace Visibility {
   type VisibilityConditions = boolean;
+}
+export declare namespace Devlink {
+  export type RuntimeProps = {
+    [key: string]: any;
+  };
+}
+export declare namespace Builtin {
+  export type Text = string;
 }

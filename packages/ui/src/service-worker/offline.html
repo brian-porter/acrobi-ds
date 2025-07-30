@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Offline - Acrobi AAE</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+          Cantarell, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        text-align: center;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 500px;
+        width: 100%;
+      }
+
+      .offline-icon {
+        font-size: 80px;
+        margin-bottom: 20px;
+        opacity: 0.9;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+        margin-bottom: 16px;
+        font-weight: 600;
+      }
+
+      p {
+        font-size: 1.1rem;
+        line-height: 1.6;
+        margin-bottom: 30px;
+        opacity: 0.9;
+      }
+
+      .buttons {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      button {
+        background: rgba(255, 255, 255, 0.2);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        color: white;
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+      }
+
+      button:hover {
+        background: rgba(255, 255, 255, 0.3);
+        border-color: rgba(255, 255, 255, 0.5);
+        transform: translateY(-2px);
+      }
+
+      button:active {
+        transform: translateY(0);
+      }
+
+      .network-status {
+        margin-top: 30px;
+        padding: 15px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        backdrop-filter: blur(10px);
+      }
+
+      .status-indicator {
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        margin-right: 8px;
+      }
+
+      .status-online {
+        background: #4ade80;
+      }
+
+      .status-offline {
+        background: #f87171;
+      }
+
+      .cached-pages {
+        margin-top: 20px;
+        text-align: left;
+      }
+
+      .cached-pages h3 {
+        margin-bottom: 10px;
+        font-size: 1.2rem;
+      }
+
+      .cached-pages ul {
+        list-style: none;
+      }
+
+      .cached-pages li {
+        margin-bottom: 8px;
+      }
+
+      .cached-pages a {
+        color: rgba(255, 255, 255, 0.9);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        padding: 8px 12px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 6px;
+        transition: background 0.2s ease;
+      }
+
+      .cached-pages a:hover {
+        background: rgba(255, 255, 255, 0.2);
+      }
+
+      .cached-pages a::before {
+        content: '📄';
+        margin-right: 8px;
+      }
+
+      @media (max-width: 480px) {
+        h1 {
+          font-size: 2rem;
+        }
+
+        .offline-icon {
+          font-size: 60px;
+        }
+
+        .buttons {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        button {
+          width: 100%;
+          max-width: 200px;
+        }
+      }
+
+      /* Animation */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .container {
+        animation: fadeIn 0.6s ease-out;
+      }
+
+      /* Pulse animation for offline icon */
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 0.9;
+        }
+        50% {
+          opacity: 0.6;
+        }
+      }
+
+      .offline-icon {
+        animation: pulse 2s infinite;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="offline-icon">📡</div>
+      <h1>You're Offline</h1>
+      <p>
+        It looks like you're not connected to the internet. Don't worry! Some
+        content may still be available from your device's cache.
+      </p>
+
+      <div class="buttons">
+        <button onclick="tryReload()">🔄 Try Again</button>
+        <button onclick="goHome()">🏠 Go Home</button>
+      </div>
+
+      <div class="network-status">
+        <div id="connectionStatus">
+          <span class="status-indicator status-offline"></span>
+          <span id="statusText">No internet connection</span>
+        </div>
+      </div>
+
+      <div class="cached-pages" id="cachedPages" style="display: none">
+        <h3>Available Offline Pages</h3>
+        <ul id="cachedPagesList">
+          <!-- Populated by JavaScript -->
+        </ul>
+      </div>
+    </div>
+
+    <script>
+      // Network status monitoring
+      function updateNetworkStatus() {
+        const statusIndicator = document.querySelector('.status-indicator');
+        const statusText = document.getElementById('statusText');
+
+        if (navigator.onLine) {
+          statusIndicator.className = 'status-indicator status-online';
+          statusText.textContent = 'Back online! You can try reloading.';
+
+          // Auto-reload after a short delay when back online
+          setTimeout(() => {
+            if (navigator.onLine) {
+              window.location.reload();
+            }
+          }, 2000);
+        } else {
+          statusIndicator.className = 'status-indicator status-offline';
+          statusText.textContent = 'No internet connection';
+        }
+      }
+
+      // Reload page
+      function tryReload() {
+        if (navigator.onLine) {
+          window.location.reload();
+        } else {
+          // Attempt reload anyway in case network status is incorrect
+          setTimeout(() => {
+            window.location.reload();
+          }, 100);
+        }
+      }
+
+      // Go to home page
+      function goHome() {
+        window.location.href = '/';
+      }
+
+      // Check for cached pages
+      async function loadCachedPages() {
+        if ('caches' in window) {
+          try {
+            const cacheNames = await caches.keys();
+            const cachedUrls = new Set();
+
+            for (const cacheName of cacheNames) {
+              const cache = await caches.open(cacheName);
+              const requests = await cache.keys();
+
+              for (const request of requests) {
+                const url = new URL(request.url);
+                if (
+                  url.pathname !== '/offline.html' &&
+                  url.pathname.length > 1
+                ) {
+                  cachedUrls.add({
+                    url: request.url,
+                    pathname: url.pathname,
+                  });
+                }
+              }
+            }
+
+            if (cachedUrls.size > 0) {
+              displayCachedPages(Array.from(cachedUrls).slice(0, 5)); // Show max 5 pages
+            }
+          } catch (error) {
+            console.log('Could not load cached pages:', error);
+          }
+        }
+      }
+
+      // Display cached pages
+      function displayCachedPages(pages) {
+        const cachedPagesDiv = document.getElementById('cachedPages');
+        const cachedPagesList = document.getElementById('cachedPagesList');
+
+        cachedPagesList.innerHTML = '';
+
+        pages.forEach(page => {
+          const li = document.createElement('li');
+          const a = document.createElement('a');
+          a.href = page.url;
+          a.textContent = page.pathname === '/' ? 'Home' : page.pathname;
+          li.appendChild(a);
+          cachedPagesList.appendChild(li);
+        });
+
+        cachedPagesDiv.style.display = 'block';
+      }
+
+      // Event listeners
+      window.addEventListener('online', updateNetworkStatus);
+      window.addEventListener('offline', updateNetworkStatus);
+
+      // Initial setup
+      updateNetworkStatus();
+      loadCachedPages();
+
+      // Keyboard shortcuts
+      document.addEventListener('keydown', event => {
+        if (event.key === 'r' && (event.ctrlKey || event.metaKey)) {
+          event.preventDefault();
+          tryReload();
+        } else if (event.key === 'h' && (event.ctrlKey || event.metaKey)) {
+          event.preventDefault();
+          goHome();
+        }
+      });
+
+      // Service worker message handling
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.addEventListener('message', event => {
+          if (event.data.type === 'CACHE_UPDATED') {
+            loadCachedPages();
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

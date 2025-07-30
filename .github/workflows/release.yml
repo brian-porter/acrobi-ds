@@ -1,0 +1,416 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'packages/*/package.json'
+      - '.github/workflows/release.yml'
+  workflow_dispatch:
+    inputs:
+      release_type:
+        description: 'Release type'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+      skip_tests:
+        description: 'Skip tests'
+        required: false
+        default: false
+        type: boolean
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  # Check if release is needed
+  check-release:
+    name: Check Release Needed
+    runs-on: ubuntu-latest
+    outputs:
+      ui-changed: ${{ steps.changes.outputs.ui }}
+      cli-changed: ${{ steps.changes.outputs.cli }}
+      should-release: ${{ steps.should-release.outputs.result }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Check for changes
+        uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            ui:
+              - 'packages/ui/**'
+              - '!packages/ui/README.md'
+              - '!packages/ui/docs/**'
+            cli:
+              - 'packages/cli/**'
+              - '!packages/cli/README.md'
+
+      - name: Should release
+        id: should-release
+        run: |
+          if [[ "${{ steps.changes.outputs.ui }}" == "true" ]] || [[ "${{ steps.changes.outputs.cli }}" == "true" ]] || [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo "result=true" >> $GITHUB_OUTPUT
+          else
+            echo "result=false" >> $GITHUB_OUTPUT
+          fi
+
+  # Run full CI before release
+  ci:
+    name: Run CI
+    uses: ./.github/workflows/ci.yml
+    if: needs.check-release.outputs.should-release == 'true'
+    needs: check-release
+
+  # Release job
+  release:
+    name: Release Packages
+    runs-on: ubuntu-latest
+    needs: [check-release, ci]
+    if: needs.check-release.outputs.should-release == 'true' && (needs.ci.result == 'success' || github.event.inputs.skip_tests == 'true')
+    environment: production
+    permissions:
+      contents: write
+      id-token: write
+      packages: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build packages
+        run: npm run build
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Determine version bump
+        id: version
+        run: |
+          RELEASE_TYPE="${{ github.event.inputs.release_type || 'patch' }}"
+          echo "release-type=$RELEASE_TYPE" >> $GITHUB_OUTPUT
+
+          # Get current version
+          CURRENT_VERSION=$(node -p "require('./packages/ui/package.json').version")
+          echo "current-version=$CURRENT_VERSION" >> $GITHUB_OUTPUT
+
+          # Calculate new version
+          NEW_VERSION=$(npx semver -i $RELEASE_TYPE $CURRENT_VERSION)
+          echo "new-version=$NEW_VERSION" >> $GITHUB_OUTPUT
+
+          echo "📊 Version Information:"
+          echo "Current: $CURRENT_VERSION"
+          echo "Release Type: $RELEASE_TYPE"  
+          echo "New: $NEW_VERSION"
+
+      - name: Update package versions
+        run: |
+          NEW_VERSION="${{ steps.version.outputs.new-version }}"
+
+          echo "📦 Updating package versions to $NEW_VERSION..."
+
+          # Update UI package
+          if [[ "${{ needs.check-release.outputs.ui-changed }}" == "true" ]] || [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            npm version $NEW_VERSION --workspace=packages/ui --no-git-tag-version
+            echo "✅ Updated @acrobi/ui to $NEW_VERSION"
+          fi
+
+          # Update CLI package
+          if [[ "${{ needs.check-release.outputs.cli-changed }}" == "true" ]] || [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            npm version $NEW_VERSION --workspace=packages/cli --no-git-tag-version
+            echo "✅ Updated @acrobi/cli to $NEW_VERSION"
+          fi
+
+          # Update registry version
+          node -e "
+            const fs = require('fs');
+            const registry = require('./packages/ui/registry.json');
+            registry.version = '$NEW_VERSION';
+            fs.writeFileSync('./packages/ui/registry.json', JSON.stringify(registry, null, 2));
+            console.log('✅ Updated registry version to $NEW_VERSION');
+          "
+
+      - name: Update version in source files
+        run: |
+          NEW_VERSION="${{ steps.version.outputs.new-version }}"
+
+          # Update version export in UI index
+          if [ -f "packages/ui/src/index.ts" ]; then
+            sed -i "s/export const version = '.*';/export const version = '$NEW_VERSION';/" packages/ui/src/index.ts
+            echo "✅ Updated version export in UI index"
+          fi
+
+      - name: Generate changelog
+        id: changelog
+        run: |
+          echo "📝 Generating changelog..."
+
+          # Get previous tag
+          PREVIOUS_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+          if [ -z "$PREVIOUS_TAG" ]; then
+            PREVIOUS_TAG="HEAD~10"  # fallback for first release
+          fi
+
+          echo "Previous tag: $PREVIOUS_TAG"
+
+          # Generate changelog
+          CHANGELOG=$(git log $PREVIOUS_TAG..HEAD --pretty=format:"- %s (%h)" --no-merges | head -20)
+
+          if [ -z "$CHANGELOG" ]; then
+            CHANGELOG="- Initial release of Acrobi Design System v${{ steps.version.outputs.new-version }}"
+          fi
+
+          echo "changelog<<EOF" >> $GITHUB_OUTPUT
+          echo "$CHANGELOG" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+          # Create detailed changelog for release notes
+          cat > RELEASE_NOTES.md << EOF
+          # Acrobi Design System v${{ steps.version.outputs.new-version }}
+
+          ## 🎉 What's New
+
+          $CHANGELOG
+
+          ## 📦 Packages Released
+
+          EOF
+
+          if [[ "${{ needs.check-release.outputs.ui-changed }}" == "true" ]] || [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo "- **@acrobi/ui@${{ steps.version.outputs.new-version }}** - Component library" >> RELEASE_NOTES.md
+          fi
+
+          if [[ "${{ needs.check-release.outputs.cli-changed }}" == "true" ]] || [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo "- **@acrobi/cli@${{ steps.version.outputs.new-version }}** - CLI tools" >> RELEASE_NOTES.md
+          fi
+
+          cat >> RELEASE_NOTES.md << EOF
+
+          ## 🏗️ Component Library
+
+          - **49 Components Total**: 24 primitives, 22 structures, 3 AAE hooks
+          - **TypeScript First**: Complete type definitions and IntelliSense support
+          - **Accessibility**: WCAG 2.1 AA compliant with comprehensive ARIA support
+          - **AAE Ready**: Location services, camera access, and barcode scanning
+          - **Tree Shakeable**: Import only what you need for optimal bundle size
+
+          ## 🚀 Installation
+
+          \`\`\`bash
+          # Install the component library
+          npm install @acrobi/ui
+
+          # Or use the CLI
+          npx @acrobi/cli init
+          npx @acrobi/cli add button card text-field
+          \`\`\`
+
+          ## 📚 Documentation
+
+          - [Getting Started](https://github.com/acrobi/design-system/blob/main/packages/ui/docs/getting-started.md)
+          - [Component Documentation](https://github.com/acrobi/design-system/tree/main/packages/ui/docs/components)
+          - [Examples](https://github.com/acrobi/design-system/tree/main/packages/ui/docs/examples)
+
+          ## 🎯 Full Changelog
+
+          [View full changelog](https://github.com/acrobi/design-system/compare/$PREVIOUS_TAG...v${{ steps.version.outputs.new-version }})
+          EOF
+
+      - name: Commit version changes
+        run: |
+          git add .
+          git commit -m "🚀 Release v${{ steps.version.outputs.new-version }}
+
+          - Update package versions to ${{ steps.version.outputs.new-version }}
+          - Update component registry version
+          - Generate release documentation
+
+          🤖 Generated with GitHub Actions
+
+          Co-Authored-By: github-actions[bot] <github-actions[bot]@users.noreply.github.com>"
+
+      - name: Create and push tag
+        run: |
+          git tag -a "v${{ steps.version.outputs.new-version }}" -m "Release v${{ steps.version.outputs.new-version }}"
+          git push origin main --follow-tags
+
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ steps.version.outputs.new-version }}
+          release_name: Acrobi Design System v${{ steps.version.outputs.new-version }}
+          body_path: RELEASE_NOTES.md
+          draft: false
+          prerelease: false
+
+      - name: Publish to npm
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          echo "📦 Publishing packages to npm..."
+
+          # Publish UI package
+          if [[ "${{ needs.check-release.outputs.ui-changed }}" == "true" ]] || [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            cd packages/ui
+            npm publish --access public
+            echo "✅ Published @acrobi/ui@${{ steps.version.outputs.new-version }}"
+            cd ../..
+          fi
+
+          # Publish CLI package  
+          if [[ "${{ needs.check-release.outputs.cli-changed }}" == "true" ]] || [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            cd packages/cli
+            npm publish --access public
+            echo "✅ Published @acrobi/cli@${{ steps.version.outputs.new-version }}"
+            cd ../..
+          fi
+
+      - name: Update GitHub Pages
+        run: |
+          echo "📖 Preparing documentation for GitHub Pages..."
+
+          # Create docs site structure
+          mkdir -p gh-pages
+
+          # Copy main documentation
+          cp -r packages/ui/docs/* gh-pages/
+
+          # Create index.html redirect
+          cat > gh-pages/index.html << EOF
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <meta charset="utf-8">
+            <title>Acrobi Design System</title>
+            <meta http-equiv="refresh" content="0; url=./getting-started.html">
+          </head>
+          <body>
+            <p>Redirecting to <a href="./getting-started.html">Getting Started</a>...</p>
+          </body>
+          </html>
+          EOF
+
+          echo "✅ Documentation prepared for GitHub Pages"
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./gh-pages
+          cname: design.acrobi.com
+
+      - name: Notify Slack
+        if: always()
+        uses: 8398a7/action-slack@v3
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        with:
+          status: ${{ job.status }}
+          channel: '#releases'
+          text: |
+            🚀 Acrobi Design System v${{ steps.version.outputs.new-version }} has been released!
+
+            📦 Packages:
+            ${{ needs.check-release.outputs.ui-changed == 'true' && '- @acrobi/ui@' || '' }}${{ needs.check-release.outputs.ui-changed == 'true' && steps.version.outputs.new-version || '' }}
+            ${{ needs.check-release.outputs.cli-changed == 'true' && '- @acrobi/cli@' || '' }}${{ needs.check-release.outputs.cli-changed == 'true' && steps.version.outputs.new-version || '' }}
+
+            📚 Documentation: https://design.acrobi.com
+            📦 npm: https://www.npmjs.com/package/@acrobi/ui
+            🏷️ Release: https://github.com/acrobi/design-system/releases/tag/v${{ steps.version.outputs.new-version }}
+
+  # Post-release tasks
+  post-release:
+    name: Post-Release Tasks
+    runs-on: ubuntu-latest
+    needs: [release]
+    if: needs.release.result == 'success'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ref: main
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Update development version
+        run: |
+          echo "🔄 Updating development version..."
+
+          # Get the released version
+          RELEASED_VERSION=$(node -p "require('./packages/ui/package.json').version")
+
+          # Calculate next dev version
+          NEXT_VERSION=$(npx semver -i prerelease $RELEASED_VERSION --preid=dev)
+
+          # Update package versions
+          npm version $NEXT_VERSION --workspace=packages/ui --no-git-tag-version
+          npm version $NEXT_VERSION --workspace=packages/cli --no-git-tag-version
+
+          echo "✅ Updated to development version $NEXT_VERSION"
+
+      - name: Commit development version
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add .
+          git commit -m "🔄 Bump to development version
+
+          Prepare for next development iteration
+
+          🤖 Generated with GitHub Actions"
+
+          git push origin main
+
+      - name: Create next milestone
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const currentVersion = require('./packages/ui/package.json').version;
+            const nextVersion = require('semver').inc(currentVersion.split('-')[0], 'minor');
+
+            try {
+              await github.rest.issues.createMilestone({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: `v${nextVersion}`,
+                description: `Release milestone for version ${nextVersion}`,
+                state: 'open'
+              });
+              console.log(`✅ Created milestone for v${nextVersion}`);
+            } catch (error) {
+              console.log(`ℹ️ Milestone v${nextVersion} may already exist`);
+            }

@@ -1,0 +1,4777 @@
+{
+  "name": "@acrobi/ui",
+  "version": "1.0.0",
+  "description": "React component library for the Acrobi Design System - Complete primitives, structures, workflow modules, menu system, and client components",
+  "primitives": {
+    "spacer": {
+      "name": "Spacer",
+      "description": "Layout utility for creating vertical or horizontal space",
+      "category": "layout",
+      "version": "4.0.0",
+      "files": ["src/components/primitives/spacer.tsx"],
+      "dependencies": [],
+      "props": {
+        "axis": {
+          "type": "\"horizontal\" | \"vertical\"",
+          "default": "\"vertical\"",
+          "description": "Direction of the spacing"
+        },
+        "size": {
+          "type": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | \"3xl\" | \"4xl\"",
+          "default": "\"md\"",
+          "description": "Size of the spacing"
+        }
+      }
+    },
+    "button": {
+      "name": "Button",
+      "description": "Interactive button component with multiple variants and states",
+      "category": "interactive",
+      "version": "1.0.0",
+      "files": ["src/components/primitives/button.tsx"],
+      "dependencies": ["cva", "cn"],
+      "props": {
+        "variant": {
+          "type": "\"default\" | \"primary\" | \"secondary\" | \"outline\" | \"ghost\" | \"destructive\" | \"link\"",
+          "default": "\"default\"",
+          "description": "Visual style variant"
+        },
+        "size": {
+          "type": "\"xs\" | \"sm\" | \"default\" | \"lg\" | \"xl\" | \"icon\"",
+          "default": "\"default\"",
+          "description": "Button size"
+        }
+      }
+    },
+    "alert": {
+      "name": "Alert",
+      "description": "Alert component for displaying important messages with various states",
+      "category": "feedback",
+      "version": "1.0.0",
+      "files": ["src/components/primitives/alert.tsx"],
+      "dependencies": ["cva", "cn"],
+      "props": {
+        "variant": {
+          "type": "\"default\" | \"destructive\" | \"warning\" | \"success\" | \"info\"",
+          "default": "\"default\"",
+          "description": "Alert variant style"
+        }
+      }
+    },
+    "menu-item": {
+      "name": "MenuItem",
+      "description": "Individual menu item component with icon, label, and action support",
+      "category": "interactive",
+      "version": "1.0.0",
+      "files": ["src/components/primitives/menu-item.tsx"],
+      "dependencies": ["Button", "Badge", "cva", "cn"],
+      "props": {
+        "label": {
+          "type": "string",
+          "description": "Menu item label"
+        },
+        "icon": {
+          "type": "string",
+          "description": "Optional icon (emoji or text)"
+        },
+        "selected": {
+          "type": "boolean",
+          "default": "false",
+          "description": "Whether item is selected/active"
+        },
+        "onSelect": {
+          "type": "() => void",
+          "description": "Click handler"
+        }
+      }
+    }
+  },
+  "structures": {
+    "input-w-btns": {
+      "name": "InputWBtns",
+      "description": "Input component with attached action buttons",
+      "category": "form",
+      "version": "4.0.0",
+      "files": ["src/components/structures/input-w-btns.tsx"],
+      "dependencies": ["Input", "Button"],
+      "props": {
+        "value": {
+          "type": "string",
+          "description": "Input value"
+        },
+        "buttons": {
+          "type": "InputWBtnsButton[]",
+          "description": "Array of button configurations"
+        }
+      }
+    },
+    "btn-bar": {
+      "name": "BtnBar",
+      "description": "Horizontal bar of action buttons with consistent spacing",
+      "category": "interactive",
+      "version": "4.0.0",
+      "files": ["src/components/structures/btn-bar.tsx"],
+      "dependencies": ["Button"],
+      "props": {
+        "buttons": {
+          "type": "BtnBarButton[]",
+          "description": "Array of button configurations"
+        },
+        "orientation": {
+          "type": "\"horizontal\" | \"vertical\"",
+          "default": "\"horizontal\"",
+          "description": "Layout orientation"
+        }
+      }
+    },
+    "sec-head": {
+      "name": "SecHead",
+      "description": "Standardized section heading with title, description, and actions",
+      "category": "layout",
+      "version": "4.0.0",
+      "files": ["src/components/structures/sec-head.tsx"],
+      "dependencies": ["Headline", "Paragraph", "Button"],
+      "props": {
+        "title": {
+          "type": "string",
+          "description": "Main heading text"
+        },
+        "subtitle": {
+          "type": "string",
+          "description": "Optional subtitle"
+        },
+        "actions": {
+          "type": "SecHeadAction[]",
+          "description": "Action buttons"
+        }
+      }
+    },
+    "list-grid": {
+      "name": "ListGrid",
+      "description": "Responsive grid layout for displaying collections of items",
+      "category": "layout",
+      "version": "4.0.0",
+      "files": ["src/components/structures/list-grid.tsx"],
+      "dependencies": [],
+      "props": {
+        "columns": {
+          "type": "\"1\" | \"2\" | \"3\" | \"4\" | \"5\" | \"6\" | \"auto\" | \"auto-sm\" | \"auto-lg\"",
+          "default": "\"auto\"",
+          "description": "Number of columns or auto-sizing"
+        },
+        "variant": {
+          "type": "\"default\" | \"compact\" | \"spacious\" | \"cards\"",
+          "default": "\"default\"",
+          "description": "Grid variant style"
+        }
+      }
+    },
+    "chip-group": {
+      "name": "ChipGroup",
+      "description": "Collection of chip components with selection support",
+      "category": "interactive",
+      "version": "4.0.0",
+      "files": ["src/components/structures/chip-group.tsx"],
+      "dependencies": ["Chip"],
+      "props": {
+        "chips": {
+          "type": "ChipGroupChip[]",
+          "description": "Array of chips to display"
+        },
+        "selectable": {
+          "type": "boolean",
+          "default": "false",
+          "description": "Whether chips are selectable"
+        }
+      }
+    },
+    "list-itm-content": {
+      "name": "ListItmContent",
+      "description": "Flexible content structure for list items with avatar, text, and actions",
+      "category": "layout",
+      "version": "4.0.0",
+      "files": ["src/components/structures/list-itm-content.tsx"],
+      "dependencies": ["Avatar", "Badge", "Button"],
+      "props": {
+        "title": {
+          "type": "string",
+          "description": "Main title text"
+        },
+        "subtitle": {
+          "type": "string",
+          "description": "Subtitle text"
+        },
+        "avatar": {
+          "type": "string",
+          "description": "Avatar image source"
+        }
+      }
+    },
+    "menu-accordion": {
+      "name": "MenuAccordion",
+      "description": "Hierarchical menu structure with expandable categories",
+      "category": "navigation",
+      "version": "7.0.0",
+      "files": ["src/components/structures/menu-accordion.tsx"],
+      "dependencies": ["Accordion", "Icon", "cva", "cn"],
+      "props": {
+        "categories": {
+          "type": "CategoryNode[]",
+          "description": "Hierarchical category structure"
+        },
+        "onSelect": {
+          "type": "(category: CategoryNode) => void",
+          "description": "Category selection handler"
+        }
+      }
+    },
+    "privacy-menu": {
+      "name": "PrivacyMenu",
+      "description": "Privacy level selection menu with visual indicators",
+      "category": "form",
+      "version": "7.0.0",
+      "files": ["src/components/structures/privacy-menu.tsx"],
+      "dependencies": ["RadioGroup", "Icon", "cva", "cn"],
+      "props": {
+        "level": {
+          "type": "PrivacyLevel",
+          "description": "Current privacy level"
+        },
+        "onLevelChange": {
+          "type": "(level: PrivacyLevel) => void",
+          "description": "Privacy level change handler"
+        }
+      }
+    },
+    "color-palette": {
+      "name": "ColorPalette",
+      "description": "Color selection component with grid layout and hover states",
+      "category": "form",
+      "version": "7.0.0",
+      "files": ["src/components/structures/color-palette.tsx"],
+      "dependencies": ["Button", "cva", "cn"],
+      "props": {
+        "colors": {
+          "type": "ColorOption[]",
+          "description": "Array of color options"
+        },
+        "value": {
+          "type": "string",
+          "description": "Currently selected color value"
+        },
+        "onValueChange": {
+          "type": "(value: string) => void",
+          "description": "Color selection handler"
+        }
+      }
+    },
+    "nav-editor": {
+      "name": "NavEditor",
+      "description": "Navigable editor toolbar with multiple states and action groups",
+      "category": "interactive",
+      "version": "7.0.0",
+      "files": ["src/components/structures/nav-editor.tsx"],
+      "dependencies": ["Button", "Badge", "cva", "cn"],
+      "props": {
+        "state": {
+          "type": "NavEditorState",
+          "description": "Current navigation state"
+        },
+        "onStateChange": {
+          "type": "(state: NavEditorState) => void",
+          "description": "State change handler"
+        },
+        "actions": {
+          "type": "NavEditorAction[]",
+          "description": "Available actions for current state"
+        }
+      }
+    },
+    "menu": {
+      "name": "Menu",
+      "description": "Core menu structure with sections, actions, and headers",
+      "category": "navigation",
+      "version": "7.0.0",
+      "files": ["src/components/structures/menu.tsx"],
+      "dependencies": ["MenuItem", "cva", "cn"],
+      "props": {
+        "title": {
+          "type": "string",
+          "description": "Menu title"
+        },
+        "sections": {
+          "type": "MenuSection[]",
+          "description": "Menu sections"
+        },
+        "onActionSelect": {
+          "type": "(actionId: string, action: MenuAction) => void",
+          "description": "Action selection handler"
+        }
+      }
+    },
+    "hero-stack": {
+      "name": "HeroStack",
+      "description": "Centered hero content with icon, title, and description",
+      "category": "layout",
+      "version": "1.0.0",
+      "files": ["src/components/structures/hero-stack.tsx"],
+      "dependencies": ["cva", "cn"],
+      "props": {
+        "icon": {
+          "type": "string",
+          "description": "Icon to display (emoji or text)"
+        },
+        "title": {
+          "type": "string",
+          "description": "Main title"
+        },
+        "description": {
+          "type": "string",
+          "description": "Description text"
+        }
+      }
+    },
+    "btn-panel": {
+      "name": "BtnPanel",
+      "description": "Panel of buttons with flexible layout and styling options",
+      "category": "interactive",
+      "version": "1.0.0",
+      "files": ["src/components/structures/btn-panel.tsx"],
+      "dependencies": ["Button", "cva", "cn"],
+      "props": {
+        "buttons": {
+          "type": "BtnPanelButton[]",
+          "description": "Array of button configurations"
+        },
+        "orientation": {
+          "type": "horizontal | vertical",
+          "description": "Button layout orientation"
+        },
+        "variant": {
+          "type": "default | full | centered",
+          "description": "Panel variant style"
+        }
+      }
+    },
+    "empty-state": {
+      "name": "EmptyState",
+      "description": "Empty state component with icon, title, description, and action",
+      "category": "feedback",
+      "version": "1.0.0",
+      "files": ["src/components/structures/empty-state.tsx"],
+      "dependencies": ["cva", "cn"],
+      "props": {
+        "icon": {
+          "type": "string",
+          "description": "Icon to display (emoji or text)"
+        },
+        "title": {
+          "type": "string",
+          "description": "Main title"
+        },
+        "description": {
+          "type": "string",
+          "description": "Description text"
+        },
+        "action": {
+          "type": "React.ReactNode",
+          "description": "Action element (usually a button)"
+        }
+      }
+    }
+  },
+  "modules": {
+    "hero": {
+      "name": "Hero",
+      "description": "Page hero section with title, description, actions, and media support",
+      "category": "layout",
+      "version": "4.0.0",
+      "files": ["src/components/modules/hero.tsx"],
+      "dependencies": ["SecHead", "Button", "Badge"],
+      "props": {
+        "title": {
+          "type": "string",
+          "description": "Hero title"
+        },
+        "subtitle": {
+          "type": "string",
+          "description": "Hero subtitle"
+        },
+        "variant": {
+          "type": "\"default\" | \"minimal\" | \"full\" | \"split\" | \"centered\"",
+          "default": "\"default\"",
+          "description": "Hero variant style"
+        }
+      }
+    },
+    "sec-list": {
+      "name": "SecList",
+      "description": "Section with header and list/grid content, supporting empty states",
+      "category": "layout",
+      "version": "4.0.0",
+      "files": ["src/components/modules/sec-list.tsx"],
+      "dependencies": ["SecHead", "List", "ListGrid", "EmptyState"],
+      "props": {
+        "title": {
+          "type": "string",
+          "description": "Section title"
+        },
+        "items": {
+          "type": "React.ReactNode[]",
+          "description": "List items to display"
+        },
+        "useGrid": {
+          "type": "boolean",
+          "default": "false",
+          "description": "Whether to use grid layout"
+        }
+      }
+    },
+    "product-grid": {
+      "name": "ProductGrid",
+      "description": "Grid layout specifically designed for displaying product collections",
+      "category": "e-commerce",
+      "version": "4.0.0",
+      "files": ["src/components/modules/product-grid.tsx"],
+      "dependencies": [
+        "SecHead",
+        "ListGrid",
+        "Card",
+        "Badge",
+        "Button",
+        "EmptyState"
+      ],
+      "props": {
+        "title": {
+          "type": "string",
+          "description": "Section title"
+        },
+        "products": {
+          "type": "ProductGridProduct[]",
+          "description": "Products to display"
+        },
+        "showPrices": {
+          "type": "boolean",
+          "default": "true",
+          "description": "Whether to show product prices"
+        }
+      }
+    },
+    "add-collection": {
+      "name": "AddCollection",
+      "description": "Progressive reveal workflow for creating new collections",
+      "category": "workflow",
+      "version": "7.0.0",
+      "files": ["src/components/modules/add-collection.tsx"],
+      "dependencies": ["MenuAccordion", "PrivacyMenu", "InputWBtns", "Button"],
+      "props": {
+        "onSubmit": {
+          "type": "(data: CollectionData) => void",
+          "description": "Collection creation handler"
+        },
+        "availableTypes": {
+          "type": "CollectionType[]",
+          "description": "Available collection types"
+        }
+      }
+    },
+    "assign-to": {
+      "name": "AssignTo",
+      "description": "Assignment workflow with tab navigation for people and groups",
+      "category": "workflow",
+      "version": "7.0.0",
+      "files": ["src/components/modules/assign-to.tsx"],
+      "dependencies": ["List", "ChipGroup", "Button", "EmptyState"],
+      "props": {
+        "people": {
+          "type": "Person[]",
+          "description": "Available people to assign to"
+        },
+        "groups": {
+          "type": "Group[]",
+          "description": "Available groups to assign to"
+        },
+        "onAssign": {
+          "type": "(assignments: string[]) => void",
+          "description": "Assignment handler"
+        }
+      }
+    },
+    "copy": {
+      "name": "Copy",
+      "description": "Object duplication workflow with naming and settings options",
+      "category": "workflow",
+      "version": "7.0.0",
+      "files": ["src/components/modules/copy.tsx"],
+      "dependencies": ["Input", "Switch", "Button", "Alert"],
+      "props": {
+        "object": {
+          "type": "CopyableObject",
+          "description": "Object being copied"
+        },
+        "onCopy": {
+          "type": "(options: CopyOptions) => void",
+          "description": "Copy handler"
+        }
+      }
+    },
+    "delete": {
+      "name": "Delete",
+      "description": "Destructive action workflow with multiple security levels",
+      "category": "workflow",
+      "version": "7.0.0",
+      "files": ["src/components/modules/delete.tsx"],
+      "dependencies": ["Alert", "Input", "Button"],
+      "props": {
+        "object": {
+          "type": "DeletableObject",
+          "description": "Object being deleted"
+        },
+        "securityLevel": {
+          "type": "SecurityLevel",
+          "description": "Required security level"
+        },
+        "onDelete": {
+          "type": "() => void",
+          "description": "Delete handler"
+        }
+      }
+    },
+    "archive": {
+      "name": "Archive",
+      "description": "Archive workflow with optional password confirmation",
+      "category": "workflow",
+      "version": "7.0.0",
+      "files": ["src/components/modules/archive.tsx"],
+      "dependencies": ["Alert", "Input", "Button"],
+      "props": {
+        "object": {
+          "type": "ArchivableObject",
+          "description": "Object being archived"
+        },
+        "requirePassword": {
+          "type": "boolean",
+          "description": "Whether password confirmation is required"
+        },
+        "onArchive": {
+          "type": "() => void",
+          "description": "Archive handler"
+        }
+      }
+    },
+    "capture": {
+      "name": "Capture",
+      "description": "Camera/scanning workflow with live feed and result handling",
+      "category": "workflow",
+      "version": "7.0.0",
+      "files": ["src/components/modules/capture.tsx"],
+      "dependencies": ["Button", "useCamera", "useBarcodeScanner"],
+      "props": {
+        "mode": {
+          "type": "CaptureMode",
+          "description": "Capture mode (photo, video, scan)"
+        },
+        "onCapture": {
+          "type": "(result: CaptureResult) => void",
+          "description": "Capture result handler"
+        }
+      }
+    },
+    "text-editor": {
+      "name": "TextEditor",
+      "description": "Rich text editor with TipTap integration and multiple modes",
+      "category": "workflow",
+      "version": "7.0.0",
+      "files": ["src/components/modules/editor.tsx"],
+      "dependencies": ["ColorPalette", "NavEditor", "Button", "Input"],
+      "props": {
+        "content": {
+          "type": "string",
+          "description": "Editor content (HTML string)"
+        },
+        "mode": {
+          "type": "EditorMode",
+          "description": "Editor mode (simple, rich, full)"
+        },
+        "onContentChange": {
+          "type": "(content: string) => void",
+          "description": "Content change handler"
+        }
+      }
+    },
+    "menu-actions": {
+      "name": "MenuActions",
+      "description": "Global actions menu with relationship-aware actions",
+      "category": "navigation",
+      "version": "7.0.0",
+      "files": ["src/components/modules/menu-actions.tsx"],
+      "dependencies": ["Menu"],
+      "props": {
+        "subject": {
+          "type": "object",
+          "description": "Subject of the actions (person, item, group, etc.)"
+        },
+        "relationship": {
+          "type": "object",
+          "description": "Current user's relationship to subject"
+        }
+      }
+    },
+    "menu-posts": {
+      "name": "MenuPosts",
+      "description": "Post-specific actions menu with engagement options",
+      "category": "navigation",
+      "version": "7.0.0",
+      "files": ["src/components/modules/menu-posts.tsx"],
+      "dependencies": ["Menu"],
+      "props": {
+        "post": {
+          "type": "object",
+          "description": "Post details"
+        },
+        "permissions": {
+          "type": "object",
+          "description": "Current user permissions"
+        }
+      }
+    },
+    "menu-admin": {
+      "name": "MenuAdmin",
+      "description": "Administrative actions menu with permission-based controls",
+      "category": "navigation",
+      "version": "7.0.0",
+      "files": ["src/components/modules/menu-admin.tsx"],
+      "dependencies": ["Menu"],
+      "props": {
+        "subject": {
+          "type": "object",
+          "description": "Subject being administered"
+        },
+        "permissions": {
+          "type": "object",
+          "description": "Current admin permissions"
+        }
+      }
+    },
+    "menu-view-style": {
+      "name": "MenuViewStyle",
+      "description": "View style selection menu (list, grid, card, table, etc.)",
+      "category": "navigation",
+      "version": "7.0.0",
+      "files": ["src/components/modules/menu-view-style.tsx"],
+      "dependencies": ["Menu"],
+      "props": {
+        "currentView": {
+          "type": "ViewStyle",
+          "description": "Currently selected view style"
+        },
+        "onViewStyleChange": {
+          "type": "(viewStyle: ViewStyle) => void",
+          "description": "View style change handler"
+        }
+      }
+    },
+    "menu-sort-style": {
+      "name": "MenuSortStyle",
+      "description": "Comprehensive sorting menu with direction toggle and grouping",
+      "category": "navigation",
+      "version": "7.0.0",
+      "files": ["src/components/modules/menu-sort-style.tsx"],
+      "dependencies": ["Menu"],
+      "props": {
+        "currentSort": {
+          "type": "SortState",
+          "description": "Current sort state"
+        },
+        "onSortChange": {
+          "type": "(sort: SortState) => void",
+          "description": "Sort change handler"
+        }
+      }
+    },
+    "menu-search": {
+      "name": "MenuSearch",
+      "description": "Search interface with filters, suggestions, and scopes",
+      "category": "navigation",
+      "version": "7.0.0",
+      "files": ["src/components/modules/menu-search.tsx"],
+      "dependencies": ["Menu", "Input", "Badge"],
+      "props": {
+        "query": {
+          "type": "string",
+          "description": "Current search query"
+        },
+        "onQueryChange": {
+          "type": "(query: string) => void",
+          "description": "Search query change handler"
+        },
+        "filters": {
+          "type": "SearchFilter[]",
+          "description": "Available search filters"
+        }
+      }
+    },
+    "menu-privacy": {
+      "name": "MenuPrivacy",
+      "description": "Privacy level management with contextual options",
+      "category": "navigation",
+      "version": "7.0.0",
+      "files": ["src/components/modules/menu-privacy.tsx"],
+      "dependencies": ["Menu"],
+      "props": {
+        "currentLevel": {
+          "type": "PrivacyLevel",
+          "description": "Current privacy level"
+        },
+        "onPrivacyChange": {
+          "type": "(level: PrivacyLevel) => void",
+          "description": "Privacy level change handler"
+        },
+        "context": {
+          "type": "object",
+          "description": "Privacy context (what is being shared)"
+        }
+      }
+    },
+    "find-friends": {
+      "name": "FindFriends",
+      "description": "Complete find friends workflow with device contacts integration",
+      "category": "social",
+      "version": "1.0.0",
+      "files": ["src/components/modules/find-friends.tsx"],
+      "dependencies": ["PeepCard", "EmptyState", "Input", "Button"],
+      "props": {
+        "contacts": {
+          "type": "Contact[]",
+          "description": "List of contacts from device"
+        },
+        "permissionState": {
+          "type": "granted | denied | prompt",
+          "description": "Permission state for contacts access"
+        },
+        "onConnect": {
+          "type": "(contact: Contact) => void",
+          "description": "Connect with contact handler"
+        },
+        "onInvite": {
+          "type": "(contact: Contact) => void",
+          "description": "Invite contact handler"
+        }
+      }
+    },
+    "grant-permissions": {
+      "name": "GrantPermissions",
+      "description": "Standardized permission request workflow for device features",
+      "category": "workflow",
+      "version": "1.0.0",
+      "files": ["src/components/modules/grant-permissions.tsx"],
+      "dependencies": ["HeroStack", "BtnPanel"],
+      "props": {
+        "permission": {
+          "type": "PermissionConfig",
+          "description": "Permission configuration"
+        },
+        "permissionState": {
+          "type": "prompt | granted | denied",
+          "description": "Current permission state"
+        },
+        "onGrant": {
+          "type": "() => void",
+          "description": "Grant permission handler"
+        },
+        "onOpenSettings": {
+          "type": "() => void",
+          "description": "Open settings handler"
+        }
+      }
+    },
+    "scanner": {
+      "name": "Scanner",
+      "description": "Enhanced AAE QR & Barcode Scanner with ZXing integration, permission handling, and comprehensive feedback",
+      "category": "aae",
+      "version": "1.0.0",
+      "files": ["src/modules/scanner.tsx"],
+      "dependencies": [
+        "useQRScanner",
+        "Button",
+        "Badge",
+        "Card",
+        "Icon",
+        "Alert",
+        "Switch",
+        "Select",
+        "GrantPermissions",
+        "EmptyState"
+      ],
+      "props": {
+        "continuous": {
+          "type": "boolean",
+          "default": "true",
+          "description": "Whether to scan continuously or stop after first result"
+        },
+        "formats": {
+          "type": "BarcodeFormat[]",
+          "description": "Array of barcode formats to detect"
+        },
+        "onResult": {
+          "type": "(result: BarcodeResult) => void",
+          "description": "Callback when barcode is successfully scanned"
+        },
+        "onError": {
+          "type": "(error: string) => void",
+          "description": "Callback when scanning error occurs"
+        },
+        "showHistory": {
+          "type": "boolean",
+          "default": "true",
+          "description": "Whether to display scan history"
+        },
+        "showFormatSelector": {
+          "type": "boolean",
+          "default": "true",
+          "description": "Whether to show barcode format selector"
+        },
+        "showPermissionRequest": {
+          "type": "boolean",
+          "default": "true",
+          "description": "Whether to show integrated permission request flow"
+        },
+        "autoStart": {
+          "type": "boolean",
+          "default": "false",
+          "description": "Whether to start scanning automatically when mounted"
+        },
+        "variant": {
+          "type": "\"default\" | \"minimal\" | \"full\" | \"embedded\"",
+          "default": "\"default\"",
+          "description": "Scanner display variant"
+        },
+        "width": {
+          "type": "number",
+          "default": "640",
+          "description": "Video feed width in pixels"
+        },
+        "height": {
+          "type": "number",
+          "default": "480",
+          "description": "Video feed height in pixels"
+        },
+        "facingMode": {
+          "type": "\"user\" | \"environment\"",
+          "default": "\"environment\"",
+          "description": "Camera facing mode (front or back)"
+        },
+        "enableBeep": {
+          "type": "boolean",
+          "default": "true",
+          "description": "Whether to play audio feedback on successful scan"
+        },
+        "enableVibration": {
+          "type": "boolean",
+          "default": "true",
+          "description": "Whether to provide haptic feedback on successful scan"
+        },
+        "maxResults": {
+          "type": "number",
+          "default": "50",
+          "description": "Maximum number of results to keep in history"
+        }
+      }
+    }
+  },
+  "providers": {
+    "sheet-provider": {
+      "name": "SheetProvider",
+      "description": "Global sheet management provider using vaul library",
+      "category": "ui",
+      "version": "7.0.0",
+      "files": ["src/components/providers/sheet-provider.tsx"],
+      "dependencies": ["vaul"]
+    },
+    "socket-provider": {
+      "name": "SocketProvider",
+      "description": "Socket.IO provider for real-time communication with automatic reconnection, error handling, and connection management. Includes comprehensive hooks for event handling, rooms, and messaging.",
+      "category": "realtime",
+      "version": "9.0.0",
+      "files": ["src/providers/socket-provider.tsx", "src/hooks/use-socket.ts"],
+      "dependencies": ["socket.io-client"],
+      "props": {
+        "url": {
+          "type": "string",
+          "description": "Socket.IO server URL"
+        },
+        "options": {
+          "type": "Partial<ManagerOptions & SocketOptions>",
+          "description": "Socket.IO client options"
+        },
+        "autoConnect": {
+          "type": "boolean",
+          "default": "true",
+          "description": "Whether to connect automatically on mount"
+        },
+        "reconnectAttempts": {
+          "type": "number",
+          "default": "5",
+          "description": "Number of reconnection attempts"
+        },
+        "reconnectDelay": {
+          "type": "number",
+          "default": "1000",
+          "description": "Delay between reconnection attempts in ms"
+        },
+        "onConnect": {
+          "type": "(socket: Socket) => void",
+          "description": "Callback when connection is established"
+        },
+        "onDisconnect": {
+          "type": "(reason: string) => void",
+          "description": "Callback when connection is lost"
+        },
+        "onError": {
+          "type": "(error: Error) => void",
+          "description": "Callback when error occurs"
+        }
+      },
+      "hooks": {
+        "useSocket": {
+          "description": "Main hook for accessing Socket.IO context",
+          "returns": "SocketContextValue with connection state and methods"
+        },
+        "useSocketEvent": {
+          "description": "Hook for listening to Socket.IO events with automatic cleanup",
+          "params": ["event: string", "handler: Function", "deps?: Array"]
+        },
+        "useSocketStatus": {
+          "description": "Hook for monitoring connection status and health",
+          "returns": "Connection status, latency, and error information"
+        },
+        "useSocketRoom": {
+          "description": "Hook for managing Socket.IO rooms with auto join/leave",
+          "params": ["roomName: string", "options?: UseSocketRoomOptions"],
+          "returns": "Room status and control methods"
+        },
+        "useSocketMessages": {
+          "description": "Hook for tracking message history and acknowledgments",
+          "returns": "Message management utilities"
+        }
+      }
+    }
+  },
+  "hooks": {
+    "use-geolocation": {
+      "name": "useGeolocation",
+      "description": "Hook for accessing device geolocation with permission handling",
+      "category": "aae",
+      "version": "1.0.0",
+      "files": ["src/hooks/use-geolocation.ts"],
+      "dependencies": []
+    },
+    "use-camera": {
+      "name": "useCamera",
+      "description": "Hook for accessing device camera with permission handling",
+      "category": "aae",
+      "version": "1.0.0",
+      "files": ["src/hooks/use-camera.ts"],
+      "dependencies": []
+    },
+    "use-barcode-scanner": {
+      "name": "useBarcodeScanner",
+      "description": "Hook for scanning QR codes and barcodes using device camera",
+      "category": "aae",
+      "version": "1.0.0",
+      "files": ["src/hooks/use-barcode-scanner.ts"],
+      "dependencies": ["useCamera"]
+    },
+    "use-sheet": {
+      "name": "useSheet",
+      "description": "Hook for managing global bottom sheet state using vaul",
+      "category": "ui",
+      "version": "7.0.0",
+      "files": ["src/components/providers/sheet-provider.tsx"],
+      "dependencies": ["vaul"]
+    },
+    "use-visual-viewport": {
+      "name": "useVisualViewport",
+      "description": "Hook for detecting on-screen keyboard presence using the Visual Viewport API. Essential for AAEs that need to adapt layout when mobile keyboard appears.",
+      "category": "aae",
+      "version": "9.0.0",
+      "files": ["src/hooks/use-visual-viewport.ts"],
+      "dependencies": [],
+      "props": {
+        "keyboardThreshold": {
+          "type": "number",
+          "default": "150",
+          "description": "Threshold for detecting keyboard open state in pixels"
+        },
+        "debug": {
+          "type": "boolean",
+          "default": "false",
+          "description": "Whether to enable debug logging"
+        }
+      },
+      "returns": {
+        "isKeyboardOpen": {
+          "type": "boolean",
+          "description": "Whether the on-screen keyboard is currently open"
+        },
+        "keyboardHeight": {
+          "type": "number",
+          "description": "Height of the on-screen keyboard in pixels"
+        },
+        "viewportHeight": {
+          "type": "number",
+          "description": "Available viewport height when keyboard is open"
+        },
+        "viewportWidth": {
+          "type": "number",
+          "description": "Available viewport width when keyboard is open"
+        },
+        "isSupported": {
+          "type": "boolean",
+          "description": "Whether the Visual Viewport API is supported"
+        },
+        "refresh": {
+          "type": "() => void",
+          "description": "Manually trigger a viewport check"
+        }
+      }
+    },
+    "use-push-notifications": {
+      "name": "usePushNotifications",
+      "description": "Hook for managing AAE push notifications with service worker integration, subscription management, and notification handling. Essential for AAEs that need to send push notifications to users.",
+      "category": "aae",
+      "version": "9.0.0",
+      "files": ["src/hooks/use-push-notifications.ts"],
+      "dependencies": [],
+      "props": {
+        "vapidPublicKey": {
+          "type": "string",
+          "description": "VAPID public key for push subscription"
+        },
+        "subscriptionEndpoint": {
+          "type": "string",
+          "default": "\"/api/push/subscribe\"",
+          "description": "Backend endpoint for subscription management"
+        },
+        "autoSubscribe": {
+          "type": "boolean",
+          "default": "false",
+          "description": "Auto-subscribe on permission grant"
+        },
+        "serviceWorkerUrl": {
+          "type": "string",
+          "default": "\"/sw.js\"",
+          "description": "Custom service worker URL"
+        },
+        "onSubscriptionChange": {
+          "type": "(subscription: PushSubscription | null) => void",
+          "description": "Callback when subscription changes"
+        },
+        "onNotificationReceived": {
+          "type": "(notification: NotificationEvent) => void",
+          "description": "Callback when notification is received"
+        },
+        "onNotificationClicked": {
+          "type": "(notification: NotificationEvent) => void",
+          "description": "Callback when notification is clicked"
+        },
+        "onError": {
+          "type": "(error: PushNotificationError) => void",
+          "description": "Callback when error occurs"
+        }
+      },
+      "returns": {
+        "state": {
+          "type": "PushNotificationState",
+          "description": "Current push notification state (supported, permission, subscribed, etc.)"
+        },
+        "error": {
+          "type": "PushNotificationError | null",
+          "description": "Current error state if any"
+        },
+        "subscription": {
+          "type": "PushSubscription | null",
+          "description": "Current push subscription object"
+        },
+        "requestPermission": {
+          "type": "() => Promise<NotificationPermission>",
+          "description": "Request notification permission from user"
+        },
+        "subscribe": {
+          "type": "() => Promise<PushSubscription | null>",
+          "description": "Subscribe to push notifications"
+        },
+        "unsubscribe": {
+          "type": "() => Promise<boolean>",
+          "description": "Unsubscribe from push notifications"
+        },
+        "sendNotification": {
+          "type": "(data: NotificationData) => Promise<boolean>",
+          "description": "Send a local notification"
+        },
+        "testNotification": {
+          "type": "(title?: string, options?: NotificationOptions) => Promise<boolean>",
+          "description": "Send a test notification"
+        },
+        "scheduleNotification": {
+          "type": "(data: NotificationData, delay: number) => Promise<string>",
+          "description": "Schedule a notification for later"
+        },
+        "registerServiceWorker": {
+          "type": "(url?: string) => Promise<ServiceWorkerRegistration | null>",
+          "description": "Register the service worker"
+        },
+        "getSubscriptionData": {
+          "type": "() => PushSubscriptionData | null",
+          "description": "Get formatted subscription data for backend"
+        }
+      }
+    },
+    "use-file-picker": {
+      "name": "useFilePicker",
+      "description": "Hook for AAE file system interaction with drag & drop support, multiple read formats, validation, and comprehensive error handling. Provides easy-to-use file picking capabilities with FileReader API integration.",
+      "category": "aae",
+      "version": "9.0.0",
+      "files": ["src/hooks/use-file-picker.ts"],
+      "dependencies": [],
+      "props": {
+        "accept": {
+          "type": "string",
+          "default": "\"*/*\"",
+          "description": "Accepted file types (MIME types or file extensions)"
+        },
+        "multiple": {
+          "type": "boolean",
+          "default": "false",
+          "description": "Whether to allow multiple file selection"
+        },
+        "readAs": {
+          "type": "\"text\" | \"dataURL\" | \"arrayBuffer\" | \"binaryString\"",
+          "default": "\"text\"",
+          "description": "How to read the file content"
+        },
+        "encoding": {
+          "type": "string",
+          "default": "\"UTF-8\"",
+          "description": "Text encoding for text reading"
+        },
+        "maxSize": {
+          "type": "number",
+          "default": "10485760",
+          "description": "Maximum file size in bytes (10MB default)"
+        },
+        "onFilesSelected": {
+          "type": "(files: FileList) => void",
+          "description": "Callback when files are selected"
+        },
+        "onFileRead": {
+          "type": "(result: FilePickerResult) => void",
+          "description": "Callback when file content is read"
+        },
+        "onError": {
+          "type": "(error: FilePickerError) => void",
+          "description": "Callback when error occurs"
+        }
+      },
+      "returns": {
+        "state": {
+          "type": "FilePickerState",
+          "description": "Current file picker state (supported, loading, files, results, error)"
+        },
+        "openFilePicker": {
+          "type": "() => void",
+          "description": "Programmatically open file picker dialog"
+        },
+        "clearFiles": {
+          "type": "() => void",
+          "description": "Clear selected files and results"
+        },
+        "readFile": {
+          "type": "(file: File, readAs?: 'text' | 'dataURL' | 'arrayBuffer' | 'binaryString') => Promise<FilePickerResult>",
+          "description": "Read a single file programmatically"
+        },
+        "isFileTypeAccepted": {
+          "type": "(file: File) => boolean",
+          "description": "Check if file type is accepted"
+        },
+        "formatFileSize": {
+          "type": "(bytes: number) => string",
+          "description": "Format file size for display"
+        },
+        "getFileExtension": {
+          "type": "(filename: string) => string",
+          "description": "Extract file extension from filename"
+        },
+        "isImageFile": {
+          "type": "(file: File) => boolean",
+          "description": "Check if file is an image"
+        },
+        "isTextFile": {
+          "type": "(file: File) => boolean",
+          "description": "Check if file is text-based"
+        },
+        "validateFile": {
+          "type": "(file: File) => FilePickerError | null",
+          "description": "Validate file against configured rules"
+        },
+        "dragProps": {
+          "type": "{ onDragOver: Function, onDragLeave: Function, onDrop: Function }",
+          "description": "Props for drag & drop functionality"
+        },
+        "isDragging": {
+          "type": "boolean",
+          "description": "Whether user is currently dragging files"
+        }
+      }
+    },
+    "use-bluetooth": {
+      "name": "useBluetooth",
+      "description": "Comprehensive Bluetooth connectivity hook with Web Bluetooth API and Capacitor native platform support. Provides cross-platform Bluetooth device scanning, connection management, and GATT operations with automatic platform detection.",
+      "category": "aae",
+      "version": "9.0.0",
+      "files": ["src/hooks/use-bluetooth.ts"],
+      "dependencies": ["useWebBluetooth"],
+      "props": {
+        "onDeviceFound": {
+          "type": "(device: BluetoothDevice) => void",
+          "description": "Callback when device is discovered"
+        },
+        "onConnectionChange": {
+          "type": "(connected: boolean) => void",
+          "description": "Callback when connection state changes"
+        },
+        "onError": {
+          "type": "(error: string) => void",
+          "description": "Callback when error occurs"
+        }
+      },
+      "returns": {
+        "device": {
+          "type": "BluetoothDevice | null",
+          "description": "Currently connected or selected Bluetooth device"
+        },
+        "isConnected": {
+          "type": "boolean",
+          "description": "Whether device is currently connected"
+        },
+        "isScanning": {
+          "type": "boolean",
+          "description": "Whether currently scanning for devices"
+        },
+        "isLoading": {
+          "type": "boolean",
+          "description": "Whether an operation is in progress"
+        },
+        "error": {
+          "type": "string | null",
+          "description": "Current error message if any"
+        },
+        "platformInfo": {
+          "type": "BluetoothPlatformInfo",
+          "description": "Platform capabilities and requirements"
+        },
+        "scan": {
+          "type": "(options?: BluetoothScanOptions) => Promise<BluetoothDevice | null>",
+          "description": "Scan for and select a Bluetooth device"
+        },
+        "connect": {
+          "type": "(device?: BluetoothDevice) => Promise<boolean>",
+          "description": "Connect to a Bluetooth device"
+        },
+        "disconnect": {
+          "type": "() => Promise<void>",
+          "description": "Disconnect from current device"
+        },
+        "readCharacteristic": {
+          "type": "(serviceUuid: BluetoothServiceUUID, characteristicUuid: BluetoothCharacteristicUUID) => Promise<DataView | null>",
+          "description": "Read data from a GATT characteristic"
+        },
+        "writeCharacteristic": {
+          "type": "(serviceUuid: BluetoothServiceUUID, characteristicUuid: BluetoothCharacteristicUUID, value: BufferSource) => Promise<boolean>",
+          "description": "Write data to a GATT characteristic"
+        },
+        "startNotifications": {
+          "type": "(serviceUuid: BluetoothServiceUUID, characteristicUuid: BluetoothCharacteristicUUID, onNotification: Function) => Promise<boolean>",
+          "description": "Start receiving notifications from a characteristic"
+        },
+        "stopNotifications": {
+          "type": "(serviceUuid: BluetoothServiceUUID, characteristicUuid: BluetoothCharacteristicUUID) => Promise<boolean>",
+          "description": "Stop receiving notifications from a characteristic"
+        }
+      }
+    },
+    "use-web-bluetooth": {
+      "name": "useWebBluetooth",
+      "description": "Web Bluetooth API hook for browser-based Bluetooth connectivity. Provides direct access to Web Bluetooth functionality for scanning, connecting to, and communicating with Bluetooth Low Energy devices.",
+      "category": "aae",
+      "version": "9.0.0",
+      "files": ["src/hooks/use-web-bluetooth.ts"],
+      "dependencies": [],
+      "returns": {
+        "device": {
+          "type": "BluetoothDeviceInfo | null",
+          "description": "Currently connected Bluetooth device"
+        },
+        "isConnected": {
+          "type": "boolean",
+          "description": "Whether device is currently connected"
+        },
+        "isScanning": {
+          "type": "boolean",
+          "description": "Whether currently scanning for devices"
+        },
+        "isLoading": {
+          "type": "boolean",
+          "description": "Whether an operation is in progress"
+        },
+        "error": {
+          "type": "string | null",
+          "description": "Current error message if any"
+        },
+        "isSupported": {
+          "type": "boolean",
+          "description": "Whether Web Bluetooth is supported in current environment"
+        },
+        "scan": {
+          "type": "(options?: BluetoothScanOptions) => Promise<BluetoothDeviceInfo | null>",
+          "description": "Scan for and select a Bluetooth device"
+        },
+        "connect": {
+          "type": "(device?: BluetoothDeviceInfo) => Promise<boolean>",
+          "description": "Connect to a Bluetooth device"
+        },
+        "disconnect": {
+          "type": "() => Promise<void>",
+          "description": "Disconnect from current device"
+        }
+      }
+    },
+    "use-native": {
+      "name": "useNative",
+      "description": "Native platform detection hook for Capacitor integration. Provides platform detection capabilities for AAEs wrapped in Capacitor native shells, enabling conditional rendering and platform-specific functionality.",
+      "category": "aae",
+      "version": "9.0.0",
+      "files": ["src/hooks/use-native.ts"],
+      "dependencies": [],
+      "returns": {
+        "platformInfo": {
+          "type": "NativePlatformInfo",
+          "description": "Complete platform information object"
+        },
+        "isNative": {
+          "type": "boolean",
+          "description": "Whether running in Capacitor native environment"
+        },
+        "isWeb": {
+          "type": "boolean",
+          "description": "Whether running in web browser environment"
+        },
+        "platform": {
+          "type": "\"ios\" | \"android\" | \"web\" | \"unknown\"",
+          "description": "Current platform identifier"
+        },
+        "isCapacitor": {
+          "type": "boolean",
+          "description": "Whether Capacitor is available"
+        },
+        "hasCapacitorPlugins": {
+          "type": "boolean",
+          "description": "Whether Capacitor plugins are available"
+        },
+        "canInstallApp": {
+          "type": "boolean",
+          "description": "Whether app can be installed as AAE"
+        },
+        "checkCapacitorPlugin": {
+          "type": "(pluginName: string) => boolean",
+          "description": "Check if specific Capacitor plugin is available"
+        },
+        "getPlatformInfo": {
+          "type": "() => NativePlatformInfo",
+          "description": "Get complete platform information"
+        },
+        "isIOSDevice": {
+          "type": "() => boolean",
+          "description": "Check if running on iOS device"
+        },
+        "isAndroidDevice": {
+          "type": "() => boolean",
+          "description": "Check if running on Android device"
+        },
+        "isMobileDevice": {
+          "type": "() => boolean",
+          "description": "Check if running on mobile device"
+        },
+        "isDesktopDevice": {
+          "type": "() => boolean",
+          "description": "Check if running on desktop device"
+        },
+        "refresh": {
+          "type": "() => void",
+          "description": "Refresh platform detection"
+        }
+      }
+    },
+    "use-audio-recorder": {
+      "name": "useAudioRecorder",
+      "description": "Audio recording hook for AAE media capture. Provides comprehensive audio recording capabilities with MediaDevices and MediaRecorder APIs, including permission handling, recording state management, and audio file generation.",
+      "category": "aae",
+      "version": "9.0.0",
+      "files": ["src/hooks/use-audio-recorder.ts"],
+      "dependencies": ["useKeyboard", "useNetwork"],
+      "props": {
+        "mimeType": {
+          "type": "string",
+          "description": "MIME type for recording (e.g., 'audio/webm', 'audio/mp4')"
+        },
+        "audioBitsPerSecond": {
+          "type": "number",
+          "description": "Audio bitrate for recording quality"
+        },
+        "maxDuration": {
+          "type": "number",
+          "description": "Maximum recording duration in milliseconds"
+        },
+        "echoCancellation": {
+          "type": "boolean",
+          "default": "true",
+          "description": "Enable echo cancellation"
+        },
+        "noiseSuppression": {
+          "type": "boolean",
+          "default": "true",
+          "description": "Enable noise suppression"
+        },
+        "onDataAvailable": {
+          "type": "(chunk: Blob) => void",
+          "description": "Callback when recording data is available"
+        },
+        "onRecordingStart": {
+          "type": "() => void",
+          "description": "Callback when recording starts"
+        },
+        "onRecordingStop": {
+          "type": "(audioBlob: Blob, audioUrl: string) => void",
+          "description": "Callback when recording stops"
+        },
+        "onError": {
+          "type": "(error: AudioRecorderError) => void",
+          "description": "Callback when error occurs"
+        }
+      },
+      "returns": {
+        "state": {
+          "type": "AudioRecorderState",
+          "description": "Current recording state and audio data"
+        },
+        "startRecording": {
+          "type": "() => Promise<boolean>",
+          "description": "Start audio recording"
+        },
+        "stopRecording": {
+          "type": "() => Promise<void>",
+          "description": "Stop audio recording"
+        },
+        "pauseRecording": {
+          "type": "() => Promise<void>",
+          "description": "Pause audio recording"
+        },
+        "resumeRecording": {
+          "type": "() => Promise<void>",
+          "description": "Resume audio recording"
+        },
+        "cancelRecording": {
+          "type": "() => void",
+          "description": "Cancel and discard current recording"
+        },
+        "clearRecording": {
+          "type": "() => void",
+          "description": "Clear recorded audio data"
+        },
+        "requestPermission": {
+          "type": "() => Promise<PermissionState>",
+          "description": "Request microphone permission"
+        },
+        "downloadRecording": {
+          "type": "(filename?: string) => void",
+          "description": "Download recorded audio file"
+        },
+        "getRecordingInfo": {
+          "type": "() => { size: number; duration: number; type: string } | null",
+          "description": "Get information about recorded audio"
+        }
+      }
+    },
+    "use-webauthn": {
+      "name": "useWebAuthn",
+      "description": "WebAuthn hook for AAE biometric authentication. Provides passwordless authentication using biometrics (Touch ID, Face ID, Windows Hello) or security keys with comprehensive backend integration and credential management.",
+      "category": "aae",
+      "version": "1.0.0",
+      "files": ["src/hooks/use-webauthn.ts"],
+      "dependencies": [],
+      "props": {
+        "endpoints": {
+          "type": "{ registrationOptions: string; registrationVerification: string; authenticationOptions: string; authenticationVerification: string; }",
+          "description": "Backend endpoints for WebAuthn operations"
+        },
+        "timeout": {
+          "type": "number",
+          "default": "60000",
+          "description": "Request timeout in milliseconds"
+        },
+        "userVerification": {
+          "type": "UserVerificationRequirement",
+          "default": "preferred",
+          "description": "User verification requirement level"
+        },
+        "onRegistrationSuccess": {
+          "type": "(credential: WebAuthnRegistrationResult) => void",
+          "description": "Callback when registration completes successfully"
+        },
+        "onAuthenticationSuccess": {
+          "type": "(credential: WebAuthnAuthenticationResult) => void",
+          "description": "Callback when authentication completes successfully"
+        },
+        "onError": {
+          "type": "(error: WebAuthnError) => void",
+          "description": "Callback when WebAuthn error occurs"
+        }
+      },
+      "returns": {
+        "state": {
+          "type": "WebAuthnState",
+          "description": "Current WebAuthn state including loading, error, and credential status"
+        },
+        "register": {
+          "type": "(userInfo: { username: string; displayName: string }) => Promise<WebAuthnRegistrationResult | null>",
+          "description": "Register a new WebAuthn credential for user"
+        },
+        "authenticate": {
+          "type": "(username?: string) => Promise<WebAuthnAuthenticationResult | null>",
+          "description": "Authenticate user with existing WebAuthn credential"
+        },
+        "checkSupport": {
+          "type": "() => boolean",
+          "description": "Check if WebAuthn is supported in current environment"
+        },
+        "clearError": {
+          "type": "() => void",
+          "description": "Clear current error state"
+        },
+        "isWebAuthnSupported": {
+          "type": "() => boolean",
+          "description": "Check WebAuthn API support"
+        },
+        "getAvailableAuthenticators": {
+          "type": "() => AuthenticatorTransport[]",
+          "description": "Get list of available authenticator types"
+        },
+        "formatCredentialForBackend": {
+          "type": "(credential: WebAuthnRegistrationResult | WebAuthnAuthenticationResult) => any",
+          "description": "Format credential data for backend storage/verification"
+        }
+      }
+    },
+    "use-video-recorder": {
+      "name": "useVideoRecorder",
+      "description": "Video recording hook for AAE media capture. Provides comprehensive video recording capabilities with MediaRecorder API integration, camera management, real-time preview, and advanced quality controls.",
+      "category": "aae",
+      "version": "2.0.0",
+      "files": [
+        "src/hooks/use-video-recorder.ts",
+        "src/hooks/types/video-recorder.d.ts"
+      ],
+      "dependencies": [],
+      "props": {
+        "mimeType": {
+          "type": "string",
+          "default": "video/webm;codecs=vp9,opus",
+          "description": "MIME type for video recording format"
+        },
+        "videoBitsPerSecond": {
+          "type": "number",
+          "default": "2500000",
+          "description": "Video bitrate for recording quality"
+        },
+        "audioBitsPerSecond": {
+          "type": "number",
+          "default": "128000",
+          "description": "Audio bitrate for recording quality"
+        },
+        "width": {
+          "type": "number",
+          "default": "1280",
+          "description": "Video width resolution"
+        },
+        "height": {
+          "type": "number",
+          "default": "720",
+          "description": "Video height resolution"
+        },
+        "frameRate": {
+          "type": "number",
+          "default": "30",
+          "description": "Video frame rate (fps)"
+        },
+        "facingMode": {
+          "type": "user | environment",
+          "default": "user",
+          "description": "Camera facing mode preference"
+        },
+        "includeAudio": {
+          "type": "boolean",
+          "default": "true",
+          "description": "Include audio in video recording"
+        },
+        "maxDuration": {
+          "type": "number",
+          "default": "600000",
+          "description": "Maximum recording duration in milliseconds"
+        },
+        "onDataAvailable": {
+          "type": "(chunk: Blob) => void",
+          "description": "Callback when recording data is available"
+        },
+        "onRecordingComplete": {
+          "type": "(videoBlob: Blob) => void",
+          "description": "Callback when recording completes"
+        },
+        "onError": {
+          "type": "(error: VideoRecorderError) => void",
+          "description": "Callback when error occurs"
+        },
+        "onPermissionDenied": {
+          "type": "() => void",
+          "description": "Callback when camera permission is denied"
+        }
+      },
+      "returns": {
+        "state": {
+          "type": "VideoRecorderState",
+          "description": "Current recording state and camera status"
+        },
+        "error": {
+          "type": "VideoRecorderError | null",
+          "description": "Current error state if any"
+        },
+        "startRecording": {
+          "type": "() => Promise<boolean>",
+          "description": "Start video recording with camera access"
+        },
+        "stopRecording": {
+          "type": "() => Promise<Blob | null>",
+          "description": "Stop recording and return video blob"
+        },
+        "pauseRecording": {
+          "type": "() => void",
+          "description": "Pause current recording"
+        },
+        "resumeRecording": {
+          "type": "() => void",
+          "description": "Resume paused recording"
+        },
+        "cancelRecording": {
+          "type": "() => void",
+          "description": "Cancel recording without saving"
+        },
+        "switchCamera": {
+          "type": "(deviceId?: string) => Promise<boolean>",
+          "description": "Switch to different camera device"
+        },
+        "captureFrame": {
+          "type": "() => string | null",
+          "description": "Capture current frame as base64 image"
+        },
+        "videoBlob": {
+          "type": "Blob | null",
+          "description": "Recorded video as blob data"
+        },
+        "videoUrl": {
+          "type": "string | null",
+          "description": "Object URL for recorded video playback"
+        },
+        "previewStream": {
+          "type": "MediaStream | null",
+          "description": "Live camera preview stream"
+        },
+        "previewRef": {
+          "type": "RefObject<HTMLVideoElement>",
+          "description": "Ref for video preview element"
+        },
+        "downloadRecording": {
+          "type": "(filename?: string) => void",
+          "description": "Download recorded video file"
+        },
+        "setQuality": {
+          "type": "(quality: 'low' | 'medium' | 'high' | 'ultra') => Promise<boolean>",
+          "description": "Set video recording quality preset"
+        }
+      }
+    }
+  },
+  "client": {
+    "note": "Client-specific components for domain applications. These are NOT part of the core design system.",
+    "structures": {
+      "peep-card": {
+        "name": "PeepCard",
+        "description": "Card structure for displaying individual people/users with profile information and actions",
+        "category": "social",
+        "version": "5.0.0",
+        "files": ["src/components/client/structures/peep-card.tsx"],
+        "dependencies": ["Card", "Avatar", "Badge", "Button", "Tooltip"],
+        "clientSpecific": true
+      },
+      "group-card": {
+        "name": "GroupCard",
+        "description": "Card structure for displaying groups/communities with member info and membership status",
+        "category": "social",
+        "version": "5.0.0",
+        "files": ["src/components/client/structures/group-card.tsx"],
+        "dependencies": ["Card", "Avatar", "Badge", "Button", "Tooltip"],
+        "clientSpecific": true
+      },
+      "rank-snippet": {
+        "name": "RankSnippet",
+        "description": "Compact snippet for displaying ranking information with trend indicators",
+        "category": "data-display",
+        "version": "5.0.0",
+        "files": ["src/components/client/structures/rank-snippet.tsx"],
+        "dependencies": ["Badge", "Tooltip"],
+        "clientSpecific": true
+      },
+      "favorites-snippet": {
+        "name": "FavoritesSnippet",
+        "description": "Snippet for displaying collections of favorite items in various formats",
+        "category": "data-display",
+        "version": "5.0.0",
+        "files": ["src/components/client/structures/favorites-snippet.tsx"],
+        "dependencies": ["Avatar", "Badge", "Button", "Tooltip"],
+        "clientSpecific": true
+      },
+      "asset-header": {
+        "name": "AssetHeader",
+        "description": "Specialized header structure for assets with cover images, metadata, and actions",
+        "category": "layout",
+        "version": "5.0.0",
+        "files": ["src/components/client/structures/asset-header.tsx"],
+        "dependencies": ["Avatar", "Badge", "Button", "Tooltip"],
+        "clientSpecific": true
+      }
+    },
+    "modules": {
+      "peep-section": {
+        "name": "PeepSection",
+        "description": "Section module for displaying collections of people/users with filtering and selection",
+        "category": "social",
+        "version": "5.0.0",
+        "files": ["src/components/client/modules/peep-section.tsx"],
+        "dependencies": [
+          "SecHead",
+          "PeepCard",
+          "ListGrid",
+          "EmptyState",
+          "Button"
+        ],
+        "clientSpecific": true
+      },
+      "group-section": {
+        "name": "GroupSection",
+        "description": "Section module for displaying collections of groups with filtering and membership status",
+        "category": "social",
+        "version": "5.0.0",
+        "files": ["src/components/client/modules/group-section.tsx"],
+        "dependencies": [
+          "SecHead",
+          "GroupCard",
+          "ListGrid",
+          "EmptyState",
+          "Button",
+          "Badge"
+        ],
+        "clientSpecific": true
+      },
+      "activity-grid": {
+        "name": "ActivityGrid",
+        "description": "Grid module for displaying user activities and social feed with real-time updates",
+        "category": "social",
+        "version": "5.0.0",
+        "files": ["src/components/client/modules/activity-grid.tsx"],
+        "dependencies": [
+          "SecHead",
+          "ListGrid",
+          "EmptyState",
+          "Card",
+          "Avatar",
+          "Badge",
+          "Button",
+          "Tooltip"
+        ],
+        "clientSpecific": true
+      }
+    },
+    "keyboard-avoiding-view": {
+      "name": "KeyboardAvoidingView",
+      "description": "A container component that automatically adjusts its layout when the on-screen keyboard appears, preventing content from being hidden behind the keyboard. Essential for AAE form layouts.",
+      "category": "aae",
+      "version": "9.0.0",
+      "files": ["src/components/structures/keyboard-avoiding-view.tsx"],
+      "dependencies": ["useVisualViewport", "cn"],
+      "props": {
+        "avoidanceType": {
+          "type": "\"padding\" | \"margin\"",
+          "default": "\"padding\"",
+          "description": "Whether to use padding or margin for avoidance"
+        },
+        "enableTransitions": {
+          "type": "boolean",
+          "default": "true",
+          "description": "Whether to enable smooth transitions"
+        },
+        "transitionDuration": {
+          "type": "number",
+          "default": "300",
+          "description": "Transition duration in milliseconds"
+        },
+        "extraOffset": {
+          "type": "number",
+          "default": "0",
+          "description": "Additional offset to add to keyboard height"
+        },
+        "mobileOnly": {
+          "type": "boolean",
+          "default": "true",
+          "description": "Whether to only apply avoidance on mobile devices"
+        },
+        "debug": {
+          "type": "boolean",
+          "default": "false",
+          "description": "Whether to show debug information overlay"
+        },
+        "minKeyboardHeight": {
+          "type": "number",
+          "default": "50",
+          "description": "Minimum keyboard height to trigger avoidance"
+        }
+      }
+    },
+    "location-map": {
+      "name": "LocationMap",
+      "description": "Interactive map component using Leaflet and OpenStreetMap for displaying locations, markers, and geographic data. Perfect for AAE applications with geolocation features.",
+      "category": "aae",
+      "version": "9.0.0",
+      "files": ["src/components/structures/location-map.tsx"],
+      "dependencies": ["react-leaflet", "leaflet", "next/dynamic", "cn"],
+      "props": {
+        "latitude": {
+          "type": "number",
+          "description": "Latitude coordinate for map center"
+        },
+        "longitude": {
+          "type": "number",
+          "description": "Longitude coordinate for map center"
+        },
+        "zoom": {
+          "type": "number",
+          "default": "13",
+          "description": "Zoom level (1-20)"
+        },
+        "width": {
+          "type": "number | string",
+          "default": "\"100%\"",
+          "description": "Map width"
+        },
+        "height": {
+          "type": "number | string",
+          "default": "400",
+          "description": "Map height"
+        },
+        "markers": {
+          "type": "LocationMapMarker[]",
+          "default": "[]",
+          "description": "Array of markers to display"
+        },
+        "variant": {
+          "type": "\"default\" | \"minimal\" | \"satellite\"",
+          "default": "\"default\"",
+          "description": "Map style variant"
+        },
+        "showZoomControls": {
+          "type": "boolean",
+          "default": "true",
+          "description": "Whether to show zoom controls"
+        },
+        "showAttribution": {
+          "type": "boolean",
+          "default": "true",
+          "description": "Whether to show map attribution"
+        },
+        "interactive": {
+          "type": "boolean",
+          "default": "true",
+          "description": "Whether map is interactive"
+        },
+        "enableGeolocation": {
+          "type": "boolean",
+          "default": "false",
+          "description": "Whether to enable geolocation control"
+        },
+        "fitBounds": {
+          "type": "boolean",
+          "default": "false",
+          "description": "Whether to fit bounds to all markers"
+        },
+        "onMapClick": {
+          "type": "(event: { latitude: number; longitude: number }) => void",
+          "description": "Callback when map is clicked"
+        },
+        "onMarkerClick": {
+          "type": "(marker: LocationMapMarker) => void",
+          "description": "Callback when marker is clicked"
+        }
+      }
+    }
+  },
+  "libs": {
+    "file-saver": {
+      "name": "FileSaver",
+      "description": "File saving utilities for AAE file system interaction. Provides simple utilities for saving and downloading files from web applications, supporting various content types and formats.",
+      "category": "aae",
+      "version": "9.0.0",
+      "files": ["src/lib/file-saver.ts"],
+      "dependencies": [],
+      "functions": {
+        "saveFile": {
+          "type": "(filename: string, content: string | ArrayBuffer | Uint8Array | Blob, options?: SaveFileOptions) => boolean",
+          "description": "Save content as a downloadable file"
+        },
+        "saveTextFile": {
+          "type": "(filename: string, content: string, options?: SaveFileOptions) => boolean",
+          "description": "Save text content as a text file"
+        },
+        "saveJsonFile": {
+          "type": "(filename: string, data: any, options?: SaveFileOptions) => boolean",
+          "description": "Save JSON object as a JSON file"
+        },
+        "saveCsvFile": {
+          "type": "(filename: string, data: string[][], options?: SaveFileOptions) => boolean",
+          "description": "Save CSV data as a CSV file"
+        },
+        "saveBlobFile": {
+          "type": "(filename: string, blob: Blob, options?: SaveFileOptions) => boolean",
+          "description": "Save blob as a file with proper MIME type detection"
+        },
+        "saveCanvasAsImage": {
+          "type": "(canvas: HTMLCanvasElement, filename: string, format?: 'png' | 'jpeg' | 'webp', quality?: number, options?: SaveFileOptions) => boolean",
+          "description": "Save canvas content as an image file"
+        },
+        "isSaveFileSupported": {
+          "type": "() => boolean",
+          "description": "Check if file saving is supported in the current browser"
+        },
+        "generateTimestampedFilename": {
+          "type": "(baseName: string, extension: string, separator?: string) => string",
+          "description": "Generate a filename with timestamp"
+        },
+        "getExtensionForMimeType": {
+          "type": "(mimeType: string) => string",
+          "description": "Get appropriate file extension for MIME type"
+        },
+        "sanitizeFilename": {
+          "type": "(filename: string) => string",
+          "description": "Sanitize filename for safe saving"
+        }
+      },
+      "classes": {
+        "FileSaver": {
+          "description": "Advanced file saver class for managing multiple downloads with tracking and history"
+        }
+      }
+    }
+  },
+  "modules": {
+    "image-editor": {
+      "name": "ImageEditor",
+      "description": "Comprehensive image editing module with canvas-based manipulation capabilities. Provides scaling, rotation, color adjustments, cropping controls with real-time preview and save functionality for AAE image editing workflows.",
+      "category": "aae",
+      "version": "9.0.0",
+      "files": ["src/modules/image-editor.tsx"],
+      "dependencies": ["Button", "Slider", "useImageLoader"],
+      "props": {
+        "className": {
+          "type": "string",
+          "description": "CSS class name"
+        },
+        "style": {
+          "type": "React.CSSProperties",
+          "description": "Component style"
+        },
+        "disabled": {
+          "type": "boolean",
+          "default": "false",
+          "description": "Disable all controls"
+        },
+        "showAdvancedControls": {
+          "type": "boolean",
+          "default": "true",
+          "description": "Show advanced color adjustment controls"
+        },
+        "maxCanvasWidth": {
+          "type": "number",
+          "default": "1920",
+          "description": "Maximum canvas width in pixels"
+        },
+        "maxCanvasHeight": {
+          "type": "number",
+          "default": "1080",
+          "description": "Maximum canvas height in pixels"
+        },
+        "defaultQuality": {
+          "type": "number",
+          "default": "0.92",
+          "description": "Default image quality for exports"
+        },
+        "enableHistory": {
+          "type": "boolean",
+          "default": "true",
+          "description": "Enable undo/redo functionality"
+        },
+        "maxHistoryStates": {
+          "type": "number",
+          "default": "20",
+          "description": "Maximum history states"
+        },
+        "onImageEdit": {
+          "type": "(transforms: ImageEditingTransforms) => void",
+          "description": "Callback when image is edited"
+        },
+        "onImageSave": {
+          "type": "(blob: Blob, filename: string) => void",
+          "description": "Callback when image is saved"
+        },
+        "enableKeyboardShortcuts": {
+          "type": "boolean",
+          "default": "true",
+          "description": "Enable keyboard shortcuts"
+        }
+      }
+    },
+    "use-image-loader": {
+      "name": "useImageLoader",
+      "description": "Comprehensive image loading hook with FileReader API integration, validation, optimization, and file picker support. Handles image validation, loading states, and error management for image editing workflows.",
+      "category": "aae",
+      "version": "9.0.0",
+      "files": ["src/hooks/use-image-loader.ts"],
+      "dependencies": ["useFilePicker"],
+      "props": {
+        "maxFileSize": {
+          "type": "number",
+          "default": "10485760",
+          "description": "Maximum file size in bytes"
+        },
+        "acceptedFormats": {
+          "type": "string[]",
+          "default": "['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/bmp']",
+          "description": "Accepted image formats"
+        },
+        "maxWidth": {
+          "type": "number",
+          "default": "4096",
+          "description": "Maximum image width"
+        },
+        "maxHeight": {
+          "type": "number",
+          "default": "4096",
+          "description": "Maximum image height"
+        },
+        "onImageLoad": {
+          "type": "(image: HTMLImageElement, file: File) => void",
+          "description": "Callback when image loads successfully"
+        },
+        "onError": {
+          "type": "(error: ImageLoaderError) => void",
+          "description": "Callback when error occurs"
+        },
+        "autoOptimize": {
+          "type": "boolean",
+          "default": "false",
+          "description": "Enable automatic image optimization"
+        }
+      },
+      "returns": {
+        "state": {
+          "type": "ImageLoaderState",
+          "description": "Current loader state with loading, error, and metadata information"
+        },
+        "image": {
+          "type": "HTMLImageElement | null",
+          "description": "Loaded image element"
+        },
+        "imageUrl": {
+          "type": "string | null",
+          "description": "Image data URL or source URL"
+        },
+        "file": {
+          "type": "File | null",
+          "description": "Original file object"
+        },
+        "openImagePicker": {
+          "type": "() => void",
+          "description": "Open file picker to select image"
+        },
+        "loadFromFile": {
+          "type": "(file: File) => Promise<boolean>",
+          "description": "Load image from file object"
+        },
+        "loadFromUrl": {
+          "type": "(url: string) => Promise<boolean>",
+          "description": "Load image from URL"
+        },
+        "clearImage": {
+          "type": "() => void",
+          "description": "Clear current image"
+        },
+        "downloadImage": {
+          "type": "(filename?: string, format?: string, quality?: number) => void",
+          "description": "Download current image"
+        },
+        "getImageDataUrl": {
+          "type": "(format?: string, quality?: number) => string | null",
+          "description": "Get image as data URL"
+        },
+        "validateImage": {
+          "type": "(file: File) => Promise<boolean>",
+          "description": "Validate image file"
+        },
+        "optimizeImage": {
+          "type": "(maxWidth?: number, maxHeight?: number, quality?: number) => Promise<HTMLImageElement | null>",
+          "description": "Optimize image dimensions and quality"
+        }
+      }
+    },
+    "use-screen-capture": {
+      "name": "useScreenCapture",
+      "description": "Comprehensive screen capture hook with getDisplayMedia and MediaRecorder integration. Provides screen sharing, recording states, screenshot capabilities, and video file generation for screen recording workflows with annotation tools and keyboard shortcuts.",
+      "category": "aae",
+      "version": "9.0.0",
+      "files": ["src/hooks/use-screen-capture.ts"],
+      "dependencies": ["useKeyboard", "useNetwork", "useAudioRecorder"],
+      "props": {
+        "video": {
+          "type": "object",
+          "description": "Video capture configuration with display settings"
+        },
+        "audio": {
+          "type": "object",
+          "description": "Audio capture configuration with system audio options"
+        },
+        "mimeType": {
+          "type": "string",
+          "default": "video/webm;codecs=vp9",
+          "description": "MIME type for recording"
+        },
+        "videoBitsPerSecond": {
+          "type": "number",
+          "default": "2000000",
+          "description": "Video bitrate in bits per second"
+        },
+        "audioBitsPerSecond": {
+          "type": "number",
+          "default": "128000",
+          "description": "Audio bitrate in bits per second"
+        },
+        "maxDuration": {
+          "type": "number",
+          "default": "3600",
+          "description": "Maximum recording duration in seconds"
+        },
+        "onStreamStart": {
+          "type": "(stream: MediaStream) => void",
+          "description": "Callback when screen capture starts"
+        },
+        "onStreamEnd": {
+          "type": "() => void",
+          "description": "Callback when screen capture ends"
+        },
+        "onRecordingComplete": {
+          "type": "(blob: Blob) => void",
+          "description": "Callback when recording completes"
+        },
+        "onError": {
+          "type": "(error: ScreenCaptureError) => void",
+          "description": "Callback when error occurs"
+        },
+        "onPermissionDenied": {
+          "type": "() => void",
+          "description": "Callback when permission is denied"
+        }
+      },
+      "returns": {
+        "state": {
+          "type": "ScreenCaptureState",
+          "description": "Current capture and recording state with duration, size, and permissions"
+        },
+        "error": {
+          "type": "ScreenCaptureError | null",
+          "description": "Current error if any"
+        },
+        "mediaStream": {
+          "type": "MediaStream | null",
+          "description": "Active screen capture stream"
+        },
+        "recordingBlob": {
+          "type": "Blob | null",
+          "description": "Recorded video blob"
+        },
+        "recordingUrl": {
+          "type": "string | null",
+          "description": "Object URL for recorded video"
+        },
+        "screenshotBlob": {
+          "type": "Blob | null",
+          "description": "Screenshot image blob"
+        },
+        "startScreenCapture": {
+          "type": "(options?: MediaStreamConstraints) => Promise<MediaStream | null>",
+          "description": "Start screen capture session"
+        },
+        "stopScreenCapture": {
+          "type": "() => void",
+          "description": "Stop screen capture session"
+        },
+        "startRecording": {
+          "type": "() => Promise<boolean>",
+          "description": "Start recording screen capture"
+        },
+        "stopRecording": {
+          "type": "() => Promise<Blob | null>",
+          "description": "Stop recording and return video blob"
+        },
+        "pauseRecording": {
+          "type": "() => void",
+          "description": "Pause active recording"
+        },
+        "resumeRecording": {
+          "type": "() => void",
+          "description": "Resume paused recording"
+        },
+        "takeScreenshot": {
+          "type": "(format?: 'png' | 'jpeg' | 'webp') => Promise<Blob | null>",
+          "description": "Take screenshot of current capture"
+        },
+        "downloadRecording": {
+          "type": "(filename?: string) => void",
+          "description": "Download recorded video"
+        },
+        "downloadScreenshot": {
+          "type": "(filename?: string) => void",
+          "description": "Download screenshot image"
+        },
+        "formatDuration": {
+          "type": "(seconds: number) => string",
+          "description": "Format duration in MM:SS format"
+        },
+        "keyboardShortcuts": {
+          "type": "Record<string, string>",
+          "description": "Available keyboard shortcuts"
+        },
+        "isNetworkAvailable": {
+          "type": "boolean",
+          "description": "Network connectivity status"
+        },
+        "networkQuality": {
+          "type": "'poor' | 'good' | 'excellent' | 'unknown'",
+          "description": "Current network quality assessment"
+        }
+      }
+    },
+    "use-wake-lock": {
+      "name": "useWakeLock",
+      "description": "Comprehensive wake lock hook for preventing screen sleep during critical tasks. Manages the Screen Wake Lock API with automatic re-acquisition, visibility change handling, and battery-aware recommendations.",
+      "category": "aae",
+      "version": "9.0.0",
+      "files": ["src/hooks/use-wake-lock.ts"],
+      "dependencies": [],
+      "props": {
+        "onAcquired": {
+          "type": "() => void",
+          "description": "Callback when wake lock is acquired"
+        },
+        "onReleased": {
+          "type": "() => void",
+          "description": "Callback when wake lock is released"
+        },
+        "onError": {
+          "type": "(error: WakeLockError) => void",
+          "description": "Callback when error occurs"
+        },
+        "autoReacquire": {
+          "type": "boolean",
+          "default": "true",
+          "description": "Auto re-acquire lock when document becomes visible"
+        },
+        "type": {
+          "type": "'screen'",
+          "default": "screen",
+          "description": "Type of wake lock to request"
+        }
+      },
+      "returns": {
+        "state": {
+          "type": "WakeLockState",
+          "description": "Current wake lock state with acquisition time and release reason"
+        },
+        "error": {
+          "type": "WakeLockError | null",
+          "description": "Current error if any"
+        },
+        "request": {
+          "type": "() => Promise<boolean>",
+          "description": "Request screen wake lock"
+        },
+        "release": {
+          "type": "() => Promise<boolean>",
+          "description": "Release current wake lock"
+        },
+        "toggle": {
+          "type": "() => Promise<boolean>",
+          "description": "Toggle wake lock state"
+        },
+        "isSupported": {
+          "type": "boolean",
+          "description": "Whether wake lock API is supported"
+        },
+        "getDuration": {
+          "type": "() => number",
+          "description": "Get duration since wake lock acquisition"
+        },
+        "getStatus": {
+          "type": "() => 'locked' | 'unlocked' | 'requesting'",
+          "description": "Get current wake lock status"
+        }
+      }
+    },
+    "useWebShare": {
+      "name": "useWebShare",
+      "description": "Hook for native OS sharing using Web Share API with fallback mechanisms",
+      "category": "AAE",
+      "version": "1.0.0",
+      "files": ["src/hooks/use-web-share.ts"],
+      "dependencies": ["react"],
+      "props": {
+        "onSuccess": {
+          "type": "(data: ShareData) => void",
+          "required": false,
+          "description": "Callback when share is successful"
+        },
+        "onAbort": {
+          "type": "() => void",
+          "required": false,
+          "description": "Callback when share is cancelled/aborted"
+        },
+        "onError": {
+          "type": "(error: WebShareError) => void",
+          "required": false,
+          "description": "Callback when error occurs"
+        },
+        "fallbackBehavior": {
+          "type": "'clipboard' | 'mailto' | 'custom' | 'none'",
+          "default": "clipboard",
+          "description": "Fallback behavior when Web Share API is not available"
+        },
+        "customFallback": {
+          "type": "(data: ShareData) => Promise<boolean>",
+          "required": false,
+          "description": "Custom fallback handler"
+        }
+      },
+      "returns": {
+        "state": {
+          "type": "WebShareState",
+          "description": "Current web share state with support info and share history"
+        },
+        "error": {
+          "type": "WebShareError | null",
+          "description": "Current error if any"
+        },
+        "share": {
+          "type": "(data: ShareData) => Promise<boolean>",
+          "description": "Share data using native API or fallback"
+        },
+        "canShare": {
+          "type": "(data: ShareData) => boolean",
+          "description": "Check if data can be shared"
+        },
+        "shareUrl": {
+          "type": "(url: string, title?: string) => Promise<boolean>",
+          "description": "Convenience function for sharing URLs"
+        },
+        "shareText": {
+          "type": "(text: string, title?: string) => Promise<boolean>",
+          "description": "Convenience function for sharing text"
+        },
+        "shareFiles": {
+          "type": "(files: File[], title?: string) => Promise<boolean>",
+          "description": "Convenience function for sharing files"
+        },
+        "isSupported": {
+          "type": "boolean",
+          "description": "Whether Web Share API is supported"
+        },
+        "getShareableUrl": {
+          "type": "(path?: string) => string",
+          "description": "Get shareable URL for current page or custom path"
+        },
+        "generateShareData": {
+          "type": "(type: 'page' | 'selection' | 'custom', customData?: Partial<ShareData>) => ShareData",
+          "description": "Generate share data for common scenarios"
+        },
+        "copyToClipboard": {
+          "type": "(data: ShareData) => Promise<boolean>",
+          "description": "Copy share data to clipboard as fallback"
+        },
+        "openMailto": {
+          "type": "(data: ShareData) => void",
+          "description": "Open mailto link as fallback"
+        },
+        "clearError": {
+          "type": "() => void",
+          "description": "Clear current error"
+        }
+      }
+    },
+    "useContactPicker": {
+      "name": "useContactPicker",
+      "description": "Hook for privacy-preserving contact selection using Contact Picker API",
+      "category": "AAE",
+      "version": "1.0.0",
+      "files": ["src/hooks/use-contact-picker.ts"],
+      "dependencies": ["react"],
+      "props": {
+        "multiple": {
+          "type": "boolean",
+          "default": "false",
+          "description": "Allow multiple contact selection"
+        },
+        "onSuccess": {
+          "type": "(contacts: ContactInfo[]) => void",
+          "required": false,
+          "description": "Callback when contacts are successfully selected"
+        },
+        "onCancel": {
+          "type": "() => void",
+          "required": false,
+          "description": "Callback when selection is cancelled"
+        },
+        "onError": {
+          "type": "(error: ContactPickerError) => void",
+          "required": false,
+          "description": "Callback when error occurs"
+        }
+      },
+      "returns": {
+        "state": {
+          "type": "ContactPickerState",
+          "description": "Current contact picker state with selection info and loading status"
+        },
+        "error": {
+          "type": "ContactPickerError | null",
+          "description": "Current error if any"
+        },
+        "openPicker": {
+          "type": "(properties: string[], options?: ContactPickerOptions) => Promise<ContactInfo[]>",
+          "description": "Open contact picker with specific properties"
+        },
+        "openPickerForEmails": {
+          "type": "(options?: ContactPickerOptions) => Promise<ContactInfo[]>",
+          "description": "Convenience function for selecting email contacts"
+        },
+        "openPickerForPhones": {
+          "type": "(options?: ContactPickerOptions) => Promise<ContactInfo[]>",
+          "description": "Convenience function for selecting phone contacts"
+        },
+        "openPickerForAll": {
+          "type": "(options?: ContactPickerOptions) => Promise<ContactInfo[]>",
+          "description": "Convenience function for selecting all contact information"
+        },
+        "isSupported": {
+          "type": "boolean",
+          "description": "Whether Contact Picker API is supported"
+        },
+        "getAvailableProperties": {
+          "type": "() => Promise<string[]>",
+          "description": "Get available contact properties for the current platform"
+        },
+        "filterContacts": {
+          "type": "(contacts: ContactInfo[], filters: ContactPickerFilters) => ContactInfo[]",
+          "description": "Filter contacts based on available data"
+        },
+        "formatContact": {
+          "type": "(contact: ContactInfo, format?: 'full' | 'name' | 'email' | 'phone') => string",
+          "description": "Format contact information for display"
+        },
+        "clearError": {
+          "type": "() => void",
+          "description": "Clear current error"
+        },
+        "clearContacts": {
+          "type": "() => void",
+          "description": "Clear selected contacts"
+        }
+      }
+    },
+    "useTTS": {
+      "name": "useTTS",
+      "description": "Hook for text-to-speech synthesis using Web Speech API with advanced voice controls",
+      "category": "AAE",
+      "version": "1.0.0",
+      "files": ["src/hooks/use-tts.ts"],
+      "dependencies": ["react"],
+      "props": {
+        "autoLoadVoices": {
+          "type": "boolean",
+          "default": "true",
+          "description": "Auto-load voices on mount"
+        },
+        "defaultVoice": {
+          "type": "string",
+          "required": false,
+          "description": "Default voice name or language preference"
+        },
+        "defaultRate": {
+          "type": "number",
+          "default": "1",
+          "description": "Default speech rate (0.1 to 10)"
+        },
+        "defaultPitch": {
+          "type": "number",
+          "default": "1",
+          "description": "Default speech pitch (0 to 2)"
+        },
+        "defaultVolume": {
+          "type": "number",
+          "default": "1",
+          "description": "Default speech volume (0 to 1)"
+        },
+        "onStart": {
+          "type": "() => void",
+          "required": false,
+          "description": "Callback when speech starts"
+        },
+        "onEnd": {
+          "type": "() => void",
+          "required": false,
+          "description": "Callback when speech ends"
+        },
+        "onPause": {
+          "type": "() => void",
+          "required": false,
+          "description": "Callback when speech is paused"
+        },
+        "onResume": {
+          "type": "() => void",
+          "required": false,
+          "description": "Callback when speech is resumed"
+        },
+        "onError": {
+          "type": "(error: TTSError) => void",
+          "required": false,
+          "description": "Callback when error occurs"
+        },
+        "onBoundary": {
+          "type": "(event: SpeechSynthesisEvent) => void",
+          "required": false,
+          "description": "Callback when boundary is reached (word/sentence)"
+        }
+      },
+      "returns": {
+        "state": {
+          "type": "TTSState",
+          "description": "Current TTS state with speaking status and voice information"
+        },
+        "error": {
+          "type": "TTSError | null",
+          "description": "Current error if any"
+        },
+        "speak": {
+          "type": "(options: TTSOptions | string) => Promise<boolean>",
+          "description": "Speak text with specified options"
+        },
+        "stop": {
+          "type": "() => void",
+          "description": "Stop current speech synthesis"
+        },
+        "pause": {
+          "type": "() => void",
+          "description": "Pause current speech"
+        },
+        "resume": {
+          "type": "() => void",
+          "description": "Resume paused speech"
+        },
+        "getVoices": {
+          "type": "() => Promise<TTSVoice[]>",
+          "description": "Get available voices"
+        },
+        "getVoicesByLanguage": {
+          "type": "(lang: string) => TTSVoice[]",
+          "description": "Get voices filtered by language"
+        },
+        "findVoice": {
+          "type": "(nameOrLang: string) => TTSVoice | null",
+          "description": "Find voice by name or language"
+        },
+        "setDefaultVoice": {
+          "type": "(voice: TTSVoice | string) => void",
+          "description": "Set default voice for speech synthesis"
+        },
+        "isSupported": {
+          "type": "boolean",
+          "description": "Whether Speech Synthesis API is supported"
+        },
+        "getLanguages": {
+          "type": "() => string[]",
+          "description": "Get available languages from voices"
+        },
+        "testVoice": {
+          "type": "(voice: TTSVoice, testText?: string) => Promise<boolean>",
+          "description": "Test a specific voice with sample text"
+        },
+        "speakSentences": {
+          "type": "(text: string, options?: Partial<TTSOptions>) => Promise<boolean>",
+          "description": "Speak text broken into sentences with pauses"
+        },
+        "speakWithHighlight": {
+          "type": "(text: string, onWordBoundary?: (word: string, index: number) => void) => Promise<boolean>",
+          "description": "Speak text with word boundary highlighting"
+        },
+        "estimateDuration": {
+          "type": "(text: string, rate?: number) => number",
+          "description": "Estimate speech duration in milliseconds"
+        },
+        "normalizeText": {
+          "type": "(text: string) => string",
+          "description": "Normalize text for better speech synthesis"
+        },
+        "clearError": {
+          "type": "() => void",
+          "description": "Clear current error"
+        }
+      }
+    },
+    "useSpeechRecognition": {
+      "name": "useSpeechRecognition",
+      "description": "Hook for speech-to-text recognition using Web Speech API with advanced language support",
+      "category": "AAE",
+      "version": "1.0.0",
+      "files": ["src/hooks/use-speech-recognition.ts"],
+      "props": {
+        "defaultLanguage": {
+          "type": "string",
+          "default": "en-US",
+          "description": "Default language for recognition"
+        },
+        "continuous": {
+          "type": "boolean",
+          "default": "false",
+          "description": "Whether to use continuous recognition"
+        },
+        "interimResults": {
+          "type": "boolean",
+          "default": "true",
+          "description": "Whether to return interim results"
+        },
+        "maxAlternatives": {
+          "type": "number",
+          "default": "1",
+          "description": "Maximum alternatives to return"
+        },
+        "autoStart": {
+          "type": "boolean",
+          "default": "false",
+          "description": "Auto-start recognition on mount"
+        },
+        "timeout": {
+          "type": "number",
+          "default": "0",
+          "description": "Timeout in milliseconds before stopping (0 = no timeout)"
+        },
+        "onStart": {
+          "type": "() => void",
+          "required": false,
+          "description": "Callback when recognition starts"
+        },
+        "onEnd": {
+          "type": "() => void",
+          "required": false,
+          "description": "Callback when recognition ends"
+        },
+        "onResult": {
+          "type": "(result: SpeechRecognitionResult) => void",
+          "required": false,
+          "description": "Callback when result is received"
+        },
+        "onInterimResult": {
+          "type": "(transcript: string) => void",
+          "required": false,
+          "description": "Callback when interim result is received"
+        },
+        "onFinalResult": {
+          "type": "(transcript: string) => void",
+          "required": false,
+          "description": "Callback when final result is received"
+        },
+        "onError": {
+          "type": "(error: SpeechRecognitionError) => void",
+          "required": false,
+          "description": "Callback when error occurs"
+        },
+        "onNoSpeech": {
+          "type": "() => void",
+          "required": false,
+          "description": "Callback when no speech is detected"
+        },
+        "onSpeechStart": {
+          "type": "() => void",
+          "required": false,
+          "description": "Callback when speech starts"
+        },
+        "onSpeechEnd": {
+          "type": "() => void",
+          "required": false,
+          "description": "Callback when speech ends"
+        }
+      },
+      "returns": {
+        "state": {
+          "type": "SpeechRecognitionState",
+          "description": "Current recognition state with listening status and results"
+        },
+        "error": {
+          "type": "SpeechRecognitionError | null",
+          "description": "Current error if any"
+        },
+        "startListening": {
+          "type": "(options?: Partial<SpeechRecognitionOptions>) => void",
+          "description": "Start speech recognition with optional configuration"
+        },
+        "stopListening": {
+          "type": "() => void",
+          "description": "Stop speech recognition"
+        },
+        "abortListening": {
+          "type": "() => void",
+          "description": "Abort speech recognition immediately"
+        },
+        "restartListening": {
+          "type": "() => void",
+          "description": "Restart speech recognition with current settings"
+        },
+        "setLanguage": {
+          "type": "(language: string) => void",
+          "description": "Set recognition language"
+        },
+        "setContinuous": {
+          "type": "(continuous: boolean) => void",
+          "description": "Set continuous recognition mode"
+        },
+        "setInterimResults": {
+          "type": "(interimResults: boolean) => void",
+          "description": "Set interim results mode"
+        },
+        "isSupported": {
+          "type": "boolean",
+          "description": "Whether Speech Recognition API is supported"
+        },
+        "getLanguages": {
+          "type": "() => string[]",
+          "description": "Get available recognition languages"
+        },
+        "clearResults": {
+          "type": "() => void",
+          "description": "Clear all recognition results"
+        },
+        "clearError": {
+          "type": "() => void",
+          "description": "Clear current error"
+        },
+        "resetSession": {
+          "type": "() => void",
+          "description": "Reset entire session and clear all data"
+        },
+        "exportResults": {
+          "type": "(format: 'text' | 'json' | 'srt') => string",
+          "description": "Export results in specified format"
+        },
+        "getStatistics": {
+          "type": "() => SpeechRecognitionStatistics",
+          "description": "Get session statistics and performance metrics"
+        },
+        "testMicrophone": {
+          "type": "() => Promise<boolean>",
+          "description": "Test microphone access permissions"
+        }
+      }
+    },
+    "useNetwork": {
+      "name": "useNetwork",
+      "description": "Hook for network information and connection quality monitoring using Network Information API",
+      "category": "AAE",
+      "version": "1.0.0",
+      "files": ["src/hooks/use-network.ts"],
+      "props": {
+        "onOnline": {
+          "type": "() => void",
+          "required": false,
+          "description": "Callback when connection comes online"
+        },
+        "onOffline": {
+          "type": "() => void",
+          "required": false,
+          "description": "Callback when connection goes offline"
+        },
+        "onConnectionChange": {
+          "type": "(info: NetworkInfo) => void",
+          "required": false,
+          "description": "Callback when network information changes"
+        },
+        "checkInterval": {
+          "type": "number",
+          "default": "30000",
+          "description": "Interval in milliseconds for periodic connection checks"
+        }
+      },
+      "returns": {
+        "isOnline": {
+          "type": "boolean",
+          "description": "Whether the device is currently online"
+        },
+        "isOffline": {
+          "type": "boolean",
+          "description": "Whether the device is currently offline"
+        },
+        "networkInfo": {
+          "type": "NetworkInfo",
+          "description": "Detailed network information object"
+        },
+        "connectionQuality": {
+          "type": "'poor' | 'good' | 'excellent' | 'unknown'",
+          "description": "Assessed connection quality"
+        },
+        "estimatedBandwidth": {
+          "type": "number",
+          "description": "Estimated bandwidth in Mbps"
+        },
+        "checkConnection": {
+          "type": "() => Promise<boolean>",
+          "description": "Manually check connection status"
+        },
+        "isSlowConnection": {
+          "type": "() => boolean",
+          "description": "Whether current connection is considered slow"
+        },
+        "canUpload": {
+          "type": "(fileSize: number) => boolean",
+          "description": "Whether uploading file of given size is recommended"
+        },
+        "isNetworkSuitable": {
+          "type": "(minBandwidth?: number) => boolean",
+          "description": "Whether network meets minimum bandwidth requirements"
+        },
+        "getSuggestedQuality": {
+          "type": "() => 'low' | 'medium' | 'high'",
+          "description": "Get suggested content quality for current connection"
+        },
+        "isSupported": {
+          "type": "boolean",
+          "description": "Whether Network Information API is supported"
+        }
+      }
+    },
+    "useHaptics": {
+      "name": "useHaptics",
+      "description": "Hook for theme-aware haptic feedback using the Vibration API with predefined patterns",
+      "category": "AAE",
+      "version": "1.0.0",
+      "files": ["src/hooks/use-haptics.ts"],
+      "props": {
+        "respectReducedMotion": {
+          "type": "boolean",
+          "default": "true",
+          "description": "Whether to respect user's reduced motion preference"
+        },
+        "debug": {
+          "type": "boolean",
+          "default": "false",
+          "description": "Whether to log haptic actions for debugging"
+        },
+        "fallbackPatterns": {
+          "type": "Partial<HapticTokens>",
+          "required": false,
+          "description": "Custom fallback patterns when theme patterns are not available"
+        }
+      },
+      "returns": {
+        "state": {
+          "type": "HapticState",
+          "description": "Current haptic feedback state with support and vibration status"
+        },
+        "trigger": {
+          "type": "(hapticName: keyof HapticTokens) => void",
+          "description": "Trigger haptic feedback by theme token name"
+        },
+        "triggerPattern": {
+          "type": "(pattern: HapticPattern) => void",
+          "description": "Trigger haptic feedback with custom pattern"
+        },
+        "cancel": {
+          "type": "() => void",
+          "description": "Cancel current vibration"
+        },
+        "isSupported": {
+          "type": "boolean",
+          "description": "Whether Vibration API is supported"
+        },
+        "getAvailableTokens": {
+          "type": "() => string[]",
+          "description": "Get list of available haptic token names"
+        },
+        "getPatternForToken": {
+          "type": "(token: keyof HapticTokens) => HapticPattern | null",
+          "description": "Get the pattern for a specific haptic token"
+        },
+        "testPattern": {
+          "type": "(pattern: HapticPattern) => void",
+          "description": "Test a haptic pattern with validation"
+        },
+        "refreshThemePatterns": {
+          "type": "() => void",
+          "description": "Clear cache and refresh patterns from theme"
+        }
+      }
+    },
+    "usePaymentRequest": {
+      "name": "usePaymentRequest",
+      "description": "Hook for native payment requests using the Payment Request API with 3rd party integration support",
+      "category": "AAE",
+      "version": "1.0.0",
+      "files": ["src/hooks/use-payment-request.ts"],
+      "props": {
+        "autoCheckCanMakePayment": {
+          "type": "boolean",
+          "default": "true",
+          "description": "Auto-check if payment methods can be used"
+        },
+        "debug": {
+          "type": "boolean",
+          "default": "false",
+          "description": "Enable debug logging"
+        },
+        "onPaymentSuccess": {
+          "type": "(response: PaymentResponse) => void",
+          "required": false,
+          "description": "Callback when payment is successfully completed"
+        },
+        "onPaymentError": {
+          "type": "(error: PaymentRequestError) => void",
+          "required": false,
+          "description": "Callback when payment fails"
+        },
+        "onPaymentCancel": {
+          "type": "() => void",
+          "required": false,
+          "description": "Callback when payment is cancelled"
+        },
+        "onShippingAddressChange": {
+          "type": "(event: PaymentRequestUpdateEvent) => void",
+          "required": false,
+          "description": "Callback when shipping address changes"
+        },
+        "onShippingOptionChange": {
+          "type": "(event: PaymentRequestUpdateEvent) => void",
+          "required": false,
+          "description": "Callback when shipping option changes"
+        }
+      },
+      "returns": {
+        "state": {
+          "type": "PaymentRequestState",
+          "description": "Current payment request state with processing status and response"
+        },
+        "show": {
+          "type": "(paymentMethods: PaymentMethodData[], paymentDetails: PaymentDetailsInit, paymentOptions?: PaymentOptions) => Promise<void>",
+          "description": "Show payment request with specified methods and details"
+        },
+        "canMakePayment": {
+          "type": "(paymentMethods: PaymentMethodData[]) => Promise<boolean>",
+          "description": "Check if payment methods can be used"
+        },
+        "abort": {
+          "type": "() => void",
+          "description": "Abort current payment request"
+        },
+        "complete": {
+          "type": "(result: PaymentComplete) => Promise<void>",
+          "description": "Complete payment with success or failure result"
+        },
+        "isSupported": {
+          "type": "boolean",
+          "description": "Whether Payment Request API is supported"
+        },
+        "clearError": {
+          "type": "() => void",
+          "description": "Clear current error state"
+        },
+        "retry": {
+          "type": "() => Promise<void>",
+          "description": "Retry last payment request"
+        },
+        "createBasicCardMethod": {
+          "type": "(networks?: string[]) => PaymentMethodData",
+          "description": "Create basic card payment method configuration"
+        },
+        "createGooglePayMethod": {
+          "type": "(merchantInfo: any) => PaymentMethodData",
+          "description": "Create Google Pay payment method configuration"
+        },
+        "createApplePayMethod": {
+          "type": "(merchantInfo: any) => PaymentMethodData",
+          "description": "Create Apple Pay payment method configuration"
+        }
+      }
+    },
+    "useScreenOrientation": {
+      "name": "useScreenOrientation",
+      "description": "Hook for screen orientation management with lock/unlock capabilities for orientation-aware layouts",
+      "category": "AAE",
+      "version": "1.0.0",
+      "files": ["src/hooks/use-screen-orientation.ts"],
+      "props": {
+        "debug": {
+          "type": "boolean",
+          "default": "false",
+          "description": "Enable debug logging"
+        },
+        "onChange": {
+          "type": "(orientation: ScreenOrientationState) => void",
+          "required": false,
+          "description": "Callback when orientation changes"
+        },
+        "onLockError": {
+          "type": "(error: ScreenOrientationError) => void",
+          "required": false,
+          "description": "Callback when orientation lock fails"
+        },
+        "onLockSuccess": {
+          "type": "(orientation: OrientationLockType) => void",
+          "required": false,
+          "description": "Callback when orientation lock succeeds"
+        }
+      },
+      "returns": {
+        "state": {
+          "type": "ScreenOrientationState",
+          "description": "Current screen orientation state with type, angle, and lock status"
+        },
+        "error": {
+          "type": "ScreenOrientationError | null",
+          "description": "Current error state if any"
+        },
+        "lock": {
+          "type": "(orientation: OrientationLockType) => Promise<boolean>",
+          "description": "Lock screen to specific orientation"
+        },
+        "unlock": {
+          "type": "() => Promise<boolean>",
+          "description": "Unlock screen orientation"
+        },
+        "isSupported": {
+          "type": "boolean",
+          "description": "Whether Screen Orientation API is supported"
+        },
+        "clearError": {
+          "type": "() => void",
+          "description": "Clear current error state"
+        },
+        "getCurrentOrientation": {
+          "type": "() => ScreenOrientationState",
+          "description": "Get current orientation without hook state"
+        }
+      }
+    },
+    "useDeviceMotion": {
+      "name": "useDeviceMotion",
+      "description": "Hook for accessing device motion sensors (accelerometer and gyroscope) with permission handling",
+      "category": "AAE",
+      "version": "1.0.0",
+      "files": ["src/hooks/use-device-motion.ts"],
+      "props": {
+        "debug": {
+          "type": "boolean",
+          "default": "false",
+          "description": "Enable debug logging"
+        },
+        "throttle": {
+          "type": "number",
+          "default": "16",
+          "description": "Sample rate throttling in milliseconds"
+        },
+        "autoRequestPermission": {
+          "type": "boolean",
+          "default": "false",
+          "description": "Enable automatic permission request"
+        },
+        "onMotionUpdate": {
+          "type": "(data: DeviceMotionData) => void",
+          "required": false,
+          "description": "Callback when motion data updates"
+        },
+        "onPermissionGranted": {
+          "type": "() => void",
+          "required": false,
+          "description": "Callback when permission is granted"
+        },
+        "onPermissionDenied": {
+          "type": "() => void",
+          "required": false,
+          "description": "Callback when permission is denied"
+        },
+        "onError": {
+          "type": "(error: DeviceMotionError) => void",
+          "required": false,
+          "description": "Callback when errors occur"
+        }
+      },
+      "returns": {
+        "state": {
+          "type": "DeviceMotionState",
+          "description": "Current device motion state with permission and sensor data"
+        },
+        "error": {
+          "type": "DeviceMotionError | null",
+          "description": "Current error state if any"
+        },
+        "requestPermission": {
+          "type": "() => Promise<boolean>",
+          "description": "Request device motion permission"
+        },
+        "start": {
+          "type": "() => boolean",
+          "description": "Start motion tracking"
+        },
+        "stop": {
+          "type": "() => void",
+          "description": "Stop motion tracking"
+        },
+        "isSupported": {
+          "type": "boolean",
+          "description": "Whether Device Motion API is supported"
+        },
+        "clearError": {
+          "type": "() => void",
+          "description": "Clear current error state"
+        },
+        "getLatestData": {
+          "type": "() => DeviceMotionData | null",
+          "description": "Get latest motion data"
+        },
+        "getAccelerationMagnitude": {
+          "type": "() => number",
+          "description": "Calculate acceleration magnitude"
+        },
+        "getRotationMagnitude": {
+          "type": "() => number",
+          "description": "Calculate rotation magnitude"
+        },
+        "isStationary": {
+          "type": "(threshold?: number) => boolean",
+          "description": "Check if device is stationary"
+        }
+      }
+    },
+    "useCompassHeading": {
+      "name": "useCompassHeading",
+      "description": "Hook for compass heading detection using Device Orientation API with smoothing and calibration",
+      "category": "AAE",
+      "version": "1.0.0",
+      "files": ["src/hooks/use-compass-heading.ts"],
+      "props": {
+        "debug": {
+          "type": "boolean",
+          "default": "false",
+          "description": "Enable debug logging"
+        },
+        "autoRequestPermission": {
+          "type": "boolean",
+          "default": "false",
+          "description": "Enable automatic permission request"
+        },
+        "smoothing": {
+          "type": "number",
+          "default": "0.1",
+          "description": "Smoothing factor for heading changes (0-1)"
+        },
+        "magneticDeclination": {
+          "type": "number",
+          "default": "0",
+          "description": "Magnetic declination offset in degrees"
+        },
+        "onHeadingUpdate": {
+          "type": "(heading: CompassHeadingData) => void",
+          "required": false,
+          "description": "Callback when heading updates"
+        },
+        "onPermissionGranted": {
+          "type": "() => void",
+          "required": false,
+          "description": "Callback when permission is granted"
+        },
+        "onPermissionDenied": {
+          "type": "() => void",
+          "required": false,
+          "description": "Callback when permission is denied"
+        },
+        "onCalibrationNeeded": {
+          "type": "() => void",
+          "required": false,
+          "description": "Callback when calibration is needed"
+        },
+        "onError": {
+          "type": "(error: CompassError) => void",
+          "required": false,
+          "description": "Callback when errors occur"
+        }
+      },
+      "returns": {
+        "state": {
+          "type": "CompassState",
+          "description": "Current compass state with heading data and calibration status"
+        },
+        "error": {
+          "type": "CompassError | null",
+          "description": "Current error state if any"
+        },
+        "requestPermission": {
+          "type": "() => Promise<boolean>",
+          "description": "Request device orientation permission"
+        },
+        "start": {
+          "type": "() => boolean",
+          "description": "Start compass tracking"
+        },
+        "stop": {
+          "type": "() => void",
+          "description": "Stop compass tracking"
+        },
+        "calibrate": {
+          "type": "() => void",
+          "description": "Trigger compass calibration"
+        },
+        "isSupported": {
+          "type": "boolean",
+          "description": "Whether Device Orientation API is supported"
+        },
+        "clearError": {
+          "type": "() => void",
+          "description": "Clear current error state"
+        },
+        "getHeading": {
+          "type": "() => number",
+          "description": "Get current heading in degrees"
+        },
+        "getCardinalDirection": {
+          "type": "() => string",
+          "description": "Get cardinal direction (N, NE, E, etc.)"
+        },
+        "getCompassDirection": {
+          "type": "(precision?: 'simple' | 'detailed') => string",
+          "description": "Get compass direction with precision control"
+        },
+        "getRelativeDirection": {
+          "type": "(targetHeading: number) => 'left' | 'right' | 'straight'",
+          "description": "Get relative direction to target heading"
+        },
+        "getAngularDifference": {
+          "type": "(targetHeading: number) => number",
+          "description": "Get angular difference to target heading"
+        }
+      }
+    },
+    "useShake": {
+      "name": "useShake",
+      "description": "Hook for shake gesture detection with pattern recognition using device motion sensors",
+      "category": "AAE",
+      "version": "1.0.0",
+      "files": ["src/hooks/use-shake.ts"],
+      "props": {
+        "threshold": {
+          "type": "number",
+          "default": "12",
+          "description": "Shake sensitivity threshold (1-20, higher = less sensitive)"
+        },
+        "timeWindow": {
+          "type": "number",
+          "default": "1000",
+          "description": "Time window for detecting shake patterns in milliseconds"
+        },
+        "cooldown": {
+          "type": "number",
+          "default": "100",
+          "description": "Minimum time between shake detections in milliseconds"
+        },
+        "minDuration": {
+          "type": "number",
+          "default": "50",
+          "description": "Minimum shake duration in milliseconds"
+        },
+        "maxDuration": {
+          "type": "number",
+          "default": "2000",
+          "description": "Maximum shake duration in milliseconds"
+        },
+        "debug": {
+          "type": "boolean",
+          "default": "false",
+          "description": "Enable debug logging"
+        },
+        "autoStart": {
+          "type": "boolean",
+          "default": "false",
+          "description": "Auto-start shake detection"
+        },
+        "onShake": {
+          "type": "(event: ShakeEvent) => void",
+          "required": false,
+          "description": "Called when any shake is detected"
+        },
+        "onSingleShake": {
+          "type": "(event: ShakeEvent) => void",
+          "required": false,
+          "description": "Called when a single shake is detected"
+        },
+        "onDoubleShake": {
+          "type": "(event: ShakeEvent) => void",
+          "required": false,
+          "description": "Called when a double shake is detected"
+        },
+        "onTripleShake": {
+          "type": "(event: ShakeEvent) => void",
+          "required": false,
+          "description": "Called when a triple shake is detected"
+        },
+        "onContinuousShake": {
+          "type": "(event: ShakeEvent) => void",
+          "required": false,
+          "description": "Called when continuous shaking is detected"
+        },
+        "onDetectionStart": {
+          "type": "() => void",
+          "required": false,
+          "description": "Called when shake detection starts"
+        },
+        "onDetectionStop": {
+          "type": "() => void",
+          "required": false,
+          "description": "Called when shake detection stops"
+        }
+      },
+      "returns": {
+        "state": {
+          "type": "ShakeState",
+          "description": "Current shake detection state with pattern tracking"
+        },
+        "isSupported": {
+          "type": "boolean",
+          "description": "Whether device motion is supported for shake detection"
+        },
+        "start": {
+          "type": "() => boolean",
+          "description": "Start shake detection"
+        },
+        "stop": {
+          "type": "() => void",
+          "description": "Stop shake detection"
+        },
+        "reset": {
+          "type": "() => void",
+          "description": "Reset shake detection state and history"
+        },
+        "getCurrentIntensity": {
+          "type": "() => number",
+          "description": "Get current shake intensity"
+        },
+        "getAverageIntensity": {
+          "type": "() => number",
+          "description": "Get average shake intensity"
+        },
+        "isShaking": {
+          "type": "() => boolean",
+          "description": "Check if currently shaking"
+        },
+        "setThreshold": {
+          "type": "(threshold: number) => void",
+          "description": "Update shake sensitivity threshold"
+        },
+        "setTimeWindow": {
+          "type": "(timeWindow: number) => void",
+          "description": "Update pattern detection time window"
+        }
+      }
+    },
+    "useLocalStorage": {
+      "name": "useLocalStorage",
+      "description": "Hook for localStorage state persistence with useState-like API, automatic serialization, and SSR safety",
+      "category": "AAE",
+      "version": "1.0.0",
+      "files": ["src/hooks/use-local-storage.ts"],
+      "props": {
+        "key": {
+          "type": "string",
+          "required": true,
+          "description": "localStorage key for the stored value"
+        },
+        "initialValue": {
+          "type": "T",
+          "required": true,
+          "description": "Initial value if no stored value exists"
+        },
+        "serializer": {
+          "type": "{ serialize: (value: T) => string; deserialize: (value: string) => T }",
+          "required": false,
+          "description": "Custom serializer for complex data types"
+        },
+        "debug": {
+          "type": "boolean",
+          "default": "false",
+          "description": "Enable debug logging"
+        },
+        "onError": {
+          "type": "(error: LocalStorageError) => void",
+          "required": false,
+          "description": "Callback when storage operations fail"
+        },
+        "onChange": {
+          "type": "(key: string, newValue: T, oldValue: T) => void",
+          "required": false,
+          "description": "Callback when value changes"
+        },
+        "syncAcrossTabs": {
+          "type": "boolean",
+          "default": "false",
+          "description": "Whether to sync across tabs/windows"
+        }
+      },
+      "returns": {
+        "value": {
+          "type": "T",
+          "description": "Current stored value"
+        },
+        "setValue": {
+          "type": "(value: T | ((prevValue: T) => T)) => void",
+          "description": "Function to update the stored value"
+        },
+        "remove": {
+          "type": "() => void",
+          "description": "Remove value from localStorage"
+        },
+        "clear": {
+          "type": "() => void",
+          "description": "Clear all localStorage"
+        },
+        "getStorageValue": {
+          "type": "() => T",
+          "description": "Get current value from storage without hook state"
+        },
+        "isSupported": {
+          "type": "boolean",
+          "description": "Whether localStorage is supported"
+        },
+        "error": {
+          "type": "LocalStorageError | null",
+          "description": "Current error state if any"
+        },
+        "clearError": {
+          "type": "() => void",
+          "description": "Clear current error state"
+        }
+      }
+    },
+    "useCachedApi": {
+      "name": "useCachedApi",
+      "description": "Hook for API caching with stale-while-revalidate pattern using localStorage for offline-first data loading",
+      "category": "AAE",
+      "version": "1.0.0",
+      "files": ["src/hooks/use-cached-api.ts"],
+      "props": {
+        "cacheKey": {
+          "type": "string",
+          "required": true,
+          "description": "Unique cache key for the API endpoint"
+        },
+        "fetcherFunction": {
+          "type": "(...args: any[]) => Promise<T>",
+          "required": true,
+          "description": "Function that fetches data from the API"
+        },
+        "cacheTime": {
+          "type": "number",
+          "default": "300000",
+          "description": "Cache expiration time in milliseconds (5 minutes default)"
+        },
+        "staleWhileRevalidate": {
+          "type": "boolean",
+          "default": "true",
+          "description": "Enable stale-while-revalidate pattern"
+        },
+        "debug": {
+          "type": "boolean",
+          "default": "false",
+          "description": "Enable debug logging"
+        },
+        "backgroundRefresh": {
+          "type": "boolean",
+          "default": "false",
+          "description": "Enable automatic background refresh"
+        },
+        "refreshInterval": {
+          "type": "number",
+          "default": "1800000",
+          "description": "Background refresh interval in milliseconds (30 minutes default)"
+        },
+        "transform": {
+          "type": "(data: any) => T",
+          "required": false,
+          "description": "Transform response data before caching"
+        },
+        "validate": {
+          "type": "(data: T) => boolean",
+          "required": false,
+          "description": "Validate cached data before using"
+        },
+        "onSuccess": {
+          "type": "(data: T, fromCache: boolean) => void",
+          "required": false,
+          "description": "Callback when data is fetched"
+        },
+        "onError": {
+          "type": "(error: CachedApiError) => void",
+          "required": false,
+          "description": "Callback when fetch fails"
+        },
+        "timeout": {
+          "type": "number",
+          "default": "10000",
+          "description": "Request timeout in milliseconds"
+        }
+      },
+      "returns": {
+        "state": {
+          "type": "CachedApiState<T>",
+          "description": "Current API state with data, loading, and error status"
+        },
+        "refetch": {
+          "type": "() => Promise<T | null>",
+          "description": "Manually refetch data from the API"
+        },
+        "mutate": {
+          "type": "(data: T | null) => void",
+          "description": "Manually update cached data"
+        },
+        "invalidate": {
+          "type": "() => void",
+          "description": "Invalidate cache and refetch"
+        },
+        "clearCache": {
+          "type": "() => void",
+          "description": "Clear cached data completely"
+        },
+        "getCacheInfo": {
+          "type": "() => { size: number; age: number; isExpired: boolean }",
+          "description": "Get cache information"
+        },
+        "isSupported": {
+          "type": "boolean",
+          "description": "Whether localStorage is supported for caching"
+        }
+      }
+    },
+    "usePersistentForm": {
+      "name": "usePersistentForm",
+      "description": "Hook for automatic form state persistence with auto-save and validation support",
+      "category": "AAE",
+      "version": "1.0.0",
+      "files": ["src/hooks/use-persistent-form.ts"],
+      "props": {
+        "formKey": {
+          "type": "string",
+          "required": true,
+          "description": "Unique key for the form in localStorage"
+        },
+        "initialFormState": {
+          "type": "T",
+          "required": true,
+          "description": "Initial form state object"
+        },
+        "autoSaveDelay": {
+          "type": "number",
+          "default": "1000",
+          "description": "Auto-save delay in milliseconds"
+        },
+        "debug": {
+          "type": "boolean",
+          "default": "false",
+          "description": "Enable debug logging"
+        },
+        "excludeFields": {
+          "type": "(keyof T)[]",
+          "default": "[]",
+          "description": "Form fields to exclude from persistence"
+        },
+        "validate": {
+          "type": "(formState: T) => boolean | string",
+          "required": false,
+          "description": "Custom validation before saving"
+        },
+        "serialize": {
+          "type": "(formState: T) => any",
+          "required": false,
+          "description": "Transform data before saving"
+        },
+        "deserialize": {
+          "type": "(data: any) => T",
+          "required": false,
+          "description": "Transform data after loading"
+        },
+        "onAutoSave": {
+          "type": "(formState: T) => void",
+          "required": false,
+          "description": "Callback when form is auto-saved"
+        },
+        "onLoad": {
+          "type": "(formState: T) => void",
+          "required": false,
+          "description": "Callback when form is loaded from storage"
+        },
+        "onClear": {
+          "type": "() => void",
+          "required": false,
+          "description": "Callback when form is cleared"
+        },
+        "onValidationError": {
+          "type": "(error: string) => void",
+          "required": false,
+          "description": "Callback when validation fails"
+        },
+        "encrypt": {
+          "type": "boolean",
+          "default": "false",
+          "description": "Enable encryption for sensitive data"
+        },
+        "keyPrefix": {
+          "type": "string",
+          "default": "persistent_form_",
+          "description": "Custom storage key prefix"
+        }
+      },
+      "returns": {
+        "formData": {
+          "type": "T",
+          "description": "Current form data"
+        },
+        "isDirty": {
+          "type": "boolean",
+          "description": "Whether form has unsaved changes"
+        },
+        "isAutoSaving": {
+          "type": "boolean",
+          "description": "Whether form is currently auto-saving"
+        },
+        "isSaved": {
+          "type": "boolean",
+          "description": "Whether form is saved to storage"
+        },
+        "hasLoadedFromStorage": {
+          "type": "boolean",
+          "description": "Whether form has loaded data from storage"
+        },
+        "lastSaved": {
+          "type": "number | null",
+          "description": "Timestamp of last save operation"
+        },
+        "fieldErrors": {
+          "type": "Partial<Record<keyof T, string>>",
+          "description": "Field-level validation errors"
+        },
+        "updateField": {
+          "type": "<K extends keyof T>(field: K, value: T[K]) => void",
+          "description": "Update single form field"
+        },
+        "updateForm": {
+          "type": "(updates: Partial<T>) => void",
+          "description": "Update multiple form fields"
+        },
+        "setFormData": {
+          "type": "(data: T) => void",
+          "description": "Set entire form data"
+        },
+        "resetForm": {
+          "type": "() => void",
+          "description": "Reset form to initial state"
+        },
+        "saveForm": {
+          "type": "() => void",
+          "description": "Manually save form to storage"
+        },
+        "loadForm": {
+          "type": "() => void",
+          "description": "Load form from storage"
+        },
+        "clearForm": {
+          "type": "() => void",
+          "description": "Clear form and storage"
+        },
+        "validateField": {
+          "type": "<K extends keyof T>(field: K) => boolean",
+          "description": "Validate single field"
+        },
+        "validateForm": {
+          "type": "() => boolean",
+          "description": "Validate entire form"
+        },
+        "clearFieldError": {
+          "type": "<K extends keyof T>(field: K) => void",
+          "description": "Clear field error"
+        },
+        "clearAllErrors": {
+          "type": "() => void",
+          "description": "Clear all field errors"
+        },
+        "getFormSnapshot": {
+          "type": "() => T",
+          "description": "Get immutable form snapshot"
+        },
+        "hasChanges": {
+          "type": "() => boolean",
+          "description": "Check if form has changes from original"
+        },
+        "isFieldDirty": {
+          "type": "<K extends keyof T>(field: K) => boolean",
+          "description": "Check if specific field has changes"
+        },
+        "isSupported": {
+          "type": "boolean",
+          "description": "Whether localStorage is supported"
+        },
+        "storageSize": {
+          "type": "number",
+          "description": "Size of stored form data in bytes"
+        }
+      }
+    },
+    "useNFC": {
+      "name": "useNFC",
+      "description": "Hook for Web NFC API integration with reading and writing NFC tags using NDEF format",
+      "category": "AAE",
+      "version": "1.0.0",
+      "files": ["src/hooks/use-nfc.ts"],
+      "props": {
+        "ignoreRead": {
+          "type": "boolean",
+          "default": "false",
+          "description": "Ignore read operations"
+        },
+        "overwrite": {
+          "type": "boolean",
+          "default": "false",
+          "description": "Overwrite existing NFC data"
+        },
+        "textEncoding": {
+          "type": "'utf-8' | 'utf-16'",
+          "default": "'utf-8'",
+          "description": "Text encoding format"
+        },
+        "languageCode": {
+          "type": "string",
+          "default": "'en'",
+          "description": "Language code for text records"
+        },
+        "validateData": {
+          "type": "boolean",
+          "default": "true",
+          "description": "Enable data validation and sanitization"
+        },
+        "allowedDomains": {
+          "type": "string[]",
+          "default": "[]",
+          "description": "Allowed domains for URL writing"
+        },
+        "maxDataSize": {
+          "type": "number",
+          "default": "8192",
+          "description": "Maximum data size in bytes"
+        },
+        "backgroundScan": {
+          "type": "boolean",
+          "default": "false",
+          "description": "Enable background scanning"
+        },
+        "scanInterval": {
+          "type": "number",
+          "default": "1000",
+          "description": "Scan interval in milliseconds"
+        },
+        "signal": {
+          "type": "AbortSignal",
+          "required": false,
+          "description": "Abort signal for cancelling operations"
+        },
+        "onTagRead": {
+          "type": "(data: NFCData) => void",
+          "required": false,
+          "description": "Callback when NFC tag is read"
+        },
+        "onTagWrite": {
+          "type": "(success: boolean) => void",
+          "required": false,
+          "description": "Callback when NFC tag is written"
+        },
+        "onError": {
+          "type": "(error: NFCError) => void",
+          "required": false,
+          "description": "Callback when NFC error occurs"
+        },
+        "onPermissionChange": {
+          "type": "(granted: boolean) => void",
+          "required": false,
+          "description": "Callback when NFC permission changes"
+        }
+      },
+      "returns": {
+        "state": {
+          "type": "NFCState",
+          "description": "Current NFC state with support, permission, and scanning status"
+        },
+        "error": {
+          "type": "NFCError | null",
+          "description": "Current error state if any"
+        },
+        "requestPermission": {
+          "type": "() => Promise<boolean>",
+          "description": "Request NFC permission"
+        },
+        "checkPermission": {
+          "type": "() => Promise<boolean>",
+          "description": "Check current NFC permission status"
+        },
+        "startScanning": {
+          "type": "(options?: Partial<NFCOptions>) => Promise<void>",
+          "description": "Start NFC tag scanning"
+        },
+        "stopScanning": {
+          "type": "() => void",
+          "description": "Stop NFC tag scanning"
+        },
+        "readTag": {
+          "type": "() => Promise<NFCData | null>",
+          "description": "Read single NFC tag with timeout"
+        },
+        "writeText": {
+          "type": "(text: string, options?: { language?: string; encoding?: 'utf-8' | 'utf-16' }) => Promise<boolean>",
+          "description": "Write text to NFC tag"
+        },
+        "writeUrl": {
+          "type": "(url: string) => Promise<boolean>",
+          "description": "Write URL to NFC tag"
+        },
+        "writeWiFi": {
+          "type": "(credentials: WiFiCredentials) => Promise<boolean>",
+          "description": "Write WiFi credentials to NFC tag"
+        },
+        "writeContact": {
+          "type": "(contact: ContactInfo) => Promise<boolean>",
+          "description": "Write contact information to NFC tag"
+        },
+        "writeCustom": {
+          "type": "(records: NDEFRecordData[]) => Promise<boolean>",
+          "description": "Write custom NDEF records to NFC tag"
+        },
+        "parseNDEFMessage": {
+          "type": "(message: NDEFMessage) => NFCData",
+          "description": "Parse NDEF message into structured data"
+        },
+        "createNDEFMessage": {
+          "type": "(records: NDEFRecordData[]) => NDEFMessage",
+          "description": "Create NDEF message from records"
+        },
+        "validateNDEFData": {
+          "type": "(data: any) => boolean",
+          "description": "Validate NDEF data structure"
+        },
+        "parseTextRecord": {
+          "type": "(record: any) => { text: string; language: string; encoding: string }",
+          "description": "Parse text record from NDEF data"
+        },
+        "parseUrlRecord": {
+          "type": "(record: any) => { url: string; type: 'absolute' | 'well-known' }",
+          "description": "Parse URL record from NDEF data"
+        },
+        "parseWiFiRecord": {
+          "type": "(record: any) => WiFiCredentials",
+          "description": "Parse WiFi credentials from NDEF data"
+        },
+        "parseContactRecord": {
+          "type": "(record: any) => ContactInfo",
+          "description": "Parse contact information from NDEF data"
+        },
+        "getScanHistory": {
+          "type": "() => NFCData[]",
+          "description": "Get scan history array"
+        },
+        "clearHistory": {
+          "type": "() => void",
+          "description": "Clear scan history"
+        },
+        "exportData": {
+          "type": "(format: 'json' | 'csv') => string",
+          "description": "Export scan data in specified format"
+        },
+        "isNetworkAvailable": {
+          "type": "boolean",
+          "description": "Whether network is available for background sync"
+        },
+        "keyboardShortcuts": {
+          "type": "Record<string, string>",
+          "description": "Available keyboard shortcuts for NFC operations"
+        },
+        "backgroundSync": {
+          "type": "boolean",
+          "description": "Whether background sync is available"
+        }
+      }
+    },
+    "useAAEDisplay": {
+      "name": "useAAEDisplay",
+      "description": "Hook for detecting AAE display mode and installation status with real-time updates",
+      "category": "AAE",
+      "version": "1.0.0",
+      "files": ["src/hooks/use-aae-display.ts"],
+      "props": {
+        "debug": {
+          "type": "boolean",
+          "default": "false",
+          "description": "Enable debug logging"
+        },
+        "onDisplayModeChange": {
+          "type": "(mode: AAEDisplayMode) => void",
+          "required": false,
+          "description": "Callback when display mode changes"
+        },
+        "onInstallPrompt": {
+          "type": "(canInstall: boolean) => void",
+          "required": false,
+          "description": "Callback when install prompt becomes available"
+        }
+      },
+      "returns": {
+        "state": {
+          "type": "AAEDisplayState",
+          "description": "Current AAE display state with mode and installation status"
+        },
+        "displayMode": {
+          "type": "AAEDisplayMode",
+          "description": "Current display mode (standalone, fullscreen, minimal-ui, browser)"
+        },
+        "isStandalone": {
+          "type": "boolean",
+          "description": "Whether app is running in standalone mode"
+        },
+        "isFullscreen": {
+          "type": "boolean",
+          "description": "Whether app is running in fullscreen mode"
+        },
+        "isMinimalUI": {
+          "type": "boolean",
+          "description": "Whether app is running in minimal-ui mode"
+        },
+        "isBrowser": {
+          "type": "boolean",
+          "description": "Whether app is running in browser mode"
+        },
+        "isInstalled": {
+          "type": "boolean",
+          "description": "Whether AAE is installed (standalone/fullscreen/minimal-ui)"
+        },
+        "isSupported": {
+          "type": "boolean",
+          "description": "Whether display mode detection is supported"
+        },
+        "canInstall": {
+          "type": "boolean",
+          "description": "Whether app can be installed (install prompt available)"
+        },
+        "getInstallPrompt": {
+          "type": "() => BeforeInstallPromptEvent | null",
+          "description": "Get the install prompt event object"
+        },
+        "showInstallPrompt": {
+          "type": "() => Promise<boolean>",
+          "description": "Show install prompt and return success status"
+        },
+        "refresh": {
+          "type": "() => void",
+          "description": "Refresh display mode detection"
+        }
+      }
+    }
+  },
+  "hooks": {
+    "useBackgroundSync": {
+      "name": "useBackgroundSync",
+      "description": "React hook for registering background sync tasks that execute when connectivity is restored",
+      "category": "aae",
+      "version": "1.0.0",
+      "files": [
+        "src/hooks/use-background-sync.ts",
+        "src/hooks/use-background-sync.stories.tsx"
+      ],
+      "dependencies": ["react"],
+      "exports": [
+        "useBackgroundSync",
+        "BackgroundSyncUtils",
+        "SYNC_TAGS",
+        "saveForSync",
+        "getPendingSyncData"
+      ],
+      "types": [
+        "BackgroundSyncState",
+        "UseBackgroundSyncOptions",
+        "UseBackgroundSyncReturn",
+        "SyncTag"
+      ],
+      "props": {
+        "options": {
+          "type": "UseBackgroundSyncOptions",
+          "optional": true,
+          "description": "Configuration options for background sync hook"
+        }
+      },
+      "returnType": {
+        "type": "UseBackgroundSyncReturn",
+        "properties": {
+          "isSupported": {
+            "type": "boolean",
+            "description": "Whether background sync is supported"
+          },
+          "registration": {
+            "type": "ServiceWorkerRegistration | null",
+            "description": "Service worker registration instance"
+          },
+          "error": {
+            "type": "string | null",
+            "description": "Current error message, if any"
+          },
+          "isRegistering": {
+            "type": "boolean",
+            "description": "Whether sync registration is in progress"
+          },
+          "registeredTags": {
+            "type": "Set<string>",
+            "description": "Set of currently registered sync tags"
+          },
+          "register": {
+            "type": "(tag: string) => Promise<boolean>",
+            "description": "Register a background sync task"
+          },
+          "unregister": {
+            "type": "(tag: string) => Promise<boolean>",
+            "description": "Remove sync tag from tracking"
+          },
+          "isTagRegistered": {
+            "type": "(tag: string) => boolean",
+            "description": "Check if sync tag is registered"
+          },
+          "clearError": {
+            "type": "() => void",
+            "description": "Clear current error state"
+          },
+          "getRegisteredTags": {
+            "type": "() => string[]",
+            "description": "Get array of registered sync tags"
+          }
+        }
+      },
+      "features": [
+        "Background sync registration",
+        "IndexedDB data persistence",
+        "Service worker integration",
+        "Offline-first form submissions",
+        "Automatic retry on connectivity restore",
+        "Error handling and recovery",
+        "Sync tag management",
+        "Event callbacks for sync completion"
+      ],
+      "usage": "import { useBackgroundSync, BackgroundSyncUtils, SYNC_TAGS } from '@acrobi/ui';\n\nconst backgroundSync = useBackgroundSync({\n  onSyncSuccess: (tag) => console.log('Sync completed:', tag),\n  onSyncError: (tag, error) => console.error('Sync failed:', tag, error)\n});\n\n// Register form submission for background sync\nconst handleOfflineSubmit = async (formData) => {\n  await BackgroundSyncUtils.registerFormSubmission(\n    backgroundSync, \n    formData, \n    '/api/contact'\n  );\n};\n\n// Register custom sync task\nconst syncUserData = () => {\n  backgroundSync.register(SYNC_TAGS.USER_DATA);\n};"
+    },
+    "useBackgroundFetch": {
+      "name": "useBackgroundFetch",
+      "description": "React hook for initiating background fetch operations for large file downloads",
+      "category": "aae",
+      "version": "1.0.0",
+      "files": [
+        "src/hooks/use-background-fetch.ts",
+        "src/hooks/use-background-fetch.stories.tsx"
+      ],
+      "dependencies": ["react"],
+      "exports": ["useBackgroundFetch", "BackgroundFetchUtils"],
+      "types": [
+        "BackgroundFetchState",
+        "BackgroundFetchRequest",
+        "UseBackgroundFetchOptions",
+        "BackgroundFetchOptions",
+        "UseBackgroundFetchReturn",
+        "BackgroundFetchRegistration",
+        "BackgroundFetchRecord"
+      ],
+      "props": {
+        "options": {
+          "type": "UseBackgroundFetchOptions",
+          "optional": true,
+          "description": "Configuration options for background fetch hook"
+        }
+      },
+      "returnType": {
+        "type": "UseBackgroundFetchReturn",
+        "properties": {
+          "isSupported": {
+            "type": "boolean",
+            "description": "Whether background fetch is supported"
+          },
+          "registration": {
+            "type": "ServiceWorkerRegistration | null",
+            "description": "Service worker registration instance"
+          },
+          "error": {
+            "type": "string | null",
+            "description": "Current error message, if any"
+          },
+          "isFetching": {
+            "type": "boolean",
+            "description": "Whether fetch initiation is in progress"
+          },
+          "activeFetches": {
+            "type": "Map<string, BackgroundFetchRegistration>",
+            "description": "Map of active background fetch operations"
+          },
+          "fetch": {
+            "type": "(id: string, requests: BackgroundFetchRequest[], options?: BackgroundFetchOptions) => Promise<boolean>",
+            "description": "Start a background fetch operation"
+          },
+          "abort": {
+            "type": "(id: string) => Promise<boolean>",
+            "description": "Abort an active background fetch"
+          },
+          "getActive": {
+            "type": "() => string[]",
+            "description": "Get array of active fetch IDs"
+          },
+          "clearError": {
+            "type": "() => void",
+            "description": "Clear current error state"
+          },
+          "getRegistration": {
+            "type": "(id: string) => BackgroundFetchRegistration | null",
+            "description": "Get background fetch registration by ID"
+          }
+        }
+      },
+      "features": [
+        "Large file background downloads",
+        "Download progress tracking",
+        "System notification integration",
+        "Service worker coordination",
+        "Download continuation when app closed",
+        "Multi-file batch downloads",
+        "Download abort functionality",
+        "Browser compatibility detection"
+      ],
+      "usage": "import { useBackgroundFetch, BackgroundFetchUtils } from '@acrobi/ui';\n\nconst backgroundFetch = useBackgroundFetch({\n  onFetchComplete: (tag, successful, failed) => {\n    console.log(`Download ${tag}: ${successful} success, ${failed} failed`);\n  }\n});\n\n// Start downloading multiple files\nconst downloadFiles = async () => {\n  const urls = ['https://example.com/file1.zip', 'https://example.com/file2.pdf'];\n  const requests = BackgroundFetchUtils.createFileDownloadRequests(urls);\n  const options = BackgroundFetchUtils.createOptions('My Downloads', 10485760);\n  \n  await backgroundFetch.fetch('my-download', requests, options);\n};\n\n// Abort a download\nconst abortDownload = () => {\n  backgroundFetch.abort('my-download');\n};"
+    },
+    "usePeriodicSync": {
+      "name": "usePeriodicSync",
+      "description": "React hook for registering periodic background sync tasks that run at regular intervals",
+      "category": "aae",
+      "version": "1.0.0",
+      "files": [
+        "src/hooks/use-periodic-sync.ts",
+        "src/hooks/use-periodic-sync.stories.tsx"
+      ],
+      "dependencies": ["react"],
+      "exports": ["usePeriodicSync", "PeriodicSyncUtils", "PERIODIC_SYNC_TAGS"],
+      "types": [
+        "PeriodicSyncState",
+        "PeriodicSyncOptions",
+        "UsePeriodicSyncOptions",
+        "UsePeriodicSyncReturn",
+        "PeriodicSyncTag"
+      ],
+      "props": {
+        "options": {
+          "type": "UsePeriodicSyncOptions",
+          "optional": true,
+          "description": "Configuration options for periodic sync hook"
+        }
+      },
+      "returnType": {
+        "type": "UsePeriodicSyncReturn",
+        "properties": {
+          "isSupported": {
+            "type": "boolean",
+            "description": "Whether periodic background sync is supported"
+          },
+          "registration": {
+            "type": "ServiceWorkerRegistration | null",
+            "description": "Service worker registration instance"
+          },
+          "error": {
+            "type": "string | null",
+            "description": "Current error message, if any"
+          },
+          "isRegistered": {
+            "type": "boolean",
+            "description": "Whether any periodic tasks are registered"
+          },
+          "registeredTags": {
+            "type": "string[]",
+            "description": "Array of registered periodic sync tags"
+          },
+          "isRegistering": {
+            "type": "boolean",
+            "description": "Whether registration is in progress"
+          },
+          "register": {
+            "type": "(tag: string, options?: PeriodicSyncOptions) => Promise<boolean>",
+            "description": "Register a periodic background sync task"
+          },
+          "unregister": {
+            "type": "(tag: string) => Promise<boolean>",
+            "description": "Unregister a periodic background sync task"
+          },
+          "getTags": {
+            "type": "() => Promise<string[]>",
+            "description": "Get all registered periodic sync tags"
+          },
+          "clearError": {
+            "type": "() => void",
+            "description": "Clear current error state"
+          },
+          "isTagRegistered": {
+            "type": "(tag: string) => boolean",
+            "description": "Check if a specific tag is registered"
+          }
+        }
+      },
+      "features": [
+        "Periodic background data updates",
+        "Automatic task scheduling",
+        "Browser compatibility detection",
+        "Task validation and configuration",
+        "System notification integration",
+        "User engagement requirements",
+        "Battery and network optimization",
+        "Experimental API support"
+      ],
+      "limitations": [
+        "Extremely limited browser support (Chrome 80+ only)",
+        "Requires AAE installation and user engagement",
+        "Subject to OS battery optimization settings",
+        "May be throttled or disabled by the browser",
+        "Experimental API with strict requirements"
+      ],
+      "usage": "import { usePeriodicSync, PeriodicSyncUtils, PERIODIC_SYNC_TAGS } from '@acrobi/ui';\n\nconst periodicSync = usePeriodicSync({\n  onSyncSuccess: (tag, data) => {\n    console.log('Periodic sync completed:', tag, data);\n  }\n});\n\n// Register a periodic task\nconst registerNewsSync = async () => {\n  const interval = PeriodicSyncUtils.getRecommendedInterval('news');\n  await periodicSync.register(PERIODIC_SYNC_TAGS.NEWS_UPDATE, {\n    minInterval: interval\n  });\n};\n\n// Check browser compatibility\nconst compat = PeriodicSyncUtils.getBrowserCompatibility();\nif (!compat.isSupported) {\n  console.warn('Periodic sync not supported:', compat.limitations);\n}"
+    },
+    "useFileSystem": {
+      "name": "useFileSystem",
+      "description": "Advanced file system access hook using File System Access API with graceful fallback",
+      "category": "aae",
+      "version": "1.0.0",
+      "file": "src/hooks/use-file-system.ts",
+      "story": "src/hooks/use-file-system.stories.tsx",
+      "params": {
+        "readAs": {
+          "type": "'text' | 'dataURL' | 'arrayBuffer' | 'binaryString'",
+          "default": "'text'",
+          "description": "Default read format for file content"
+        },
+        "encoding": {
+          "type": "string",
+          "default": "'utf-8'",
+          "description": "Text encoding for text reading"
+        },
+        "maxSize": {
+          "type": "number",
+          "description": "Maximum file size in bytes"
+        },
+        "autoRead": {
+          "type": "boolean",
+          "default": "true",
+          "description": "Auto-read file content on open"
+        },
+        "onFileOpen": {
+          "type": "(file: File, handle?: FileSystemFileHandle) => void",
+          "description": "Callback when file is opened"
+        },
+        "onFileRead": {
+          "type": "(content: string | ArrayBuffer | null) => void",
+          "description": "Callback when file content is read"
+        },
+        "onFileSave": {
+          "type": "(success: boolean, fileName?: string) => void",
+          "description": "Callback when file is saved"
+        },
+        "onError": {
+          "type": "(error: string) => void",
+          "description": "Callback when error occurs"
+        }
+      },
+      "returns": {
+        "isSupported": {
+          "type": "boolean",
+          "description": "Whether File System Access API is supported"
+        },
+        "fileHandle": {
+          "type": "FileSystemFileHandle | null",
+          "description": "Current file handle (if using native API)"
+        },
+        "file": {
+          "type": "File | null",
+          "description": "Currently opened file"
+        },
+        "content": {
+          "type": "string | ArrayBuffer | null",
+          "description": "File content"
+        },
+        "isLoading": {
+          "type": "boolean",
+          "description": "Loading state"
+        },
+        "error": {
+          "type": "string | null",
+          "description": "Error message"
+        },
+        "usingNativeAPI": {
+          "type": "boolean",
+          "description": "Whether using native API or fallback"
+        },
+        "openFile": {
+          "type": "(options?: ShowOpenFilePickerOptions) => Promise<File | null>",
+          "description": "Open a file using native API or fallback"
+        },
+        "saveFile": {
+          "type": "(content: string | ArrayBuffer | Blob, options?: ShowSaveFilePickerOptions) => Promise<boolean>",
+          "description": "Save content to a file"
+        },
+        "readFile": {
+          "type": "(format?: string) => Promise<string | ArrayBuffer | null>",
+          "description": "Read the current file content"
+        },
+        "writeFile": {
+          "type": "(content: string | ArrayBuffer | Blob) => Promise<boolean>",
+          "description": "Write content to current file handle"
+        },
+        "clearFile": {
+          "type": "() => void",
+          "description": "Clear current file and state"
+        },
+        "clearError": {
+          "type": "() => void",
+          "description": "Clear error state"
+        },
+        "requestPermission": {
+          "type": "(mode?: 'read' | 'readwrite') => Promise<PermissionState | null>",
+          "description": "Request permission for file handle"
+        }
+      },
+      "features": [
+        "Native File System Access API support",
+        "Graceful fallback to traditional methods",
+        "File opening with type filters",
+        "File saving with suggested names",
+        "Multiple read formats (text, dataURL, arrayBuffer)",
+        "File handle permissions management",
+        "Browser compatibility detection",
+        "Directory suggestions (documents, pictures, etc)",
+        "File validation and error handling",
+        "Progress and loading states"
+      ],
+      "limitations": [
+        "File System Access API only supported in Chrome 86+ and Edge 86+",
+        "Requires user interaction to access files",
+        "Limited to secure contexts (HTTPS)",
+        "File handles require explicit permission requests",
+        "Fallback methods have different UX (download vs native save)",
+        "Some advanced features not available in fallback mode"
+      ],
+      "usage": "import { useFileSystem, FileSystemUtils } from '@acrobi/ui';\n\nconst fileSystem = useFileSystem({\n  readAs: 'text',\n  autoRead: true,\n  onFileOpen: (file, handle) => {\n    console.log('File opened:', file.name);\n  },\n  onFileSave: (success, fileName) => {\n    console.log('File saved:', success, fileName);\n  }\n});\n\n// Open a text file with native API or fallback\nconst handleOpenFile = async () => {\n  await fileSystem.openFile({\n    types: FileSystemUtils.FILE_TYPES.TEXT,\n    startIn: 'documents'\n  });\n};\n\n// Save content as file\nconst handleSaveFile = async () => {\n  await fileSystem.saveFile('Hello, World!', {\n    suggestedName: 'greeting.txt',\n    types: FileSystemUtils.FILE_TYPES.TEXT\n  });\n};\n\n// Check browser support\nconst compat = FileSystemUtils.getBrowserCompatibility();\nif (!compat.isSupported) {\n  console.log('Using fallback methods');\n}"
+    },
+    "useWindowManager": {
+      "name": "useWindowManager",
+      "description": "AAE window management hook for creating and managing multiple application windows",
+      "category": "aae",
+      "version": "1.0.0",
+      "file": "src/hooks/use-window-manager.ts",
+      "story": "src/hooks/use-window-manager.stories.tsx",
+      "params": {
+        "pollInterval": {
+          "type": "number",
+          "default": "1000",
+          "description": "Polling interval in milliseconds for window state updates"
+        },
+        "autoStartPolling": {
+          "type": "boolean",
+          "default": "true",
+          "description": "Whether to automatically start polling for window updates"
+        },
+        "maxWindows": {
+          "type": "number",
+          "default": "50",
+          "description": "Maximum number of windows to track"
+        },
+        "onWindowOpened": {
+          "type": "(window: PwaWindow) => void",
+          "description": "Callback when a new window is opened"
+        },
+        "onWindowClosed": {
+          "type": "(windowId: string) => void",
+          "description": "Callback when a window is closed"
+        },
+        "onWindowUpdated": {
+          "type": "(window: PwaWindow) => void",
+          "description": "Callback when a window state is updated"
+        },
+        "onError": {
+          "type": "(error: string) => void",
+          "description": "Callback when an error occurs"
+        }
+      },
+      "returns": {
+        "isSupported": {
+          "type": "boolean",
+          "description": "Whether Window Management API is supported"
+        },
+        "windows": {
+          "type": "PwaWindow[]",
+          "description": "Array of managed windows"
+        },
+        "error": {
+          "type": "string | null",
+          "description": "Current error message"
+        },
+        "isLoading": {
+          "type": "boolean",
+          "description": "Loading state"
+        },
+        "isPolling": {
+          "type": "boolean",
+          "description": "Whether actively polling for window updates"
+        },
+        "openWindow": {
+          "type": "(url: string, options?: WindowOpenOptions) => Promise<string | null>",
+          "description": "Open a new window and return its ID"
+        },
+        "closeWindow": {
+          "type": "(windowId: string) => boolean",
+          "description": "Close a specific window"
+        },
+        "closeAllWindows": {
+          "type": "() => number",
+          "description": "Close all windows and return count closed"
+        },
+        "focusWindow": {
+          "type": "(windowId: string) => boolean",
+          "description": "Focus a specific window"
+        },
+        "getWindow": {
+          "type": "(windowId: string) => PwaWindow | null",
+          "description": "Get a specific window by ID"
+        },
+        "refreshWindows": {
+          "type": "() => void",
+          "description": "Manually refresh window states"
+        },
+        "startPolling": {
+          "type": "() => void",
+          "description": "Start polling for window updates"
+        },
+        "stopPolling": {
+          "type": "() => void",
+          "description": "Stop polling for window updates"
+        },
+        "clearError": {
+          "type": "() => void",
+          "description": "Clear current error state"
+        },
+        "getWindowCount": {
+          "type": "() => { total: number; open: number; closed: number }",
+          "description": "Get window count statistics"
+        }
+      },
+      "features": [
+        "Multi-window AAE support",
+        "Automatic window state tracking",
+        "Window lifecycle management",
+        "Configurable polling intervals",
+        "Window focus and positioning",
+        "Popup blocker handling",
+        "Browser compatibility detection",
+        "Window feature configuration",
+        "Centered window positioning",
+        "Window validation and error handling"
+      ],
+      "limitations": [
+        "Window Management API experimental (Chrome 100+ only)",
+        "Subject to popup blockers",
+        "Requires user interaction to open windows",
+        "Limited multi-screen support",
+        "Window positioning may be restricted",
+        "Browser security policies may limit functionality"
+      ],
+      "usage": "import { useWindowManager, WindowManagerUtils } from '@acrobi/ui';\n\nconst windowManager = useWindowManager({\n  pollInterval: 1000,\n  maxWindows: 10,\n  onWindowOpened: (window) => {\n    console.log('Window opened:', window.name);\n  },\n  onWindowClosed: (windowId) => {\n    console.log('Window closed:', windowId);\n  }\n});\n\n// Open a popup window\nconst openPopup = async () => {\n  const config = WindowManagerUtils.createConfig('popup');\n  const windowId = await windowManager.openWindow('https://example.com', {\n    name: 'my-popup',\n    features: config.features,\n    focus: true\n  });\n};\n\n// Open a centered window\nconst openCentered = async () => {\n  const { left, top } = WindowManagerUtils.getCenteredPosition(600, 400);\n  const features = WindowManagerUtils.createFeatures({\n    width: 600,\n    height: 400,\n    left,\n    top,\n    resizable: true\n  });\n  \n  await windowManager.openWindow('https://example.com', {\n    features\n  });\n};\n\n// Get window statistics\nconst stats = windowManager.getWindowCount();\nconsole.log(`${stats.open} of ${stats.total} windows are open`);"
+    }
+  },
+  "types": {
+    "ShareTarget": {
+      "name": "ShareTarget",
+      "description": "Web Share Target configuration interface for receiving shared content in AAEs",
+      "category": "aae",
+      "version": "1.0.0",
+      "file": "src/types/aae.ts",
+      "purpose": "Defines how a AAE can register to receive shared content from other applications",
+      "properties": {
+        "action": {
+          "type": "string",
+          "required": true,
+          "description": "URL to handle shared content - must be within the app's scope"
+        },
+        "method": {
+          "type": "'GET' | 'POST'",
+          "required": false,
+          "default": "'GET'",
+          "description": "HTTP method for the share request"
+        },
+        "params": {
+          "type": "ShareTargetParams",
+          "required": false,
+          "description": "Parameters mapping for shared data"
+        },
+        "enctype": {
+          "type": "'application/x-www-form-urlencoded' | 'multipart/form-data'",
+          "required": false,
+          "description": "Content encoding type for POST requests"
+        },
+        "files": {
+          "type": "ShareTargetFile[]",
+          "required": false,
+          "description": "File sharing configuration"
+        }
+      },
+      "examples": {
+        "text_sharing": {
+          "action": "/share",
+          "method": "GET",
+          "params": {
+            "title": "title",
+            "text": "text",
+            "url": "url"
+          }
+        },
+        "file_sharing": {
+          "action": "/share/files",
+          "method": "POST",
+          "enctype": "multipart/form-data",
+          "files": [
+            {
+              "name": "images",
+              "accept": ["image/*"]
+            }
+          ]
+        }
+      }
+    },
+    "ShareTargetParams": {
+      "name": "ShareTargetParams",
+      "description": "Parameter mapping for share target data",
+      "category": "aae",
+      "version": "1.0.0",
+      "file": "src/types/aae.ts",
+      "properties": {
+        "title": {
+          "type": "string",
+          "required": false,
+          "description": "Query parameter name for title"
+        },
+        "text": {
+          "type": "string",
+          "required": false,
+          "description": "Query parameter name for text"
+        },
+        "url": {
+          "type": "string",
+          "required": false,
+          "description": "Query parameter name for URL"
+        }
+      }
+    },
+    "ShareTargetFile": {
+      "name": "ShareTargetFile",
+      "description": "File configuration for share target",
+      "category": "aae",
+      "version": "1.0.0",
+      "file": "src/types/aae.ts",
+      "properties": {
+        "name": {
+          "type": "string",
+          "required": true,
+          "description": "File input name"
+        },
+        "accept": {
+          "type": "string | string[]",
+          "required": true,
+          "description": "Accepted MIME types or file extensions"
+        }
+      }
+    },
+    "SharedData": {
+      "name": "SharedData",
+      "description": "Data structure representing content shared to the AAE",
+      "category": "aae",
+      "version": "1.0.0",
+      "file": "src/types/aae.ts",
+      "properties": {
+        "title": {
+          "type": "string",
+          "required": false,
+          "description": "Shared title"
+        },
+        "text": {
+          "type": "string",
+          "required": false,
+          "description": "Shared text content"
+        },
+        "url": {
+          "type": "string",
+          "required": false,
+          "description": "Shared URL"
+        },
+        "files": {
+          "type": "File[]",
+          "required": false,
+          "description": "Shared files"
+        }
+      }
+    },
+    "ShareTargetValidation": {
+      "name": "ShareTargetValidation",
+      "description": "Result of validating share target configuration",
+      "category": "aae",
+      "version": "1.0.0",
+      "file": "src/types/aae.ts",
+      "properties": {
+        "valid": {
+          "type": "boolean",
+          "required": true,
+          "description": "Whether the share target configuration is valid"
+        },
+        "errors": {
+          "type": "string[]",
+          "required": true,
+          "description": "Validation errors"
+        },
+        "warnings": {
+          "type": "string[]",
+          "required": true,
+          "description": "Validation warnings"
+        }
+      }
+    },
+    "ShareTargetSupport": {
+      "name": "ShareTargetSupport",
+      "description": "Browser support information for Web Share Target API",
+      "category": "aae",
+      "version": "1.0.0",
+      "file": "src/types/aae.ts",
+      "properties": {
+        "isSupported": {
+          "type": "boolean",
+          "required": true,
+          "description": "Whether share target is supported"
+        },
+        "browserInfo": {
+          "type": "string",
+          "required": true,
+          "description": "Browser information"
+        },
+        "limitations": {
+          "type": "string[]",
+          "required": true,
+          "description": "Support limitations"
+        },
+        "requirements": {
+          "type": "string[]",
+          "required": true,
+          "description": "Required features"
+        }
+      }
+    }
+  },
+  "utilities": {
+    "ShareTargetHelpers": {
+      "name": "ShareTargetHelpers",
+      "description": "Utility class for creating and managing Web Share Target configurations",
+      "category": "aae",
+      "version": "1.0.0",
+      "file": "src/types/aae.ts",
+      "methods": {
+        "createTextShareTarget": {
+          "signature": "(action: string, method?: 'GET' | 'POST') => ShareTarget",
+          "description": "Create a basic text/URL share target"
+        },
+        "createFileShareTarget": {
+          "signature": "(action: string, fileConfig: ShareTargetFile[]) => ShareTarget",
+          "description": "Create a file share target"
+        },
+        "createImageShareTarget": {
+          "signature": "(action: string) => ShareTarget",
+          "description": "Create an image-specific share target"
+        },
+        "createUniversalShareTarget": {
+          "signature": "(action: string) => ShareTarget",
+          "description": "Create a comprehensive share target for text and files"
+        }
+      },
+      "constants": {
+        "COMMON_TARGETS": {
+          "description": "Pre-configured share target templates",
+          "properties": {
+            "TEXT_ONLY": "Basic text and URL sharing",
+            "IMAGES": "Image file sharing",
+            "DOCUMENTS": "Document file sharing"
+          }
+        }
+      },
+      "usage": "import { ShareTargetHelpers } from '@acrobi/ui';\n\n// Create a text share target\nconst textTarget = ShareTargetHelpers.createTextShareTarget('/share');\n\n// Create an image share target\nconst imageTarget = ShareTargetHelpers.createImageShareTarget('/share/images');\n\n// Use common target template\nconst commonTarget = ShareTargetHelpers.COMMON_TARGETS.TEXT_ONLY;"
+    }
+  },
+  "stats": {
+    "totalComponents": 108,
+    "primitives": 26,
+    "structures": 33,
+    "modules": 23,
+    "hooks": 38,
+    "providers": 2,
+    "libs": 1,
+    "clientComponents": 8,
+    "clientStructures": 5,
+    "clientModules": 3,
+    "version": "9.0.0",
+    "lastUpdated": "2025-07-29"
+  }
+}

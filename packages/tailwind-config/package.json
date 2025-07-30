@@ -1,0 +1,16 @@
+{
+  "name": "@acrobi/tailwind-config",
+  "version": "0.1.0",
+  "description": "Shared Tailwind CSS configuration for the Acrobi Design System",
+  "main": "./index.js",
+  "scripts": {
+    "lint": "echo 'Lint skipped for tailwind-config package'",
+    "clean": "echo 'Nothing to clean'"
+  },
+  "dependencies": {
+    "tailwindcss": "^3.0.0"
+  },
+  "devDependencies": {
+    "@acrobi/tsconfig": "workspace:*"
+  }
+}

@@ -1,0 +1,547 @@
+/* Acrobi Design System - Default Theme */
+/* Updated with authentic values from docs/acrobi-styles/webflow/global.css */
+
+/* Import core Acrobi styles */
+@import './acrobi/acrobi-styles.css';
+
+/* SF Pro Font Family - Default Acrobi Font */
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url('https://developer.apple.com/fonts/SF-Pro-Display-Regular.woff2')
+    format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url('https://developer.apple.com/fonts/SF-Pro-Display-Medium.woff2')
+    format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url('https://developer.apple.com/fonts/SF-Pro-Display-Semibold.woff2')
+    format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url('https://developer.apple.com/fonts/SF-Pro-Display-Bold.woff2')
+    format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* BQ-Icons Font Face Declarations */
+@font-face {
+  font-family: 'BQ-Icons';
+  src:
+    url('./acrobi/fonts/BQ Icons.woff2') format('woff2'),
+    url('./acrobi/fonts/BQ Icons.woff') format('woff'),
+    url('./acrobi/fonts/BQ Icons.ttf') format('truetype'),
+    url('./acrobi/fonts/BQ Icons.eot') format('embedded-opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+[data-theme='acrobi'] {
+  /* Acrobi Neutrals - Authentic values from webflow globals.css */
+  --color--n000: hsla(300, 100%, 99.8%, 1); /* Almost white */
+  --color--n100: #f0f0f0;
+  --color--n200: #e5e5e5;
+  --color--n300: #c4c4c4;
+  --color--n500: #9a9a9a;
+  --color--n700: #6d6d6d;
+  --color--n900: #302f2c;
+  --color--n999: #1d1c1a; /* Dark, not white */
+
+  /* Acrobi Primary - Authentic values from webflow globals.css */
+  --color--p100: #e8f1fe;
+  --color--p200: #a3c8f9;
+  --color--p300: #5e9ef5;
+  --color--p500: #1975f0;
+  --color--p700: #1252a8;
+  --color--p900: #072348;
+
+  /* Acrobi Secondary */
+  --color--s500: #beef10;
+
+  /* Acrobi Focus Colors - Authentic values from webflow globals.css */
+  --color--f100: #bfe5ef;
+  --color--f500: #00abd2;
+  --color--f700: #007893;
+  --color--fd100: #ffeced;
+  --color--fd500: #ed1c24;
+  --color--fd700: #84101d;
+  --color--fs100: #dcffdc;
+  --color--fs500: #00b400;
+  --color--fs700: #127b12;
+  --color--fw100: #fed;
+  --color--fw500: #ff8000;
+  --color--fw700: #8f4f0e;
+  --color--fy500: hsla(48, 98.02%, 49.83%, 1);
+
+  /* Acrobi Transparency */
+  --color--t000: transparent;
+
+  /* Acrobi Fade Colors (with opacity) - Authentic values */
+  --color--n0001: rgba(255, 255, 255, 0.1);
+  --color--n0002: rgba(255, 255, 255, 0.2);
+  --color--n0003: rgba(255, 255, 255, 0.3);
+  --color--n0004: rgba(255, 255, 255, 0.4);
+  --color--n0005: rgba(255, 255, 255, 0.5);
+  --color--n0006: rgba(255, 255, 255, 0.6);
+  --color--n0007: rgba(255, 255, 255, 0.7);
+  --color--n0008: rgba(255, 255, 255, 0.8);
+  --color--n0009: rgba(255, 255, 255, 0.9);
+  --color--n9991: rgba(17, 17, 17, 0.05);
+  --color--n9992: rgba(17, 17, 17, 0.2);
+  --color--n9993: rgba(17, 17, 17, 0.3);
+  --color--n9994: rgba(17, 17, 17, 0.4);
+  --color--n9995: rgba(17, 17, 17, 0.5);
+  --color--n9996: rgba(17, 17, 17, 0.6);
+  --color--n9997: rgba(17, 17, 17, 0.7);
+  --color--n9998: rgba(17, 17, 17, 0.8);
+  --color--n9999: rgba(17, 17, 17, 0.9);
+
+  /* Acrobi Typography Scale - Complete system with regular and bold variants */
+
+  /* Heading Sizes */
+  --_typography---size--h1: 3rem; /* 48px */
+  --_typography---size--h2: 2.5rem; /* 40px */
+  --_typography---size--h3: 2rem; /* 32px */
+  --_typography---size--h4: 1.5rem; /* 24px */
+  --_typography---size--h5: 1.25rem; /* 20px */
+
+  /* Regular Text Sizes */
+  --_typography---size--r1b: 1.125rem; /* 18px - R1B Bold */
+  --_typography---size--r1: 1.125rem; /* 18px - R1 Regular */
+  --_typography---size--r2b: 1rem; /* 16px - R2B Bold */
+  --_typography---size--r2: 1rem; /* 16px - R2 Regular */
+  --_typography---size--r3b: 0.875rem; /* 14px - R3B Bold */
+  --_typography---size--r3: 0.875rem; /* 14px - R3 Regular */
+  --_typography---size--r4b: 0.75rem; /* 12px - R4B Bold */
+  --_typography---size--r4: 0.75rem; /* 12px - R4 Regular */
+
+  /* Font Weights */
+  --_typography---fw4: 400; /* Regular */
+  --_typography---fw7: 700; /* Bold */
+
+  --_typography---line-height--1: 1;
+  --_typography---line-height--1-1: 1.1;
+  --_typography---line-height--1-3: 1.3;
+  --_typography---line-height--1-5: 1.5;
+
+  /* Acrobi Size System - Authentic values from webflow globals.css */
+  --size--0px: 0rem;
+  --size--1px: 0.0625rem;
+  --size--2px: 0.125rem;
+  --size--4px: 0.25rem;
+  --size--8px: 0.5rem;
+  --size--12px: 0.75rem;
+  --size--14px: 0.875rem;
+  --size--16px: 1rem;
+  --size--18px: 1.125rem;
+  --size--20px: 1.25rem;
+  --size--24px: 1.5rem;
+  --size--28px: 1.75rem;
+  --size--32px: 2rem;
+  --size--36px: 2.25rem;
+  --size--40px: 2.5rem;
+  --size--48px: 3rem;
+  --size--56px: 3.5rem;
+  --size--64px: 4rem;
+  --size--80px: 5rem;
+
+  /* Acrobi Border Radius System - Authentic values from webflow globals.css */
+  --radius--br0: 0rem;
+  --radius--br1: 2px;
+  --radius--br2: 4px;
+  --radius--br3: 6px;
+  --radius--br4: 8px;
+  --radius--br5: 16px;
+  --radius--br6: 24px;
+  --radius--br7: 32px;
+  --radius--round: 100vw;
+
+  /* Acrobi Font Family - Updated with SF Pro Display as default */
+  --_typography---ff0:
+    'SF Pro Display', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans',
+    'Helvetica Neue', sans-serif;
+  --_typography---ff1: 'Inter Tight', sans-serif;
+  --_typography---ff2: 'SF Pro Display', 'SF Pro', Arial, sans-serif;
+  --_typography---icn1: BQ-Icons, sans-serif;
+
+  /* Acrobi Icon Sizes - Authentic values from webflow globals.css */
+  --icn--xxs: 0.5rem; /* 8px */
+  --icn--xs: 0.75rem; /* 12px */
+  --icn--s: 0.875rem; /* 14px */
+  --icn--sm: 1rem; /* 16px */
+  --icn--m: 1.25rem; /* 20px */
+  --icn--ml: 1.5rem; /* 24px */
+  --icn--l: 1.75rem; /* 28px */
+  --icn--xl: 2rem; /* 32px */
+  --icn--xxl: 2.5rem; /* 40px */
+  --icn--lh: 1; /* Icon line height */
+
+  /* Map Acrobi colors to Tailwind semantic tokens - Light mode */
+  /* Note: In authentic Acrobi, n000 is almost white, n999 is dark */
+  --color-background: 254 254 254; /* n000 - Almost white background */
+  --color-foreground: 29 28 26; /* n999 - Dark text */
+
+  --color-card: 254 254 254; /* n000 - Almost white card background */
+  --color-card-foreground: 29 28 26; /* n999 - Dark text on cards */
+
+  --color-primary: 25 117 240; /* p500 - Authentic Acrobi blue */
+  --color-primary-foreground: 254 254 254; /* n000 - Light text on primary */
+
+  --color-secondary: 240 240 240; /* n100 - Light gray secondary */
+  --color-secondary-foreground: 29 28 26; /* n999 - Dark text on secondary */
+
+  --color-accent: 229 229 229; /* n200 - Light accent */
+  --color-accent-foreground: 29 28 26; /* n999 - Dark text on accent */
+
+  --color-destructive: 237 28 36; /* fd500 - Acrobi red */
+  --color-destructive-foreground: 254 254 254; /* n000 - Light text on destructive */
+
+  --color-muted: 240 240 240; /* n100 - Muted background */
+  --color-muted-foreground: 154 154 154; /* n500 - Muted text */
+
+  --color-border: 229 229 229; /* n200 - Light border */
+  --color-input: 229 229 229; /* n200 - Input border */
+  --color-ring: 25 117 240; /* p500 - Focus ring */
+
+  /* Spacing tokens */
+  --spacing-xs: var(--size--4px);
+  --spacing-sm: var(--size--8px);
+  --spacing-md: var(--size--16px);
+  --spacing-lg: var(--size--24px);
+  --spacing-xl: var(--size--32px);
+
+  /* Font family tokens */
+  --font-sans: var(--_typography---ff2); /* SF Pro as primary */
+  --font-serif: Georgia, 'Times New Roman', Times, serif;
+  --font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+
+  /* Border radius tokens for Tailwind compatibility */
+  --radius-sm: var(--radius--br2); /* 4px */
+  --radius-md: var(--radius--br4); /* 8px */
+  --radius-lg: var(--radius--br5); /* 16px */
+  --radius-full: var(--radius--round); /* Fully rounded */
+}
+
+/* Dark mode overrides */
+[data-theme='acrobi'].dark {
+  /* Invert the neutral scale for dark mode */
+  --color-background: 29 28 26; /* n999 - Dark background */
+  --color-foreground: 254 254 254; /* n000 - Light text */
+
+  --color-card: 29 28 26; /* n999 - Dark card background */
+  --color-card-foreground: 254 254 254; /* n000 - Light text on cards */
+
+  --color-primary: 25 117 240; /* p500 - Keep Acrobi blue */
+  --color-primary-foreground: 254 254 254; /* n000 - Light text on primary */
+
+  --color-secondary: 48 47 44; /* n900 - Dark gray secondary */
+  --color-secondary-foreground: 254 254 254; /* n000 - Light text on secondary */
+
+  --color-accent: 109 109 109; /* n700 - Dark accent */
+  --color-accent-foreground: 254 254 254; /* n000 - Light text on accent */
+
+  --color-destructive: 237 28 36; /* fd500 - Keep Acrobi red */
+  --color-destructive-foreground: 254 254 254; /* n000 - Light text on destructive */
+
+  --color-muted: 48 47 44; /* n900 - Dark muted background */
+  --color-muted-foreground: 196 196 196; /* n300 - Muted text in dark mode */
+
+  --color-border: 109 109 109; /* n700 - Dark border */
+  --color-input: 109 109 109; /* n700 - Dark input border */
+  --color-ring: 25 117 240; /* p500 - Keep focus ring */
+}
+
+/* CSS custom properties for easier consumption */
+:root {
+  /* Make spacing and other non-color tokens globally available */
+  --spacing-xs: var(--spacing-xs, 0.25rem);
+  --spacing-sm: var(--spacing-sm, 0.5rem);
+  --spacing-md: var(--spacing-md, 1rem);
+  --spacing-lg: var(--spacing-lg, 1.5rem);
+  --spacing-xl: var(--spacing-xl, 2rem);
+
+  --font-sans: var(
+    --font-sans,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    sans-serif
+  );
+  --font-serif: var(--font-serif, Georgia, 'Times New Roman', Times, serif);
+  --font-mono: var(
+    --font-mono,
+    'SFMono-Regular',
+    Consolas,
+    'Liberation Mono',
+    Menlo,
+    monospace
+  );
+
+  --radius-sm: var(--radius-sm, 0.125rem);
+  --radius-md: var(--radius-md, 0.375rem);
+  --radius-lg: var(--radius-lg, 0.5rem);
+  --radius-full: var(--radius-full, 9999px);
+}
+
+/* Utility classes for theme switching */
+.theme-acrobi {
+  color-scheme: light;
+}
+
+.theme-acrobi.dark {
+  color-scheme: dark;
+}
+
+/* Acrobi-specific utility classes from the original design system */
+[data-corner-radius='4'] {
+  border-radius: var(--radius--br2);
+}
+
+[data-corner-radius='8'] {
+  border-radius: var(--radius--br4);
+}
+
+[data-corner-radius='16'] {
+  border-radius: var(--radius--br5);
+}
+
+/* Box shadow utilities - Authentic Acrobi shadows */
+[data-bs='xs'] {
+  box-shadow:
+    0 1px 8px var(--color--n9992),
+    0 3px 3px var(--color--n9991),
+    0 3px 4px var(--color--n9991);
+}
+
+[data-bs='s'] {
+  box-shadow:
+    0 1px 10px var(--color--n9992),
+    0 2px 4px var(--color--n9991),
+    0 4px 5px var(--color--n9991);
+}
+
+[data-bs='m'] {
+  box-shadow:
+    0 3px 5px var(--color--n9992),
+    0 1px 18px var(--color--n9991),
+    0 6px 10px var(--color--n9991);
+}
+
+/* Typography utilities - Authentic Acrobi typography */
+[data-fs='h1'] {
+  font-size: var(--_typography---size--h1);
+  font-weight: var(--_typography---fw4);
+  line-height: var(--_typography---line-height--1);
+}
+
+[data-fs='h2'] {
+  font-size: var(--_typography---size--h2);
+  font-weight: var(--_typography---fw4);
+  line-height: var(--_typography---line-height--1);
+}
+
+[data-fs='h3'] {
+  font-size: var(--_typography---size--h3);
+  font-weight: var(--_typography---fw4);
+  line-height: var(--_typography---line-height--1);
+}
+
+[data-fs='h4'] {
+  font-size: var(--_typography---size--h4);
+  font-weight: var(--_typography---fw4);
+  line-height: var(--_typography---line-height--1-1);
+}
+
+[data-fs='h5'] {
+  font-size: var(--_typography---size--h5);
+  font-weight: var(--_typography---fw4);
+  line-height: var(--_typography---line-height--1-1);
+}
+
+[data-fs='r1'] {
+  font-size: var(--_typography---size--r1);
+  font-weight: var(--_typography---fw4);
+  line-height: var(--_typography---line-height--1-5);
+}
+
+[data-fs='r2'] {
+  font-size: var(--_typography---size--r2);
+  font-weight: var(--_typography---fw4);
+  line-height: var(--_typography---line-height--1-3);
+}
+
+[data-fs='r3'] {
+  font-size: var(--_typography---size--r3);
+  font-weight: var(--_typography---fw4);
+  line-height: var(--_typography---line-height--1-3);
+}
+
+[data-fs='r4'] {
+  font-size: var(--_typography---size--r4);
+  font-weight: var(--_typography---fw4);
+  line-height: var(--_typography---line-height--1-3);
+}
+/* Storybook Specific Styling */
+.sb-show-main {
+  font-family: var(--_typography---ff2) !important;
+  background-color: #fafafa;
+}
+
+.sb-story {
+  padding: var(--size--24px);
+  background-color: #ffffff;
+  border-radius: var(--radius--br4);
+  margin: var(--size--16px);
+  box-shadow:
+    var(--color--n9991) 0px 1px 3px,
+    var(--color--n9991) 0px 1px 2px;
+}
+
+.sb-story h1,
+.sb-story h2,
+.sb-story h3,
+.sb-story h4,
+.sb-story h5,
+.sb-story h6 {
+  font-family: var(--_typography---ff2);
+  font-weight: 600;
+  margin-bottom: var(--size--16px);
+  color: var(--color--n999);
+}
+
+.sb-story h1 {
+  font-size: var(--_typography---size--h1);
+  line-height: var(--_typography---line-height--1);
+}
+
+.sb-story h2 {
+  font-size: var(--_typography---size--h2);
+  line-height: var(--_typography---line-height--1);
+  border-bottom: 2px solid var(--color--n200);
+  padding-bottom: var(--size--8px);
+}
+
+.sb-story h3 {
+  font-size: var(--_typography---size--h3);
+  line-height: var(--_typography---line-height--1-1);
+  margin-top: var(--size--24px);
+}
+
+.sb-story p {
+  font-family: var(--_typography---ff2);
+  font-size: var(--_typography---size--r2);
+  line-height: var(--_typography---line-height--1-5);
+  margin-bottom: var(--size--12px);
+  color: var(--color--n700);
+}
+
+/* Component Showcase Grid */
+.acrobi-showcase-grid {
+  display: grid;
+  gap: var(--size--32px);
+  padding: var(--size--24px);
+  font-family: var(--_typography---ff2);
+}
+
+.acrobi-variant-spacing {
+  margin-bottom: var(--size--32px);
+}
+
+.acrobi-variant-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--size--32px);
+  margin-bottom: var(--size--32px);
+}
+
+.acrobi-showcase-section {
+  background: #ffffff;
+  border: 1px solid var(--color--n200);
+  border-radius: var(--radius--br4);
+  padding: var(--size--24px);
+  box-shadow:
+    0 1px 3px var(--color--n9991),
+    0 1px 2px var(--color--n9991);
+}
+
+.acrobi-showcase-section h2 {
+  font-size: var(--_typography---size--h4);
+  font-weight: 600;
+  margin-bottom: var(--size--16px);
+  color: var(--color--n999);
+  border-bottom: 2px solid var(--color--n100);
+  padding-bottom: var(--size--8px);
+}
+
+.acrobi-showcase-section h3 {
+  font-size: var(--_typography---size--r1);
+  font-weight: 500;
+  margin: var(--size--20px) 0 var(--size--12px) 0;
+  color: var(--color--n900);
+}
+
+.acrobi-showcase-grid-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--size--16px);
+  margin-bottom: var(--size--24px);
+}
+
+.acrobi-showcase-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--size--8px);
+  padding: var(--size--16px);
+  background: var(--color--n000);
+  border-radius: var(--radius--br3);
+  border: 1px solid var(--color--n200);
+}
+
+.acrobi-showcase-item-label {
+  font-size: var(--_typography---size--r3);
+  font-weight: 500;
+  color: var(--color--n700);
+  text-align: center;
+  font-family: var(--_typography---ff2);
+}
+
+/* Storybook Controls Panel Styling */
+.docblock-argstable {
+  font-family: var(--_typography---ff2) !important;
+}
+
+.docblock-argstable th,
+.docblock-argstable td {
+  font-family: var(--_typography---ff2) !important;
+}
+
+/* Remove any Webflow branding or references in Storybook */
+.sb-story [class*='webflow'],
+.sb-story [data-webflow],
+.sb-story .w-form,
+.sb-story .w-button {
+  /* Reset any Webflow-specific styling */
+  all: unset;
+  display: inline-block;
+}

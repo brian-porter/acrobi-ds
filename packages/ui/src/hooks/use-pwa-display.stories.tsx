@@ -1,0 +1,586 @@
+/**
+ * @fileoverview AAE Display Hook Stories for Epic 66
+ * Interactive demonstrations of AAE display mode detection
+ */
+
+import React, { useState, useEffect } from 'react';
+import type { Meta, StoryObj } from '@storybook/react';
+import { useAAEDisplay, AAEDisplayUtils } from './use-aae-display';
+import type { AAEDisplayMode } from './use-aae-display';
+
+const meta: Meta = {
+  title: "Hooks/useAAEDisplay',"
+  parameters: {
+    docs: {
+      description: {
+        component: 'Hook for detecting AAE display mode and installation status. Provides real-time detection of standalone, fullscreen, minimal-ui, and browser modes with install prompt handling.'
+      }
+    }
+  }
+};
+
+export default meta;
+type Story = StoryObj;
+
+// Display Mode Demo
+const DisplayModeDemo: React.FC = () => {
+  const display = useAAEDisplay({
+    debug: true,
+    onDisplayModeChange: (mode) => {
+      console.log('Display mode changed to:', mode);
+    },
+    onInstallPrompt: (canInstall) => {
+      console.log('Install prompt available:', canInstall);
+    }
+  });
+
+  const [manifestContent, setManifestContent] = useState('');
+
+  useEffect(() => {
+    const manifest = AAEDisplayUtils.getManifestConfig();
+    setManifestContent(JSON.stringify(manifest, null, 2));
+  }, []);
+
+  const handleInstallClick = async () => {
+    const success = await display.showInstallPrompt();
+    if (!success) {
+      alert('Install prompt not available or user declined');
+    }
+  };
+
+  const handleRefresh = () => {
+    display.refresh();
+  };
+
+  const getModeColor = (mode: AAEDisplayMode): string => {
+    switch (mode) {
+      case 'standalone': return '#28a745';
+      case 'fullscreen': return '#007bff';
+      case 'minimal-ui': return '#ffc107';
+      case 'browser': return '#6c757d';
+      default: return '#6c757d';
+    }
+  };
+
+  const getModeIcon = (mode: AAEDisplayMode): string => {
+    switch (mode) {
+      case 'standalone': return '📱';
+      case 'fullscreen': return '🖥️';
+      case 'minimal-ui': return '📺';
+      case 'browser': return '🌐';
+      default: return '❓';
+    }
+  };
+
+  return (
+    <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
+      <h2>AAE Display Mode Detection</h2>
+
+      {!display.isSupported && (
+        <div style={{ 
+          padding: '10px', 
+          backgroundColor: '#fee', 
+          border: '1px solid #fcc',
+          borderRadius: '4px',
+          marginBottom: '20px'
+        }}>
+          ⚠️ Display mode detection is not supported in this browser
+        </div>
+      )}
+
+      {/* Current Display Mode */}
+      <div style={{ 
+        padding: '20px', 
+        backgroundColor: '#f8f9fa', 
+        borderRadius: '8px',
+        border: '1px solid #dee2e6',
+        marginBottom: '20px'
+      }}>
+        <h3>Current Display Mode</h3>
+        
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '15px',
+          marginBottom: '15px'
+        }}>
+          <div style={{
+            fontSize: '48px',
+            lineHeight: '1'
+          }}>
+            {getModeIcon(display.displayMode)}
+          </div>
+          
+          <div>
+            <div style={{
+              fontSize: '24px',
+              fontWeight: 'bold',
+              color: getModeColor(display.displayMode),
+              textTransform: 'capitalize'
+            }}>
+              {display.displayMode}
+            </div>
+            <div style={{ fontSize: '14px', color: '#666', marginTop: '4px' }}>
+              {display.displayMode === 'standalone' && 'Running as installed AAE with app-like experience'}
+              {display.displayMode === 'fullscreen' && 'Running in fullscreen mode without browser UI'}
+              {display.displayMode === 'minimal-ui' && 'Running with minimal browser UI'}
+              {display.displayMode === 'browser' && 'Running in normal browser mode'}
+            </div>
+          </div>
+        </div>
+
+        <button
+          onClick={handleRefresh}
+          style={{
+            padding: '8px 16px',
+            backgroundColor: '#007bff',
+            color: 'white',
+            border: 'none',
+            borderRadius: '4px',
+            cursor: 'pointer'
+          }}
+        >
+          Refresh Detection
+        </button>
+      </div>
+
+      {/* Installation Status */}
+      <div style={{ 
+        padding: '20px', 
+        backgroundColor: display.isInstalled ? '#d4edda' : '#fff3cd', 
+        borderRadius: '8px',
+        border: `1px solid ${display.isInstalled ? '#c3e6cb' : '#ffeaa7'}`,
+        marginBottom: '20px'
+      }}>
+        <h3>Installation Status</h3>
+        
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', marginBottom: '15px' }}>
+          <div>
+            <strong>Installed:</strong> {display.isInstalled ? '✅ Yes' : '❌ No'}
+          </div>
+          <div>
+            <strong>Can Install:</strong> {display.canInstall ? '✅ Yes' : '❌ No'}
+          </div>
+          <div>
+            <strong>Is Mobile:</strong> {AAEDisplayUtils.isMobile() ? '✅ Yes' : '❌ No'}
+          </div>
+          <div>
+            <strong>Platform:</strong> {
+              AAEDisplayUtils.isIOS() ? '📱 iOS' :
+              AAEDisplayUtils.isAndroid() ? '🤖 Android' :
+              '💻 Desktop'
+            }
+          </div>
+        </div>
+
+        {display.canInstall && (
+          <button
+            onClick={handleInstallClick}
+            style={{
+              padding: '10px 20px',
+              backgroundColor: '#28a745',
+              color: 'white',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              fontWeight: 'bold'
+            }}
+          >
+            📱 Install App
+          </button>
+        )}
+
+        {display.isInstalled && (
+          <div style={{
+            padding: '10px',
+            backgroundColor: 'rgba(255,255,255,0.8)',
+            borderRadius: '4px',
+            fontSize: '14px'
+          }}>
+            🎉 <strong>Great!</strong> This AAE is running as an installed app with native-like experience.
+          </div>
+        )}
+
+        {display.isBrowser && !display.canInstall && (
+          <div style={{
+            padding: '10px',
+            backgroundColor: 'rgba(255,255,255,0.8)',
+            borderRadius: '4px',
+            fontSize: '14px'
+          }}>
+            💡 <strong>Tip:</strong> To get the full app experience, look for an "Install" option in your browser menu or address bar.
+          </div>
+        )}
+      </div>
+
+      {/* Display Mode Details */}
+      <div style={{ 
+        padding: '20px', 
+        backgroundColor: '#e3f2fd', 
+        borderRadius: '8px',
+        border: '1px solid #90caf9',
+        marginBottom: '20px'
+      }}>
+        <h3>Display Mode Details</h3>
+        
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '10px' }}>
+          <div style={{
+            padding: '10px',
+            backgroundColor: display.isStandalone ? '#d4edda' : 'rgba(255,255,255,0.7)',
+            borderRadius: '4px',
+            textAlign: 'center'
+          }}>
+            <div style={{ fontSize: '20px', marginBottom: '5px' }}>📱</div>
+            <div><strong>Standalone</strong></div>
+            <div style={{ fontSize: '12px', color: '#666' }}>
+              {display.isStandalone ? 'Active' : 'Inactive'}
+            </div>
+          </div>
+
+          <div style={{
+            padding: '10px',
+            backgroundColor: display.isFullscreen ? '#d4edda' : 'rgba(255,255,255,0.7)',
+            borderRadius: '4px',
+            textAlign: 'center'
+          }}>
+            <div style={{ fontSize: '20px', marginBottom: '5px' }}>🖥️</div>
+            <div><strong>Fullscreen</strong></div>
+            <div style={{ fontSize: '12px', color: '#666' }}>
+              {display.isFullscreen ? 'Active' : 'Inactive'}
+            </div>
+          </div>
+
+          <div style={{
+            padding: '10px',
+            backgroundColor: display.isMinimalUI ? '#d4edda' : 'rgba(255,255,255,0.7)',
+            borderRadius: '4px',
+            textAlign: 'center'
+          }}>
+            <div style={{ fontSize: '20px', marginBottom: '5px' }}>📺</div>
+            <div><strong>Minimal UI</strong></div>
+            <div style={{ fontSize: '12px', color: '#666' }}>
+              {display.isMinimalUI ? 'Active' : 'Inactive'}
+            </div>
+          </div>
+
+          <div style={{
+            padding: '10px',
+            backgroundColor: display.isBrowser ? '#d4edda' : 'rgba(255,255,255,0.7)',
+            borderRadius: '4px',
+            textAlign: 'center'
+          }}>
+            <div style={{ fontSize: '20px', marginBottom: '5px' }}>🌐</div>
+            <div><strong>Browser</strong></div>
+            <div style={{ fontSize: '12px', color: '#666' }}>
+              {display.isBrowser ? 'Active' : 'Inactive'}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* AAE Manifest Configuration */}
+      <div style={{ 
+        padding: '20px', 
+        backgroundColor: '#f0f8ff', 
+        borderRadius: '8px',
+        border: '1px solid #b6d7ff',
+        marginBottom: '20px'
+      }}>
+        <h3>AAE Manifest Configuration</h3>
+        
+        <p style={{ marginBottom: '15px', fontSize: '14px' }}>
+          To enable standalone mode, configure your AAE manifest with the following settings:
+        </p>
+
+        <div style={{
+          padding: '15px',
+          backgroundColor: '#1e1e1e',
+          color: '#d4d4d4',
+          borderRadius: '4px',
+          fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+          fontSize: '12px',
+          overflow: 'auto',
+          maxHeight: '300px'
+        }}>
+          <pre style={{ margin: 0, whiteSpace: 'pre-wrap' }}>
+            {manifestContent}
+          </pre>
+        </div>
+
+        <div style={{ marginTop: '15px', fontSize: '12px', color: '#666' }}>
+          <strong>Key Properties:</strong>
+          <ul style={{ marginTop: '5px', paddingLeft: '20px' }}>
+            <li><code>display: "standalone"</code> - Enables app-like experience</li>
+            <li><code>start_url: "/"</code> - Entry point when launched</li>
+            <li><code>scope: "/"</code> - Defines app boundaries</li>
+            <li><code>icons</code> - Required for installation prompts</li>
+          </ul>
+        </div>
+      </div>
+
+      {/* Browser Compatibility */}
+      <div style={{ 
+        padding: '20px', 
+        backgroundColor: '#fff3cd', 
+        borderRadius: '8px',
+        border: '1px solid #ffeaa7'
+      }}>
+        <h3>Browser Compatibility</h3>
+        
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', fontSize: '14px' }}>
+          <div>
+            <h4 style={{ margin: '0 0 10px 0' }}>Supported Browsers</h4>
+            <ul style={{ margin: 0, paddingLeft: '20px' }}>
+              <li>✅ Chrome (Android & Desktop)</li>
+              <li>✅ Edge (Desktop)</li>
+              <li>✅ Samsung Internet</li>
+              <li>✅ Firefox (Android)</li>
+              <li>✅ Safari (iOS 11.3+)</li>
+            </ul>
+          </div>
+          
+          <div>
+            <h4 style={{ margin: '0 0 10px 0' }}>Display Mode Support</h4>
+            <ul style={{ margin: 0, paddingLeft: '20px' }}>
+              <li><code>standalone</code> - Widely supported</li>
+              <li><code>fullscreen</code> - Limited support</li>
+              <li><code>minimal-ui</code> - Deprecated</li>
+              <li><code>browser</code> - Default fallback</li>
+            </ul>
+          </div>
+        </div>
+
+        <div style={{ 
+          marginTop: '15px', 
+          padding: '10px', 
+          backgroundColor: 'rgba(255,255,255,0.7)',
+          borderRadius: '4px',
+          fontSize: '12px'
+        }}>
+          <strong>Note:</strong> Display mode detection works by checking CSS media queries. 
+          The actual installation and standalone mode depend on the browser's AAE implementation 
+          and the user's installation process.
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Install Banner Demo
+const InstallBannerDemo: React.FC = () => {
+  const display = useAAEDisplay({
+    debug: true
+  });
+
+  const [showBanner, setShowBanner] = useState(true);
+
+  const handleInstall = async () => {
+    const success = await display.showInstallPrompt();
+    if (success) {
+      setShowBanner(false);
+    }
+  };
+
+  const handleDismiss = () => {
+    setShowBanner(false);
+  };
+
+  if (display.isInstalled || !display.canInstall || !showBanner) {
+    return (
+      <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
+        <h2>Install Banner Demo</h2>
+        
+        <div style={{
+          padding: '20px',
+          backgroundColor: display.isInstalled ? '#d4edda' : '#f8f9fa',
+          borderRadius: '8px',
+          border: `1px solid ${display.isInstalled ? '#c3e6cb' : '#dee2e6'}`,
+          textAlign: 'center'
+        }}>
+          {display.isInstalled ? (
+            <>
+              <div style={{ fontSize: '48px', marginBottom: '10px' }}>🎉</div>
+              <h3 style={{ color: '#155724' }}>App Installed!</h3>
+              <p>The AAE is now running in standalone mode.</p>
+            </>
+          ) : (
+            <>
+              <div style={{ fontSize: '48px', marginBottom: '10px' }}>📱</div>
+              <h3>Install Banner Hidden</h3>
+              <p>
+                The install banner is not shown because:
+                {!display.canInstall && ' no install prompt is available'}
+                {!showBanner && ' it was dismissed'}
+              </p>
+              <button
+                onClick={() => setShowBanner(true)}
+                style={{
+                  padding: '8px 16px',
+                  backgroundColor: '#007bff',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '4px',
+                  cursor: 'pointer'
+                }}
+              >
+                Show Banner Again
+              </button>
+            </>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
+      <h2>Install Banner Demo</h2>
+      
+      {/* App Content */}
+      <div style={{
+        padding: '20px',
+        backgroundColor: '#f8f9fa',
+        borderRadius: '8px',
+        border: '1px solid #dee2e6',
+        marginBottom: '20px'
+      }}>
+        <h3>Sample App Content</h3>
+        <p>This represents your main application content.</p>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '15px' }}>
+          <div style={{ padding: '15px', backgroundColor: 'white', borderRadius: '4px', border: '1px solid #ddd' }}>
+            <h4>Feature 1</h4>
+            <p style={{ fontSize: '14px', color: '#666' }}>Some app functionality here.</p>
+          </div>
+          <div style={{ padding: '15px', backgroundColor: 'white', borderRadius: '4px', border: '1px solid #ddd' }}>
+            <h4>Feature 2</h4>
+            <p style={{ fontSize: '14px', color: '#666' }}>Another app feature here.</p>
+          </div>
+          <div style={{ padding: '15px', backgroundColor: 'white', borderRadius: '4px', border: '1px solid #ddd' }}>
+            <h4>Feature 3</h4>
+            <p style={{ fontSize: '14px', color: '#666' }}>More app functionality.</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Install Banner */}
+      <div style={{
+        position: 'fixed',
+        bottom: '20px',
+        left: '20px',
+        right: '20px',
+        padding: '15px',
+        backgroundColor: '#007bff',
+        color: 'white',
+        borderRadius: '8px',
+        boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '15px',
+        zIndex: 1000
+      }}>
+        <div style={{ fontSize: '24px' }}>📱</div>
+        
+        <div style={{ flex: 1 }}>
+          <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>
+            Install Our App!
+          </div>
+          <div style={{ fontSize: '14px', opacity: 0.9 }}>
+            Get the full app experience with offline access and push notifications.
+          </div>
+        </div>
+
+        <div style={{ display: 'flex', gap: '10px' }}>
+          <button
+            onClick={handleInstall}
+            style={{
+              padding: '8px 16px',
+              backgroundColor: 'white',
+              color: '#007bff',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              fontWeight: 'bold'
+            }}
+          >
+            Install
+          </button>
+          
+          <button
+            onClick={handleDismiss}
+            style={{
+              padding: '8px 12px',
+              backgroundColor: 'transparent',
+              color: 'white',
+              border: '1px solid rgba(255,255,255,0.5)',
+              borderRadius: '4px',
+              cursor: 'pointer'
+            }}
+          >
+            ✕
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export const BasicDemo: Story = {
+  render: () => <DisplayModeDemo />,
+  parameters: {
+    docs: {
+      description: {
+        story: 'Basic AAE display mode detection showing current mode, installation status, and browser compatibility information.'
+      }
+    }
+  }
+};
+
+export const InstallBanner: Story = {
+  render: () => <InstallBannerDemo />,
+  parameters: {
+    docs: {
+      description: {
+        story: 'Conditional install banner that only shows when the app is running in browser mode and can be installed. Demonstrates practical usage of display mode detection.'
+      }
+    }
+  }
+};
+
+export const DisplayModeStatus: Story = {
+  render: () => (
+    <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
+      <h2>Quick Display Status</h2>
+      {(() => {
+        const display = useAAEDisplay();
+        return (
+          <div style={{
+            padding: '20px',
+            backgroundColor: '#f8f9fa',
+            borderRadius: '8px',
+            border: '1px solid #dee2e6',
+            textAlign: 'center'
+          }}>
+            <div style={{ fontSize: '48px', marginBottom: '10px' }}>
+              {display.isStandalone ? '📱' : display.isFullscreen ? '🖥️' : display.isMinimalUI ? '📺' : '🌐'}
+            </div>
+            <h3 style={{ textTransform: 'capitalize', marginBottom: '10px' }}>
+              {display.displayMode} Mode
+            </h3>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '10px', fontSize: '14px' }}>
+              <div>Installed: {display.isInstalled ? '✅' : '❌'}</div>
+              <div>Can Install: {display.canInstall ? '✅' : '❌'}</div>
+              <div>Supported: {display.isSupported ? '✅' : '❌'}</div>
+            </div>
+          </div>
+        );
+      })()}
+    </div>
+  ),
+  parameters: {
+    docs: {
+      description: {
+        story: 'Quick status overview showing the current display mode and key capabilities at a glance.'
+      }
+    }
+  }
+};

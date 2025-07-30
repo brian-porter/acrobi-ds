@@ -1,0 +1,9 @@
+/* Acrobi Design System - Core Styles */
+/* Essential styles from the original Acrobi design system */
+
+/* Import core Acrobi CSS modules */
+@import './css/button.css';
+@import './css/global.css';
+@import './css/color.css';
+@import './css/label.css';
+@import './css/slider.css';
