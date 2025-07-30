@@ -1,0 +1,674 @@
+---
+title: "Real-Time Communication Patterns"
+description: "Architectural patterns and best practices for integrating Socket.IO into applications built with the Acrobi Design System"
+---
+
+# Real-Time Communication Patterns
+
+Advanced Application Experiences (AAE) often require real-time communication capabilities for features like live chat, notifications, collaborative editing, and live updates. This guide establishes the official architectural pattern for integrating Socket.IO into applications built with the Acrobi Design System.
+
+## Overview
+
+The Socket.IO integration pattern provides:
+
+- **Singleton connection management** using React Context
+- **Automatic reconnection** with exponential backoff
+- **Type-safe event handling** with TypeScript support
+- **Performance optimized** with minimal re-renders
+- **Production-ready** error handling and recovery
+
+## Architecture Pattern
+
+### SocketProvider Pattern
+
+The recommended approach uses a `SocketProvider` component that manages a single, persistent Socket.IO connection using React Context. This ensures efficient resource usage and consistent connection state across your application.
+
+```tsx
+import { SocketProvider } from '@acrobi/ui';
+
+function App() {
+  return (
+    <SocketProvider
+      url="ws://localhost:3001"
+      autoConnect={true}
+      reconnectAttempts={5}
+      reconnectDelay={1000}
+      onConnect={(socket) => console.log('Connected:', socket.id)}
+      onDisconnect={(reason) => console.log('Disconnected:', reason)}
+      onError={(error) => console.error('Socket error:', error)}
+    >
+      <MyApplication />
+    </SocketProvider>
+  );
+}
+```
+
+### Core Hooks
+
+The system provides several hooks for different use cases:
+
+#### useSocket - Core Connection
+
+```tsx
+import { useSocket } from '@acrobi/ui';
+
+function ChatComponent() {
+  const { emit, isConnected, connectionId, latency } = useSocket();
+  
+  const sendMessage = (message: string) => {
+    if (isConnected) {
+      emit('message', { text: message, timestamp: Date.now() });
+    }
+  };
+
+  return (
+    <div>
+      <div>Status: {isConnected ? 'Connected' : 'Disconnected'}</div>
+      <div>Connection ID: {connectionId}</div>
+      <div>Latency: {latency}ms</div>
+      <button onClick={() => sendMessage('Hello!')}>
+        Send Message
+      </button>
+    </div>
+  );
+}
+```
+
+#### useSocketEvent - Event Handling
+
+```tsx
+import { useSocketEvent } from '@acrobi/ui';
+
+function MessageListener() {
+  const [messages, setMessages] = useState([]);
+
+  useSocketEvent('message', (data: { text: string; user: string; timestamp: number }) => {
+    setMessages(prev => [...prev, data]);
+  });
+
+  useSocketEvent('user-joined', (data: { user: string }) => {
+    console.log(`${data.user} joined the chat`);
+  });
+
+  return (
+    <div>
+      {messages.map((msg, index) => (
+        <div key={index}>
+          <strong>{msg.user}:</strong> {msg.text}
+        </div>
+      ))}
+    </div>
+  );
+}
+```
+
+#### useSocketStatus - Connection Monitoring
+
+```tsx
+import { useSocketStatus } from '@acrobi/ui';
+
+function ConnectionMonitor() {
+  const { 
+    isConnected, 
+    isConnecting, 
+    hasError, 
+    connectionError, 
+    latency,
+    status 
+  } = useSocketStatus();
+
+  return (
+    <div className={`status-indicator ${status}`}>
+      <div>Status: {status}</div>
+      {hasError && <div>Error: {connectionError}</div>}
+      {isConnected && <div>Latency: {latency}ms</div>}
+    </div>
+  );
+}
+```
+
+## Advanced Usage Patterns
+
+### Room Management
+
+```tsx
+import { useSocketRoom } from '@acrobi/ui';
+
+function ChatRoom({ roomName }: { roomName: string }) {
+  const room = useSocketRoom(roomName, {
+    autoJoin: true,
+    autoLeave: true
+  });
+
+  return (
+    <div>
+      <div>Room: {roomName}</div>
+      <div>In Room: {room.isInRoom ? 'Yes' : 'No'}</div>
+      <div>Members: {room.roomMembers.join(', ')}</div>
+      
+      <button onClick={room.joinRoom} disabled={room.isInRoom}>
+        Join Room
+      </button>
+      <button onClick={room.leaveRoom} disabled={!room.isInRoom}>
+        Leave Room
+      </button>
+    </div>
+  );
+}
+```
+
+### Message History
+
+```tsx
+import { useSocketMessages } from '@acrobi/ui';
+
+function MessageHistory() {
+  const {
+    messages,
+    addMessage,
+    clearMessages,
+    getMessagesByEvent,
+    getUnacknowledgedMessages,
+    markMessageAcknowledged
+  } = useSocketMessages({
+    maxMessages: 100,
+    persistMessages: true,
+    filterEvents: ['message', 'notification']
+  });
+
+  return (
+    <div>
+      <div>Total Messages: {messages.length}</div>
+      <div>Unacknowledged: {getUnacknowledgedMessages().length}</div>
+      
+      <button onClick={clearMessages}>Clear History</button>
+      
+      {messages.map(msg => (
+        <div key={msg.id} className={msg.acknowledged ? 'ack' : 'pending'}>
+          <div>Event: {msg.event}</div>
+          <div>Data: {JSON.stringify(msg.data)}</div>
+          <div>Time: {msg.timestamp.toLocaleTimeString()}</div>
+          {!msg.acknowledged && (
+            <button onClick={() => markMessageAcknowledged(msg.id)}>
+              Mark Read
+            </button>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+}
+```
+
+### Connection Health Monitoring
+
+```tsx
+import { useSocketHealth } from '@acrobi/ui';
+
+function HealthMonitor() {
+  const {
+    isHealthy,
+    lastPing,
+    averageLatency,
+    reconnectCount,
+    uptime
+  } = useSocketHealth();
+
+  return (
+    <div className={`health-indicator ${isHealthy ? 'healthy' : 'unhealthy'}`}>
+      <div>Health: {isHealthy ? '✅ Healthy' : '❌ Unhealthy'}</div>
+      <div>Average Latency: {averageLatency.toFixed(2)}ms</div>
+      <div>Reconnects: {reconnectCount}</div>
+      <div>Uptime: {Math.floor(uptime / 1000)}s</div>
+      <div>Last Ping: {lastPing?.toLocaleTimeString() || 'Never'}</div>
+    </div>
+  );
+}
+```
+
+## Production Configuration
+
+### Environment-based Configuration
+
+```tsx
+const socketConfig = {
+  development: {
+    url: 'ws://localhost:3001',
+    options: {
+      transports: ['websocket', 'polling'],
+      upgrade: true,
+    }
+  },
+  production: {
+    url: 'wss://api.myapp.com',
+    options: {
+      transports: ['websocket'],
+      secure: true,
+      rejectUnauthorized: true,
+    }
+  }
+};
+
+function App() {
+  const env = process.env.NODE_ENV || 'development';
+  const config = socketConfig[env];
+
+  return (
+    <SocketProvider
+      url={config.url}
+      options={config.options}
+      autoConnect={true}
+      reconnectAttempts={5}
+      reconnectDelay={1000}
+    >
+      <MyApplication />
+    </SocketProvider>
+  );
+}
+```
+
+### Authentication Integration
+
+```tsx
+import { useAuth } from './auth-context';
+
+function AuthenticatedSocketProvider({ children }) {
+  const { user, token } = useAuth();
+
+  const socketOptions = {
+    auth: {
+      token: token,
+      userId: user?.id
+    },
+    transports: ['websocket', 'polling']
+  };
+
+  return (
+    <SocketProvider
+      url={process.env.REACT_APP_SOCKET_URL}
+      options={socketOptions}
+      autoConnect={!!token}
+      onConnect={(socket) => {
+        console.log('Authenticated connection:', socket.id);
+      }}
+      onError={(error) => {
+        if (error.message.includes('authentication')) {
+          // Handle auth errors
+          console.error('Authentication failed:', error);
+        }
+      }}
+    >
+      {children}
+    </SocketProvider>
+  );
+}
+```
+
+## Error Handling Patterns
+
+### Graceful Degradation
+
+```tsx
+function ChatComponent() {
+  const { isConnected, emit } = useSocket();
+  const [queuedMessages, setQueuedMessages] = useState([]);
+
+  const sendMessage = (message: string) => {
+    if (isConnected) {
+      emit('message', { text: message, timestamp: Date.now() });
+    } else {
+      // Queue message for when connection is restored
+      setQueuedMessages(prev => [...prev, message]);
+    }
+  };
+
+  // Send queued messages when reconnected
+  useEffect(() => {
+    if (isConnected && queuedMessages.length > 0) {
+      queuedMessages.forEach(message => {
+        emit('message', { text: message, timestamp: Date.now() });
+      });
+      setQueuedMessages([]);
+    }
+  }, [isConnected, queuedMessages, emit]);
+
+  return (
+    <div>
+      {!isConnected && (
+        <div className="offline-indicator">
+          Offline - Messages will be sent when reconnected
+        </div>
+      )}
+      {queuedMessages.length > 0 && (
+        <div className="queued-indicator">
+          {queuedMessages.length} messages queued
+        </div>
+      )}
+      {/* Chat UI */}
+    </div>
+  );
+}
+```
+
+### Retry with Exponential Backoff
+
+```tsx
+import { useSocketEmitWithRetry } from '@acrobi/ui';
+
+function ReliableMessaging() {
+  const emitWithRetry = useSocketEmitWithRetry();
+
+  const sendCriticalMessage = async (data: any) => {
+    const success = await emitWithRetry('critical-message', data, {
+      timeout: 5000,
+      retries: 3,
+      retryDelay: 1000
+    });
+
+    if (!success) {
+      // Handle failure after all retries
+      console.error('Failed to send critical message after retries');
+    }
+  };
+
+  return (
+    <button onClick={() => sendCriticalMessage({ urgent: true })}>
+      Send Critical Message
+    </button>
+  );
+}
+```
+
+## Performance Optimization
+
+### Event Throttling and Debouncing
+
+```tsx
+import { SocketHookUtils } from '@acrobi/ui';
+
+function OptimizedComponent() {
+  const { emit } = useSocket();
+
+  // Throttle rapid events (like mouse movements)
+  const throttledEmit = useMemo(
+    () => SocketHookUtils.createThrottledEmit(emit, 100),
+    [emit]
+  );
+
+  // Debounce user input events
+  const debouncedEmit = useMemo(
+    () => SocketHookUtils.createDebouncedEmit(emit, 300),
+    [emit]
+  );
+
+  const handleMouseMove = (e: MouseEvent) => {
+    throttledEmit('mouse-move', { x: e.clientX, y: e.clientY });
+  };
+
+  const handleTextInput = (text: string) => {
+    debouncedEmit('typing', { text });
+  };
+
+  return (
+    <div
+      onMouseMove={handleMouseMove}
+    >
+      <input onChange={(e) => handleTextInput(e.target.value)} />
+    </div>
+  );
+}
+```
+
+### Memory Management
+
+```tsx
+function MemoryEfficientComponent() {
+  const { on, off } = useSocket();
+  const handlersRef = useRef(new Map());
+
+  useEffect(() => {
+    const messageHandler = (data) => {
+      // Handle message
+    };
+
+    // Track handlers for cleanup
+    handlersRef.current.set('message', messageHandler);
+    on('message', messageHandler);
+
+    return () => {
+      // Clean up all tracked handlers
+      handlersRef.current.forEach((handler, event) => {
+        off(event, handler);
+      });
+      handlersRef.current.clear();
+    };
+  }, [on, off]);
+
+  return <div>Memory-efficient component</div>;
+}
+```
+
+## Testing Patterns
+
+### Mock Socket Provider
+
+```tsx
+// test-utils.tsx
+export const MockSocketProvider = ({ children, mockSocket = {} }) => {
+  const mockContext = {
+    socket: null,
+    isConnected: false,
+    isConnecting: false,
+    connectionError: null,
+    emit: jest.fn(),
+    on: jest.fn(),
+    off: jest.fn(),
+    connect: jest.fn(),
+    disconnect: jest.fn(),
+    reconnect: jest.fn(),
+    connectionId: 'mock-id',
+    latency: 0,
+    lastMessageTime: null,
+    ...mockSocket
+  };
+
+  return (
+    <SocketContext.Provider value={mockContext}>
+      {children}
+    </SocketContext.Provider>
+  );
+};
+
+// Component.test.tsx
+import { render, fireEvent } from '@testing-library/react';
+import { MockSocketProvider } from './test-utils';
+
+test('sends message when connected', () => {
+  const mockEmit = jest.fn();
+  
+  render(
+    <MockSocketProvider mockSocket={{ isConnected: true, emit: mockEmit }}>
+      <ChatComponent />
+    </MockSocketProvider>
+  );
+
+  fireEvent.click(screen.getByText('Send Message'));
+  expect(mockEmit).toHaveBeenCalledWith('message', expect.any(Object));
+});
+```
+
+## Installation and Setup
+
+### Using the CLI
+
+The easiest way to add Socket.IO support to your project is using the Acrobi CLI:
+
+```bash
+# Add Socket.IO provider and hooks to your project
+npx acrobi add socket-provider
+
+# This automatically:
+# - Installs socket.io-client dependency
+# - Copies SocketProvider.tsx to src/providers/
+# - Copies use-socket.ts to src/hooks/
+# - Updates your project configuration
+```
+
+### Manual Installation
+
+If you prefer manual installation:
+
+```bash
+npm install socket.io-client
+```
+
+Then copy the provider and hook files from the design system or create them following the patterns shown in this guide.
+
+## Best Practices
+
+### Connection Management
+
+1. **Use a single Socket.IO connection** per application
+2. **Implement proper cleanup** in useEffect hooks
+3. **Handle reconnection gracefully** with user feedback
+4. **Use authentication tokens** for secure connections
+
+### Event Handling
+
+1. **Namespace your events** to avoid conflicts
+2. **Validate incoming data** before processing
+3. **Use TypeScript interfaces** for event payloads
+4. **Implement error boundaries** for event handlers
+
+### Performance
+
+1. **Throttle high-frequency events** (mouse moves, scrolling)
+2. **Debounce user input events** (typing, form changes)
+3. **Limit message history size** to prevent memory leaks
+4. **Use React.memo** for frequently updated components
+
+### Security
+
+1. **Validate all incoming data** on both client and server
+2. **Use authentication tokens** for sensitive operations
+3. **Implement rate limiting** on the server side
+4. **Sanitize user-generated content** before broadcasting
+
+## Common Patterns
+
+### Real-time Notifications
+
+```tsx
+function NotificationSystem() {
+  const [notifications, setNotifications] = useState([]);
+
+  useSocketEvent('notification', (notification) => {
+    setNotifications(prev => [notification, ...prev.slice(0, 4)]);
+    
+    // Auto-remove after 5 seconds
+    setTimeout(() => {
+      setNotifications(prev => prev.filter(n => n.id !== notification.id));
+    }, 5000);
+  });
+
+  return (
+    <div className="notification-container">
+      {notifications.map(notification => (
+        <div key={notification.id} className="notification">
+          {notification.message}
+        </div>
+      ))}
+    </div>
+  );
+}
+```
+
+### Live Data Updates
+
+```tsx
+function LiveDataDashboard() {
+  const [metrics, setMetrics] = useState({});
+
+  useSocketEvent('metrics-update', (newMetrics) => {
+    setMetrics(prev => ({ ...prev, ...newMetrics }));
+  });
+
+  return (
+    <div className="dashboard">
+      {Object.entries(metrics).map(([key, value]) => (
+        <div key={key} className="metric">
+          <label>{key}</label>
+          <value>{value}</value>
+        </div>
+      ))}
+    </div>
+  );
+}
+```
+
+### Collaborative Features
+
+```tsx
+function CollaborativeEditor() {
+  const [document, setDocument] = useState('');
+  const [cursors, setCursors] = useState({});
+  const { emit } = useSocket();
+
+  useSocketEvent('doc-update', ({ content, userId }) => {
+    if (userId !== myUserId) {
+      setDocument(content);
+    }
+  });
+
+  useSocketEvent('cursor-move', ({ userId, position }) => {
+    setCursors(prev => ({ ...prev, [userId]: position }));
+  });
+
+  const handleTextChange = (newContent) => {
+    setDocument(newContent);
+    emit('doc-update', { content: newContent, userId: myUserId });
+  };
+
+  return (
+    <div className="collaborative-editor">
+      <textarea
+        value={document}
+        onChange={(e) => handleTextChange(e.target.value)}
+      />
+      {Object.entries(cursors).map(([userId, position]) => (
+        <div
+          key={userId}
+          className="cursor"
+          style={{ left: position.x, top: position.y }}
+        />
+      ))}
+    </div>
+  );
+}
+```
+
+## Troubleshooting
+
+### Common Issues
+
+#### Connection Fails
+- Check server URL and port
+- Verify firewall settings
+- Ensure CORS is configured on server
+
+#### Events Not Received
+- Verify event names match server
+- Check if event handlers are properly registered
+- Ensure component is wrapped in SocketProvider
+
+#### Memory Leaks
+- Always clean up event listeners in useEffect
+- Use useSocketEvent hook for automatic cleanup
+- Limit message history and clear old data
+
+#### Performance Issues
+- Implement throttling for high-frequency events
+- Use React.memo for components that update frequently
+- Monitor connection health and latency
+
+This comprehensive guide provides the foundation for implementing robust real-time communication in your AAE applications. The patterns shown here have been tested in production environments and provide excellent developer experience while maintaining performance and reliability.

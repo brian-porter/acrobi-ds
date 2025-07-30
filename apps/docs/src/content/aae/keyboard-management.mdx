@@ -1,0 +1,382 @@
+---
+title: "Keyboard Management"
+description: "Advanced keyboard management for AAE applications with on-screen keyboard detection and layout adaptation"
+---
+
+# Keyboard Management
+
+Advanced Application Experiences (AAE) require sophisticated keyboard management to provide native-like interactions, especially on mobile devices with on-screen keyboards. Our keyboard management system provides robust tools for detecting keyboard presence and adapting layouts accordingly.
+
+## Overview
+
+The keyboard management system includes:
+
+- **On-screen keyboard detection** using the Visual Viewport API
+- **Automatic layout adjustment** with the KeyboardAvoidingView component
+- **Performance optimized** with minimal re-renders
+- **Cross-platform support** with graceful fallbacks
+
+## Core Components
+
+### useKeyboard Hook
+
+The `useKeyboard` hook provides a simple interface for detecting on-screen keyboard presence and height.
+
+```tsx
+import { useKeyboard } from '@acrobi/ui';
+
+function MyForm() {
+  const { isOpen, height, isSupported } = useKeyboard();
+
+  if (!isSupported) {
+    return <div>Keyboard detection not supported</div>;
+  }
+
+  return (
+    <div style={{ paddingBottom: isOpen ? height : 0 }}>
+      <input placeholder="Enter text..." />
+      {isOpen && <p>Keyboard is open! Height: {height}px</p>}
+    </div>
+  );
+}
+```
+
+#### API Reference
+
+```typescript
+interface UseKeyboardReturn {
+  /** Whether the on-screen keyboard is currently open */
+  isOpen: boolean;
+  /** Height of the on-screen keyboard in pixels */
+  height: number;
+  /** Whether the Visual Viewport API is supported */
+  isSupported: boolean;
+  /** Manually trigger a keyboard state check */
+  refresh: () => void;
+  /** Additional viewport information */
+  viewportHeight: number;
+  viewportWidth: number;
+  scale: number;
+}
+
+interface UseKeyboardOptions {
+  /** Threshold for detecting keyboard open state (default: 150px) */
+  keyboardThreshold?: number;
+  /** Whether to enable debug logging */
+  debug?: boolean;
+}
+```
+
+### KeyboardAvoidingView Component
+
+The `KeyboardAvoidingView` component automatically adjusts its layout when the keyboard appears, preventing content from being hidden.
+
+```tsx
+import { KeyboardAvoidingView } from '@acrobi/ui';
+
+function ContactForm() {
+  return (
+    <KeyboardAvoidingView
+      avoidanceType="padding"
+      extraOffset={20}
+      enableTransitions={true}
+    >
+      <form>
+        <input type="text" placeholder="Name" />
+        <input type="email" placeholder="Email" />
+        <textarea placeholder="Message" />
+        <button type="submit">Send</button>
+      </form>
+    </KeyboardAvoidingView>
+  );
+}
+```
+
+#### Props
+
+```typescript
+interface KeyboardAvoidingViewProps {
+  /** Children to render inside the keyboard avoiding view */
+  children?: React.ReactNode;
+  /** Whether to use padding or margin for avoidance (default: 'padding') */
+  avoidanceType?: 'padding' | 'margin';
+  /** Whether to enable smooth transitions (default: true) */
+  enableTransitions?: boolean;
+  /** Transition duration in milliseconds (default: 300) */
+  transitionDuration?: number;
+  /** Additional offset to add to keyboard height (default: 0) */
+  extraOffset?: number;
+  /** Whether to only apply avoidance on mobile devices (default: true) */
+  mobileOnly?: boolean;
+  /** Custom easing function for transitions (default: 'ease-in-out') */
+  transitionEasing?: string;
+  /** Whether to show debug information (default: false) */
+  debug?: boolean;
+  /** Minimum keyboard height to trigger avoidance (default: 50) */
+  minKeyboardHeight?: number;
+}
+```
+
+## Usage Patterns
+
+### Basic Form Protection
+
+```tsx
+import { KeyboardAvoidingView } from '@acrobi/ui';
+
+function LoginForm() {
+  return (
+    <KeyboardAvoidingView>
+      <div className="login-form">
+        <h2>Sign In</h2>
+        <input type="email" placeholder="Email" />
+        <input type="password" placeholder="Password" />
+        <button>Sign In</button>
+      </div>
+    </KeyboardAvoidingView>
+  );
+}
+```
+
+### Custom Layout Adjustments
+
+```tsx
+import { useKeyboard } from '@acrobi/ui';
+
+function CustomLayout() {
+  const keyboard = useKeyboard({ keyboardThreshold: 100 });
+
+  const containerStyle = {
+    transform: keyboard.isOpen 
+      ? `translateY(-${keyboard.height / 2}px)` 
+      : 'none',
+    transition: 'transform 300ms ease-in-out',
+  };
+
+  return (
+    <div style={containerStyle}>
+      <header>My App</header>
+      <main>
+        <input type="search" placeholder="Search..." />
+        <div>Content that should stay visible</div>
+      </main>
+    </div>
+  );
+}
+```
+
+### Higher-Order Component Pattern
+
+```tsx
+import { withKeyboardAvoidance } from '@acrobi/ui';
+
+const MyForm = () => (
+  <form>
+    <input type="text" placeholder="Name" />
+    <input type="email" placeholder="Email" />
+    <button>Submit</button>
+  </form>
+);
+
+// Automatically wrap with keyboard avoidance
+const EnhancedForm = withKeyboardAvoidance(MyForm, {
+  extraOffset: 20,
+  transitionDuration: 500,
+});
+
+function App() {
+  return <EnhancedForm />;
+}
+```
+
+### Hook-Based Styles
+
+```tsx
+import { useKeyboardAvoidanceStyles } from '@acrobi/ui';
+
+function FlexibleComponent() {
+  const avoidanceStyles = useKeyboardAvoidanceStyles({
+    avoidanceType: 'margin',
+    extraOffset: 15,
+    enableTransitions: true,
+  });
+
+  return (
+    <div style={avoidanceStyles}>
+      <input placeholder="This stays visible" />
+    </div>
+  );
+}
+```
+
+## Advanced Features
+
+### Debug Mode
+
+Enable debug mode to see real-time keyboard detection information:
+
+```tsx
+import { KeyboardAvoidingView } from '@acrobi/ui';
+
+function DebugForm() {
+  return (
+    <KeyboardAvoidingView debug={true}>
+      {/* Debug overlay will appear showing keyboard state */}
+      <form>
+        <input type="text" placeholder="Test input" />
+      </form>
+    </KeyboardAvoidingView>
+  );
+}
+```
+
+### Mobile-Only Detection
+
+Restrict keyboard avoidance to mobile devices only:
+
+```tsx
+import { KeyboardAvoidingView } from '@acrobi/ui';
+
+function ResponsiveForm() {
+  return (
+    <KeyboardAvoidingView mobileOnly={true}>
+      {/* Only applies avoidance on mobile devices */}
+      <form>
+        <input type="email" placeholder="Email" />
+      </form>
+    </KeyboardAvoidingView>
+  );
+}
+```
+
+### Custom Thresholds
+
+Adjust the sensitivity of keyboard detection:
+
+```tsx
+import { useKeyboard } from '@acrobi/ui';
+
+function SensitiveDetection() {
+  const keyboard = useKeyboard({ 
+    keyboardThreshold: 50 // More sensitive detection
+  });
+
+  return (
+    <div>
+      {keyboard.isOpen && (
+        <div>Even small keyboard changes detected!</div>
+      )}
+    </div>
+  );
+}
+```
+
+## Browser Support
+
+The keyboard management system is built on the **Visual Viewport API**, which provides the most accurate keyboard detection available:
+
+- **Modern Mobile Browsers**: Full support (iOS Safari 13+, Chrome Mobile 61+)
+- **Desktop Browsers**: Limited support (mainly for virtual keyboards)
+- **Fallback Support**: Graceful degradation using window resize events
+
+### Checking Support
+
+```tsx
+import { isKeyboardDetectionSupported } from '@acrobi/ui';
+
+function App() {
+  if (!isKeyboardDetectionSupported()) {
+    return <div>Keyboard detection not available</div>;
+  }
+
+  return <MyKeyboardAwareApp />;
+}
+```
+
+## Best Practices
+
+### Viewport Meta Tag
+
+For optimal keyboard detection on mobile devices, use this viewport meta tag:
+
+```html
+<meta 
+  name="viewport" 
+  content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+/>
+```
+
+### Performance Considerations
+
+1. **Use KeyboardAvoidingView** for simple cases instead of the hook
+2. **Minimize re-renders** by using the component's built-in optimization
+3. **Test on real devices** as simulators may not accurately represent keyboard behavior
+4. **Consider transition duration** for smooth user experience without lag
+
+### Accessibility
+
+1. **Ensure content remains accessible** when keyboard is open
+2. **Test with screen readers** to verify compatibility
+3. **Provide alternative navigation** for users who can't use on-screen keyboards
+4. **Maintain focus management** when layout changes occur
+
+### Testing
+
+```tsx
+import { render, screen } from '@testing-library/react';
+import { KeyboardAvoidingView } from '@acrobi/ui';
+
+// Mock the Visual Viewport API for testing
+Object.defineProperty(window, 'visualViewport', {
+  value: {
+    height: 500, // Simulate keyboard open
+    width: 375,
+    scale: 1,
+    offsetTop: 0,
+    offsetLeft: 0,
+    addEventListener: jest.fn(),
+    removeEventListener: jest.fn(),
+  },
+});
+
+test('keyboard avoidance works correctly', () => {
+  render(
+    <KeyboardAvoidingView data-testid="avoiding-view">
+      <input placeholder="Test" />
+    </KeyboardAvoidingView>
+  );
+
+  const view = screen.getByTestId('avoiding-view');
+  expect(view).toHaveStyle({ paddingBottom: '300px' });
+});
+```
+
+## Utility Functions
+
+For advanced use cases, utility functions are available:
+
+```tsx
+import { 
+  getKeyboardHeight, 
+  isKeyboardOpen,
+  isKeyboardDetectionSupported 
+} from '@acrobi/ui';
+
+// Check keyboard state outside React components
+if (isKeyboardDetectionSupported()) {
+  const height = getKeyboardHeight();
+  const isOpen = isKeyboardOpen();
+  
+  console.log(`Keyboard: ${isOpen ? 'open' : 'closed'}, Height: ${height}px`);
+}
+```
+
+## Related Components
+
+- **[Forms](/components/forms)** - Form components with built-in keyboard awareness
+- **[Layout](/components/layout)** - Layout components that work with keyboard avoidance
+- **[Navigation](/components/navigation)** - Navigation that adapts to keyboard presence
+
+---
+
+*This keyboard management system ensures your AAE applications provide a native-like experience across all devices and platforms.*

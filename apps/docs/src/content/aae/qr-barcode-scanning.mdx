@@ -1,0 +1,805 @@
+---
+title: "QR & Barcode Scanning"
+description: "Advanced QR and barcode scanning for AAE applications with ZXing integration, permission handling, and native-like scanning experiences"
+---
+
+# QR & Barcode Scanning
+
+Advanced Application Experiences (AAE) require sophisticated scanning capabilities that match the performance and user experience of native mobile applications. Our QR & Barcode scanning system provides professional-grade scanning with ZXing integration, intelligent permission handling, and comprehensive format support.
+
+## Overview
+
+The QR & Barcode scanning system includes:
+
+- **ZXing Integration** for professional-grade barcode detection
+- **Intelligent Permission Handling** with user-friendly permission flows
+- **Real-time Scanning** with optimized performance and battery usage
+- **Multiple Format Support** including QR codes, EAN, Code 128, PDF417, and more
+- **Native-like Experience** with haptic feedback, audio cues, and smooth animations
+
+## Core Components
+
+### Scanner Module
+
+The `Scanner` module provides a complete, production-ready scanning interface with all the features needed for professional applications.
+
+```tsx
+import { Scanner } from '@acrobi/ui';
+import { BarcodeFormat } from '@zxing/library';
+
+function ProductScanner() {
+  const handleScanResult = (result) => {
+    // Process the scanned barcode
+    if (result.formatName === 'EAN-13') {
+      lookupProduct(result.text);
+    }
+  };
+
+  return (
+    <Scanner
+      formats={[BarcodeFormat.EAN_13, BarcodeFormat.UPC_A]}
+      onResult={handleScanResult}
+      continuous={false}
+      enableBeep={true}
+      enableVibration={true}
+      showPermissionRequest={true}
+    />
+  );
+}
+```
+
+#### Key Features
+
+```typescript
+interface ScannerProps {
+  /** Barcode formats to detect */
+  formats?: BarcodeFormat[];
+  /** Result callback with comprehensive data */
+  onResult?: (result: BarcodeResult) => void;
+  /** Error handling callback */
+  onError?: (error: string) => void;
+  /** Continue scanning after detection */
+  continuous?: boolean;
+  /** Enable audio feedback on successful scan */
+  enableBeep?: boolean;
+  /** Enable haptic feedback on successful scan */
+  enableVibration?: boolean;
+  /** Show integrated permission request flow */
+  showPermissionRequest?: boolean;
+  /** Scanner display variant */
+  variant?: 'default' | 'minimal' | 'full' | 'embedded';
+  /** Camera facing mode */
+  facingMode?: 'user' | 'environment';
+}
+```
+
+### useQRScanner Hook
+
+For custom implementations, the `useQRScanner` hook provides direct access to the scanning engine.
+
+```tsx
+import { useQRScanner, BarcodeFormat } from '@acrobi/ui';
+
+function CustomScanner() {
+  const scanner = useQRScanner({
+    formats: [BarcodeFormat.QR_CODE],
+    continuous: true,
+    onResult: (result) => {
+      if (result.text.startsWith('http')) {
+        window.open(result.text, '_blank');
+      }
+    },
+  });
+
+  return (
+    <div className="scanner-container">
+      <video
+        ref={videoRef}
+        autoPlay
+        playsInline
+        muted
+        className="w-full h-64 object-cover rounded-lg"
+      />
+      
+      <div className="controls mt-4">
+        <button
+          onClick={scanner.isScanning ? scanner.stopScanning : scanner.startScanning}
+          className="btn-primary"
+        >
+          {scanner.isScanning ? 'Stop' : 'Start'} Scanning
+        </button>
+      </div>
+
+      {scanner.lastResult && (
+        <div className="result mt-4 p-4 bg-green-50 rounded-lg">
+          <div className="format text-sm text-green-700">
+            {scanner.lastResult.formatName}
+          </div>
+          <div className="content font-mono text-sm">
+            {scanner.lastResult.text}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+```
+
+## Advanced Scanning Patterns
+
+### Permission-First Scanning
+
+Always request permissions gracefully before attempting to scan:
+
+```tsx
+import { Scanner, GrantPermissions } from '@acrobi/ui';
+
+function PermissionAwareScanner() {
+  const [permissionGranted, setPermissionGranted] = useState(false);
+  
+  const cameraPermission = {
+    type: 'camera' as const,
+    name: 'Camera Access',
+    title: 'Camera Permission Required',
+    description: 'Allow camera access to scan QR codes and barcodes',
+    icon: '📷',
+    feature: 'QR & Barcode Scanning',
+    reason: 'We need camera access to scan QR codes and barcodes from your device camera.',
+    benefits: [
+      'Instantly scan QR codes and barcodes',
+      'Support for multiple barcode formats',
+      'Real-time scanning with live preview',
+      'Secure local processing',
+    ],
+    permissions: ['camera'] as const,
+  };
+
+  if (!permissionGranted) {
+    return (
+      <GrantPermissions
+        permission={cameraPermission}
+        onGrant={() => setPermissionGranted(true)}
+        onOpenSettings={() => {
+          alert('Please enable camera access in your browser settings');
+        }}
+      />
+    );
+  }
+
+  return (
+    <Scanner
+      autoStart={true}
+      showPermissionRequest={false} // Already handled above
+    />
+  );
+}
+```
+
+### Format-Specific Scanning
+
+Optimize scanning for specific use cases by limiting formats:
+
+```tsx
+// QR Code only (fastest)
+<Scanner
+  formats={[BarcodeFormat.QR_CODE]}
+  showFormatSelector={false}
+  onResult={(result) => {
+    // Handle QR code data
+    processQRData(result.text);
+  }}
+/>
+
+// Retail barcodes only
+<Scanner
+  formats={[
+    BarcodeFormat.EAN_13,
+    BarcodeFormat.EAN_8,
+    BarcodeFormat.UPC_A,
+    BarcodeFormat.UPC_E,
+  ]}
+  continuous={false} // Single-shot for retail
+  onResult={(result) => {
+    // Lookup product information
+    fetchProductInfo(result.text);
+  }}
+/>
+
+// Document scanning (PDF417, Data Matrix)
+<Scanner
+  formats={[
+    BarcodeFormat.PDF_417,
+    BarcodeFormat.DATA_MATRIX,
+  ]}
+  tryHarder={true} // More thorough scanning
+  onResult={(result) => {
+    // Process document data
+    parseDocumentData(result.text);
+  }}
+/>
+```
+
+### Batch Scanning
+
+For applications that need to scan multiple items:
+
+```tsx
+function BatchScanner() {
+  const [scannedItems, setScannedItems] = useState([]);
+  const [isScanning, setIsScanning] = useState(false);
+
+  const handleScanResult = (result) => {
+    // Add to batch, avoiding duplicates
+    setScannedItems(prev => {
+      const isDuplicate = prev.some(item => 
+        item.text === result.text && item.format === result.format
+      );
+      
+      if (!isDuplicate) {
+        return [...prev, { ...result, id: Date.now() }];
+      }
+      return prev;
+    });
+  };
+
+  return (
+    <div className="batch-scanner">
+      <Scanner
+        continuous={true}
+        onResult={handleScanResult}
+        enableBeep={true}
+        enableVibration={true}
+        showHistory={false} // We'll manage our own list
+      />
+      
+      <div className="batch-results mt-6">
+        <h3 className="text-lg font-medium mb-3">
+          Scanned Items ({scannedItems.length})
+        </h3>
+        
+        <div className="space-y-2 max-h-48 overflow-y-auto">
+          {scannedItems.map((item) => (
+            <div
+              key={item.id}
+              className="flex justify-between items-center p-3 bg-gray-50 rounded-lg"
+            >
+              <div>
+                <div className="font-mono text-sm">{item.text}</div>
+                <div className="text-xs text-gray-500">{item.formatName}</div>
+              </div>
+              <button
+                onClick={() => setScannedItems(prev => 
+                  prev.filter(i => i.id !== item.id)
+                )}
+                className="text-red-600 hover:text-red-800"
+              >
+                Remove
+              </button>
+            </div>
+          ))}
+        </div>
+        
+        {scannedItems.length > 0 && (
+          <div className="mt-4 space-x-2">
+            <button
+              onClick={() => processBatch(scannedItems)}
+              className="btn-primary"
+            >
+              Process Batch ({scannedItems.length})
+            </button>
+            <button
+              onClick={() => setScannedItems([])}
+              className="btn-secondary"
+            >
+              Clear All
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+```
+
+## Mobile-Optimized Scanning
+
+### Responsive Scanner
+
+Adapt the scanner interface for different screen sizes:
+
+```tsx
+function ResponsiveScanner() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  if (isMobile) {
+    return (
+      <Scanner
+        variant="minimal"
+        width={320}
+        height={240}
+        showHistory={false}
+        showFormatSelector={false}
+        enableBeep={true}
+        enableVibration={true}
+        facingMode="environment" // Back camera for mobile
+      />
+    );
+  }
+
+  return (
+    <Scanner
+      variant="full"
+      width={640}
+      height={480}
+      showHistory={true}
+      showFormatSelector={true}
+      facingMode="environment"
+    />
+  );
+}
+```
+
+### Touch-Optimized Controls
+
+```tsx
+function TouchOptimizedScanner() {
+  return (
+    <Scanner
+      variant="embedded"
+      overlay={
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+          {/* Scanning frame */}
+          <div className="w-64 h-64 border-2 border-white border-dashed rounded-lg">
+            <div className="absolute -top-8 left-1/2 transform -translate-x-1/2">
+              <div className="bg-black/50 text-white text-sm px-3 py-1 rounded">
+                Align code here
+              </div>
+            </div>
+          </div>
+          
+          {/* Corner markers */}
+          <div className="absolute top-16 left-16 w-6 h-6 border-l-4 border-t-4 border-white" />
+          <div className="absolute top-16 right-16 w-6 h-6 border-r-4 border-t-4 border-white" />
+          <div className="absolute bottom-16 left-16 w-6 h-6 border-l-4 border-b-4 border-white" />
+          <div className="absolute bottom-16 right-16 w-6 h-6 border-r-4 border-b-4 border-white" />
+        </div>
+      }
+    />
+  );
+}
+```
+
+## Performance Optimization
+
+### Smart Scanning Intervals
+
+Adjust scanning frequency based on use case:
+
+```tsx
+// High-speed scanning for rapid inventory
+const rapidScanner = useQRScanner({
+  scanInterval: 100, // 10 FPS
+  continuous: true,
+  formats: [BarcodeFormat.CODE_128], // Single format for speed
+});
+
+// Battery-efficient scanning for occasional use
+const efficientScanner = useQRScanner({
+  scanInterval: 500, // 2 FPS
+  continuous: false,
+  tryHarder: false, // Faster processing
+});
+
+// Precision scanning for difficult codes
+const precisionScanner = useQRScanner({
+  scanInterval: 200, // 5 FPS
+  tryHarder: true,
+  formats: [BarcodeFormat.PDF_417, BarcodeFormat.DATA_MATRIX],
+});
+```
+
+### Format-Based Optimization
+
+```tsx
+function OptimizedScanner({ scanType }) {
+  const getOptimizedConfig = (type) => {
+    switch (type) {
+      case 'qr':
+        return {
+          formats: [BarcodeFormat.QR_CODE],
+          scanInterval: 150,
+          tryHarder: false,
+        };
+      
+      case 'retail':
+        return {
+          formats: [BarcodeFormat.EAN_13, BarcodeFormat.UPC_A],
+          scanInterval: 200,
+          tryHarder: false,
+        };
+      
+      case 'document':
+        return {
+          formats: [BarcodeFormat.PDF_417, BarcodeFormat.DATA_MATRIX],
+          scanInterval: 300,
+          tryHarder: true,
+        };
+      
+      default:
+        return {
+          formats: [BarcodeFormat.QR_CODE, BarcodeFormat.EAN_13],
+          scanInterval: 250,
+          tryHarder: false,
+        };
+    }
+  };
+
+  const config = getOptimizedConfig(scanType);
+  
+  return <Scanner {...config} />;
+}
+```
+
+## Advanced Features
+
+### Result Validation
+
+```tsx
+function ValidatingScanner() {
+  const validateResult = (result) => {
+    switch (result.format) {
+      case BarcodeFormat.EAN_13:
+        // Validate EAN-13 checksum
+        return validateEAN13(result.text);
+      
+      case BarcodeFormat.QR_CODE:
+        // Validate URL format for QR codes
+        try {
+          new URL(result.text);
+          return true;
+        } catch {
+          return result.text.length > 0;
+        }
+      
+      default:
+        return result.text.length > 0;
+    }
+  };
+
+  const handleResult = (result) => {
+    if (validateResult(result)) {
+      processValidResult(result);
+    } else {
+      showError('Invalid barcode format');
+    }
+  };
+
+  return (
+    <Scanner
+      onResult={handleResult}
+      onError={(error) => {
+        console.error('Scanner error:', error);
+        showError('Scanning failed. Please try again.');
+      }}
+    />
+  );
+}
+```
+
+### Context-Aware Scanning
+
+```tsx
+function ContextAwareScanner({ context }) {
+  const getContextualFormats = (ctx) => {
+    switch (ctx) {
+      case 'inventory':
+        return [BarcodeFormat.CODE_128, BarcodeFormat.CODE_39];
+      case 'retail':
+        return [BarcodeFormat.EAN_13, BarcodeFormat.UPC_A];
+      case 'documents':
+        return [BarcodeFormat.PDF_417, BarcodeFormat.DATA_MATRIX];
+      case 'marketing':
+        return [BarcodeFormat.QR_CODE];
+      default:
+        return [BarcodeFormat.QR_CODE, BarcodeFormat.EAN_13];
+    }
+  };
+
+  const getContextualUI = (ctx) => {
+    switch (ctx) {
+      case 'inventory':
+        return { variant: 'minimal', continuous: true, enableBeep: true };
+      case 'retail':
+        return { variant: 'default', continuous: false, enableBeep: true };
+      case 'documents':
+        return { variant: 'full', continuous: false, tryHarder: true };
+      default:
+        return { variant: 'default', continuous: true };
+    }
+  };
+
+  const formats = getContextualFormats(context);
+  const uiConfig = getContextualUI(context);
+
+  return (
+    <Scanner
+      formats={formats}
+      {...uiConfig}
+      onResult={(result) => {
+        // Context-specific result processing
+        processResultForContext(result, context);
+      }}
+    />
+  );
+}
+```
+
+## Integration Patterns
+
+### Form Integration
+
+```tsx
+function FormWithScanner() {
+  const [barcodeValue, setBarcodeValue] = useState('');
+  const [showScanner, setShowScanner] = useState(false);
+
+  const handleScanResult = (result) => {
+    setBarcodeValue(result.text);
+    setShowScanner(false);
+  };
+
+  return (
+    <form className="space-y-4">
+      <div className="field">
+        <label className="block text-sm font-medium mb-1">
+          Product Barcode
+        </label>
+        <div className="flex space-x-2">
+          <input
+            type="text"
+            value={barcodeValue}
+            onChange={(e) => setBarcodeValue(e.target.value)}
+            placeholder="Enter or scan barcode"
+            className="flex-1 px-3 py-2 border rounded-lg"
+          />
+          <button
+            type="button"
+            onClick={() => setShowScanner(!showScanner)}
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+          >
+            📷 Scan
+          </button>
+        </div>
+      </div>
+
+      {showScanner && (
+        <div className="border rounded-lg p-4 bg-gray-50">
+          <Scanner
+            width={300}
+            height={200}
+            continuous={false}
+            onResult={handleScanResult}
+            formats={[BarcodeFormat.EAN_13, BarcodeFormat.UPC_A]}
+          />
+        </div>
+      )}
+
+      <button type="submit" className="w-full btn-primary">
+        Submit Product
+      </button>
+    </form>
+  );
+}
+```
+
+### Workflow Integration
+
+```tsx
+function WorkflowScanner() {
+  const [currentStep, setCurrentStep] = useState('scan');
+  const [scannedData, setScannedData] = useState(null);
+  const [processedData, setProcessedData] = useState(null);
+
+  const handleScanComplete = async (result) => {
+    setScannedData(result);
+    setCurrentStep('processing');
+    
+    try {
+      const processed = await processBarcode(result.text);
+      setProcessedData(processed);
+      setCurrentStep('complete');
+    } catch (error) {
+      setCurrentStep('error');
+    }
+  };
+
+  const resetWorkflow = () => {
+    setCurrentStep('scan');
+    setScannedData(null);
+    setProcessedData(null);
+  };
+
+  return (
+    <div className="workflow-scanner">
+      {currentStep === 'scan' && (
+        <div>
+          <h2 className="text-xl font-bold mb-4">Scan Product</h2>
+          <Scanner
+            onResult={handleScanComplete}
+            formats={[BarcodeFormat.EAN_13]}
+            continuous={false}
+          />
+        </div>
+      )}
+
+      {currentStep === 'processing' && (
+        <div className="text-center py-8">
+          <div className="animate-spin w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full mx-auto mb-4" />
+          <p>Processing barcode...</p>
+        </div>
+      )}
+
+      {currentStep === 'complete' && (
+        <div>
+          <h2 className="text-xl font-bold mb-4">Product Found</h2>
+          <div className="bg-green-50 p-4 rounded-lg mb-4">
+            <h3 className="font-medium">{processedData?.name}</h3>
+            <p className="text-sm text-gray-600">{processedData?.description}</p>
+            <p className="text-lg font-bold text-green-600 mt-2">
+              ${processedData?.price}
+            </p>
+          </div>
+          <button onClick={resetWorkflow} className="btn-primary">
+            Scan Another Product
+          </button>
+        </div>
+      )}
+
+      {currentStep === 'error' && (
+        <div>
+          <h2 className="text-xl font-bold mb-4 text-red-600">Error</h2>
+          <p className="text-red-600 mb-4">
+            Could not process the scanned barcode. Please try again.
+          </p>
+          <button onClick={resetWorkflow} className="btn-primary">
+            Try Again
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+```
+
+## Testing & Debugging
+
+### Debug Mode
+
+Enable debug mode to see detailed scanning information:
+
+```tsx
+<Scanner
+  debug={true} // Shows real-time debug overlay
+  onResult={(result) => {
+    console.log('Scan result:', {
+      text: result.text,
+      format: result.formatName,
+      timestamp: result.timestamp,
+      boundingBox: result.boundingBox,
+      metadata: result.metadata,
+    });
+  }}
+  onError={(error) => {
+    console.error('Scanner error:', error);
+  }}
+/>
+```
+
+### Test Patterns
+
+For development and testing, create test QR codes and barcodes:
+
+```tsx
+function TestPatterns() {
+  const generateTestQR = (text) => {
+    // In a real app, use a QR code generation library
+    return `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(text)}`;
+  };
+
+  return (
+    <div className="test-patterns">
+      <h3>Test Scanning Patterns</h3>
+      
+      <div className="grid grid-cols-2 gap-4">
+        <div className="text-center">
+          <h4>URL QR Code</h4>
+          <img src={generateTestQR('https://example.com')} alt="Test QR" />
+        </div>
+        
+        <div className="text-center">
+          <h4>Text QR Code</h4>
+          <img src={generateTestQR('Hello AAE!')} alt="Test QR" />
+        </div>
+        
+        <div className="text-center">
+          <h4>EAN-13 Barcode</h4>
+          <div className="font-mono text-sm">1234567890123</div>
+        </div>
+        
+        <div className="text-center">
+          <h4>Code 128</h4>
+          <div className="font-mono text-sm">ABC123DEF456</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+```
+
+## Browser Support & Requirements
+
+The QR & Barcode scanning system requires:
+
+- **HTTPS**: Camera access requires secure context
+- **Modern Browsers**: Chrome 61+, Firefox 55+, Safari 14.3+, Edge 79+
+- **Camera Permission**: Users must grant camera access
+- **Hardware**: Device with camera (front or rear)
+
+### Feature Detection
+
+```tsx
+import { isQRScanningSupported } from '@acrobi/ui';
+
+function App() {
+  if (!isQRScanningSupported()) {
+    return (
+      <div className="not-supported">
+        <h2>Scanning Not Available</h2>
+        <p>
+          Your browser or device doesn't support barcode scanning.
+          Please use a modern browser with camera access.
+        </p>
+      </div>
+    );
+  }
+
+  return <MyAAEApp />;
+}
+```
+
+## Security Considerations
+
+- **Local Processing**: All scanning happens locally on the device
+- **No Data Transmission**: Scanned data never leaves your application
+- **Permission Respect**: Camera access is requested with clear user consent
+- **Secure Context**: HTTPS requirement ensures encrypted communication
+
+## Best Practices
+
+1. **Request Permissions Gracefully**: Use the GrantPermissions component
+2. **Provide Context**: Tell users why camera access is needed
+3. **Optimize for Use Case**: Choose appropriate formats and settings
+4. **Handle Errors**: Provide clear error messages and recovery options
+5. **Test on Real Devices**: Simulators don't accurately represent camera behavior
+6. **Consider Battery Usage**: Adjust scan intervals based on user needs
+7. **Provide Alternatives**: Always allow manual input as a fallback
+
+## Related Components
+
+- **[Camera Management](/components/camera)** - Camera access and stream management
+- **[Permissions](/components/permissions)** - User permission handling
+- **[Forms](/components/forms)** - Form integration patterns
+
+---
+
+*This QR & Barcode scanning system provides the foundation for creating native-quality scanning experiences in your AAE applications.*

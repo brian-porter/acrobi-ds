@@ -1,0 +1,1049 @@
+---
+title: "File System Interaction"
+description: "Comprehensive toolkit for handling user-initiated file interactions in AAE applications with robust file reading and saving capabilities"
+---
+
+# File System Interaction
+
+Advanced Application Experiences (AAE) require sophisticated file system interaction capabilities to provide native-like file handling experiences. Our file system toolkit provides simple, hook-based methods for reading local files and utility functions for saving generated files, abstracting the complexity of the underlying Web APIs.
+
+## Overview
+
+The file system interaction toolkit includes:
+
+- **useFilePicker Hook** - Complete file selection and reading capabilities
+- **File Saver Utilities** - Simple file download and saving functions
+- **Drag & Drop Support** - Native drag and drop file handling
+- **Type Safety** - Full TypeScript support with comprehensive interfaces
+- **Error Handling** - Robust error management and validation
+
+## File Reading with useFilePicker
+
+### Basic Usage
+
+The `useFilePicker` hook provides a comprehensive interface for file selection and reading:
+
+```tsx
+import { useFilePicker } from '@acrobi/ui';
+
+function FileUploader() {
+  const filePicker = useFilePicker({
+    accept: 'image/*,.pdf,.txt',
+    multiple: true,
+    readAs: 'dataURL',
+    maxSize: 5 * 1024 * 1024, // 5MB
+    onFileRead: (result) => {
+      console.log('File read:', result.name, result.size);
+    },
+    onError: (error) => {
+      console.error('File error:', error.message);
+    }
+  });
+
+  return (
+    <div>
+      <button onClick={filePicker.openFilePicker}>
+        Select Files
+      </button>
+      
+      {filePicker.state.isLoading && (
+        <div>Reading files...</div>
+      )}
+      
+      {filePicker.state.results.map((result, index) => (
+        <div key={index}>
+          <h3>{result.name}</h3>
+          <p>Size: {filePicker.formatFileSize(result.size)}</p>
+          <p>Type: {result.type}</p>
+          {result.content && (
+            <div>Content loaded successfully</div>
+          )}
+        </div>
+      ))}
+      
+      {filePicker.state.error && (
+        <div className="error">
+          Error: {filePicker.state.error.message}
+        </div>
+      )}
+    </div>
+  );
+}
+```
+
+### Advanced File Reading Options
+
+The hook supports multiple read formats and validation:
+
+```tsx
+function AdvancedFileReader() {
+  const textFiles = useFilePicker({
+    accept: '.txt,.md,.json',
+    readAs: 'text',
+    encoding: 'UTF-8',
+    onFileRead: (result) => {
+      // result.content is a string
+      console.log('Text content:', result.content);
+    }
+  });
+
+  const imageFiles = useFilePicker({
+    accept: 'image/*',
+    readAs: 'dataURL',
+    onFileRead: (result) => {
+      // result.content is a data URL string
+      const img = document.createElement('img');
+      img.src = result.content as string;
+    }
+  });
+
+  const binaryFiles = useFilePicker({
+    accept: '.bin,.exe',
+    readAs: 'arrayBuffer',
+    onFileRead: (result) => {
+      // result.content is an ArrayBuffer
+      const buffer = result.content as ArrayBuffer;
+      const view = new Uint8Array(buffer);
+      console.log('Binary data:', view);
+    }
+  });
+
+  return (
+    <div>
+      <button onClick={textFiles.openFilePicker}>
+        Read Text Files
+      </button>
+      <button onClick={imageFiles.openFilePicker}>
+        Read Images
+      </button>
+      <button onClick={binaryFiles.openFilePicker}>
+        Read Binary Files
+      </button>
+    </div>
+  );
+}
+```
+
+### Drag & Drop Support
+
+The hook provides built-in drag and drop capabilities:
+
+```tsx
+function DragDropUploader() {
+  const filePicker = useFilePicker({
+    accept: '*/*',
+    multiple: true,
+    onFilesSelected: (files) => {
+      console.log(`${files.length} files dropped`);
+    }
+  });
+
+  return (
+    <div
+      {...filePicker.dragProps}
+      className={`drop-zone ${filePicker.isDragging ? 'dragging' : ''}`}
+      style={{
+        border: '2px dashed #ccc',
+        padding: '40px',
+        textAlign: 'center',
+        backgroundColor: filePicker.isDragging ? '#f0f8ff' : 'transparent'
+      }}
+    >
+      {filePicker.isDragging ? (
+        <div>Drop files here!</div>
+      ) : (
+        <div>
+          <p>Drag & drop files here or</p>
+          <button onClick={filePicker.openFilePicker}>
+            Browse Files
+          </button>
+        </div>
+      )}
+      
+      {filePicker.state.selectedFiles.length > 0 && (
+        <div>
+          <h3>Selected Files:</h3>
+          {filePicker.state.selectedFiles.map((file, index) => (
+            <div key={index}>
+              {filePicker.FilePickerUtils.getFileIcon(file)} {file.name}
+              ({filePicker.formatFileSize(file.size)})
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+```
+
+### File Validation
+
+The hook includes comprehensive file validation:
+
+```tsx
+function ValidatedFileUploader() {
+  const filePicker = useFilePicker({
+    accept: 'image/jpeg,image/png',
+    maxSize: 2 * 1024 * 1024, // 2MB
+    multiple: false,
+    onError: (error) => {
+      switch (error.type) {
+        case 'size':
+          alert(`File too large: ${error.message}`);
+          break;
+        case 'type':
+          alert(`Invalid file type: ${error.message}`);
+          break;
+        case 'read':
+          alert(`Failed to read file: ${error.message}`);
+          break;
+        default:
+          alert(`Error: ${error.message}`);
+      }
+    }
+  });
+
+  // Manual validation
+  const validateCustomFile = (file: File) => {
+    const error = filePicker.validateFile(file);
+    if (error) {
+      console.log('Validation failed:', error.message);
+      return false;
+    }
+    return true;
+  };
+
+  return (
+    <div>
+      <button onClick={filePicker.openFilePicker}>
+        Select Image (JPEG/PNG, max 2MB)
+      </button>
+      
+      {filePicker.state.results.map((result, index) => (
+        <div key={index}>
+          <img 
+            src={result.content as string} 
+            alt={result.name}
+            style={{ maxWidth: '300px', maxHeight: '200px' }}
+          />
+        </div>
+      ))}
+    </div>
+  );
+}
+```
+
+## File Saving with FileSaver Utilities
+
+### Basic File Saving
+
+The file saver utilities provide simple functions for downloading files:
+
+```tsx
+import { FileSaverUtils } from '@acrobi/ui';
+
+function FileSaverDemo() {
+  const saveTextFile = () => {
+    const content = 'Hello, World!\nThis is a sample text file.';
+    FileSaverUtils.saveTextFile('sample.txt', content, {
+      onSave: (filename) => {
+        console.log(`File saved: ${filename}`);
+      },
+      onError: (error) => {
+        console.error('Save failed:', error);
+      }
+    });
+  };
+
+  const saveJsonFile = () => {
+    const data = {
+      name: 'John Doe',
+      age: 30,
+      hobbies: ['reading', 'coding', 'gaming']
+    };
+    FileSaverUtils.saveJsonFile('user-data.json', data);
+  };
+
+  const saveCsvFile = () => {
+    const data = [
+      ['Name', 'Age', 'City'],
+      ['John Doe', '30', 'New York'],
+      ['Jane Smith', '25', 'Los Angeles'],
+      ['Bob Johnson', '35', 'Chicago']
+    ];
+    FileSaverUtils.saveCsvFile('users.csv', data);
+  };
+
+  return (
+    <div>
+      <button onClick={saveTextFile}>Save Text File</button>
+      <button onClick={saveJsonFile}>Save JSON File</button>
+      <button onClick={saveCsvFile}>Save CSV File</button>
+    </div>
+  );
+}
+```
+
+### Advanced File Saving
+
+```tsx
+function AdvancedFileSaver() {
+  const saveCustomFile = () => {
+    const content = new Uint8Array([72, 101, 108, 108, 111]); // "Hello"
+    FileSaverUtils.saveFile('custom.bin', content, {
+      type: 'application/octet-stream',
+      autoRevoke: true,
+      onSave: (filename) => {
+        console.log(`Binary file saved: ${filename}`);
+      }
+    });
+  };
+
+  const saveCanvasImage = () => {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = 200;
+    canvas.height = 100;
+    
+    // Draw something on canvas
+    ctx.fillStyle = '#ff0000';
+    ctx.fillRect(0, 0, 200, 100);
+    ctx.fillStyle = '#ffffff';
+    ctx.font = '20px Arial';
+    ctx.fillText('Hello Canvas!', 30, 50);
+    
+    FileSaverUtils.saveCanvasAsImage(canvas, 'canvas-image.png', 'png', 0.9);
+  };
+
+  const saveWithTimestamp = () => {
+    const filename = FileSaverUtils.generateTimestampedFilename(
+      'report', 
+      'txt'
+    );
+    FileSaverUtils.saveTextFile(filename, 'Report content...');
+  };
+
+  return (
+    <div>
+      <button onClick={saveCustomFile}>Save Binary File</button>
+      <button onClick={saveCanvasImage}>Save Canvas as Image</button>
+      <button onClick={saveWithTimestamp}>Save with Timestamp</button>
+    </div>
+  );
+}
+```
+
+### Bulk File Operations
+
+For managing multiple file operations, use the FileSaver class:
+
+```tsx
+import { FileSaver } from '@acrobi/ui';
+
+function BulkFileSaver() {
+  const fileSaver = new FileSaver({
+    autoRevoke: true,
+    onSave: (filename) => {
+      console.log(`Saved: ${filename}`);
+    },
+    onError: (error) => {
+      console.error('Save error:', error);
+    }
+  });
+
+  const saveMultipleFiles = async () => {
+    const files = [
+      {
+        filename: 'file1.txt',
+        content: 'Content of file 1'
+      },
+      {
+        filename: 'file2.json',
+        content: JSON.stringify({ data: 'file 2' }, null, 2)
+      },
+      {
+        filename: 'file3.csv',
+        content: 'Name,Value\n"Item 1","100"\n"Item 2","200"'
+      }
+    ];
+
+    const results = await fileSaver.saveMultiple(files, 500); // 500ms delay
+    console.log('Save results:', results);
+    
+    // View download history
+    const history = fileSaver.getDownloadHistory();
+    console.log('Download history:', history);
+    
+    // Get total download size
+    const totalSize = fileSaver.getTotalDownloadSize();
+    console.log(`Total downloaded: ${totalSize} bytes`);
+  };
+
+  return (
+    <div>
+      <button onClick={saveMultipleFiles}>
+        Save Multiple Files
+      </button>
+    </div>
+  );
+}
+```
+
+## File Type Detection and Utilities
+
+The system includes comprehensive file type detection and utility functions:
+
+```tsx
+import { FilePickerUtils } from '@acrobi/ui';
+
+function FileUtilitiesDemo() {
+  const handleFileAnalysis = (file: File) => {
+    // File type detection
+    const isImage = FilePickerUtils.isImageFile(file);
+    const isText = FilePickerUtils.isTextFile(file);
+    const isTextReadable = FilePickerUtils.isTextReadable(file);
+    
+    // File info
+    const extension = FilePickerUtils.getFileExtension(file.name);
+    const icon = FilePickerUtils.getFileIcon(file);
+    const formattedSize = FilePickerUtils.formatFileSize(file.size);
+    
+    console.log({
+      name: file.name,
+      extension,
+      icon,
+      size: formattedSize,
+      isImage,
+      isText,
+      isTextReadable
+    });
+  };
+
+  const convertFileFormats = async (file: File) => {
+    try {
+      // Convert to different formats
+      const dataURL = await FilePickerUtils.fileToDataURL(file);
+      const text = await FilePickerUtils.fileToText(file);
+      const arrayBuffer = await FilePickerUtils.fileToArrayBuffer(file);
+      
+      console.log('Converted formats:', {
+        dataURL: dataURL.slice(0, 100) + '...',
+        text: text.slice(0, 100) + '...',
+        arrayBuffer: arrayBuffer.byteLength + ' bytes'
+      });
+    } catch (error) {
+      console.error('Conversion failed:', error);
+    }
+  };
+
+  const createFiles = () => {
+    // Create files programmatically
+    const textFile = FilePickerUtils.createTextFile(
+      'Hello, World!',
+      'created.txt',
+      'text/plain'
+    );
+    
+    const blob = new Blob(['Binary data'], { type: 'application/octet-stream' });
+    const binaryFile = FilePickerUtils.createFileFromBlob(blob, 'created.bin');
+    
+    console.log('Created files:', { textFile, binaryFile });
+  };
+
+  return (
+    <div>
+      <h3>File Utilities Demo</h3>
+      {/* File analysis would be triggered by file selection */}
+    </div>
+  );
+}
+```
+
+## App-Specific Storage
+
+### localStorage Integration
+
+For simple data persistence, use localStorage with proper error handling:
+
+```tsx
+function LocalStorageDemo() {
+  const saveToLocalStorage = (key: string, data: any) => {
+    try {
+      const serialized = JSON.stringify(data);
+      localStorage.setItem(key, serialized);
+      console.log(`Data saved to localStorage: ${key}`);
+    } catch (error) {
+      console.error('Failed to save to localStorage:', error);
+      // Handle quota exceeded or other errors
+    }
+  };
+
+  const loadFromLocalStorage = (key: string) => {
+    try {
+      const item = localStorage.getItem(key);
+      if (item === null) return null;
+      return JSON.parse(item);
+    } catch (error) {
+      console.error('Failed to load from localStorage:', error);
+      return null;
+    }
+  };
+
+  const saveUserData = () => {
+    const userData = {
+      name: 'John Doe',
+      preferences: { theme: 'dark', language: 'en' },
+      timestamp: Date.now()
+    };
+    saveToLocalStorage('user-data', userData);
+  };
+
+  const loadUserData = () => {
+    const data = loadFromLocalStorage('user-data');
+    console.log('Loaded user data:', data);
+  };
+
+  return (
+    <div>
+      <button onClick={saveUserData}>Save User Data</button>
+      <button onClick={loadUserData}>Load User Data</button>
+    </div>
+  );
+}
+```
+
+### IndexedDB Integration
+
+For more complex data storage, IndexedDB provides a robust solution:
+
+```tsx
+// IndexedDB wrapper utility
+class IndexedDBStorage {
+  private dbName: string;
+  private version: number;
+  private db: IDBDatabase | null = null;
+
+  constructor(dbName = 'AAE_Storage', version = 1) {
+    this.dbName = dbName;
+    this.version = version;
+  }
+
+  async init(stores: string[] = ['files']): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const request = indexedDB.open(this.dbName, this.version);
+
+      request.onerror = () => reject(request.error);
+      request.onsuccess = () => {
+        this.db = request.result;
+        resolve();
+      };
+
+      request.onupgradeneeded = (event) => {
+        const db = (event.target as IDBOpenDBRequest).result;
+        stores.forEach(storeName => {
+          if (!db.objectStoreNames.contains(storeName)) {
+            db.createObjectStore(storeName, { keyPath: 'id' });
+          }
+        });
+      };
+    });
+  }
+
+  async store(storeName: string, data: any): Promise<void> {
+    if (!this.db) throw new Error('Database not initialized');
+    
+    return new Promise((resolve, reject) => {
+      const transaction = this.db!.transaction([storeName], 'readwrite');
+      const store = transaction.objectStore(storeName);
+      const request = store.put(data);
+
+      request.onerror = () => reject(request.error);
+      request.onsuccess = () => resolve();
+    });
+  }
+
+  async retrieve(storeName: string, id: string): Promise<any> {
+    if (!this.db) throw new Error('Database not initialized');
+    
+    return new Promise((resolve, reject) => {
+      const transaction = this.db!.transaction([storeName], 'readonly');
+      const store = transaction.objectStore(storeName);
+      const request = store.get(id);
+
+      request.onerror = () => reject(request.error);
+      request.onsuccess = () => resolve(request.result);
+    });
+  }
+}
+
+function IndexedDBDemo() {
+  const [storage] = useState(() => new IndexedDBStorage());
+  const [isInitialized, setIsInitialized] = useState(false);
+
+  useEffect(() => {
+    storage.init(['files', 'user-data']).then(() => {
+      setIsInitialized(true);
+    }).catch(console.error);
+  }, [storage]);
+
+  const saveFileData = async () => {
+    if (!isInitialized) return;
+    
+    try {
+      await storage.store('files', {
+        id: 'file-001',
+        name: 'document.txt',
+        content: 'File content...',
+        timestamp: Date.now()
+      });
+      console.log('File data saved to IndexedDB');
+    } catch (error) {
+      console.error('Failed to save file data:', error);
+    }
+  };
+
+  const loadFileData = async () => {
+    if (!isInitialized) return;
+    
+    try {
+      const data = await storage.retrieve('files', 'file-001');
+      console.log('File data loaded:', data);
+    } catch (error) {
+      console.error('Failed to load file data:', error);
+    }
+  };
+
+  return (
+    <div>
+      <h3>IndexedDB Demo</h3>
+      <button onClick={saveFileData} disabled={!isInitialized}>
+        Save File Data
+      </button>
+      <button onClick={loadFileData} disabled={!isInitialized}>
+        Load File Data
+      </button>
+      {!isInitialized && <div>Initializing database...</div>}
+    </div>
+  );
+}
+```
+
+## Experimental: File System Access API
+
+⚠️ **Experimental Feature**: The File System Access API is currently experimental and not recommended for production use across all browsers. It's only supported in Chromium-based browsers and requires HTTPS.
+
+The File System Access API provides more powerful file system integration for supported browsers:
+
+```tsx
+// File System Access API utilities (experimental)
+class FileSystemAccess {
+  static isSupported(): boolean {
+    return (
+      typeof window !== 'undefined' &&
+      'showOpenFilePicker' in window &&
+      'showSaveFilePicker' in window &&
+      'showDirectoryPicker' in window
+    );
+  }
+
+  static async openFile(options?: {
+    types?: Array<{
+      description: string;
+      accept: Record<string, string[]>;
+    }>;
+    multiple?: boolean;
+  }): Promise<FileSystemFileHandle[]> {
+    if (!this.isSupported()) {
+      throw new Error('File System Access API not supported');
+    }
+
+    return (window as any).showOpenFilePicker({
+      multiple: options?.multiple || false,
+      types: options?.types || []
+    });
+  }
+
+  static async saveFile(
+    content: string | ArrayBuffer | Blob,
+    suggestedName?: string,
+    types?: Array<{
+      description: string;
+      accept: Record<string, string[]>;
+    }>
+  ): Promise<void> {
+    if (!this.isSupported()) {
+      throw new Error('File System Access API not supported');
+    }
+
+    const fileHandle = await (window as any).showSaveFilePicker({
+      suggestedName,
+      types: types || []
+    });
+
+    const writable = await fileHandle.createWritable();
+    await writable.write(content);
+    await writable.close();
+  }
+
+  static async openDirectory(): Promise<FileSystemDirectoryHandle> {
+    if (!this.isSupported()) {
+      throw new Error('File System Access API not supported');
+    }
+
+    return (window as any).showDirectoryPicker();
+  }
+}
+
+function FileSystemAccessDemo() {
+  const [isSupported, setIsSupported] = useState(false);
+
+  useEffect(() => {
+    setIsSupported(FileSystemAccess.isSupported());
+  }, []);
+
+  const openNativeFile = async () => {
+    try {
+      const fileHandles = await FileSystemAccess.openFile({
+        types: [{
+          description: 'Text files',
+          accept: {
+            'text/plain': ['.txt', '.md']
+          }
+        }]
+      });
+
+      const fileHandle = fileHandles[0];
+      const file = await fileHandle.getFile();
+      const content = await file.text();
+      
+      console.log('Native file content:', content);
+    } catch (error) {
+      console.error('Failed to open native file:', error);
+    }
+  };
+
+  const saveNativeFile = async () => {
+    try {
+      await FileSystemAccess.saveFile(
+        'Hello from File System Access API!',
+        'native-file.txt',
+        [{
+          description: 'Text files',
+          accept: {
+            'text/plain': ['.txt']
+          }
+        }]
+      );
+      console.log('Native file saved');
+    } catch (error) {
+      console.error('Failed to save native file:', error);
+    }
+  };
+
+  const openNativeDirectory = async () => {
+    try {
+      const dirHandle = await FileSystemAccess.openDirectory();
+      console.log('Directory selected:', dirHandle.name);
+      
+      // List directory contents
+      for await (const [name, handle] of dirHandle.entries()) {
+        console.log(name, handle.kind);
+      }
+    } catch (error) {
+      console.error('Failed to open directory:', error);
+    }
+  };
+
+  if (!isSupported) {
+    return (
+      <div>
+        <h3>File System Access API (Experimental)</h3>
+        <p>⚠️ Not supported in this browser. Requires Chromium-based browser with HTTPS.</p>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <h3>File System Access API (Experimental)</h3>
+      <p>✅ Supported in this browser</p>
+      <button onClick={openNativeFile}>Open Native File</button>
+      <button onClick={saveNativeFile}>Save Native File</button>
+      <button onClick={openNativeDirectory}>Open Directory</button>
+    </div>
+  );
+}
+```
+
+## Best Practices
+
+### Security Considerations
+
+1. **Validate all file inputs** - Check file types, sizes, and content
+2. **Sanitize filenames** - Remove dangerous characters before saving
+3. **Implement size limits** - Prevent memory exhaustion from large files
+4. **Use CSP headers** - Restrict data URLs and blob URLs if needed
+
+```tsx
+function SecureFileHandler() {
+  const filePicker = useFilePicker({
+    accept: 'image/jpeg,image/png,text/plain',
+    maxSize: 5 * 1024 * 1024, // 5MB limit
+    onError: (error) => {
+      // Log security events
+      console.warn('File security check failed:', error);
+    }
+  });
+
+  const validateFileContent = async (file: File) => {
+    // Additional security checks
+    if (file.type.startsWith('image/')) {
+      // Verify image file header
+      const buffer = await file.slice(0, 4).arrayBuffer();
+      const view = new Uint8Array(buffer);
+      // Check for valid image signatures
+      // JPEG: FF D8 FF, PNG: 89 50 4E 47
+    }
+  };
+
+  return (
+    <div>
+      {/* Secure file handling UI */}
+    </div>
+  );
+}
+```
+
+### Performance Optimization
+
+1. **Use Web Workers** for large file processing
+2. **Implement streaming** for large files
+3. **Lazy load** file content when needed
+4. **Use compression** for text files
+
+```tsx
+// Web Worker for file processing
+const processFileInWorker = (file: File): Promise<any> => {
+  return new Promise((resolve, reject) => {
+    const worker = new Worker('/file-processor-worker.js');
+    
+    worker.postMessage({ file });
+    worker.onmessage = (e) => {
+      resolve(e.data);
+      worker.terminate();
+    };
+    worker.onerror = (error) => {
+      reject(error);
+      worker.terminate();
+    };
+  });
+};
+
+function PerformantFileProcessor() {
+  const [processing, setProcessing] = useState(false);
+
+  const handleLargeFile = async (file: File) => {
+    setProcessing(true);
+    try {
+      const result = await processFileInWorker(file);
+      console.log('File processed:', result);
+    } catch (error) {
+      console.error('Processing failed:', error);
+    } finally {
+      setProcessing(false);
+    }
+  };
+
+  return (
+    <div>
+      {processing && <div>Processing large file...</div>}
+      {/* File processing UI */}
+    </div>
+  );
+}
+```
+
+### Error Handling
+
+Implement comprehensive error handling for all file operations:
+
+```tsx
+function RobustFileHandler() {
+  const [errors, setErrors] = useState<string[]>([]);
+
+  const handleFileError = (error: any, context: string) => {
+    const errorMessage = `${context}: ${error.message}`;
+    setErrors(prev => [...prev, errorMessage]);
+    
+    // Log to monitoring service
+    console.error('File operation failed:', {
+      context,
+      error: error.message,
+      stack: error.stack,
+      timestamp: new Date().toISOString()
+    });
+  };
+
+  const filePicker = useFilePicker({
+    onError: (error) => handleFileError(error, 'File picker'),
+    onFileRead: (result) => {
+      try {
+        // Process file result
+        console.log('File processed successfully:', result.name);
+      } catch (error) {
+        handleFileError(error, 'File processing');
+      }
+    }
+  });
+
+  return (
+    <div>
+      {errors.length > 0 && (
+        <div className="error-list">
+          <h4>Recent Errors:</h4>
+          {errors.map((error, index) => (
+            <div key={index} className="error-item">
+              {error}
+            </div>
+          ))}
+          <button onClick={() => setErrors([])}>
+            Clear Errors
+          </button>
+        </div>
+      )}
+      
+      <button onClick={filePicker.openFilePicker}>
+        Select Files
+      </button>
+    </div>
+  );
+}
+```
+
+## Installation and Setup
+
+### Using the CLI
+
+Add file system components to your project:
+
+```bash
+# Add file picker hook
+npx acrobi add use-file-picker
+
+# Add file saver utilities  
+npx acrobi add file-saver
+
+# This automatically installs the necessary components and utilities
+```
+
+### Manual Installation
+
+The file system components are included in the base Acrobi UI package:
+
+```tsx
+import { 
+  useFilePicker, 
+  FilePickerUtils,
+  FileSaverUtils,
+  FileSaver 
+} from '@acrobi/ui';
+```
+
+## Examples and Recipes
+
+### Complete File Manager
+
+Here's a complete example combining all file system features:
+
+```tsx
+import { 
+  useFilePicker, 
+  FilePickerUtils, 
+  FileSaverUtils 
+} from '@acrobi/ui';
+
+function FileManager() {
+  const [files, setFiles] = useState<FilePickerResult[]>([]);
+  
+  const filePicker = useFilePicker({
+    multiple: true,
+    readAs: 'dataURL',
+    onFileRead: (result) => {
+      setFiles(prev => [...prev, result]);
+    }
+  });
+
+  const downloadFile = (fileResult: FilePickerResult) => {
+    FileSaverUtils.saveFile(
+      fileResult.name,
+      fileResult.content!,
+      {
+        type: fileResult.type,
+        onSave: (filename) => {
+          console.log(`Downloaded: ${filename}`);
+        }
+      }
+    );
+  };
+
+  const exportAllAsZip = async () => {
+    // Note: This would require a zip library like JSZip
+    const zip = new JSZip();
+    
+    files.forEach(file => {
+      zip.file(file.name, file.content!);
+    });
+    
+    const zipBlob = await zip.generateAsync({ type: 'blob' });
+    FileSaverUtils.saveBlobFile('files.zip', zipBlob);
+  };
+
+  return (
+    <div className="file-manager">
+      <div 
+        {...filePicker.dragProps}
+        className={`drop-zone ${filePicker.isDragging ? 'active' : ''}`}
+      >
+        <button onClick={filePicker.openFilePicker}>
+          Add Files
+        </button>
+        <p>or drag & drop files here</p>
+      </div>
+
+      <div className="file-list">
+        {files.map((file, index) => (
+          <div key={index} className="file-item">
+            <div className="file-info">
+              <span className="file-icon">
+                {FilePickerUtils.getFileIcon(file.file)}
+              </span>
+              <span className="file-name">{file.name}</span>
+              <span className="file-size">
+                {FilePickerUtils.formatFileSize(file.size)}
+              </span>
+            </div>
+            <div className="file-actions">
+              <button onClick={() => downloadFile(file)}>
+                Download
+              </button>
+              <button onClick={() => {
+                setFiles(prev => prev.filter((_, i) => i !== index));
+              }}>
+                Remove
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {files.length > 1 && (
+        <button onClick={exportAllAsZip}>
+          Export All as ZIP
+        </button>
+      )}
+    </div>
+  );
+}
+```
+
+This comprehensive file system interaction toolkit provides everything needed to implement robust file handling in your AAE applications, from simple file uploads to complex file management interfaces.
