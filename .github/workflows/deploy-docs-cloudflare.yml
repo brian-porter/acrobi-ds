@@ -9,6 +9,10 @@ on:
       - 'packages/ui/registry.json'
       - '.github/workflows/deploy-docs-cloudflare.yml'
 
+permissions:
+  contents: read
+  deployments: write
+
 jobs:
   deploy-docs:
     name: Deploy VitePress Documentation
@@ -216,7 +220,6 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           projectName: acrobi-docs
           directory: docs-dist
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Update deployment status
         run: |

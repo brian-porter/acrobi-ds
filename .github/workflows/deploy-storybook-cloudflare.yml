@@ -9,6 +9,10 @@ on:
       - 'packages/ui/registry.json'
       - '.github/workflows/deploy-storybook-cloudflare.yml'
 
+permissions:
+  contents: read
+  deployments: write
+
 jobs:
   deploy-storybook:
     name: Deploy Protected Storybook
@@ -306,7 +310,6 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           projectName: acrobi-storybook
           directory: storybook-dist
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Update deployment status
         run: |
