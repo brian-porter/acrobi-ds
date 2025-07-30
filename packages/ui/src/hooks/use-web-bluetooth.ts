@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
-import './types/bluetooth';
+/// <reference path="./types/bluetooth.d.ts" />
 
 export interface BluetoothDeviceInfo {
   id: string;

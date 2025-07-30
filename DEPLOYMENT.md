@@ -47,7 +47,7 @@ Deployments trigger automatically on push to `main` branch:
 # Deploy documentation
 npm run deploy:docs
 
-# Deploy storybook  
+# Deploy storybook
 npm run deploy:storybook
 ```
 
@@ -67,15 +67,39 @@ pnpm build-storybook  # Test Storybook build
 
 ## Build Configuration
 
-### VitePress
-- **Source**: `packages/ui/docs/`
-- **Build Command**: `pnpm docs:build`
-- **Output**: `packages/ui/docs/.vitepress/dist`
+### VitePress Documentation
 
-### Storybook
+- **Source**: `packages/ui/docs/`
+- **Build Command**: `cd packages/ui && pnpm docs:build`
+- **Output**: `packages/ui/docs/.vitepress/dist`
+- **Headers**: Custom `_headers` file for caching and security
+
+### Storybook Component Library
+
 - **Source**: `packages/ui/src/` + `packages/ui/.storybook/`
-- **Build Command**: `pnpm build-storybook`
+- **Build Command**: `cd packages/ui && pnpm build-storybook`
 - **Output**: `packages/ui/storybook-static`
+- **Headers**: Custom `_headers` file for iframe support
+
+## Cloudflare Pages Setup
+
+### Project Configuration
+
+In Cloudflare Pages dashboard, create two projects:
+
+#### 1. VitePress Documentation (`acrobi-docs`)
+
+- **Build command**: `pnpm install && cd packages/ui && pnpm docs:build`
+- **Build output directory**: `packages/ui/docs/.vitepress/dist`
+- **Root directory**: `/` (repository root)
+- **Node.js version**: `20`
+
+#### 2. Storybook (`acrobi-storybook`)
+
+- **Build command**: `pnpm install && cd packages/ui && pnpm build-storybook`
+- **Build output directory**: `packages/ui/storybook-static`
+- **Root directory**: `/` (repository root)
+- **Node.js version**: `20`
 
 ## URLs
 
@@ -97,6 +121,8 @@ After deployment, your sites will be available at:
 - **Missing secrets**: Verify `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` are set
 - **Project names**: Ensure Cloudflare Pages projects match the names in workflows
 - **Build timeouts**: Large builds may need optimization
+- **wrangler.toml warnings**: Ignore warnings about wrangler.toml - Cloudflare Pages doesn't use this file
+- **Build command not found**: Ensure build commands are set correctly in Cloudflare Pages dashboard
 
 ### Local Development
 
@@ -105,7 +131,7 @@ After deployment, your sites will be available at:
 cd packages/ui
 pnpm docs:dev
 
-# Start Storybook dev server  
+# Start Storybook dev server
 cd packages/ui
 pnpm dev
 ```

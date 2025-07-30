@@ -52,6 +52,7 @@ jobs:
           projectName: acrobi-docs
           directory: packages/ui/docs/.vitepress/dist
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          wranglerVersion: '3'
 
   deploy-storybook:
     if: github.event_name == 'push' || inputs.deploy_storybook
@@ -88,3 +89,4 @@ jobs:
           projectName: acrobi-storybook
           directory: packages/ui/storybook-static
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          wranglerVersion: '3'

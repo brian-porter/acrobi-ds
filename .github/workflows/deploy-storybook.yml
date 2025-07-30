@@ -44,3 +44,4 @@ jobs:
           projectName: acrobi-storybook
           directory: packages/ui/storybook-static
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          wranglerVersion: '3'

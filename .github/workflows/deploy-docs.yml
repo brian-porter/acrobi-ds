@@ -44,3 +44,4 @@ jobs:
           projectName: acrobi-docs
           directory: packages/ui/docs/.vitepress/dist
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          wranglerVersion: '3'
