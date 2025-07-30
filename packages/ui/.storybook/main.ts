@@ -11,13 +11,21 @@ const config: StorybookConfig = {
     // Externalize problematic dependencies
     config.build = config.build || {};
     config.build.rollupOptions = config.build.rollupOptions || {};
-    config.build.rollupOptions.external = [
-      ...(config.build.rollupOptions.external || []),
-      'gsap',
-      'next/dynamic',
-      'react-leaflet',
-      'socket.io-client'
-    ];
+    
+    const existingExternal = config.build.rollupOptions.external;
+    const newExternals = ['gsap', 'next/dynamic', 'react-leaflet', 'socket.io-client'];
+    
+    if (Array.isArray(existingExternal)) {
+      config.build.rollupOptions.external = [...existingExternal, ...newExternals];
+    } else if (typeof existingExternal === 'function') {
+      config.build.rollupOptions.external = (id, parent, isResolved) => {
+        if (newExternals.includes(id)) return true;
+        return existingExternal(id, parent, isResolved);
+      };
+    } else {
+      config.build.rollupOptions.external = newExternals;
+    }
+    
     return config;
   },
   typescript: {
