@@ -25,6 +25,7 @@
     "deploy:test": ".github/scripts/test-deployments.sh",
     "deploy:docs": "echo '🚀 Triggering VitePress deployment...' && git add . && git commit -m 'docs: update documentation' && git push origin main",
     "deploy:storybook": "echo '🚀 Triggering Storybook deployment...' && git add . && git commit -m 'feat: update components' && git push origin main",
+    "deploy:all": "echo '🚀 Triggering full deployment...' && git add . && git commit -m 'deploy: update sites' && git push origin main",
     "precommit": "pnpm lint && pnpm type-check && pnpm test",
     "prepare": "husky install"
   },
@@ -46,6 +47,7 @@
     "eslint": "^8.0.0",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^5.2.0",
+    "husky": "^9.1.7",
     "prettier": "^3.0.0",
     "typescript": "^5.0.0"
   },

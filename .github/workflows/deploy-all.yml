@@ -1,0 +1,90 @@
+name: Deploy All Sites
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      deploy_docs:
+        description: 'Deploy VitePress Documentation'
+        required: false
+        default: true
+        type: boolean
+      deploy_storybook:
+        description: 'Deploy Storybook'
+        required: false
+        default: true
+        type: boolean
+
+jobs:
+  deploy-docs:
+    if: github.event_name == 'push' || inputs.deploy_docs
+    runs-on: ubuntu-latest
+    name: Deploy VitePress Documentation
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 10.13.1
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build VitePress
+        run: |
+          cd packages/ui
+          pnpm docs:build
+
+      - name: Deploy VitePress to Cloudflare Pages
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: acrobi-docs
+          directory: packages/ui/docs/.vitepress/dist
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+
+  deploy-storybook:
+    if: github.event_name == 'push' || inputs.deploy_storybook
+    runs-on: ubuntu-latest
+    name: Deploy Storybook
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 10.13.1
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build Storybook
+        run: |
+          cd packages/ui
+          pnpm build-storybook
+
+      - name: Deploy Storybook to Cloudflare Pages
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: acrobi-storybook
+          directory: packages/ui/storybook-static
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}

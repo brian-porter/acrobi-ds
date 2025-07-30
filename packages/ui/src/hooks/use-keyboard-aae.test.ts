@@ -1,4 +1,5 @@
 import { renderHook, act } from '@testing-library/react';
+import { vi, beforeEach, afterEach, describe, it, expect } from 'vitest';
 import {
   useKeyboard,
   isKeyboardDetectionSupported,
@@ -7,21 +8,19 @@ import {
 } from './use-keyboard-aae';
 
 // Mock the useVisualViewport hook
-jest.mock('./use-visual-viewport', () => ({
-  useVisualViewport: jest.fn(),
+vi.mock('./use-visual-viewport', () => ({
+  useVisualViewport: vi.fn(),
 }));
 
 import { useVisualViewport } from './use-visual-viewport';
 
-const mockUseVisualViewport = useVisualViewport as jest.MockedFunction<
-  typeof useVisualViewport
->;
+const mockUseVisualViewport = vi.mocked(useVisualViewport);
 
 // Mock window.visualViewport
 const mockVisualViewport = {
   height: 800,
-  addEventListener: jest.fn(),
-  removeEventListener: jest.fn(),
+  addEventListener: vi.fn(),
+  removeEventListener: vi.fn(),
 };
 
 // Helper to mock window properties
@@ -37,7 +36,7 @@ const mockWindow = (props: Partial<Window>) => {
 
 describe('useKeyboard (Epic 40 - AAE)', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
     
     // Default mock return value
     mockUseVisualViewport.mockReturnValue({
@@ -49,7 +48,7 @@ describe('useKeyboard (Epic 40 - AAE)', () => {
       offsetTop: 0,
       offsetLeft: 0,
       isSupported: true,
-      refresh: jest.fn(),
+      refresh: vi.fn(),
     });
 
     mockWindow({
@@ -60,7 +59,7 @@ describe('useKeyboard (Epic 40 - AAE)', () => {
   });
 
   afterEach(() => {
-    jest.restoreAllMocks();
+    vi.restoreAllMocks();
   });
 
   describe('Basic Functionality', () => {
@@ -94,7 +93,7 @@ describe('useKeyboard (Epic 40 - AAE)', () => {
         offsetTop: 0,
         offsetLeft: 0,
         isSupported: true,
-        refresh: jest.fn(),
+        refresh: vi.fn(),
       });
 
       const { result } = renderHook(() => useKeyboard());
@@ -126,7 +125,7 @@ describe('useKeyboard (Epic 40 - AAE)', () => {
 
   describe('Debug Logging', () => {
     it('should log debug information when enabled', () => {
-      const consoleSpy = jest.spyOn(console, 'log').mockImplementation();
+      const consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
 
       renderHook(() => useKeyboard({ debug: true }));
 
@@ -144,7 +143,7 @@ describe('useKeyboard (Epic 40 - AAE)', () => {
     });
 
     it('should not log when debug is disabled', () => {
-      const consoleSpy = jest.spyOn(console, 'log').mockImplementation();
+      const consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
 
       renderHook(() => useKeyboard({ debug: false }));
 
@@ -165,7 +164,7 @@ describe('useKeyboard (Epic 40 - AAE)', () => {
         offsetTop: 0,
         offsetLeft: 0,
         isSupported: false,
-        refresh: jest.fn(),
+        refresh: vi.fn(),
       });
 
       const { result } = renderHook(() => useKeyboard());
@@ -176,7 +175,7 @@ describe('useKeyboard (Epic 40 - AAE)', () => {
 
   describe('Refresh Function', () => {
     it('should provide a refresh function', () => {
-      const mockRefresh = jest.fn();
+      const mockRefresh = vi.fn();
       mockUseVisualViewport.mockReturnValue({
         isKeyboardOpen: false,
         keyboardHeight: 0,

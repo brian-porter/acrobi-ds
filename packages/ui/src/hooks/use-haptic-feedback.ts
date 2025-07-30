@@ -531,7 +531,7 @@ export function useHapticFeedback(
 
   // Predefined feedback methods
   const success = useCallback(() => playPattern('success'), [playPattern]);
-  const error = useCallback(() => playPattern('error'), [playPattern]);
+  const errorFeedback = useCallback(() => playPattern('error'), [playPattern]);
   const warning = useCallback(() => playPattern('warning'), [playPattern]);
   const notification = useCallback(
     () => playPattern('notification'),
@@ -628,7 +628,7 @@ export function useHapticFeedback(
   return {
     // State
     state,
-    error,
+    errorState: error,
 
     // Basic vibration control
     vibrate,
@@ -642,7 +642,7 @@ export function useHapticFeedback(
 
     // Predefined feedback methods
     success,
-    error: error,
+    error: errorFeedback,
     warning,
     notification,
     light,

@@ -1,4 +1,4 @@
-name: Deploy Storybook with Password Protection
+name: Deploy Storybook
 
 on:
   push:
@@ -9,15 +9,11 @@ on:
       - '.github/workflows/deploy-storybook.yml'
   workflow_dispatch:
 
-concurrency:
-  group: deploy-storybook-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
-  deploy-storybook:
-    name: Deploy Storybook to Cloudflare Pages
+  deploy:
     runs-on: ubuntu-latest
-    environment: production
+    name: Deploy Storybook to Cloudflare Pages
+    
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -26,7 +22,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'pnpm'
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
@@ -38,236 +33,8 @@ jobs:
 
       - name: Build Storybook
         run: |
-          echo "🏗️ Building Storybook..."
           cd packages/ui
           pnpm build-storybook
-          echo "✅ Storybook build completed"
-
-      - name: Add password protection
-        run: |
-          echo "🔒 Adding password protection to Storybook..."
-          
-          # Create protected deployment directory
-          mkdir -p storybook-dist
-          
-          # Copy Storybook build output
-          cp -r packages/ui/storybook-static/* storybook-dist/
-          
-          # Create Cloudflare Pages Functions for password protection
-          mkdir -p storybook-dist/functions
-          
-          # Create password protection function
-          cat > storybook-dist/functions/_middleware.js << 'EOF'
-          // Cloudflare Pages password protection middleware
-          export async function onRequest(context) {
-            const { request } = context;
-            const url = new URL(request.url);
-            
-            // Skip password check for static assets
-            if (url.pathname.match(/\.(css|js|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot)$/)) {
-              return context.next();
-            }
-            
-            // Check for authentication cookie
-            const cookieHeader = request.headers.get('Cookie');
-            if (cookieHeader) {
-              const cookies = Object.fromEntries(
-                cookieHeader.split('; ').map(c => c.split('='))
-              );
-              
-              // Simple auth token check (in production, use proper JWT or session management)
-              if (cookies.storybook_auth === 'acrobi_dev_access_2024') {
-                return context.next();
-              }
-            }
-            
-            // Check for login attempt
-            if (request.method === 'POST' && url.pathname === '/auth') {
-              const formData = await request.formData();
-              const password = formData.get('password');
-              
-              // Check password (use environment variable in production)
-              if (password === 'acrobi-storybook-2024') {
-                // Set authentication cookie
-                const response = new Response(null, {
-                  status: 302,
-                  headers: {
-                    'Location': '/',
-                    'Set-Cookie': 'storybook_auth=acrobi_dev_access_2024; HttpOnly; Secure; SameSite=Strict; Max-Age=86400' // 24 hours
-                  }
-                });
-                return response;
-              } else {
-                // Invalid password
-                return new Response(getLoginHTML('Invalid password. Please try again.'), {
-                  headers: { 'Content-Type': 'text/html' },
-                  status: 401
-                });
-              }
-            }
-            
-            // Show login form
-            return new Response(getLoginHTML(), {
-              headers: { 'Content-Type': 'text/html' },
-              status: 401
-            });
-          }
-          
-          function getLoginHTML(error = '') {
-            return `<!DOCTYPE html>
-          <html>
-          <head>
-            <meta charset="utf-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1">
-            <title>Acrobi Design System - Storybook Access</title>
-            <style>
-              body {
-                font-family: system-ui, -apple-system, sans-serif;
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                margin: 0;
-                padding: 0;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                min-height: 100vh;
-              }
-              .login-container {
-                background: white;
-                padding: 2rem;
-                border-radius: 8px;
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-                width: 100%;
-                max-width: 400px;
-              }
-              .logo {
-                text-align: center;
-                margin-bottom: 2rem;
-              }
-              .logo h1 {
-                color: #333;
-                margin: 0;
-                font-size: 1.5rem;
-                font-weight: 600;
-              }
-              .logo p {
-                color: #666;
-                margin: 0.5rem 0 0 0;
-                font-size: 0.9rem;
-              }
-              .form-group {
-                margin-bottom: 1rem;
-              }
-              label {
-                display: block;
-                margin-bottom: 0.5rem;
-                color: #333;
-                font-weight: 500;
-              }
-              input[type="password"] {
-                width: 100%;
-                padding: 0.75rem;
-                border: 1px solid #ddd;
-                border-radius: 4px;
-                font-size: 1rem;
-                box-sizing: border-box;
-              }
-              input[type="password"]:focus {
-                outline: none;
-                border-color: #667eea;
-                box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
-              }
-              .submit-btn {
-                width: 100%;
-                padding: 0.75rem;
-                background: #667eea;
-                color: white;
-                border: none;
-                border-radius: 4px;
-                font-size: 1rem;
-                font-weight: 500;
-                cursor: pointer;
-                transition: background 0.2s;
-              }
-              .submit-btn:hover {
-                background: #5a6fd8;
-              }
-              .error {
-                color: #e53e3e;
-                font-size: 0.9rem;
-                margin-top: 0.5rem;
-                text-align: center;
-              }
-              .info {
-                color: #666;
-                font-size: 0.85rem;
-                text-align: center;
-                margin-top: 1rem;
-                padding: 1rem;
-                background: #f7f7f7;
-                border-radius: 4px;
-              }
-            </style>
-          </head>
-          <body>
-            <div class="login-container">
-              <div class="logo">
-                <h1>🎨 Acrobi Design System</h1>
-                <p>Storybook Development Environment</p>
-              </div>
-              
-              <form method="POST" action="/auth">
-                <div class="form-group">
-                  <label for="password">Access Password:</label>
-                  <input 
-                    type="password" 
-                    id="password" 
-                    name="password" 
-                    required 
-                    placeholder="Enter development access password"
-                    autofocus
-                  >
-                </div>
-                
-                <button type="submit" class="submit-btn">
-                  🔓 Access Storybook
-                </button>
-                
-                ${error ? `<div class="error">${error}</div>` : ''}
-              </form>
-              
-              <div class="info">
-                <strong>🔒 Protected Development Environment</strong><br>
-                This Storybook contains development components and is password-protected. 
-                Contact the development team for access credentials.
-              </div>
-            </div>
-          </body>
-          </html>`;
-          }
-          EOF
-          
-          # Add custom domain configuration
-          echo "dev.acrobi.com" > storybook-dist/CNAME
-          
-          # Create a robots.txt to prevent search engine indexing
-          cat > storybook-dist/robots.txt << EOF
-          User-agent: *
-          Disallow: /
-          
-          # This is a development environment and should not be indexed
-          EOF
-          
-          # Create a _headers file for additional security
-          cat > storybook-dist/_headers << EOF
-          /*
-            X-Frame-Options: DENY
-            X-Content-Type-Options: nosniff
-            X-XSS-Protection: 1; mode=block
-            Referrer-Policy: strict-origin-when-cross-origin
-            Cache-Control: no-cache, no-store, must-revalidate
-          EOF
-          
-          echo "✅ Password protection configured"
 
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/pages-action@v1
@@ -275,27 +42,5 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           projectName: acrobi-storybook
-          directory: storybook-dist
+          directory: packages/ui/storybook-static
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
-          wranglerVersion: '3'
-
-      - name: Update deployment status
-        run: |
-          echo "🚀 Storybook deployed successfully with password protection!"
-          echo "🔒 Storybook URL: https://dev.acrobi.com"
-          echo "🔑 Access Password: acrobi-storybook-2024"
-          echo "📊 Build artifacts:"
-          ls -la storybook-dist/
-          echo ""
-          echo "🛡️ Security features enabled:"
-          echo "  ✅ Password protection via Cloudflare Pages Functions"
-          echo "  ✅ No search engine indexing (robots.txt)"
-          echo "  ✅ Security headers configured"
-          echo "  ✅ HttpOnly secure cookies"
-
-      - name: Notify on failure
-        if: failure()
-        run: |
-          echo "❌ Storybook deployment failed!"
-          echo "Please check the logs above for details."
-          exit 1

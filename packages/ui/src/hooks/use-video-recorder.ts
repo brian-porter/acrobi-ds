@@ -16,7 +16,7 @@ import {
   CameraConstraints,
   VIDEO_FORMATS,
   VIDEO_QUALITY_PRESETS,
-} from './types/video-recorder';
+} from './types/video-recorder.d.ts';
 
 // Default configuration
 const DEFAULT_OPTIONS: Partial<VideoRecorderOptions> = {

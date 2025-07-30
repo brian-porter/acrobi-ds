@@ -6,3 +6,6 @@ export type {
   HistoryState,
   ImageEditorProps,
 } from './image-editor';
+
+export { Scanner } from './scanner';
+export type { ScannerProps } from './scanner';
