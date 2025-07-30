@@ -442,3 +442,21 @@ export type {
   WindowManagerOptions,
   UseWindowManagerReturn,
 } from './use-window-manager';
+
+// Platform Detection for AAE adaptive experiences
+export { usePlatform, PlatformUtils } from './use-platform';
+export type {
+  PlatformInfo,
+  UsePlatformReturn,
+} from './use-platform';
+
+// Feature Detection for AAE capability checking
+export { 
+  useFeatureDetection, 
+  useMultipleFeatureDetection, 
+  FeatureDetectionUtils 
+} from './use-feature-detection';
+export type {
+  FeatureAPI,
+  UseFeatureDetectionReturn,
+} from './use-feature-detection';

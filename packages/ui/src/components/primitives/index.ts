@@ -69,6 +69,9 @@ export type { ListProps, ListItemProps } from './list';
 export { Paragraph, paragraphVariants } from './paragraph';
 export type { ParagraphProps } from './paragraph';
 
+export { PinInputField, pinInputVariants, pinDigitVariants } from './pin-input-field';
+export type { PinInputFieldProps } from './pin-input-field';
+
 export { Progress, progressVariants } from './progress';
 export type { ProgressProps } from './progress';
 
@@ -89,6 +92,9 @@ export type { SelectProps, SelectOption } from './select';
 
 export { Checkbox, checkboxVariants } from './checkbox';
 export type { CheckboxProps } from './checkbox';
+
+export { CheckboxField, checkboxFieldVariants, checkboxLabelVariants, checkboxLinkVariants } from './checkbox-field';
+export type { CheckboxFieldProps } from './checkbox-field';
 
 export { Radio, RadioGroup, radioVariants } from './radio';
 export type { RadioProps, RadioGroupProps, RadioOption } from './radio';

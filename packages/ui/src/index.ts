@@ -16,6 +16,9 @@ export * from './types';
 // Export modules
 export * from './modules';
 
+// Export structures
+export * from './structures';
+
 // Export styles for consumers
 export * from './styles';
 

@@ -7,6 +7,19 @@ const config: StorybookConfig = {
     name: '@storybook/react-vite',
     options: {},
   },
+  viteFinal: async (config) => {
+    // Externalize problematic dependencies
+    config.build = config.build || {};
+    config.build.rollupOptions = config.build.rollupOptions || {};
+    config.build.rollupOptions.external = [
+      ...(config.build.rollupOptions.external || []),
+      'gsap',
+      'next/dynamic',
+      'react-leaflet',
+      'socket.io-client'
+    ];
+    return config;
+  },
   typescript: {
     check: false,
     reactDocgen: 'react-docgen-typescript',

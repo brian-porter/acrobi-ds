@@ -1,0 +1,530 @@
+import type { Meta, StoryObj } from '@storybook/react';
+import { FeatureGuard, useFeatureGuards, withFeatureGuard } from './feature-guard';
+import { Button } from '../primitives/button';
+import { useState } from 'react';
+
+// Mock components for demonstrations
+const ShareButton = () => (
+  <Button 
+    onClick={() => navigator.share?.({ title: 'Test', text: 'Testing share feature' })}
+    className="bg-blue-600 hover:bg-blue-700"
+  >
+    📤 Share This Content
+  </Button>
+);
+
+const CameraButton = () => (
+  <Button 
+    onClick={() => navigator.mediaDevices?.getUserMedia({ video: true })}
+    className="bg-green-600 hover:bg-green-700"
+  >
+    📷 Open Camera
+  </Button>
+);
+
+const LocationButton = () => (
+  <Button 
+    onClick={() => navigator.geolocation?.getCurrentPosition(() => {})}
+    className="bg-purple-600 hover:bg-purple-700"
+  >
+    📍 Get Location
+  </Button>
+);
+
+const CopyLinkButton = () => {
+  const [copied, setCopied] = useState(false);
+  
+  const handleCopy = () => {
+    navigator.clipboard?.writeText(window.location.href);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+  
+  return (
+    <Button 
+      onClick={handleCopy}
+      variant="outline"
+      className="border-blue-600 text-blue-600 hover:bg-blue-50"
+    >
+      {copied ? '✅ Copied!' : '📋 Copy Link'}
+    </Button>
+  );
+};
+
+const FileUploadButton = () => (
+  <Button 
+    onClick={() => {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'image/*';
+      input.click();
+    }}
+    variant="outline"
+    className="border-green-600 text-green-600 hover:bg-green-50"
+  >
+    📁 Upload Image
+  </Button>
+);
+
+const ManualLocationInput = () => (
+  <div className="flex items-center space-x-2">
+    <input 
+      type="text" 
+      placeholder="Enter your address..."
+      className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+    />
+    <Button variant="outline" className="border-purple-600 text-purple-600 hover:bg-purple-50">
+      📍 Set Location
+    </Button>
+  </div>
+);
+
+// Demo component showcasing multiple feature guards
+function FeatureShowcase() {
+  const { results, supportedFeatures, unsupportedFeatures, supportPercentage } = useFeatureGuards([
+    'webShare',
+    'camera',
+    'geolocation',
+    'clipboard',
+    'webAuthn',
+    'bluetooth',
+    'nfc',
+    'wakeLock',
+  ]);
+
+  return (
+    <div className="space-y-6">
+      {/* Support Summary */}
+      <div className="bg-white p-6 rounded-lg border border-gray-200">
+        <h3 className="text-lg font-semibold mb-4">Browser Feature Support</h3>
+        <div className="flex items-center space-x-4 mb-4">
+          <div className="flex-1 bg-gray-200 rounded-full h-2">
+            <div 
+              className="bg-green-500 h-2 rounded-full transition-all duration-300"
+              style={{ width: `${supportPercentage}%` }}
+            />
+          </div>
+          <span className="font-medium">{supportPercentage}%</span>
+        </div>
+        <div className="grid grid-cols-2 gap-4 text-sm">
+          <div>
+            <span className="font-medium text-green-600">Supported: </span>
+            <span>{supportedFeatures.join(', ') || 'None'}</span>
+          </div>
+          <div>
+            <span className="font-medium text-red-600">Unsupported: </span>
+            <span>{unsupportedFeatures.join(', ') || 'None'}</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Feature Guards in Action */}
+      <div className="grid md:grid-cols-2 gap-6">
+        {/* Web Share */}
+        <div className="bg-white p-4 rounded-lg border border-gray-200">
+          <h4 className="font-medium mb-3">Web Share API</h4>
+          <FeatureGuard feature="webShare" fallback={<CopyLinkButton />}>
+            <ShareButton />
+          </FeatureGuard>
+        </div>
+
+        {/* Camera */}
+        <div className="bg-white p-4 rounded-lg border border-gray-200">
+          <h4 className="font-medium mb-3">Camera Access</h4>
+          <FeatureGuard feature="camera" fallback={<FileUploadButton />}>
+            <CameraButton />
+          </FeatureGuard>
+        </div>
+
+        {/* Geolocation */}
+        <div className="bg-white p-4 rounded-lg border border-gray-200">
+          <h4 className="font-medium mb-3">Geolocation</h4>
+          <FeatureGuard feature="geolocation" fallback={<ManualLocationInput />}>
+            <LocationButton />
+          </FeatureGuard>
+        </div>
+
+        {/* WebAuthn */}
+        <div className="bg-white p-4 rounded-lg border border-gray-200">
+          <h4 className="font-medium mb-3">Biometric Authentication</h4>
+          <FeatureGuard 
+            feature="webAuthn" 
+            fallbackStyle="warning"
+            fallbackMessage="Biometric login not available. Please use password authentication."
+          >
+            <Button className="bg-indigo-600 hover:bg-indigo-700">
+              🔐 Login with Biometrics
+            </Button>
+          </FeatureGuard>
+        </div>
+      </div>
+
+      {/* Advanced Features */}
+      <div className="bg-white p-6 rounded-lg border border-gray-200">
+        <h3 className="text-lg font-semibold mb-4">Advanced Web APIs</h3>
+        <div className="grid md:grid-cols-3 gap-4">
+          <FeatureGuard 
+            feature="bluetooth" 
+            fallbackStyle="info"
+            showDefaultFallback={true}
+          >
+            <Button className="w-full bg-blue-600 hover:bg-blue-700">
+              📶 Connect Bluetooth
+            </Button>
+          </FeatureGuard>
+
+          <FeatureGuard 
+            feature="nfc" 
+            fallbackStyle="error"
+            showDefaultFallback={true}
+          >
+            <Button className="w-full bg-orange-600 hover:bg-orange-700">
+              📱 Scan NFC Tag
+            </Button>
+          </FeatureGuard>
+
+          <FeatureGuard 
+            feature="wakeLock" 
+            fallbackStyle="minimal"
+            showDefaultFallback={true}
+          >
+            <Button className="w-full bg-yellow-600 hover:bg-yellow-700">
+              ☀️ Keep Screen On
+            </Button>
+          </FeatureGuard>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// HOC Example
+const EnhancedShareButton = withFeatureGuard(ShareButton, 'webShare', CopyLinkButton);
+
+const meta: Meta<typeof FeatureGuard> = {
+  title: 'Structures/FeatureGuard',
+  component: FeatureGuard,
+  parameters: {
+    docs: {
+      description: {
+        component: `
+The \`FeatureGuard\` component provides graceful feature detection and fallback rendering for modern web APIs.
+
+## Features
+
+- **Automatic Detection**: Checks for Web API availability before rendering
+- **Graceful Fallbacks**: Shows alternative content when features aren't supported
+- **Loading States**: Provides loading indicators during feature detection
+- **Flexible Styling**: Multiple visual styles for different contexts
+- **TypeScript Support**: Full type safety for all supported APIs
+- **SSR Safe**: Works correctly during server-side rendering
+- **Performance Optimized**: Minimal overhead with efficient detection
+
+## Supported APIs
+
+The component supports detection for 40+ Web APIs including:
+- **Service Worker APIs**: serviceWorker, pushManager, backgroundSync
+- **Media APIs**: camera, microphone, mediaRecorder, screenCapture
+- **Hardware APIs**: bluetooth, nfc, vibration, gamepad
+- **File APIs**: fileSystemAccess, fileHandling
+- **Authentication**: webAuthn, credentialManagement
+- **App Integration**: badging, wakeLock, webShare, paymentRequest
+
+## Usage Patterns
+
+\`\`\`tsx
+// Basic usage with automatic fallback
+<FeatureGuard feature="webShare">
+  <ShareButton />
+</FeatureGuard>
+
+// Custom fallback component
+<FeatureGuard feature="camera" fallback={<FileUploadButton />}>
+  <CameraButton />
+</FeatureGuard>
+
+// Styled fallback messages
+<FeatureGuard 
+  feature="bluetooth"
+  fallbackStyle="warning"
+  fallbackMessage="Bluetooth not available on this device"
+>
+  <BluetoothSettings />
+</FeatureGuard>
+
+// Higher-order component pattern
+const SafeShareButton = withFeatureGuard(ShareButton, 'webShare', CopyButton);
+\`\`\`
+
+## Fallback Styles
+
+- \`default\`: Standard gray container with icon
+- \`minimal\`: Simple text message
+- \`warning\`: Yellow-themed warning style
+- \`error\`: Red-themed error style  
+- \`info\`: Blue-themed informational style
+- \`none\`: No visual styling
+
+## Loading States
+
+- \`default\`: Skeleton with animated placeholder
+- \`minimal\`: Simple text message
+- \`skeleton\`: Gray skeleton block
+- \`spinner\`: Loading spinner with text
+- \`none\`: No loading indicator
+
+## Multiple Feature Detection
+
+\`\`\`tsx
+const { supportedFeatures, supportPercentage } = useFeatureGuards([
+  'webShare', 'camera', 'geolocation'
+]);
+\`\`\`
+        `,
+      },
+    },
+  },
+  tags: ['autodocs'],
+};
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {
+  name: 'Basic Feature Guard',
+  args: {
+    feature: 'webShare',
+    children: <ShareButton />,
+  },
+};
+
+export const WithCustomFallback: Story = {
+  name: 'Custom Fallback',
+  args: {
+    feature: 'camera',
+    children: <CameraButton />,
+    fallback: <FileUploadButton />,
+  },
+};
+
+export const WithStyledFallback: Story = {
+  name: 'Styled Fallback',
+  args: {
+    feature: 'webAuthn',
+    children: (
+      <Button className="bg-indigo-600 hover:bg-indigo-700">
+        🔐 Biometric Login
+      </Button>
+    ),
+    fallbackStyle: 'warning',
+    fallbackMessage: 'Biometric authentication not available. Please use password login.',
+  },
+};
+
+export const MinimalStyle: Story = {
+  name: 'Minimal Fallback',
+  args: {
+    feature: 'nfc',
+    children: (
+      <Button className="bg-orange-600 hover:bg-orange-700">
+        📱 Scan NFC Tag
+      </Button>
+    ),
+    fallbackStyle: 'minimal',
+    fallbackMessage: 'NFC not supported',
+  },
+};
+
+export const ErrorStyle: Story = {
+  name: 'Error Style Fallback',
+  args: {
+    feature: 'bluetooth',
+    children: (
+      <Button className="bg-blue-600 hover:bg-blue-700">
+        📶 Connect Bluetooth Device
+      </Button>
+    ),
+    fallbackStyle: 'error',
+  },
+};
+
+export const InfoStyle: Story = {
+  name: 'Info Style Fallback',
+  args: {
+    feature: 'wakeLock',
+    children: (
+      <Button className="bg-yellow-600 hover:bg-yellow-700">
+        ☀️ Keep Screen Awake
+      </Button>
+    ),
+    fallbackStyle: 'info',
+  },
+};
+
+export const NoFallback: Story = {
+  name: 'No Fallback (Hidden)',
+  args: {
+    feature: 'webHID',
+    children: (
+      <Button className="bg-gray-600 hover:bg-gray-700">
+        🔌 Connect HID Device
+      </Button>
+    ),
+    showDefaultFallback: false,
+  },
+};
+
+export const LoadingStates: Story = {
+  name: 'Loading State Variants',
+  render: () => (
+    <div className="grid md:grid-cols-2 gap-6">
+      <div className="space-y-4">
+        <h3 className="font-semibold">Default Loading</h3>
+        <FeatureGuard 
+          feature="serviceWorker" 
+          loadingStyle="default"
+          loading={
+            <div className="bg-gray-100 animate-pulse rounded-lg p-4">
+              <div className="h-4 bg-gray-300 rounded mb-2" />
+              <div className="h-4 bg-gray-300 rounded w-3/4" />
+            </div>
+          }
+        >
+          <Button>Service Worker Feature</Button>
+        </FeatureGuard>
+      </div>
+      
+      <div className="space-y-4">
+        <h3 className="font-semibold">Spinner Loading</h3>
+        <FeatureGuard 
+          feature="pushManager" 
+          loadingStyle="spinner"
+        >
+          <Button>Push Notifications</Button>
+        </FeatureGuard>
+      </div>
+
+      <div className="space-y-4">
+        <h3 className="font-semibold">Skeleton Loading</h3>
+        <FeatureGuard 
+          feature="backgroundSync" 
+          loadingStyle="skeleton"
+        >
+          <Button>Background Sync</Button>
+        </FeatureGuard>
+      </div>
+
+      <div className="space-y-4">
+        <h3 className="font-semibold">Minimal Loading</h3>
+        <FeatureGuard 
+          feature="geolocation" 
+          loadingStyle="minimal"
+        >
+          <Button>Geolocation</Button>
+        </FeatureGuard>
+      </div>
+    </div>
+  ),
+};
+
+export const MultipleFeatures: Story = {
+  name: 'Feature Showcase',
+  render: () => <FeatureShowcase />,
+};
+
+export const HOCPattern: Story = {
+  name: 'Higher-Order Component',
+  render: () => (
+    <div className="space-y-4">
+      <h3 className="text-lg font-semibold">Higher-Order Component Pattern</h3>
+      <p className="text-gray-600 mb-4">
+        The enhanced share button automatically falls back to copy functionality when Web Share isn't available.
+      </p>
+      <EnhancedShareButton />
+    </div>
+  ),
+};
+
+// Real-world usage examples
+function CameraFeatureExample() {
+  const [photo, setPhoto] = useState<string | null>(null);
+  
+  const handleCameraCapture = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      // In a real app, you'd create a video element and capture frame
+      setPhoto('📷 Photo captured!');
+      stream.getTracks().forEach(track => track.stop());
+    } catch (error) {
+      console.error('Camera error:', error);
+    }
+  };
+  
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setPhoto(`📁 File selected: ${file.name}`);
+    }
+  };
+  
+  return (
+    <div className="space-y-4">
+      <h3 className="font-semibold">Photo Capture with Fallback</h3>
+      <FeatureGuard 
+        feature="camera"
+        fallback={
+          <div>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleFileUpload}
+              className="hidden"
+              id="file-upload"
+            />
+            <Button asChild variant="outline">
+              <label htmlFor="file-upload" className="cursor-pointer">
+                📁 Upload Photo
+              </label>
+            </Button>
+          </div>
+        }
+      >
+        <Button onClick={handleCameraCapture}>
+          📷 Take Photo
+        </Button>
+      </FeatureGuard>
+      {photo && (
+        <div className="p-3 bg-green-50 border border-green-200 rounded-lg text-green-800">
+          {photo}
+        </div>
+      )}
+    </div>
+  );
+}
+
+export const RealWorldExample: Story = {
+  name: 'Real-World Usage',
+  render: () => (
+    <div className="space-y-8">
+      <CameraFeatureExample />
+      
+      <div className="space-y-4">
+        <h3 className="font-semibold">Authentication Options</h3>
+        <div className="flex space-x-4">
+          <FeatureGuard 
+            feature="webAuthn"
+            fallback={
+              <Button variant="outline">
+                🔑 Password Login
+              </Button>
+            }
+          >
+            <Button>
+              🔐 Biometric Login
+            </Button>
+          </FeatureGuard>
+        </div>
+      </div>
+    </div>
+  ),
+};

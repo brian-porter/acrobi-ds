@@ -150,3 +150,28 @@ export type { KeyboardAvoidingViewProps } from './keyboard-avoiding-view';
 
 export { LocationMap, locationMapUtils } from './location-map';
 export type { LocationMapProps, LocationMapMarker } from './location-map';
+
+// Authentication Flow Structures (PRD v12)
+export { SAuthCreateAccount, authCreateAccountVariants, authHeaderVariants } from './s-auth-create-account';
+export type { AuthCreateAccountData, AuthCreateAccountProps } from './s-auth-create-account';
+
+export { SAuthVerifyContact, authVerifyContactVariants, verificationInfoVariants } from './s-auth-verify-contact';
+export type { AuthVerifyContactData, AuthVerifyContactProps } from './s-auth-verify-contact';
+
+export { SAuthAddSecondaryContact, authAddSecondaryContactVariants, contactMethodCardVariants } from './s-auth-add-secondary-contact';
+export type { AuthAddSecondaryContactData, AuthAddSecondaryContactProps } from './s-auth-add-secondary-contact';
+
+export { SAuthPasskey, authPasskeyVariants, passkeyFeatureCardVariants, passkeyStepIndicatorVariants } from './s-auth-passkey';
+export type { AuthPasskeyData, AuthPasskeyProps, PasskeyCredential } from './s-auth-passkey';
+
+export { SAuthHandle, authHandleVariants, handlePreviewVariants, handleSuggestionVariants } from './s-auth-handle';
+export type { AuthHandleData, AuthHandleProps, HandleSuggestion } from './s-auth-handle';
+
+export { SAuthFork, authForkVariants, forkPathCardVariants, pathIconVariants } from './s-auth-fork';
+export type { AuthForkData, AuthForkProps, AuthForkPath } from './s-auth-fork';
+
+export { SAuthConnectSocials, authConnectSocialsVariants, socialProviderCardVariants, socialIconVariants } from './s-auth-connect-socials';
+export type { AuthConnectSocialsData, AuthConnectSocialsProps, SocialProvider, SocialConnection } from './s-auth-connect-socials';
+
+export { SAuthSetFavorites, authSetFavoritesVariants, favoritesCategoryVariants, favoriteItemCardVariants, favoriteItemIconVariants } from './s-auth-set-favorites';
+export type { AuthSetFavoritesData, AuthSetFavoritesProps, FavoriteCategory, FavoriteItem } from './s-auth-set-favorites';

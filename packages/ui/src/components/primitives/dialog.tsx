@@ -2,6 +2,7 @@ import * as React from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '../../lib/utils';
 import { Label } from './label';
+import { gsap } from 'gsap';
 
 /**
  * Dialog variant styles using Acrobi Design System classes
@@ -395,8 +396,57 @@ const Dialog = React.forwardRef<HTMLDivElement, DialogProps>(
     if (!actualVisible) return null;
 
     const dialogRef = React.useRef<HTMLDivElement>(null);
+    const dialogBoxRef = React.useRef<HTMLDivElement>(null);
+    const backgroundRef = React.useRef<HTMLDivElement>(null);
 
     React.useImperativeHandle(ref, () => dialogRef.current!, []);
+
+    // GSAP animations for "fade and grow" entry/exit
+    React.useEffect(() => {
+      if (!dialogRef.current || !dialogBoxRef.current || !backgroundRef.current) return;
+
+      const dialog = dialogRef.current;
+      const dialogBox = dialogBoxRef.current;
+      const background = backgroundRef.current;
+
+      if (actualOpen) {
+        // Entry animation: "fade and grow"
+        gsap.set(dialog, { display: 'flex' });
+        gsap.set(background, { opacity: 0 });
+        gsap.set(dialogBox, { opacity: 0, scale: 0.8 });
+
+        const tl = gsap.timeline();
+        tl.to(background, { 
+          opacity: 1, 
+          duration: 0.2, 
+          ease: 'power2.out' 
+        })
+        .to(dialogBox, { 
+          opacity: 1, 
+          scale: 1, 
+          duration: 0.3, 
+          ease: 'back.out(1.7)' 
+        }, 0.1);
+      } else {
+        // Exit animation: reverse "fade and grow"
+        const tl = gsap.timeline({
+          onComplete: () => {
+            gsap.set(dialog, { display: 'none' });
+          }
+        });
+        tl.to(dialogBox, { 
+          opacity: 0, 
+          scale: 0.8, 
+          duration: 0.2, 
+          ease: 'power2.in' 
+        })
+        .to(background, { 
+          opacity: 0, 
+          duration: 0.15, 
+          ease: 'power2.in' 
+        }, 0.1);
+      }
+    }, [actualOpen]);
 
     // Handle escape key
     React.useEffect(() => {
@@ -469,20 +519,21 @@ const Dialog = React.forwardRef<HTMLDivElement, DialogProps>(
       }
     };
 
-    if (!actualOpen) return null;
-
+    // Always render but let GSAP control visibility
     return (
       <div
         className={cn(
-          dialogVariants({ state: actualOpen ? 'open' : 'closed' }),
+          'dialog_wrap fixed inset-0 z-50 items-center justify-center',
           className
         )}
+        style={{ display: 'none' }} // Initially hidden, GSAP will show it
         data-w-id='cd25656a-27bc-2427-e81d-4e8f34f13922'
         ref={dialogRef}
         {...props}
       >
         {/* Dialog Background/Overlay */}
         <div
+          ref={backgroundRef}
           className={cn(dialogBackgroundVariants({ scrim, blur }))}
           data-scrim={getScrimValue(scrim)}
           data-blur={getBlurValue(blur)}
@@ -492,6 +543,7 @@ const Dialog = React.forwardRef<HTMLDivElement, DialogProps>(
 
         {/* Dialog Box */}
         <div
+          ref={dialogBoxRef}
           className={cn(
             dialogBoxVariants({ type, shadow: actualShadow, size })
           )}
