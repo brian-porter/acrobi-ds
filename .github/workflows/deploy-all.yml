@@ -16,6 +16,9 @@ on:
         default: true
         type: boolean
 
+permissions:
+  contents: read
+
 jobs:
   deploy-docs:
     if: github.event_name == 'push' || inputs.deploy_docs
@@ -45,14 +48,12 @@ jobs:
           pnpm docs:build
 
       - name: Deploy VitePress to Cloudflare Pages
-        uses: cloudflare/pages-action@v1
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: acrobi-docs
-          directory: packages/ui/docs/.vitepress/dist
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
-          wranglerVersion: '3'
+        run: |
+          echo "🚀 Deploying VitePress to Cloudflare Pages..."
+          npx wrangler pages deploy packages/ui/docs/.vitepress/dist --project-name=acrobi-docs --compatibility-date=2024-01-01
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
 
   deploy-storybook:
     if: github.event_name == 'push' || inputs.deploy_storybook
@@ -82,11 +83,9 @@ jobs:
           pnpm build-storybook
 
       - name: Deploy Storybook to Cloudflare Pages
-        uses: cloudflare/pages-action@v1
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: acrobi-storybook
-          directory: packages/ui/storybook-static
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
-          wranglerVersion: '3'
+        run: |
+          echo "🚀 Deploying Storybook to Cloudflare Pages..."
+          npx wrangler pages deploy packages/ui/storybook-static --project-name=acrobi-storybook --compatibility-date=2024-01-01
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
