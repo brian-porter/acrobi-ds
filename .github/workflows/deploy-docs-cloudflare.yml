@@ -11,7 +11,6 @@ on:
 
 permissions:
   contents: read
-  deployments: write
 
 jobs:
   deploy-docs:
@@ -38,7 +37,7 @@ jobs:
       - name: Build VitePress documentation
         run: |
           echo "📚 Building VitePress documentation..."
-          
+
           # Check if VitePress is configured
           if [ ! -f "packages/ui/docs/.vitepress/config.ts" ] && [ ! -f "packages/ui/docs/.vitepress/config.js" ]; then
             echo "Setting up VitePress configuration..."
@@ -163,17 +162,17 @@ jobs:
             }
           })
           EOF
-          
+
             echo "✅ VitePress configuration created"
           fi
 
           # Build VitePress site
           cd packages/ui/docs && npx vitepress build
-          
+
           # Copy built files to deployment directory
           mkdir -p ../../../docs-dist
           cp -r .vitepress/dist/* ../../../docs-dist/
-          
+
           # Add robots.txt for SEO
           cat > ../../../docs-dist/robots.txt << 'EOF'
           User-agent: *
@@ -181,7 +180,7 @@ jobs:
 
           Sitemap: https://docs.acrobi.com/sitemap.xml
           EOF
-          
+
           # Generate sitemap.xml
           cat > ../../../docs-dist/sitemap.xml << 'EOF'
           <?xml version="1.0" encoding="UTF-8"?>
@@ -214,12 +213,12 @@ jobs:
           EOF
 
       - name: Deploy to Cloudflare Pages
-        uses: cloudflare/pages-action@v1
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: acrobi-docs
-          directory: docs-dist
+        run: |
+          echo "🚀 Deploying to Cloudflare Pages..."
+          npx wrangler pages deploy docs-dist --project-name=acrobi-docs --compatibility-date=2024-01-01
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
 
       - name: Update deployment status
         run: |
