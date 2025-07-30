@@ -6,9 +6,11 @@ node_modules/
 /.pnp
 .pnp.js
 
-# Documentation & Work Tracking
-docs/
+# Documentation & Work Tracking (exclude VitePress docs)
+/docs/
 devlink/
+# Allow VitePress documentation
+!packages/ui/docs/
 
 # Internal Planning Documents (Epic 9.1.1 - Repository Sanitization)
 **/prd-*.md
