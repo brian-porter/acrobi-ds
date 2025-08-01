@@ -166,3 +166,82 @@
   font-size: var(--icn--xxl);
   line-height: var(--icn--lh);
 }
+
+/** LABEL COLOR ******************************************/
+/** Color system for labels using Acrobi color tokens  **/
+/*********************************************************/
+[data-clr='in'] {
+  color: inherit;
+}
+
+[data-clr='n000'] {
+  color: var(--color--n000);
+}
+
+[data-clr='n100'] {
+  color: var(--color--n100);
+}
+
+[data-clr='n200'] {
+  color: var(--color--n200);
+}
+
+[data-clr='n300'] {
+  color: var(--color--n300);
+}
+
+[data-clr='n500'] {
+  color: var(--color--n500);
+}
+
+[data-clr='n700'] {
+  color: var(--color--n700);
+}
+
+[data-clr='n900'] {
+  color: var(--color--n900);
+}
+
+[data-clr='n999'] {
+  color: var(--color--n999);
+}
+
+[data-clr='p100'] {
+  color: var(--color--p100);
+}
+
+[data-clr='p200'] {
+  color: var(--color--p200);
+}
+
+[data-clr='p300'] {
+  color: var(--color--p300);
+}
+
+[data-clr='p500'] {
+  color: var(--color--p500);
+}
+
+[data-clr='p700'] {
+  color: var(--color--p700);
+}
+
+[data-clr='p900'] {
+  color: var(--color--p900);
+}
+
+[data-clr='f500'] {
+  color: var(--color--f500);
+}
+
+[data-clr='fd500'] {
+  color: var(--color--fd500);
+}
+
+[data-clr='fw500'] {
+  color: var(--color--fw500);
+}
+
+[data-clr='t000'] {
+  color: var(--color--t000);
+}
