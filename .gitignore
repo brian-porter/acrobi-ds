@@ -112,3 +112,15 @@ Thumbs.db
 
 # TypeScript
 *.tsbuildinfo
+
+# MCP and API configuration files (contain secrets)
+.roo/
+.claude-flow/
+.taskmaster/
+.swarm/
+memory.db*
+devil/
+reports/
+simulation-data/
+specifications/
+test-theme-dir/
