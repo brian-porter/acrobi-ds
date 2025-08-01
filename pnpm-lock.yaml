@@ -139,6 +139,9 @@ importers:
       '@vitest/ui':
         specifier: ^2.0.0
         version: 2.1.9(vitest@2.1.9)
+      chokidar:
+        specifier: ^3.6.0
+        version: 3.6.0
       eslint-plugin-storybook:
         specifier: 9.0.18
         version: 9.0.18(eslint@8.57.1)(storybook@9.0.18(@testing-library/dom@10.4.0)(prettier@3.6.2))(typescript@5.8.3)
@@ -151,6 +154,9 @@ importers:
       tailwindcss:
         specifier: ^3.0.0
         version: 3.4.17
+      typescript:
+        specifier: ^5.0.0
+        version: 5.8.3
       vite:
         specifier: ^5.0.0
         version: 5.4.19(@types/node@20.19.9)
