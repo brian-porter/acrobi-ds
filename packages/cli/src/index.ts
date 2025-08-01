@@ -6,6 +6,7 @@ import { listComponents } from './commands/list';
 import { addComponent } from './commands/add';
 import { initProject } from './commands/init';
 import { removeComponent } from './commands/remove';
+import { addTheme, listThemes, removeTheme } from './commands/theme';
 
 const program = new Command();
 
@@ -53,6 +54,39 @@ program
   .option('--dry-run', 'Show what would be removed without making changes')
   .action(removeComponent);
 
+// Theme commands
+const themeCommand = program
+  .command('theme')
+  .description('Manage themes for your project');
+
+// Theme add command
+themeCommand
+  .command('add <theme-name>')
+  .description('Create a new theme extending an existing one')
+  .option('--extends <base-theme>', 'Base theme to extend (required)')
+  .option('--tokens <tokens...>', 'Custom token overrides (e.g., colors.primary=#ff6b6b)')
+  .option('-p, --path <path>', 'Target directory (default: src)', 'src')
+  .option('-f, --force', 'Overwrite existing theme files')
+  .option('--dry-run', 'Show what would be created without making changes')
+  .action(addTheme);
+
+// Theme list command
+themeCommand
+  .command('list')
+  .description('List all available themes')
+  .option('-d, --detailed', 'Show detailed theme information')
+  .option('--format <format>', 'Output format (table, json)', 'table')
+  .action(listThemes);
+
+// Theme remove command
+themeCommand
+  .command('remove <theme-name>')
+  .description('Remove a custom theme from your project')
+  .option('-p, --path <path>', 'Target directory (default: src)', 'src')
+  .option('-f, --force', 'Skip confirmation prompt')
+  .option('--dry-run', 'Show what would be removed without making changes')
+  .action(removeTheme);
+
 program.parse();
 
 // Show help if no command provided
@@ -74,5 +108,15 @@ if (!process.argv.slice(2).length) {
   );
   console.log(
     chalk.gray('  acrobi add -i            Interactively select components')
+  );
+  console.log(chalk.yellow('\n🎨 Theme Management:'));
+  console.log(
+    chalk.gray('  acrobi theme list        Show available themes')
+  );
+  console.log(
+    chalk.gray('  acrobi theme add my-theme --extends acrobi-light')
+  );
+  console.log(
+    chalk.gray('  acrobi theme remove my-theme')
   );
 }

@@ -27,8 +27,19 @@ export default defineConfig({
         {
           text: 'Guides',
           items: [
+            { text: 'Advanced Theming', link: '/guides/theming' },
             { text: 'Service Worker Master Guide', link: '/guides/service-worker-guide' },
-            { text: 'Accessibility Guide', link: '/guides/accessibility-guide' }
+            { text: 'Accessibility Guide', link: '/guides/accessibility-guide' },
+            { text: 'Security Best Practices', link: '/guides/security-guide' },
+            { text: 'Performance Optimization', link: '/guides/performance-guide' },
+            { text: 'Advanced Fetch & Caching', link: '/guides/advanced-fetch-caching' },
+            { text: 'PWA Protocol Handlers', link: '/guides/protocol-handlers' },
+            { text: 'PWA App Badging', link: '/guides/app-badging' },
+            { text: 'PWA Window Management', link: '/guides/window-management' },
+            { text: 'PWA File System Access', link: '/guides/file-system-access' },
+            { text: 'PWA Web Share Target', link: '/guides/web-share-target' },
+            { text: 'PWA Periodic Background Sync', link: '/guides/periodic-background-sync' },
+            { text: 'Platform Detection & Adaptive Experiences', link: '/guides/platform-detection' }
           ]
         },
         {
