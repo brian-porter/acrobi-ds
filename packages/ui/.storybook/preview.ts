@@ -143,7 +143,7 @@ const preview: Preview = {
         document.body.style.fontFamily = 'var(--font-sans, "SF Pro Display", system-ui, sans-serif)';
         
         // Apply theme-specific body classes
-        document.body.className = \`theme-\${selectedTheme} \${isDark ? 'dark' : 'light'} \${motionPreference !== 'auto' ? \`motion-\${motionPreference}\` : ''}\`.trim();
+        document.body.className = `theme-${selectedTheme} ${isDark ? 'dark' : 'light'} ${motionPreference !== 'auto' ? `motion-${motionPreference}` : ''}`.trim();
       }
 
       // Determine container styles based on theme
@@ -185,7 +185,7 @@ const preview: Preview = {
         }
       };
 
-      const className = \`theme-\${selectedTheme} \${isDark ? 'dark' : 'light'} \${motionPreference !== 'auto' ? \`motion-\${motionPreference}\` : ''}\`.trim();
+      const className = `theme-${selectedTheme} ${isDark ? 'dark' : 'light'} ${motionPreference !== 'auto' ? `motion-${motionPreference}` : ''}`.trim();
 
       return React.createElement(
         'div',
