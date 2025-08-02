@@ -1,8 +1,8 @@
 /* Acrobi Design System - Default Theme */
-/* Updated with authentic values from docs/acrobi-styles/webflow/global.css */
 
 /* Import core Acrobi styles */
 @import './acrobi/acrobi-styles.css';
+@import './acrobi/css/icons.css';
 
 /* SF Pro Font Family - Default Acrobi Font */
 @font-face {
@@ -54,8 +54,23 @@
   font-display: swap;
 }
 
+/* Ensure BQ-Icons font is available globally */
+.icn {
+  font-family: 'BQ-Icons', sans-serif !important;
+  line-height: 1;
+  font-style: normal;
+  font-weight: normal;
+  speak: none;
+  text-decoration: inherit;
+  text-transform: none;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+:root,
 [data-theme='acrobi'] {
-  /* Acrobi Neutrals - Authentic values from webflow globals.css */
+  /* Acrobi Neutrals */
   --color--n000: hsla(300, 100%, 99.8%, 1); /* Almost white */
   --color--n100: #f0f0f0;
   --color--n200: #e5e5e5;
@@ -65,7 +80,7 @@
   --color--n900: #302f2c;
   --color--n999: #1d1c1a; /* Dark, not white */
 
-  /* Acrobi Primary - Authentic values from webflow globals.css */
+  /* Acrobi Primary */
   --color--p100: #e8f1fe;
   --color--p200: #a3c8f9;
   --color--p300: #5e9ef5;
@@ -76,7 +91,7 @@
   /* Acrobi Secondary */
   --color--s500: #beef10;
 
-  /* Acrobi Focus Colors - Authentic values from webflow globals.css */
+  /* Acrobi Focus Colors */
   --color--f100: #bfe5ef;
   --color--f500: #00abd2;
   --color--f700: #007893;
@@ -94,7 +109,7 @@
   /* Acrobi Transparency */
   --color--t000: transparent;
 
-  /* Acrobi Fade Colors (with opacity) - Authentic values */
+  /* Acrobi Fade Colors (with opacity) */
   --color--n0001: rgba(255, 255, 255, 0.1);
   --color--n0002: rgba(255, 255, 255, 0.2);
   --color--n0003: rgba(255, 255, 255, 0.3);
@@ -142,7 +157,7 @@
   --_typography---line-height--1-3: 1.3;
   --_typography---line-height--1-5: 1.5;
 
-  /* Acrobi Size System - Authentic values from webflow globals.css */
+  /* Acrobi Size System */
   --size--0px: 0rem;
   --size--1px: 0.0625rem;
   --size--2px: 0.125rem;
@@ -163,7 +178,7 @@
   --size--64px: 4rem;
   --size--80px: 5rem;
 
-  /* Acrobi Border Radius System - Authentic values from webflow globals.css */
+  /* Acrobi Border Radius System */
   --radius--br0: 0rem;
   --radius--br1: 2px;
   --radius--br2: 4px;
@@ -174,7 +189,7 @@
   --radius--br7: 32px;
   --radius--round: 100vw;
 
-  /* Acrobi Font Family - Updated with SF Pro Display as default */
+  /* Acrobi Font Family */
   --_typography---ff0:
     'SF Pro Display', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
     Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans',
@@ -183,7 +198,7 @@
   --_typography---ff2: 'SF Pro Display', 'SF Pro', Arial, sans-serif;
   --_typography---icn1: BQ-Icons, sans-serif;
 
-  /* Acrobi Icon Sizes - Authentic values from webflow globals.css */
+  /* Acrobi Icon Sizes */
   --icn--xxs: 0.5rem; /* 8px */
   --icn--xs: 0.75rem; /* 12px */
   --icn--s: 0.875rem; /* 14px */
@@ -325,7 +340,7 @@
   border-radius: var(--radius--br5);
 }
 
-/* Box shadow utilities - Authentic Acrobi shadows */
+/* Box shadow utilities */
 [data-bs='xs'] {
   box-shadow:
     0 1px 8px var(--color--n9992),
@@ -347,7 +362,7 @@
     0 6px 10px var(--color--n9991);
 }
 
-/* Typography utilities - Authentic Acrobi typography */
+/* Typography utilities */
 [data-fs='h1'] {
   font-size: var(--_typography---size--h1);
   font-weight: var(--_typography---fw4);
@@ -489,7 +504,6 @@
   font-weight: 600;
   margin-bottom: var(--size--16px);
   color: var(--color--n999);
-  border-bottom: 2px solid var(--color--n100);
   padding-bottom: var(--size--8px);
 }
 
@@ -541,7 +555,7 @@
 .sb-story [data-webflow],
 .sb-story .w-form,
 .sb-story .w-button {
-  /* Reset any Webflow-specific styling */
+  /* Reset any styling */
   all: unset;
   display: inline-block;
 }

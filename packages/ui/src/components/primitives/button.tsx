@@ -187,7 +187,7 @@ const getIconPositionValue = (position: string | null | undefined): string => {
  *
  * @example
  * ```tsx
- * <Button variant="primary" size="l" icon="🔍" iconPosition="l">
+ * <Button variant="primary" size="l" icon="default" iconPosition="l">
  *   Search
  * </Button>
  * ```
@@ -281,6 +281,20 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       return labelSizeMap[getButtonSize(buttonSize)] || 'r1';
     };
 
+    // Determine gap based on icon position and size
+    const getGapForIconPosition = (position: string, buttonSize: string): '0' | '4' | '8' | '16' => {
+      // For top and bottom positions, use 0 gap for tighter layout
+      if (position === 'Top' || position === 'Bottom') {
+        return '0';
+      }
+      // For dynamic buttons, use 0 gap
+      if (buttonSize === 'dy') {
+        return '0';
+      }
+      // Default gap for left/right positions
+      return '8';
+    };
+
     // Create the label content using Label component
     const labelContent = (
       <Label
@@ -288,7 +302,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         color='inherit'
         icon={icon}
         iconPosition={iconPosition}
-        gap='8'
+        gap={getGapForIconPosition(iconPosition, size)}
       >
         {children}
       </Label>

@@ -245,3 +245,22 @@
 [data-clr='t000'] {
   color: var(--color--t000);
 }
+
+/** LABEL GAP ********************************************/
+/** Gap spacing between icon and text                   **/
+/*********************************************************/
+[data-gap='4'] {
+  gap: var(--size--4px);
+}
+
+[data-gap='8'] {
+  gap: var(--size--8px);
+}
+
+[data-gap='16'] {
+  gap: var(--size--16px);
+}
+
+[data-gap='0'] {
+  gap: 0px;
+}

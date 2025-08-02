@@ -2,6 +2,8 @@ import type { Preview } from '@storybook/react-vite';
 import React from 'react';
 import '../src/styles/globals.css';
 import '../src/styles/themes/theme-acrobi.css';
+import '../src/styles/themes/theme-bluequeue.css';
+import '../src/styles/themes/semantic-bridge.css';
 
 const preview: Preview = {
   parameters: {
@@ -63,6 +65,7 @@ const preview: Preview = {
             { value: 'acrobi-dark', title: '🌙 Acrobi Dark', left: '🌙' },
             { value: 'acrobi-high-contrast', title: '🎯 High Contrast', left: '🎯' },
             { value: 'acrobi-sepia', title: '📜 Sepia', left: '📜' },
+            { value: 'bluequeue-light', title: '🔵 BlueQueue (Webflow)', left: '🔵' },
           ],
           showName: true,
           dynamicTitle: true,
@@ -117,7 +120,7 @@ const preview: Preview = {
       // Apply theme and preferences to document
       if (typeof document !== 'undefined') {
         // Set theme data attribute
-        document.documentElement.setAttribute('data-theme', selectedTheme.replace('-light', '').replace('-dark', ''));
+        document.documentElement.setAttribute('data-theme', selectedTheme);
         
         // Apply dark class
         if (isDark) {
@@ -157,6 +160,14 @@ const preview: Preview = {
 
         // Theme-specific colors
         switch (selectedTheme) {
+          case 'bluequeue-light':
+            return {
+              ...baseStyles,
+              fontFamily: '"Inter", "SF Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif',
+              backgroundColor: 'rgb(255, 254, 255)', // Webflow background
+              color: 'rgb(29, 28, 26)', // Webflow text
+              fontSize: '14px',
+            };
           case 'acrobi-high-contrast':
             return {
               ...baseStyles,
@@ -190,7 +201,7 @@ const preview: Preview = {
       return React.createElement(
         'div',
         {
-          'data-theme': selectedTheme.replace('-light', '').replace('-dark', ''),
+          'data-theme': selectedTheme,
           'data-color-mode': isDark ? 'dark' : 'light',
           'data-motion-preference': motionPreference,
           className,
@@ -214,6 +225,8 @@ const preview: Preview = {
           { value: 'acrobi-dark', title: 'Acrobi Dark' },
           { value: 'acrobi-high-contrast', title: 'High Contrast' },
           { value: 'acrobi-sepia', title: 'Sepia' },
+          { value: 'bluequeue-light', title: 'BlueQueue (Webflow)' },
+          { value: 'bluequeue-dark', title: 'BlueQueue Dark' },
         ],
         showName: true,
         dynamicTitle: true,

@@ -1,0 +1,694 @@
+/**
+ * Semantic Bridge for Tailwind Integration
+ * Maps Acrobi design system variables to standard Tailwind semantic names
+ * This enables hybrid usage: your components + Tailwind utilities
+ */
+
+/* =============================================================================
+   SEMANTIC VARIABLE BRIDGE
+   Maps your existing --color--p500 system to standard --primary system
+   ============================================================================= */
+
+:root {
+  /* COLORS - Semantic Mapping */
+  /* Primary Colors */
+  --primary: var(--color--p500);
+  --primary-foreground: var(--color--n000);
+  
+  /* Secondary Colors */
+  --secondary: var(--color--s500);
+  --secondary-foreground: var(--color--n999);
+  
+  /* Neutral Colors for Buttons */
+  --neutral: var(--color--n500);
+  --neutral-foreground: var(--color--n000);
+  
+  /* Background Colors */
+  --background: var(--color--n000);
+  --foreground: var(--color--n999);
+  
+  /* Muted Colors */
+  --muted: var(--color--n300);
+  --muted-foreground: var(--color--n700);
+  
+  /* Accent Colors */
+  --accent: var(--color--f500);
+  --accent-foreground: var(--color--n000);
+  
+  /* Destructive Colors */
+  --destructive: var(--color--fd500);
+  --destructive-foreground: var(--color--n000);
+  
+  /* Warning Colors */
+  --warning: var(--color--fw500);
+  --warning-foreground: var(--color--n000);
+  
+  /* Success Colors */
+  --success: var(--color--fs500);
+  --success-foreground: var(--color--n000);
+  
+  /* Border & Input Colors */
+  --border: var(--color--n300);
+  --input: var(--color--n200);
+  --ring: var(--color--p500);
+  
+  /* Card Colors */
+  --card: var(--color--n000);
+  --card-foreground: var(--color--n999);
+  
+  /* Popover Colors */
+  --popover: var(--color--n000);
+  --popover-foreground: var(--color--n999);
+  
+  /* TYPOGRAPHY - Semantic Mapping */
+  --font-sans: var(--_typography---ff2);
+  --font-mono: var(--font-mono, 'SFMono-Regular', Consolas, monospace);
+  
+  /* SPACING - Semantic Mapping */
+  --spacing-xs: var(--size--4px);
+  --spacing-sm: var(--size--8px);
+  --spacing-md: var(--size--16px);
+  --spacing-lg: var(--size--24px);
+  --spacing-xl: var(--size--32px);
+  
+  /* RADIUS - Semantic Mapping */
+  --radius: var(--radius--br2); /* 4px default */
+  --radius-sm: var(--radius--br1); /* 2px */
+  --radius-md: var(--radius--br2); /* 4px */
+  --radius-lg: var(--radius--br4); /* 8px */
+  --radius-full: var(--radius--round); /* 100vw */
+}
+
+/* =============================================================================
+   THEME-SPECIFIC SEMANTIC OVERRIDES
+   Each theme can override semantic variables while keeping component CSS intact
+   ============================================================================= */
+
+/* Acrobi Theme Semantic Variables */
+[data-theme='acrobi'] {
+  /* Use Acrobi's existing color system */
+  --primary: var(--color--p500);         /* #1975f0 */
+  --primary-foreground: var(--color--n000); /* Almost white */
+  --secondary: var(--color--s500);       /* #beef10 */
+  --neutral: var(--color--n500);         /* #9a9a9a - Gray for neutral buttons */
+  --neutral-foreground: var(--color--n000); /* White text on neutral buttons */
+  --background: var(--color--n000);      /* Almost white */
+  --foreground: var(--color--n999);      /* #1d1c1a */
+  --muted: var(--color--n300);          /* #c4c4c4 */
+  --muted-foreground: var(--color--n700); /* #6d6d6d */
+  --border: var(--color--n300);         /* #c4c4c4 */
+  --input: var(--color--n200);          /* #e5e5e5 */
+  --ring: var(--color--p500);           /* #1975f0 */
+  --accent: var(--color--f500);         /* #00abd2 */
+  --accent-foreground: var(--color--n000);
+  --destructive: var(--color--fd500);   /* #ed1c24 */
+  --destructive-foreground: var(--color--n000);
+  --warning: var(--color--fw500);       /* #ff8000 */
+  --warning-foreground: var(--color--n000);
+  --success: var(--color--fs500);       /* #00b400 */
+  --success-foreground: var(--color--n000);
+  --card: var(--color--n000);
+  --card-foreground: var(--color--n999);
+  --popover: var(--color--n000);
+  --popover-foreground: var(--color--n999);
+}
+
+/* BlueQueue Theme Semantic Variables */
+html[data-theme='bluequeue-light'],
+html[data-theme='bluequeue-light'] :root,
+[data-theme='bluequeue-light'] {
+  /* Use BlueQueue's Webflow-matching colors - override for different primary treatment */
+  --primary: var(--color--p500);           /* Use p500 variable through semantic bridge */
+  --primary-foreground: var(--color--n000); /* Use BlueQueue's n000 = rgb(255, 254, 255) */
+  --secondary: var(--color--s500);          /* Use BlueQueue's secondary */
+  --secondary-foreground: var(--color--n999); /* Use BlueQueue's text color */
+  --neutral: var(--color--n500);            /* Use BlueQueue's n500 = rgb(156, 156, 156) */
+  --neutral-foreground: var(--color--n000); /* White text on neutral buttons */
+  --background: rgb(255, 254, 255);      /* Webflow Background */
+  --foreground: rgb(29, 28, 26);         /* Webflow Text */
+  --muted: rgb(196, 196, 196);          /* Webflow Neutral */
+  --muted-foreground: rgb(109, 109, 109); /* Webflow Muted */
+  --border: rgb(196, 196, 196);         /* Webflow Border */
+  --input: rgb(255, 254, 255);          /* Webflow Input Background */
+  --ring: rgb(25, 117, 240);            /* Webflow Accent Blue */
+  --accent: rgb(25, 117, 240);          /* Webflow Accent Blue */
+  --accent-foreground: rgb(255, 254, 255);
+  --destructive: rgb(220, 38, 38);      /* Standard destructive */
+  --destructive-foreground: rgb(255, 254, 255);
+  --warning: rgb(217, 119, 6);          /* Standard warning */
+  --warning-foreground: rgb(255, 254, 255);
+  --success: rgb(34, 197, 94);          /* Standard success */
+  --success-foreground: rgb(255, 254, 255);
+  --card: rgb(255, 254, 255);
+  --card-foreground: rgb(29, 28, 26);
+  --popover: rgb(255, 254, 255);
+  --popover-foreground: rgb(29, 28, 26);
+}
+
+/* Ensure icons work in BlueQueue theme */
+[data-theme='bluequeue-light'] .icn {
+  font-family: 'BQ-Icons', sans-serif !important;
+  color: inherit;
+}
+
+/* Ensure BlueQueue primary buttons use blue color */
+html[data-theme='bluequeue-light'] [data-btn-style="pf"] {
+  background: var(--color--p500) !important;
+  border-color: var(--color--p500) !important;
+  color: var(--color--n000) !important;
+}
+
+/* BlueQueue primary outline buttons use same blue as filled buttons */
+html[data-theme='bluequeue-light'] [data-btn-style="pl"],
+html[data-theme='bluequeue-dark'] [data-btn-style="pl"] {
+  background: transparent !important;
+  border-color: var(--color--p500) !important;
+  color: var(--color--p500) !important;
+}
+
+/* BlueQueue primary text buttons use same blue as filled buttons */
+html[data-theme='bluequeue-light'] [data-btn-style="pt"],
+html[data-theme='bluequeue-dark'] [data-btn-style="pt"] {
+  background: transparent !important;
+  border-color: transparent !important;
+  color: var(--color--p500) !important;
+}
+
+/* Ensure BlueQueue button text elements also get the blue color */
+html[data-theme='bluequeue-light'] [data-btn-style="pl"] .label_wrap,
+html[data-theme='bluequeue-light'] [data-btn-style="pl"] .label_wrap .txt,
+html[data-theme='bluequeue-light'] [data-btn-style="pl"] .label_wrap .icn,
+html[data-theme='bluequeue-light'] [data-btn-style="pl"] .label,
+html[data-theme='bluequeue-light'] [data-btn-style="pl"] .txt,
+html[data-theme='bluequeue-light'] [data-btn-style="pl"] .icn,
+html[data-theme='bluequeue-dark'] [data-btn-style="pl"] .label_wrap,
+html[data-theme='bluequeue-dark'] [data-btn-style="pl"] .label_wrap .txt,
+html[data-theme='bluequeue-dark'] [data-btn-style="pl"] .label_wrap .icn,
+html[data-theme='bluequeue-dark'] [data-btn-style="pl"] .label,
+html[data-theme='bluequeue-dark'] [data-btn-style="pl"] .txt,
+html[data-theme='bluequeue-dark'] [data-btn-style="pl"] .icn {
+  color: var(--color--p500) !important;
+}
+
+html[data-theme='bluequeue-light'] [data-btn-style="pt"] .label_wrap,
+html[data-theme='bluequeue-light'] [data-btn-style="pt"] .label_wrap .txt,
+html[data-theme='bluequeue-light'] [data-btn-style="pt"] .label_wrap .icn,
+html[data-theme='bluequeue-light'] [data-btn-style="pt"] .label,
+html[data-theme='bluequeue-light'] [data-btn-style="pt"] .txt,
+html[data-theme='bluequeue-light'] [data-btn-style="pt"] .icn,
+html[data-theme='bluequeue-dark'] [data-btn-style="pt"] .label_wrap,
+html[data-theme='bluequeue-dark'] [data-btn-style="pt"] .label_wrap .txt,
+html[data-theme='bluequeue-dark'] [data-btn-style="pt"] .label_wrap .icn,
+html[data-theme='bluequeue-dark'] [data-btn-style="pt"] .label,
+html[data-theme='bluequeue-dark'] [data-btn-style="pt"] .txt,
+html[data-theme='bluequeue-dark'] [data-btn-style="pt"] .icn {
+  color: var(--color--p500) !important;
+}
+
+/* BlueQueue disabled primary button text color */
+html[data-theme='bluequeue-light'] [data-btn-style="pf"][x-disabled*="true"],
+html[data-theme='bluequeue-dark'] [data-btn-style="pf"][x-disabled*="true"] {
+  color: var(--color--p200) !important;
+}
+
+html[data-theme='bluequeue-light'] [data-btn-style="pf"][x-disabled*="true"] .label_wrap,
+html[data-theme='bluequeue-light'] [data-btn-style="pf"][x-disabled*="true"] .label_wrap .txt,
+html[data-theme='bluequeue-light'] [data-btn-style="pf"][x-disabled*="true"] .label_wrap .icn,
+html[data-theme='bluequeue-light'] [data-btn-style="pf"][x-disabled*="true"] .label,
+html[data-theme='bluequeue-light'] [data-btn-style="pf"][x-disabled*="true"] .txt,
+html[data-theme='bluequeue-light'] [data-btn-style="pf"][x-disabled*="true"] .icn,
+html[data-theme='bluequeue-dark'] [data-btn-style="pf"][x-disabled*="true"] .label_wrap,
+html[data-theme='bluequeue-dark'] [data-btn-style="pf"][x-disabled*="true"] .label_wrap .txt,
+html[data-theme='bluequeue-dark'] [data-btn-style="pf"][x-disabled*="true"] .label_wrap .icn,
+html[data-theme='bluequeue-dark'] [data-btn-style="pf"][x-disabled*="true"] .label,
+html[data-theme='bluequeue-dark'] [data-btn-style="pf"][x-disabled*="true"] .txt,
+html[data-theme='bluequeue-dark'] [data-btn-style="pf"][x-disabled*="true"] .icn {
+  color: var(--color--p200) !important;
+}
+
+/* =============================================================================
+   HSL CONVERSION UTILITIES
+   Tailwind prefers HSL format, so we provide HSL versions too
+   ============================================================================= */
+
+:root {
+  /* HSL versions for maximum Tailwind compatibility */
+  --primary-hsl: 220 90% 56%;       /* Approximate HSL of primary */
+  --secondary-hsl: 0 0% 77%;        /* Approximate HSL of secondary */
+  --background-hsl: 0 0% 100%;      /* White background */
+  --foreground-hsl: 24 10% 10%;     /* Dark foreground */
+  --muted-hsl: 0 0% 77%;           /* Muted color */
+  --muted-foreground-hsl: 0 0% 43%; /* Muted foreground */
+  --border-hsl: 0 0% 77%;          /* Border color */
+  --input-hsl: 0 0% 90%;           /* Input background */
+  --ring-hsl: 220 90% 56%;         /* Ring/focus color */
+  --accent-hsl: 194 100% 41%;      /* Accent color */
+  --destructive-hsl: 0 84% 60%;    /* Destructive color */
+  --warning-hsl: 32 95% 44%;       /* Warning color */
+  --success-hsl: 142 71% 45%;      /* Success color */
+}
+
+[data-theme='bluequeue-light'] {
+  /* BlueQueue HSL overrides */
+  --primary-hsl: 217 89% 51%;          /* #1975f0 as HSL - CORRECTED from QA analysis */
+  --primary-foreground-hsl: 300 100% 99%; /* rgb(255, 254, 255) as HSL */
+  --secondary-hsl: 0 0% 77%;           /* rgb(196, 196, 196) as HSL */
+  --background-hsl: 300 100% 99%;      /* rgb(255, 254, 255) as HSL */
+  --foreground-hsl: 30 6% 16%;         /* rgb(29, 28, 26) as HSL */
+  --muted-hsl: 0 0% 77%;              /* rgb(196, 196, 196) as HSL */
+  --muted-foreground-hsl: 0 0% 43%;    /* rgb(109, 109, 109) as HSL */
+  --border-hsl: 0 0% 77%;             /* rgb(196, 196, 196) as HSL */
+  --accent-hsl: 217 89% 51%;          /* rgb(25, 117, 240) as HSL */
+}
+
+/* =============================================================================
+   UTILITY CLASSES FOR DIRECT USAGE
+   Pre-built classes that use semantic variables
+   ============================================================================= */
+
+.bg-primary {
+  background-color: var(--primary);
+}
+
+.bg-primary\/10 {
+  background-color: color-mix(in srgb, var(--primary) 10%, transparent);
+}
+
+.text-primary {
+  color: var(--primary);
+}
+
+.text-primary-foreground {
+  color: var(--primary-foreground);
+}
+
+.bg-secondary {
+  background-color: var(--secondary);
+}
+
+.text-secondary-foreground {
+  color: var(--secondary-foreground);
+}
+
+.bg-neutral {
+  background-color: var(--neutral);
+}
+
+.text-neutral-foreground {
+  color: var(--neutral-foreground);
+}
+
+.bg-background {
+  background-color: var(--background);
+}
+
+.text-foreground {
+  color: var(--foreground);
+}
+
+.bg-muted {
+  background-color: var(--muted);
+}
+
+.text-muted-foreground {
+  color: var(--muted-foreground);
+}
+
+.bg-accent {
+  background-color: var(--accent);
+}
+
+.text-accent-foreground {
+  color: var(--accent-foreground);
+}
+
+.bg-destructive {
+  background-color: var(--destructive);
+}
+
+.text-destructive-foreground {
+  color: var(--destructive-foreground);
+}
+
+.bg-card {
+  background-color: var(--card);
+}
+
+.text-card-foreground {
+  color: var(--card-foreground);
+}
+
+.border-border {
+  border-color: var(--border);
+}
+
+.border-input {
+  border-color: var(--input);
+}
+
+.ring-ring {
+  --tw-ring-color: var(--ring);
+}
+
+/* Focus ring utilities */
+.focus-ring {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px var(--ring);
+}
+
+/* =============================================================================
+   COMPONENT-SPECIFIC SEMANTIC CLASSES
+   Ready-to-use classes for common patterns
+   ============================================================================= */
+
+/* Button text color fixes for semantic variables */
+/* Ensure filled buttons use proper foreground colors from semantic variables */
+[data-btn-style="pf"],
+html[data-theme='bluequeue-light'] [data-btn-style="pf"] {
+  background: var(--primary) !important;
+  border-color: var(--primary) !important;
+  color: var(--primary-foreground) !important;
+}
+
+[data-btn-style="pf"] .label_wrap,
+[data-btn-style="pf"] .label_wrap .txt,
+[data-btn-style="pf"] .label_wrap .icn,
+[data-btn-style="pf"] .label,
+[data-btn-style="pf"] .txt,
+[data-btn-style="pf"] .icn {
+  color: var(--primary-foreground) !important;
+}
+
+[data-btn-style="nf"] {
+  background: var(--neutral) !important;
+  border-color: var(--neutral) !important;
+  color: var(--neutral-foreground) !important;
+}
+
+[data-btn-style="nf"] .label_wrap,
+[data-btn-style="nf"] .label_wrap .txt,
+[data-btn-style="nf"] .label_wrap .icn,
+[data-btn-style="nf"] .label,
+[data-btn-style="nf"] .txt,
+[data-btn-style="nf"] .icn {
+  color: var(--neutral-foreground) !important;
+}
+
+[data-btn-style="sf"] {
+  color: var(--secondary-foreground) !important;
+}
+
+[data-btn-style="sf"] .label_wrap,
+[data-btn-style="sf"] .label_wrap .txt,
+[data-btn-style="sf"] .label_wrap .icn,
+[data-btn-style="sf"] .label,
+[data-btn-style="sf"] .txt,
+[data-btn-style="sf"] .icn {
+  color: var(--secondary-foreground) !important;
+}
+
+[data-btn-style="ff"] {
+  color: var(--accent-foreground) !important;
+}
+
+[data-btn-style="ff"] .label_wrap,
+[data-btn-style="ff"] .label_wrap .txt,
+[data-btn-style="ff"] .label_wrap .icn,
+[data-btn-style="ff"] .label,
+[data-btn-style="ff"] .txt,
+[data-btn-style="ff"] .icn {
+  color: var(--accent-foreground) !important;
+}
+
+[data-btn-style="df"] {
+  color: var(--destructive-foreground) !important;
+}
+
+[data-btn-style="df"] .label_wrap,
+[data-btn-style="df"] .label_wrap .txt,
+[data-btn-style="df"] .label_wrap .icn,
+[data-btn-style="df"] .label,
+[data-btn-style="df"] .txt,
+[data-btn-style="df"] .icn {
+  color: var(--destructive-foreground) !important;
+}
+
+[data-btn-style="wf"] {
+  color: var(--warning-foreground) !important;
+}
+
+[data-btn-style="wf"] .label_wrap,
+[data-btn-style="wf"] .label_wrap .txt,
+[data-btn-style="wf"] .label_wrap .icn,
+[data-btn-style="wf"] .label,
+[data-btn-style="wf"] .txt,
+[data-btn-style="wf"] .icn {
+  color: var(--warning-foreground) !important;
+}
+
+/* Button semantic variants using your data attributes */
+.btn-semantic-primary {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  border-color: var(--primary);
+}
+
+.btn-semantic-secondary {
+  background-color: var(--secondary);
+  color: var(--secondary-foreground);
+  border-color: var(--secondary);
+}
+
+.btn-semantic-destructive {
+  background-color: var(--destructive);
+  color: var(--destructive-foreground);
+  border-color: var(--destructive);
+}
+
+.btn-semantic-outline {
+  background-color: transparent;
+  color: var(--primary);
+  border-color: var(--primary);
+}
+
+.btn-semantic-ghost {
+  background-color: transparent;
+  color: var(--primary);
+  border-color: transparent;
+}
+
+/* Card semantic styling */
+.card-semantic {
+  background-color: var(--card);
+  color: var(--card-foreground);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+
+/* Input semantic styling */
+.input-semantic {
+  background-color: var(--input);
+  color: var(--foreground);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.input-semantic:focus {
+  border-color: var(--ring);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--ring) 20%, transparent);
+}
+
+/* =============================================================================
+   DARK MODE SUPPORT
+   Semantic variables automatically adapt to dark themes
+   ============================================================================= */
+
+html[data-theme='acrobi-dark'],
+html[data-theme='acrobi-dark'] :root,
+[data-theme='acrobi-dark'] {
+  /* Inverted button colors for dark mode */
+  --primary: var(--color--n000);           /* Light background for primary buttons in dark mode */
+  --primary-foreground: var(--color--n900); /* Dark text on light primary buttons */
+  --secondary: var(--color--n200);         /* Light secondary */
+  --secondary-foreground: var(--color--n900); /* Dark text on light secondary */
+  --neutral: var(--color--n600);          /* Medium gray for neutral buttons */
+  --neutral-foreground: var(--color--n000); /* Light text on neutral buttons */
+  
+  /* Dark mode backgrounds and surfaces */
+  --background: var(--color--n900);      /* Dark background */
+  --foreground: var(--color--n000);      /* Light foreground */
+  --card: var(--color--n900);
+  --card-foreground: var(--color--n000);
+  --popover: var(--color--n900);
+  --popover-foreground: var(--color--n000);
+  --muted: var(--color--n700);
+  --muted-foreground: var(--color--n300);
+  --border: var(--color--n700);
+  --input: var(--color--n800);
+  --ring: var(--color--n300);            /* Light focus ring */
+  --accent: var(--color--n200);          /* Light accent */
+  --accent-foreground: var(--color--n000); /* Keep focus text light in dark mode */
+  
+  /* Dark mode HSL versions */
+  --primary-hsl: 0 0% 100%;             /* White primary buttons */
+  --primary-foreground-hsl: 24 10% 10%; /* Dark text */
+  --background-hsl: 24 10% 10%;
+  --foreground-hsl: 0 0% 100%;
+  --card-hsl: 24 10% 10%;
+  --muted-hsl: 0 0% 43%;
+  --border-hsl: 0 0% 43%;
+}
+
+/* Force primary button background to be light in dark mode for base theme */
+html[data-theme='acrobi-dark'] [data-btn-style="pf"] {
+  background: var(--primary) !important;
+  border-color: var(--primary) !important;
+  color: var(--primary-foreground) !important;
+}
+
+/* Force primary button line (outline) border to invert in dark mode for base theme */
+html[data-theme='acrobi-dark'] [data-btn-style="pl"] {
+  border-color: var(--primary) !important;
+  color: var(--primary) !important;
+}
+
+/* Disabled button text color for base theme - make it closer to background */
+:root [data-btn-style="pf"][x-disabled*="true"],
+[data-theme='acrobi'] [data-btn-style="pf"][x-disabled*="true"] {
+  color: var(--color--n500) !important;
+}
+
+:root [data-btn-style="pf"][x-disabled*="true"] .label_wrap,
+:root [data-btn-style="pf"][x-disabled*="true"] .label_wrap .txt,
+:root [data-btn-style="pf"][x-disabled*="true"] .label_wrap .icn,
+:root [data-btn-style="pf"][x-disabled*="true"] .label,
+:root [data-btn-style="pf"][x-disabled*="true"] .txt,
+:root [data-btn-style="pf"][x-disabled*="true"] .icn,
+[data-theme='acrobi'] [data-btn-style="pf"][x-disabled*="true"] .label_wrap,
+[data-theme='acrobi'] [data-btn-style="pf"][x-disabled*="true"] .label_wrap .txt,
+[data-theme='acrobi'] [data-btn-style="pf"][x-disabled*="true"] .label_wrap .icn,
+[data-theme='acrobi'] [data-btn-style="pf"][x-disabled*="true"] .label,
+[data-theme='acrobi'] [data-btn-style="pf"][x-disabled*="true"] .txt,
+[data-theme='acrobi'] [data-btn-style="pf"][x-disabled*="true"] .icn {
+  color: var(--color--n500) !important;
+}
+
+/* Neutral buttons with n500 background and border */
+:root [data-btn-style="nf"],
+[data-theme='acrobi'] [data-btn-style="nf"] {
+  background: var(--color--n500) !important;
+  border-color: var(--color--n500) !important;
+  color: var(--color--n000) !important;
+}
+
+:root [data-btn-style="nf"] .label_wrap,
+:root [data-btn-style="nf"] .label_wrap .txt,
+:root [data-btn-style="nf"] .label_wrap .icn,
+:root [data-btn-style="nf"] .label,
+:root [data-btn-style="nf"] .txt,
+:root [data-btn-style="nf"] .icn,
+[data-theme='acrobi'] [data-btn-style="nf"] .label_wrap,
+[data-theme='acrobi'] [data-btn-style="nf"] .label_wrap .txt,
+[data-theme='acrobi'] [data-btn-style="nf"] .label_wrap .icn,
+[data-theme='acrobi'] [data-btn-style="nf"] .label,
+[data-theme='acrobi'] [data-btn-style="nf"] .txt,
+[data-theme='acrobi'] [data-btn-style="nf"] .icn {
+  color: var(--color--n000) !important;
+}
+
+:root [data-btn-style="nl"],
+[data-theme='acrobi'] [data-btn-style="nl"] {
+  background: transparent !important;
+  border-color: var(--color--n500) !important;
+  color: var(--color--n500) !important;
+}
+
+:root [data-btn-style="nl"] .label_wrap,
+:root [data-btn-style="nl"] .label_wrap .txt,
+:root [data-btn-style="nl"] .label_wrap .icn,
+:root [data-btn-style="nl"] .label,
+:root [data-btn-style="nl"] .txt,
+:root [data-btn-style="nl"] .icn,
+[data-theme='acrobi'] [data-btn-style="nl"] .label_wrap,
+[data-theme='acrobi'] [data-btn-style="nl"] .label_wrap .txt,
+[data-theme='acrobi'] [data-btn-style="nl"] .label_wrap .icn,
+[data-theme='acrobi'] [data-btn-style="nl"] .label,
+[data-theme='acrobi'] [data-btn-style="nl"] .txt,
+[data-theme='acrobi'] [data-btn-style="nl"] .icn {
+  color: var(--color--n500) !important;
+}
+
+/* =============================================================================
+   STORYBOOK SHOWCASE SECTION DARK MODE
+   Ensure showcase sections look proper in dark mode
+   ============================================================================= */
+
+html[data-theme='acrobi-dark'] .acrobi-showcase-section,
+html[data-theme='bluequeue-dark'] .acrobi-showcase-section {
+  background-color: var(--background) !important;
+  color: var(--foreground) !important;
+  border-color: var(--border) !important;
+}
+
+html[data-theme='acrobi-dark'] .acrobi-showcase-section *,
+html[data-theme='bluequeue-dark'] .acrobi-showcase-section * {
+  color: var(--foreground) !important;
+}
+
+html[data-theme='acrobi-dark'] .acrobi-showcase-item,
+html[data-theme='bluequeue-dark'] .acrobi-showcase-item {
+  background-color: var(--background) !important;
+  color: var(--foreground) !important;
+  border-color: var(--border) !important;
+}
+
+html[data-theme='acrobi-dark'] .acrobi-showcase-item *,
+html[data-theme='bluequeue-dark'] .acrobi-showcase-item * {
+  color: var(--foreground) !important;
+}
+
+/* BlueQueue Dark Mode - Uses SAME blue button as light mode */
+html[data-theme='bluequeue-dark'],
+html[data-theme='bluequeue-dark'] :root,
+[data-theme='bluequeue-dark'] {
+  /* BlueQueue dark mode uses SAME blue primary as light mode */
+  --primary: var(--color--p500);           /* SAME blue as light mode */
+  --primary-foreground: var(--color--n000); /* White text on blue buttons */
+  --secondary: var(--color--n200);         /* Light secondary */
+  --secondary-foreground: var(--color--n900); /* Dark text on light secondary */
+  --neutral: var(--color--n600);          /* Medium gray for neutral buttons */
+  --neutral-foreground: var(--color--n000); /* Light text on neutral buttons */
+  
+  /* Dark mode backgrounds and surfaces - BlueQueue colors */
+  --background: rgb(29, 28, 26);          /* Dark background using BlueQueue text color */
+  --foreground: rgb(255, 254, 255);       /* Light foreground using BlueQueue background */
+  --card: rgb(29, 28, 26);
+  --card-foreground: rgb(255, 254, 255);
+  --popover: rgb(29, 28, 26);
+  --popover-foreground: rgb(255, 254, 255);
+  --muted: rgb(109, 109, 109);           /* BlueQueue muted */
+  --muted-foreground: rgb(196, 196, 196); /* Inverted muted */
+  --border: rgb(109, 109, 109);          /* Darker border */
+  --input: rgb(48, 47, 44);              /* Dark input using primary dark */
+  --ring: rgb(196, 196, 196);            /* Light focus ring */
+  --accent: rgb(196, 196, 196);          /* Light accent */
+  --accent-foreground: rgb(255, 254, 255); /* Keep focus text light in dark mode */
+  
+  /* BlueQueue Dark mode HSL versions */
+  --primary-hsl: 217 89% 51%;           /* SAME blue HSL as light mode */
+  --primary-foreground-hsl: 300 100% 99%; /* White text */
+  --background-hsl: 30 6% 16%;          /* Dark background */
+  --foreground-hsl: 300 100% 99%;       /* Light foreground */
+  --card-hsl: 30 6% 16%;
+  --muted-hsl: 0 0% 43%;
+  --border-hsl: 0 0% 43%;
+  --accent-hsl: 217 89% 51%;            /* Blue accent */
+}
+
+/* Force BlueQueue primary buttons to be blue in both light and dark modes */
+html[data-theme='bluequeue-dark'] [data-btn-style="pf"] {
+  background: var(--color--p500) !important;
+  border-color: var(--color--p500) !important;
+  color: var(--color--n000) !important;
+}

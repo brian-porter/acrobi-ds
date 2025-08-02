@@ -95,24 +95,6 @@ export interface IconProps
   dropShadow?: boolean;
 }
 
-// Map icon names to BQ-Icons font characters
-const getIconCharacter = (name: string): string => {
-  const iconMap: Record<string, string> = {
-    default: 'default', // This will render as the X in box from BQ-Icons font
-    close: 'close',
-    check: 'check',
-    arrow: 'arrow',
-    plus: 'plus',
-    minus: 'minus',
-    search: 'search',
-    menu: 'menu',
-    home: 'home',
-    user: 'user',
-    settings: 'settings',
-    // Add more icon mappings as needed
-  };
-  return iconMap[name] || name; // fallback to the name itself
-};
 
 // Map size names to Acrobi data-icn-size values
 const getIconSize = (size: string | null | undefined): string => {
@@ -186,24 +168,22 @@ const Icon = React.forwardRef<HTMLSpanElement, IconProps>(
     // Don't render if not visible
     if (!visible) return null;
 
-    const iconStyle = {
-      fontFamily: 'var(--_typography---icn1)',
-      ...(dropShadow && {
-        filter: 'drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1))',
-      }),
-      ...style,
-    };
-
     return (
       <span
         ref={ref}
         className={cn('icn', iconVariants({ size, color }), className)}
         data-icn-size={getIconSize(size)}
         data-clr={getIconColor(color)}
-        style={iconStyle}
+        style={{
+          fontFamily: 'BQ-Icons, sans-serif',
+          ...(dropShadow && {
+            filter: 'drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1))',
+          }),
+          ...style,
+        }}
         {...props}
       >
-        {getIconCharacter(name)}
+        {name}
       </span>
     );
   }
