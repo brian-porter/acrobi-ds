@@ -470,7 +470,7 @@ const SFavoritesGrid = React.forwardRef<HTMLDivElement, SFavoritesGridProps>(
           {...props}
         >
           <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mb-4">
-            <Icon name="heart" size="l" color="n300" />
+            <Icon name="heart" size="lg" color="n300" />
           </div>
           <h3 className="text-lg font-semibold text-foreground mb-2">
             {emptyMessage}
@@ -564,7 +564,7 @@ const SFavoritesGrid = React.forwardRef<HTMLDivElement, SFavoritesGridProps>(
                     </div>
                   ) : (
                     <div className="w-8 h-8 bg-muted rounded flex items-center justify-center flex-shrink-0">
-                      <Icon name="heart" size="s" color="n300" />
+                      <Icon name="heart" size="sm" color="n300" />
                     </div>
                   )}
 
