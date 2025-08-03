@@ -60,7 +60,7 @@ export const HybridAppExample: React.FC = () => {
         
         {/* Theme switcher using your Button component */}
         <Button
-          styling="pl"  {/* Your semantic prop system */}
+          styling="pl"
           size="m"
           onClick={handleThemeSwitch}
         >
@@ -199,7 +199,7 @@ export const HybridAppExample: React.FC = () => {
               <div className="flex space-x-3 pt-4">
                 {/* Your components with semantic props */}
                 <Button
-                  styling="nl"  {/* neutral line */}
+                  styling="nl"
                   size="m"
                   htmlType="button"
                   onClick={() => setFormData({ name: '', email: '', message: '' })}
@@ -207,10 +207,10 @@ export const HybridAppExample: React.FC = () => {
                   Clear Form
                 </Button>
                 <Button
-                  styling="pf"  {/* primary filled */}
+                  styling="pf"
                   size="m"
                   htmlType="submit"
-                  className="flex-1"  {/* Tailwind utility mixed in */}
+                  className="flex-1"
                 >
                   Send Message
                 </Button>
