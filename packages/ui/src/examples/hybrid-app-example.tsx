@@ -63,6 +63,7 @@ export const HybridAppExample: React.FC = () => {
           styling="pl"  {/* Your semantic prop system */}
           size="m"
           onClick={handleThemeSwitch}
+        >
           {theme === 'acrobi' ? '🔵 Switch to BlueQueue' : '⚪ Switch to Acrobi'}
         </Button>
       </header>
@@ -91,11 +92,11 @@ export const HybridAppExample: React.FC = () => {
                   <span className="text-2xl font-bold text-primary">$99</span>
                   <div className="flex space-x-2">
                     {/* Your component with semantic props */}
-                    <Button styling="pt" size="s">
+                    <Button styling="pt" size="sm">
                       Learn More
                     </Button>
                     {/* Your component - primary filled */}
-                    <Button styling="pf" size="s">
+                    <Button styling="pf" size="sm">
                       Buy Now
                     </Button>
                   </div>
@@ -121,11 +122,11 @@ export const HybridAppExample: React.FC = () => {
                   <span className="text-2xl font-bold text-primary">Free</span>
                   <div className="flex space-x-2">
                     {/* Your component - neutral line */}
-                    <Button styling="nl" size="s">
+                    <Button styling="nl" size="sm">
                       Documentation
                     </Button>
                     {/* Your component - primary filled */}
-                    <Button styling="pf" size="s">
+                    <Button styling="pf" size="sm">
                       Get Started
                     </Button>
                   </div>
@@ -270,7 +271,7 @@ export const HybridAppExample: React.FC = () => {
           <div className="flex space-x-2">
             {/* Button size demonstration */}
             <Button styling="pt" size="xs">XS</Button>
-            <Button styling="pt" size="s">SM</Button>
+            <Button styling="pt" size="sm">SM</Button>
             <Button styling="pt" size="m">MD</Button>
             <Button styling="pt" size="l">LG</Button>
           </div>

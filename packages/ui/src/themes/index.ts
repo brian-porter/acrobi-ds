@@ -19,7 +19,7 @@ export {
 
 // Export dynamic assets
 export * from './base';
-export type { DynamicAssets } from './base';
+// DynamicAssets type removed - using generic Record<string, any> instead
 
 // Available themes registry
 export const themes = {

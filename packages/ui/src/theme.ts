@@ -63,7 +63,7 @@ export interface Theme {
     fontFamily: FontFamily;
     borderRadius: BorderRadius;
   };
-  dynamicAssets?: DynamicAssets; // Optional dynamic theme assets
+  dynamicAssets?: Record<string, any>; // Optional dynamic theme assets
   metadata?: ThemeMetadata; // Optional theme metadata
 }
 
