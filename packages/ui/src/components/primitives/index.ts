@@ -286,3 +286,12 @@ export type { SelectlistCtrlProps, SelectOption } from './selectlist-ctrl';
 
 export { ObjGrp, objGrpVariants, objItemVariants } from './obj-grp';
 export type { ObjGrpProps } from './obj-grp';
+
+export { 
+  Snackbar, 
+  SnackbarMessage, 
+  SnackbarTitle, 
+  SnackbarDescription, 
+  snackbarVariants 
+} from './snackbar';
+export type { SnackbarProps } from './snackbar';

@@ -5,7 +5,41 @@
 
 import React, { useState, useEffect } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { useWindowManager, WindowManagerUtils } from './use-window-manager';
+import { useWindowManager } from './use-window-manager';
+
+// Mock WindowManagerUtils for story compatibility
+const WindowManagerUtils = {
+  getBrowserCompatibility: () => ({
+    browserInfo: navigator.userAgent,
+    isSupported: 'getScreenDetails' in window,
+    limitations: [
+      'Window Management API is experimental',
+      'Limited browser support',
+      'May require permission prompts'
+    ]
+  }),
+  createConfig: (type: string) => {
+    const configs = {
+      popup: { features: 'width=400,height=300,resizable=yes', focus: true },
+      dialog: { features: 'width=600,height=400,resizable=yes', focus: true },
+      large: { features: 'width=1024,height=768,resizable=yes', focus: true },
+      minimal: { features: 'width=500,height=400,toolbar=no,menubar=no', focus: true }
+    };
+    return configs[type as keyof typeof configs] || configs.popup;
+  },
+  WINDOW_FEATURES: {
+    POPUP: 'width=400,height=300,resizable=yes'
+  },
+  getCenteredPosition: (width: number, height: number) => ({
+    left: Math.round((screen.width - width) / 2),
+    top: Math.round((screen.height - height) / 2)
+  }),
+  createFeatures: (options: any) => {
+    return Object.entries(options)
+      .map(([key, value]) => `${key}=${value}`)
+      .join(',');
+  }
+};
 
 const meta: Meta = {
   title: 'AAE/Window Management/useWindowManager',

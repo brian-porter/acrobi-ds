@@ -1,4 +1,5 @@
 import { Theme } from '../theme';
+import { dynamicAssets } from './base';
 
 // Default Acrobi theme definition
 export const acrobi: Theme = {
@@ -92,5 +93,20 @@ export const acrobi: Theme = {
       lg: '0.5rem',
       full: '9999px',
     },
+  },
+  dynamicAssets,
+  metadata: {
+    description: 'Default Acrobi design system theme with comprehensive tokens',
+    version: '1.0.0',
+    author: 'Acrobi Design Team',
+    created: '2025-08-01',
+    categories: ['primary', 'complete'],
+    supports: {
+      darkMode: true,
+      highContrast: false,
+      rtl: true,
+      colorBlindAccessible: true,
+    },
+    features: ['dynamic-assets', 'audio-tokens', 'haptic-tokens', 'motion-tokens'],
   },
 };

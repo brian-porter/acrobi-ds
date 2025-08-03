@@ -58,6 +58,62 @@
         }
       }
     },
+    "snackbar": {
+      "name": "Snackbar",
+      "description": "Non-intrusive feedback component with auto-dismiss, actions, and positioning support",
+      "category": "feedback",
+      "version": "1.0.0",
+      "files": ["src/components/primitives/snackbar.tsx"],
+      "dependencies": ["cva", "cn", "Icon"],
+      "props": {
+        "type": {
+          "type": "\"info\" | \"success\" | \"warning\" | \"error\"",
+          "default": "\"info\"",
+          "description": "Semantic type affecting color and default icon"
+        },
+        "position": {
+          "type": "\"top-left\" | \"top-center\" | \"top-right\" | \"bottom-left\" | \"bottom-center\" | \"bottom-right\"",
+          "default": "\"bottom-right\"",
+          "description": "Position of the snackbar on screen"
+        },
+        "size": {
+          "type": "\"sm\" | \"default\" | \"lg\"",
+          "default": "\"default\"",
+          "description": "Size variant of the snackbar"
+        },
+        "open": {
+          "type": "boolean",
+          "default": "false",
+          "description": "Whether the snackbar is visible"
+        },
+        "dismissible": {
+          "type": "boolean",
+          "default": "true",
+          "description": "Show close button"
+        },
+        "autoHideDuration": {
+          "type": "number",
+          "default": "0",
+          "description": "Auto-dismiss timeout in milliseconds (0 disables)"
+        },
+        "icon": {
+          "type": "string",
+          "description": "Custom icon name (overrides default type icon)"
+        },
+        "action": {
+          "type": "{ label: string; onClick: () => void; }",
+          "description": "Action button configuration"
+        },
+        "onClose": {
+          "type": "() => void",
+          "description": "Close button callback"
+        },
+        "onOpenChange": {
+          "type": "(open: boolean) => void",
+          "description": "Callback when snackbar requests to be closed"
+        }
+      }
+    },
     "menu-item": {
       "name": "MenuItem",
       "description": "Individual menu item component with icon, label, and action support",
@@ -877,6 +933,83 @@
           "description": "Maximum number of results to keep in history"
         }
       }
+    },
+    "feature-guard": {
+      "name": "FeatureGuard",
+      "description": "Conditionally renders content based on Web API feature support detection. Provides single and multiple feature guards with AND/OR logic, loading states, and provider pattern for efficient feature detection sharing.",
+      "category": "utility",
+      "version": "1.0.0",
+      "files": ["src/components/structures/feature-guard.tsx"],
+      "dependencies": ["useFeatureDetection", "cn"],
+      "props": {
+        "feature": {
+          "type": "FeatureAPI",
+          "description": "Feature API to check for support (50+ supported APIs)"
+        },
+        "children": {
+          "type": "React.ReactNode",
+          "description": "Content to render when feature is supported"
+        },
+        "fallback": {
+          "type": "React.ReactNode",
+          "description": "Content to render when feature is not supported"
+        },
+        "showLoading": {
+          "type": "boolean",
+          "default": "true",
+          "description": "Show loading state while checking feature support"
+        },
+        "loadingComponent": {
+          "type": "React.ReactNode",
+          "description": "Custom loading component to display while checking"
+        },
+        "invert": {
+          "type": "boolean",
+          "default": "false",
+          "description": "Invert the logic - render children when feature is NOT supported"
+        },
+        "onSupportDetermined": {
+          "type": "(isSupported: boolean) => void",
+          "description": "Callback when feature support is determined"
+        }
+      },
+      "components": {
+        "MultipleFeatureGuard": {
+          "description": "Guards content based on multiple feature requirements with AND/OR logic",
+          "props": {
+            "features": {
+              "type": "FeatureAPI[]",
+              "description": "Array of features to check"
+            },
+            "mode": {
+              "type": "\"all\" | \"any\"",
+              "default": "\"all\"",
+              "description": "Logic mode: 'all' (AND) or 'any' (OR)"
+            }
+          }
+        },
+        "FeatureDetectionProvider": {
+          "description": "Provides feature detection context to child components with caching",
+          "props": {
+            "features": {
+              "type": "FeatureAPI[]",
+              "description": "Features to preload for efficient sharing"
+            }
+          }
+        }
+      },
+      "hooks": {
+        "useFeatureDetectionContext": {
+          "description": "Hook to use feature detection context from provider",
+          "returns": "FeatureDetectionContextValue with cached results"
+        }
+      },
+      "hoc": {
+        "withFeatureGuard": {
+          "description": "Higher-order component for feature guarding",
+          "usage": "withFeatureGuard(Component, { feature: 'webShare', fallback: <div>Not supported</div> })"
+        }
+      }
     }
   },
   "providers": {
@@ -981,6 +1114,101 @@
       "version": "1.0.0",
       "files": ["src/hooks/use-barcode-scanner.ts"],
       "dependencies": ["useCamera"]
+    },
+    "use-feature-detection": {
+      "name": "useFeatureDetection",
+      "description": "Hook for detecting Web API feature support in browsers. Supports 50+ APIs including Service Worker, WebShare, Camera, Bluetooth, NFC, and more. Provides reliable feature detection with error handling and ready states.",
+      "category": "platform",
+      "version": "1.0.0",
+      "files": ["src/hooks/use-feature-detection.ts"],
+      "dependencies": [],
+      "params": {
+        "feature": {
+          "type": "FeatureAPI",
+          "description": "The Web API to detect (50+ supported features)"
+        }
+      },
+      "returns": {
+        "isSupported": {
+          "type": "boolean",
+          "description": "Whether the feature is supported"
+        },
+        "isReady": {
+          "type": "boolean", 
+          "description": "Whether detection is complete"
+        },
+        "error": {
+          "type": "Error | undefined",
+          "description": "Error during detection, if any"
+        }
+      },
+      "supportedFeatures": [
+        "serviceWorker", "pushManager", "backgroundSync", "periodicBackgroundSync",
+        "webShare", "clipboard", "geolocation", "camera", "microphone", "bluetooth",
+        "nfc", "webAuthn", "fileSystemAccess", "badging", "wakeLock", "vibration",
+        "contactPicker", "paymentRequest", "speechRecognition", "webGL", "webGPU"
+      ],
+      "utilities": {
+        "useMultipleFeatureDetection": "Batch detection for multiple features",
+        "FeatureDetectionUtils.checkFeatures": "Synchronous feature checking",
+        "FeatureDetectionUtils.getSupportedFeatures": "Get all supported features",
+        "FeatureDetectionUtils.isModernBrowser": "Check if browser is modern",
+        "FeatureDetectionUtils.getBrowserCapabilities": "Get detailed capabilities report"
+      }
+    },
+    "use-platform": {
+      "name": "usePlatform",
+      "description": "Hook for comprehensive platform detection including OS, browser, device type, PWA status, and touch capability. Provides reliable cross-platform detection with SSR safety and utility functions.",
+      "category": "platform",
+      "version": "1.0.0",
+      "files": ["src/hooks/use-platform.ts"],
+      "dependencies": [],
+      "returns": {
+        "platform": {
+          "type": "PlatformInfo",
+          "description": "Detected platform information"
+        },
+        "isReady": {
+          "type": "boolean",
+          "description": "Whether platform detection is complete"
+        }
+      },
+      "platformInfo": {
+        "os": {
+          "type": "\"iOS\" | \"Android\" | \"Windows\" | \"macOS\" | \"Linux\" | \"Unknown\"",
+          "description": "Operating system detected"
+        },
+        "browser": {
+          "type": "\"Chrome\" | \"Safari\" | \"Firefox\" | \"Edge\" | \"Unknown\"",
+          "description": "Browser engine detected"
+        },
+        "deviceType": {
+          "type": "\"mobile\" | \"tablet\" | \"desktop\" | \"unknown\"",
+          "description": "Device type classification"
+        },
+        "isPWA": {
+          "type": "boolean",
+          "description": "Whether the app is running as a PWA"
+        },
+        "hasTouch": {
+          "type": "boolean",
+          "description": "Whether the device supports touch"
+        },
+        "isMobile": {
+          "type": "boolean",
+          "description": "Whether the platform is mobile (iOS or Android)"
+        },
+        "isDesktop": {
+          "type": "boolean",
+          "description": "Whether the platform is desktop"
+        }
+      },
+      "utilities": {
+        "PlatformUtils.matches": "Check if platform matches criteria",
+        "PlatformUtils.getCSSClasses": "Get platform-specific CSS classes",
+        "PlatformUtils.supportsAPI": "Check Web API support",
+        "PlatformUtils.getInstallMethod": "Get PWA installation instructions"
+      }
     },
     "use-sheet": {
       "name": "useSheet",

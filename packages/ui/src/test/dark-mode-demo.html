@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark Mode Button Inversion Demo</title>
+    <link rel="stylesheet" href="../styles/themes/theme-acrobi.css">
+    <link rel="stylesheet" href="../styles/themes/theme-bluequeue.css">
+    <link rel="stylesheet" href="../styles/themes/semantic-bridge.css">
+    <style>
+        body {
+            font-family: 'SF Pro Display', system-ui, sans-serif;
+            padding: 2rem;
+            background: var(--background);
+            color: var(--foreground);
+            transition: all 0.3s ease;
+        }
+        .demo-section {
+            margin: 2rem 0;
+            padding: 2rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--card);
+            color: var(--card-foreground);
+            transition: all 0.3s ease;
+        }
+        .button-row {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+        .btn {
+            margin: 0.25rem;
+            transition: all 0.3s ease;
+        }
+        .theme-switcher {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        .theme-info {
+            background: var(--muted);
+            color: var(--muted-foreground);
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+        }
+        .color-demo {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            border: 1px solid var(--border);
+            vertical-align: middle;
+            margin-right: 0.5rem;
+        }
+        .current-theme {
+            font-weight: bold;
+            color: var(--primary);
+        }
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        .theme-preview {
+            padding: 1.5rem;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            background: var(--card);
+            transition: all 0.3s ease;
+        }
+        .inversion-demo {
+            background: var(--muted);
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+            border-left: 4px solid var(--primary);
+        }
+    </style>
+</head>
+<body data-theme="acrobi">
+    <h1>🌙 Dark Mode Button Inversion Demo</h1>
+    
+    <div class="demo-section">
+        <h2>Theme & Mode Switcher</h2>
+        <p>Switch between themes and their dark modes to see proper button color inversion:</p>
+        
+        <div class="theme-switcher">
+            <button class="btn" data-btn-style="pl" data-btn-size="m" onclick="setTheme('acrobi')">
+                🎨 Acrobi Light
+            </button>
+            <button class="btn" data-btn-style="pl" data-btn-size="m" onclick="setTheme('acrobi-dark')">
+                🌙 Acrobi Dark
+            </button>
+            <button class="btn" data-btn-style="pl" data-btn-size="m" onclick="setTheme('bluequeue')">
+                🔵 BlueQueue Light
+            </button>
+            <button class="btn" data-btn-style="pl" data-btn-size="m" onclick="setTheme('bluequeue-dark')">
+                🌚 BlueQueue Dark
+            </button>
+        </div>
+        
+        <div class="theme-info">
+            <strong>Current theme:</strong> <span class="current-theme" id="current-theme">acrobi</span><br>
+            <strong>Primary color:</strong> <span class="color-demo" id="primary-demo"></span><span id="primary-value">--</span><br>
+            <strong>Primary text:</strong> <span class="color-demo" id="primary-text-demo"></span><span id="primary-text-value">--</span><br>
+            <strong>Background:</strong> <span class="color-demo" id="bg-demo"></span><span id="bg-value">--</span>
+        </div>
+    </div>
+
+    <div class="demo-section">
+        <h2>🔄 Button Color Inversion</h2>
+        <p><strong>Key Concept:</strong> In dark mode, primary buttons should have <em>light backgrounds with dark text</em> (inverse of light mode)</p>
+        
+        <div class="inversion-demo">
+            <strong>Expected Behavior:</strong><br>
+            • <strong>Light Mode:</strong> Dark button background + Light text<br>
+            • <strong>Dark Mode:</strong> Light button background + Dark text<br>
+            • <strong>Always readable:</strong> High contrast maintained in both modes
+        </div>
+        
+        <h3>Primary Buttons (Should Invert)</h3>
+        <div class="button-row">
+            <button class="btn" data-btn-style="pf" data-btn-size="m">Primary Filled</button>
+            <button class="btn" data-btn-style="pl" data-btn-size="m">Primary Line</button>
+            <button class="btn" data-btn-style="pt" data-btn-size="m">Primary Text</button>
+        </div>
+        
+        <h3>Neutral Buttons (Consistent Gray)</h3>
+        <div class="button-row">
+            <button class="btn" data-btn-style="nf" data-btn-size="m">Neutral Filled</button>
+            <button class="btn" data-btn-style="nl" data-btn-size="m">Neutral Line</button>
+            <button class="btn" data-btn-style="nt" data-btn-size="m">Neutral Text</button>
+        </div>
+        
+        <h3>Secondary Buttons</h3>
+        <div class="button-row">
+            <button class="btn" data-btn-style="sf" data-btn-size="m">Secondary Filled</button>
+            <button class="btn" data-btn-style="sl" data-btn-size="m">Secondary Line</button>
+            <button class="btn" data-btn-style="st" data-btn-size="m">Secondary Text</button>
+        </div>
+    </div>
+
+    <div class="demo-section">
+        <h2>📊 Theme Comparison</h2>
+        <p>Side-by-side comparison showing how each theme handles light/dark mode inversion:</p>
+        
+        <div class="comparison-grid">
+            <div class="theme-preview">
+                <h3>🎨 Acrobi Themes</h3>
+                <p><strong>Light Mode:</strong> Blue primary buttons with white text</p>
+                <p><strong>Dark Mode:</strong> White/light primary buttons with dark text</p>
+                <div class="button-row">
+                    <span style="font-size: 0.75rem;">Switch to Acrobi themes to see →</span>
+                </div>
+            </div>
+            
+            <div class="theme-preview">
+                <h3>🔵 BlueQueue Themes</h3>
+                <p><strong>Light Mode:</strong> Dark gray primary buttons with white text</p>
+                <p><strong>Dark Mode:</strong> White/light primary buttons with dark text</p>
+                <div class="button-row">
+                    <span style="font-size: 0.75rem;">Switch to BlueQueue themes to see →</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="demo-section">
+        <h2>🧪 Testing Instructions</h2>
+        <ol>
+            <li><strong>Start with Acrobi Light:</strong> Primary buttons should be <em>blue with white text</em></li>
+            <li><strong>Switch to Acrobi Dark:</strong> Primary buttons should become <em>white/light with dark text</em></li>
+            <li><strong>Switch to BlueQueue Light:</strong> Primary buttons should be <em>dark gray with white text</em></li>
+            <li><strong>Switch to BlueQueue Dark:</strong> Primary buttons should become <em>white/light with dark text</em></li>
+            <li><strong>Verify inversion:</strong> In all dark modes, primary buttons should have light backgrounds</li>
+        </ol>
+        
+        <div class="theme-info">
+            <strong>✅ Success Criteria:</strong><br>
+            • Dark mode primary buttons have light backgrounds (not dark)<br>
+            • Dark mode primary buttons have dark text (not light)<br>
+            • High contrast maintained in all theme combinations<br>
+            • No hard-coded colors - all through semantic bridge<br>
+            • Smooth transitions between themes
+        </div>
+    </div>
+
+    <script>
+        function setTheme(themeName) {
+            document.body.setAttribute('data-theme', themeName);
+            document.getElementById('current-theme').textContent = themeName;
+            updateColorInfo();
+        }
+
+        function updateColorInfo() {
+            setTimeout(() => {
+                const computedStyle = getComputedStyle(document.body);
+                const primary = computedStyle.getPropertyValue('--primary').trim();
+                const primaryFg = computedStyle.getPropertyValue('--primary-foreground').trim();
+                const background = computedStyle.getPropertyValue('--background').trim();
+                
+                document.getElementById('primary-value').textContent = primary || 'undefined';
+                document.getElementById('primary-text-value').textContent = primaryFg || 'undefined';
+                document.getElementById('bg-value').textContent = background || 'undefined';
+                
+                // Update color demos
+                const primaryDemo = document.getElementById('primary-demo');
+                const primaryTextDemo = document.getElementById('primary-text-demo');
+                const bgDemo = document.getElementById('bg-demo');
+                
+                if (primary) primaryDemo.style.backgroundColor = primary;
+                if (primaryFg) primaryTextDemo.style.backgroundColor = primaryFg;
+                if (background) bgDemo.style.backgroundColor = background;
+            }, 100);
+        }
+
+        // Update on load and theme changes
+        window.addEventListener('load', updateColorInfo);
+        
+        // Auto-update to catch any changes
+        setInterval(updateColorInfo, 1000);
+        
+        // Show initial theme
+        setTheme('acrobi');
+    </script>
+</body>
+</html>

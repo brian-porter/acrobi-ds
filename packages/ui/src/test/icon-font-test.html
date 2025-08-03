@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BQ-Icons Font Test</title>
+    <link rel="stylesheet" href="../styles/themes/theme-acrobi.css">
+    <style>
+        body {
+            font-family: 'SF Pro Display', sans-serif;
+            padding: 2rem;
+            background: #fafafa;
+        }
+        .test-section {
+            margin: 2rem 0;
+            padding: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background: white;
+        }
+        .icon-test {
+            font-family: 'BQ-Icons', sans-serif;
+            font-size: 24px;
+            margin: 0.5rem;
+            display: inline-block;
+            padding: 0.5rem;
+            background: #f0f0f0;
+            border-radius: 4px;
+        }
+        .font-info {
+            font-size: 0.875rem;
+            color: #666;
+            margin-top: 1rem;
+        }
+        .variable-test {
+            font-family: var(--_typography---icn1);
+            font-size: 24px;
+            margin: 0.5rem;
+            display: inline-block;
+            padding: 0.5rem;
+            background: #e8f4fd;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>BQ-Icons Font Loading Test</h1>
+    
+    <div class="test-section">
+        <h2>1. Direct BQ-Icons Font Family</h2>
+        <p>These should show icons if the font is loaded correctly:</p>
+        <span class="icon-test">default</span>
+        <span class="icon-test">close</span>
+        <span class="icon-test">check</span>
+        <span class="icon-test">arrow</span>
+        <span class="icon-test">plus</span>
+        <span class="icon-test">minus</span>
+        <div class="font-info">Using: font-family: 'BQ-Icons', sans-serif;</div>
+    </div>
+
+    <div class="test-section">
+        <h2>2. CSS Variable Font Family</h2>
+        <p>These should show icons using the CSS variable:</p>
+        <span class="variable-test">default</span>
+        <span class="variable-test">close</span>
+        <span class="variable-test">check</span>
+        <span class="variable-test">arrow</span>
+        <span class="variable-test">plus</span>
+        <span class="variable-test">minus</span>
+        <div class="font-info">Using: font-family: var(--_typography---icn1);</div>
+    </div>
+
+    <div class="test-section">
+        <h2>3. Component Style Icons</h2>
+        <p>These mimic the actual Icon component:</p>
+        <span class="icn" data-icn-size="m" data-clr="in" style="font-family: var(--_typography---icn1); font-size: 24px; padding: 0.5rem; background: #fff3cd; border-radius: 4px; margin: 0.5rem; display: inline-block;">default</span>
+        <span class="icn" data-icn-size="m" data-clr="in" style="font-family: var(--_typography---icn1); font-size: 24px; padding: 0.5rem; background: #fff3cd; border-radius: 4px; margin: 0.5rem; display: inline-block;">close</span>
+        <span class="icn" data-icn-size="m" data-clr="in" style="font-family: var(--_typography---icn1); font-size: 24px; padding: 0.5rem; background: #fff3cd; border-radius: 4px; margin: 0.5rem; display: inline-block;">check</span>
+        <div class="font-info">Using: .icn class with data attributes</div>
+    </div>
+
+    <div class="test-section">
+        <h2>4. Font Loading Status</h2>
+        <p>Check browser dev tools for font loading errors.</p>
+        <button onclick="checkFontLoading()">Check Font Loading</button>
+        <div id="font-status" class="font-info"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>5. Expected vs Actual</h2>
+        <p><strong>Expected:</strong> Icons should display as symbols (X in box, checkmark, etc.)</p>
+        <p><strong>If you see:</strong> Text like "default", "close", "check" → Font is not loading</p>
+        <p><strong>Common causes:</strong></p>
+        <ul>
+            <li>Font file path is incorrect</li>
+            <li>Font files are not accessible</li>
+            <li>CORS issues with font loading</li>
+            <li>Font-display property blocking rendering</li>
+        </ul>
+    </div>
+
+    <script>
+        function checkFontLoading() {
+            const statusDiv = document.getElementById('font-status');
+            
+            // Check if fonts are supported
+            if ('fonts' in document) {
+                document.fonts.ready.then(() => {
+                    const bqIconsLoaded = document.fonts.check('16px BQ-Icons');
+                    statusDiv.innerHTML = `
+                        <strong>Font Loading Status:</strong><br>
+                        BQ-Icons loaded: ${bqIconsLoaded ? '✅ Yes' : '❌ No'}<br>
+                        Available fonts: ${Array.from(document.fonts).map(f => f.family).join(', ')}<br>
+                        CSS Variable value: ${getComputedStyle(document.body).getPropertyValue('--_typography---icn1')}
+                    `;
+                });
+            } else {
+                statusDiv.innerHTML = 'Font API not supported in this browser';
+            }
+        }
+
+        // Auto-check on load
+        window.addEventListener('load', () => {
+            setTimeout(checkFontLoading, 1000);
+        });
+    </script>
+</body>
+</html>

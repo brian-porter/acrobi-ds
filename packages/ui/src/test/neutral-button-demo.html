@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neutral Button Color Demo</title>
+    <link rel="stylesheet" href="../styles/themes/theme-acrobi.css">
+    <link rel="stylesheet" href="../styles/themes/theme-bluequeue.css">
+    <link rel="stylesheet" href="../styles/themes/semantic-bridge.css">
+    <style>
+        body {
+            font-family: 'SF Pro Display', system-ui, sans-serif;
+            padding: 2rem;
+            background: var(--background);
+            color: var(--foreground);
+            transition: all 0.3s ease;
+        }
+        .demo-section {
+            margin: 2rem 0;
+            padding: 2rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--card);
+        }
+        .button-row {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+        .btn {
+            margin: 0.25rem;
+        }
+        .theme-info {
+            background: var(--muted);
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+            font-size: 0.875rem;
+        }
+        .color-box {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            border: 1px solid var(--border);
+            vertical-align: middle;
+            margin-right: 0.5rem;
+        }
+        .utility-demo {
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 0.5rem;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body data-theme="acrobi">
+    <h1>Neutral Button Color Demonstration</h1>
+    
+    <div class="demo-section">
+        <h2>Theme Switcher</h2>
+        <p>Switch between themes to see how neutral buttons maintain their gray color:</p>
+        <div class="button-row">
+            <button class="btn" data-btn-style="pl" data-btn-size="m" onclick="setTheme('acrobi')">
+                Acrobi Theme
+            </button>
+            <button class="btn" data-btn-style="pl" data-btn-size="m" onclick="setTheme('bluequeue')">
+                BlueQueue Theme
+            </button>
+        </div>
+        
+        <div class="theme-info">
+            <strong>Current theme:</strong> <span id="current-theme">acrobi</span><br>
+            <strong>Neutral color:</strong> <span class="color-box" id="neutral-color"></span><span id="neutral-value">--</span><br>
+            <strong>Neutral foreground:</strong> <span class="color-box" id="neutral-fg-color"></span><span id="neutral-fg-value">--</span>
+        </div>
+    </div>
+
+    <div class="demo-section">
+        <h2>Button Comparison</h2>
+        <p>Compare primary vs neutral buttons - they should have different colors:</p>
+        
+        <h3>Primary Buttons (Blue/Dark)</h3>
+        <div class="button-row">
+            <button class="btn" data-btn-style="pf" data-btn-size="m">Primary Filled</button>
+            <button class="btn" data-btn-style="pl" data-btn-size="m">Primary Line</button>
+            <button class="btn" data-btn-style="pt" data-btn-size="m">Primary Text</button>
+        </div>
+        
+        <h3>Neutral Buttons (Gray)</h3>
+        <div class="button-row">
+            <button class="btn" data-btn-style="nf" data-btn-size="m">Neutral Filled</button>
+            <button class="btn" data-btn-style="nl" data-btn-size="m">Neutral Line</button>
+            <button class="btn" data-btn-style="nt" data-btn-size="m">Neutral Text</button>
+        </div>
+        
+        <div class="theme-info">
+            <strong>Key differences:</strong><br>
+            • Primary filled: Uses brand color (blue in Acrobi, dark gray in BlueQueue)<br>
+            • Neutral filled: Always uses gray (different shades per theme)<br>
+            • Both have white text on filled variants for good contrast
+        </div>
+    </div>
+
+    <div class="demo-section">
+        <h2>Button Sizes</h2>
+        <p>Neutral buttons in different sizes:</p>
+        <div class="button-row">
+            <button class="btn" data-btn-style="nf" data-btn-size="xs">Extra Small</button>
+            <button class="btn" data-btn-style="nf" data-btn-size="s">Small</button>
+            <button class="btn" data-btn-style="nf" data-btn-size="m">Medium</button>
+            <button class="btn" data-btn-style="nf" data-btn-size="l">Large</button>
+        </div>
+    </div>
+
+    <div class="demo-section">
+        <h2>Tailwind Utilities</h2>
+        <p>New semantic utilities using the neutral color system:</p>
+        
+        <div class="utility-demo bg-neutral text-neutral-foreground">
+            bg-neutral + text-neutral-foreground
+        </div>
+        
+        <div class="utility-demo bg-primary text-primary-foreground">
+            bg-primary + text-primary-foreground
+        </div>
+        
+        <div class="utility-demo" style="background-color: color-mix(in srgb, var(--neutral) 20%, transparent); color: var(--foreground);">
+            bg-neutral/20 (20% opacity)
+        </div>
+    </div>
+
+    <div class="demo-section">
+        <h2>Expected Colors by Theme</h2>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+            <div>
+                <h3>🎨 Acrobi Theme</h3>
+                <ul style="font-size: 0.875rem;">
+                    <li>Primary: #1975f0 (blue)</li>
+                    <li><strong>Neutral: #9a9a9a (medium gray)</strong></li>
+                    <li>Background: #fefefe (almost white)</li>
+                    <li>Text: #1d1c1a (dark)</li>
+                </ul>
+            </div>
+            
+            <div>
+                <h3>🔵 BlueQueue Theme</h3>
+                <ul style="font-size: 0.875rem;">
+                    <li>Primary: rgb(48, 47, 44) (dark gray)</li>
+                    <li><strong>Neutral: rgb(156, 156, 156) (medium gray)</strong></li>
+                    <li>Background: rgb(255, 254, 255) (white)</li>
+                    <li>Text: rgb(29, 28, 26) (dark)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function setTheme(themeName) {
+            document.body.setAttribute('data-theme', themeName);
+            document.getElementById('current-theme').textContent = themeName;
+            updateColorInfo();
+        }
+
+        function updateColorInfo() {
+            const computedStyle = getComputedStyle(document.body);
+            const neutral = computedStyle.getPropertyValue('--neutral').trim();
+            const neutralFg = computedStyle.getPropertyValue('--neutral-foreground').trim();
+            
+            document.getElementById('neutral-value').textContent = neutral || 'undefined';
+            document.getElementById('neutral-fg-value').textContent = neutralFg || 'undefined';
+            
+            // Update color boxes
+            const neutralBox = document.getElementById('neutral-color');
+            const neutralFgBox = document.getElementById('neutral-fg-color');
+            
+            if (neutral) neutralBox.style.backgroundColor = neutral;
+            if (neutralFg) neutralFgBox.style.backgroundColor = neutralFg;
+        }
+
+        // Update on load and theme changes
+        window.addEventListener('load', updateColorInfo);
+        
+        // Auto-update every second to catch any changes
+        setInterval(updateColorInfo, 1000);
+    </script>
+</body>
+</html>

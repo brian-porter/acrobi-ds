@@ -1,0 +1,95 @@
+/**
+ * BQ-Icons Font System
+ * Icon font character mappings and styles
+ */
+
+/* Base icon styles */
+.icn {
+  font-family: 'BQ-Icons', sans-serif !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Icon character mappings */
+/* These are common Unicode private use area mappings for icon fonts */
+.icn[data-icon="default"]::before { content: "\e900"; }
+.icn[data-icon="close"]::before { content: "\e901"; }
+.icn[data-icon="check"]::before { content: "\e902"; }
+.icn[data-icon="arrow"]::before { content: "\e903"; }
+.icn[data-icon="plus"]::before { content: "\e904"; }
+.icn[data-icon="minus"]::before { content: "\e905"; }
+.icn[data-icon="search"]::before { content: "\e906"; }
+.icn[data-icon="menu"]::before { content: "\e907"; }
+.icn[data-icon="home"]::before { content: "\e908"; }
+.icn[data-icon="user"]::before { content: "\e909"; }
+.icn[data-icon="settings"]::before { content: "\e90a"; }
+.icn[data-icon="edit"]::before { content: "\e90b"; }
+.icn[data-icon="delete"]::before { content: "\e90c"; }
+.icn[data-icon="save"]::before { content: "\e90d"; }
+.icn[data-icon="copy"]::before { content: "\e90e"; }
+.icn[data-icon="share"]::before { content: "\e90f"; }
+.icn[data-icon="download"]::before { content: "\e910"; }
+.icn[data-icon="upload"]::before { content: "\e911"; }
+.icn[data-icon="heart"]::before { content: "\e912"; }
+.icn[data-icon="star"]::before { content: "\e913"; }
+.icn[data-icon="bookmark"]::before { content: "\e914"; }
+.icn[data-icon="filter"]::before { content: "\e915"; }
+.icn[data-icon="sort"]::before { content: "\e916"; }
+.icn[data-icon="refresh"]::before { content: "\e917"; }
+.icn[data-icon="sync"]::before { content: "\e918"; }
+.icn[data-icon="lock"]::before { content: "\e919"; }
+.icn[data-icon="unlock"]::before { content: "\e91a"; }
+.icn[data-icon="eye"]::before { content: "\e91b"; }
+.icn[data-icon="eye-off"]::before { content: "\e91c"; }
+.icn[data-icon="info"]::before { content: "\e91d"; }
+.icn[data-icon="warning"]::before { content: "\e91e"; }
+.icn[data-icon="error"]::before { content: "\e91f"; }
+.icn[data-icon="success"]::before { content: "\e920"; }
+
+/* Alternative approach using Unicode characters directly */
+.icon-default { font-family: 'BQ-Icons', sans-serif; }
+.icon-default::before { content: "\e900"; }
+
+.icon-close { font-family: 'BQ-Icons', sans-serif; }
+.icon-close::before { content: "\e901"; }
+
+.icon-check { font-family: 'BQ-Icons', sans-serif; }
+.icon-check::before { content: "\e902"; }
+
+/* Icon sizes - matching Acrobi data attributes */
+[data-icn-size="xxs"] { font-size: 0.5rem; }
+[data-icn-size="xs"] { font-size: 0.75rem; }
+[data-icn-size="s"] { font-size: 0.875rem; }
+[data-icn-size="sm"] { font-size: 1rem; }
+[data-icn-size="m"] { font-size: 1.125rem; }
+[data-icn-size="ml"] { font-size: 1.25rem; }
+[data-icn-size="l"] { font-size: 1.5rem; }
+[data-icn-size="xl"] { font-size: 2rem; }
+[data-icn-size="2xl"] { font-size: 2.5rem; }
+
+/* Icon colors - matching Acrobi color system */
+[data-clr="in"] { color: inherit; }
+[data-clr="n000"] { color: var(--color--n000); }
+[data-clr="n100"] { color: var(--color--n100); }
+[data-clr="n200"] { color: var(--color--n200); }
+[data-clr="n300"] { color: var(--color--n300); }
+[data-clr="n500"] { color: var(--color--n500); }
+[data-clr="n700"] { color: var(--color--n700); }
+[data-clr="n900"] { color: var(--color--n900); }
+[data-clr="n999"] { color: var(--color--n999); }
+[data-clr="p100"] { color: var(--color--p100); }
+[data-clr="p200"] { color: var(--color--p200); }
+[data-clr="p300"] { color: var(--color--p300); }
+[data-clr="p500"] { color: var(--color--p500); }
+[data-clr="p700"] { color: var(--color--p700); }
+[data-clr="p900"] { color: var(--color--p900); }
+[data-clr="f500"] { color: var(--color--f500); }
+[data-clr="fd500"] { color: var(--color--fd500); }
+[data-clr="fw500"] { color: var(--color--fw500); }
+[data-clr="t000"] { color: transparent; }

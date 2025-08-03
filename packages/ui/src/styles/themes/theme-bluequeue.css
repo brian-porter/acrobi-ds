@@ -31,141 +31,17 @@
   --color--n999: #1d1c1a; /* Webflow Text color */
 
 
-  /* Webflow Typography System - Inter Font Family */
+  /* BlueQueue Typography - Only override font family to Inter */
   --_typography---ff1: "Inter", "SF Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
   --_typography---ff2: "Inter", "SF Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
   
-  /* Webflow Typography Sizes - Exact matches */
-  --_typography---size--r4: 0.75rem;  /* 12px - Button text */
-  --_typography---size--r3: 0.875rem; /* 14px - Body text */
-  --_typography---size--r2: 1rem;     /* 16px - Input text */
-  --_typography---size--h3: 2rem;     /* 32px - Headings */
-  
-  /* Typography weights - Webflow uses 400 */
-  --_typography---fw4: 400;
-  --_typography---fw7: 400; /* Override bold to regular for Webflow match */
-  
-  /* Line heights - Webflow specific */
-  --_typography---line-height--1-1: 1.1;
-  --_typography---line-height--1-3: 1.3;
-  --_typography---line-height--1-5: 1.4;
+  /* Keep all base theme sizing, spacing, and other properties */
+  /* Only override what's necessary for BlueQueue brand identity */
 }
 
-/* BlueQueue Button Overrides - Exact Webflow Button Styling */
-[data-theme='bluequeue-light'] .btn {
-  font-family: var(--_typography---ff2) !important;
-  font-size: 0.75rem !important; /* 12px */
-  font-weight: 400 !important;
-  line-height: 1.1 !important;
-  border-radius: 4px !important;
-  padding: 8px !important;
-  transition: all 0.2s ease !important;
-}
+/* BlueQueue Theme follows proper Acrobi architecture */
+/* No hardcoded properties - only CSS variable overrides */
+/* All styling comes from base theme + semantic bridge */
 
-/* BlueQueue Button Sizes - Webflow Exact */
-[data-theme='bluequeue-light'] [data-btn-size='xs'] {
-  height: 24px !important;
-  padding: 4px 8px !important;
-  font-size: 11px !important;
-}
-
-[data-theme='bluequeue-light'] [data-btn-size='s'] {
-  height: 32px !important;
-  padding: 6px 12px !important;
-  font-size: 12px !important;
-}
-
-[data-theme='bluequeue-light'] [data-btn-size='m'] {
-  height: 36px !important;
-  padding: 8px 16px !important;
-  font-size: 12px !important;
-}
-
-[data-theme='bluequeue-light'] [data-btn-size='l'] {
-  height: 48px !important;
-  padding: 12px 24px !important;
-  font-size: 14px !important;
-}
-
-/* BlueQueue Button Styles - Webflow Exact Colors */
-
-/* Primary buttons now use semantic bridge variables automatically */
-
-/* Primary outline and text buttons also use semantic bridge variables */
-
-/* Neutral buttons now use semantic bridge variables automatically */
-
-/* BlueQueue Input Styling - Webflow Exact */
-[data-theme='bluequeue-light'] .input,
-[data-theme='bluequeue-light'] input[type="text"],
-[data-theme='bluequeue-light'] input[type="email"],
-[data-theme='bluequeue-light'] input[type="password"],
-[data-theme='bluequeue-light'] input[type="search"],
-[data-theme='bluequeue-light'] input[type="tel"],
-[data-theme='bluequeue-light'] input[type="url"],
-[data-theme='bluequeue-light'] textarea {
-  font-family: var(--_typography---ff2) !important;
-  font-size: 1rem !important; /* 16px */
-  font-weight: 400 !important;
-  padding: 8px 12px !important;
-  border: 1px solid rgb(196, 196, 196) !important;
-  border-radius: 4px !important;
-  background-color: rgb(255, 254, 255) !important;
-  color: rgb(29, 28, 26) !important;
-}
-
-[data-theme='bluequeue-light'] .input:focus,
-[data-theme='bluequeue-light'] input:focus,
-[data-theme='bluequeue-light'] textarea:focus {
-  border-color: rgb(25, 117, 240) !important;
-  box-shadow: 0 0 0 2px rgba(25, 117, 240, 0.1) !important;
-  outline: none !important;
-}
-
-[data-theme='bluequeue-light'] .input::placeholder,
-[data-theme='bluequeue-light'] input::placeholder,
-[data-theme='bluequeue-light'] textarea::placeholder {
-  color: rgb(109, 109, 109) !important;
-}
-
-/* BlueQueue Typography Overrides */
-[data-theme='bluequeue-light'] h1,
-[data-theme='bluequeue-light'] h2,
-[data-theme='bluequeue-light'] h3,
-[data-theme='bluequeue-light'] h4,
-[data-theme='bluequeue-light'] h5,
-[data-theme='bluequeue-light'] h6 {
-  font-family: var(--_typography---ff2) !important;
-  font-weight: 400 !important;
-  color: rgb(29, 28, 26) !important;
-  line-height: 1.2 !important;
-}
-
-[data-theme='bluequeue-light'] h3 {
-  font-size: 2rem !important; /* 32px */
-}
-
-[data-theme='bluequeue-light'] p,
-[data-theme='bluequeue-light'] span,
-[data-theme='bluequeue-light'] div {
-  font-family: var(--_typography---ff2) !important;
-  font-size: 0.875rem !important; /* 14px */
-  font-weight: 400 !important;
-  color: rgb(29, 28, 26) !important;
-  line-height: 1.4 !important;
-}
-
-[data-theme='bluequeue-light'] label {
-  font-family: var(--_typography---ff2) !important;
-  font-size: 0.75rem !important; /* 12px */
-  font-weight: 400 !important;
-  color: rgb(29, 28, 26) !important;
-}
-
-/* Card styling for BlueQueue theme */
-[data-theme='bluequeue-light'] .card {
-  background-color: rgb(255, 254, 255) !important;
-  border: 1px solid rgb(240, 240, 240) !important;
-  border-radius: 8px !important;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05) !important;
-}
+/* BlueQueue theme should only override color variables, not structural properties */
+/* The base theme and semantic bridge handle all sizing, spacing, and typography */

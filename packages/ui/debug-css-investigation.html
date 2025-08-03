@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Debug Investigation</title>
+    <link rel="stylesheet" href="src/styles/themes/theme-acrobi.css">
+    <link rel="stylesheet" href="src/styles/themes/theme-bluequeue.css">
+    <link rel="stylesheet" href="src/styles/themes/semantic-bridge.css">
+    <style>
+        body {
+            font-family: system-ui, sans-serif;
+            padding: 2rem;
+            background: var(--background, white);
+            color: var(--foreground, black);
+        }
+        .debug-section {
+            margin: 2rem 0;
+            padding: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+        .color-test {
+            display: inline-block;
+            width: 100px;
+            height: 50px;
+            margin: 0.5rem;
+            border: 1px solid #000;
+            text-align: center;
+            line-height: 50px;
+            color: white;
+            font-weight: bold;
+        }
+        .primary-color {
+            background-color: var(--primary, red);
+        }
+        .p500-color {
+            background-color: var(--color--p500, red);
+        }
+        .hsl-primary {
+            background-color: hsl(var(--primary-hsl, 0 0% 50%));
+        }
+    </style>
+</head>
+<body data-theme="bluequeue">
+    <h1>🔍 CSS Debug Investigation</h1>
+    
+    <div class="debug-section">
+        <h2>Current Theme: <span id="current-theme">bluequeue</span></h2>
+        <button onclick="setTheme('acrobi')">Acrobi</button>
+        <button onclick="setTheme('bluequeue')">BlueQueue</button>
+        <button onclick="setTheme('acrobi-dark')">Acrobi Dark</button>
+        <button onclick="setTheme('bluequeue-dark')">BlueQueue Dark</button>
+    </div>
+
+    <div class="debug-section">
+        <h2>🎨 Color Variable Tests</h2>
+        
+        <h3>CSS Variables</h3>
+        <div class="color-test primary-color">--primary</div>
+        <div class="color-test p500-color">--color--p500</div>
+        <div class="color-test hsl-primary">--primary-hsl</div>
+        
+        <h3>Variable Values</h3>
+        <p><strong>--primary:</strong> <span id="primary-value">--</span></p>
+        <p><strong>--color--p500:</strong> <span id="p500-value">--</span></p>
+        <p><strong>--primary-hsl:</strong> <span id="primary-hsl-value">--</span></p>
+    </div>
+
+    <div class="debug-section">
+        <h2>🔘 Button Tests</h2>
+        
+        <h3>Primary Buttons</h3>
+        <button class="btn" data-btn-style="pf" data-btn-size="m" style="margin: 0.5rem;">Primary Filled</button>
+        
+        <h3>Button CSS Values</h3>
+        <p><strong>Button background:</strong> <span id="button-bg">--</span></p>
+        <p><strong>Button color:</strong> <span id="button-color">--</span></p>
+    </div>
+
+    <div class="debug-section">
+        <h2>📊 Diagnostic Information</h2>
+        <div id="diagnostic-info">
+            <p>Loading diagnostic information...</p>
+        </div>
+    </div>
+
+    <script>
+        function setTheme(themeName) {
+            document.body.setAttribute('data-theme', themeName);
+            document.getElementById('current-theme').textContent = themeName;
+            updateValues();
+        }
+
+        function updateValues() {
+            const computedStyle = getComputedStyle(document.body);
+            
+            // Get CSS variable values
+            const primary = computedStyle.getPropertyValue('--primary').trim();
+            const p500 = computedStyle.getPropertyValue('--color--p500').trim();
+            const primaryHsl = computedStyle.getPropertyValue('--primary-hsl').trim();
+            
+            document.getElementById('primary-value').textContent = primary || 'undefined';
+            document.getElementById('p500-value').textContent = p500 || 'undefined';
+            document.getElementById('primary-hsl-value').textContent = primaryHsl || 'undefined';
+            
+            // Check button styles
+            const button = document.querySelector('[data-btn-style="pf"]');
+            if (button) {
+                const buttonStyle = getComputedStyle(button);
+                document.getElementById('button-bg').textContent = buttonStyle.backgroundColor;
+                document.getElementById('button-color').textContent = buttonStyle.color;
+            }
+            
+            // Diagnostic info
+            const diagnostics = [
+                `Theme attribute: ${document.body.getAttribute('data-theme')}`,
+                `Primary variable: ${primary}`,
+                `P500 variable: ${p500}`,
+                `Primary HSL: ${primaryHsl}`,
+                `Computed primary color: ${computedStyle.getPropertyValue('background-color')}`,
+            ];
+            
+            document.getElementById('diagnostic-info').innerHTML = diagnostics.map(d => `<p>${d}</p>`).join('');
+        }
+
+        // Initial load
+        setTheme('bluequeue');
+        setInterval(updateValues, 1000);
+    </script>
+</body>
+</html>

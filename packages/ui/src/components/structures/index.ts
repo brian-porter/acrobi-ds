@@ -175,3 +175,40 @@ export type { AuthConnectSocialsData, AuthConnectSocialsProps, SocialProvider, S
 
 export { SAuthSetFavorites, authSetFavoritesVariants, favoritesCategoryVariants, favoriteItemCardVariants, favoriteItemIconVariants } from './s-auth-set-favorites';
 export type { AuthSetFavoritesData, AuthSetFavoritesProps, FavoriteCategory, FavoriteItem } from './s-auth-set-favorites';
+
+// Platform Detection & Feature Detection Structures (Epic 81)
+export { 
+  FeatureGuard, 
+  MultipleFeatureGuard,
+  FeatureDetectionProvider,
+  useFeatureDetectionContext,
+  withFeatureGuard 
+} from './feature-guard';
+export type { 
+  FeatureGuardProps, 
+  MultipleFeatureGuardProps,
+  FeatureDetectionProviderProps,
+  FeatureDetectionContextValue 
+} from './feature-guard';
+
+// Account Management Structures (PRD v11)
+export { SProfileForm, sProfileFormVariants } from './s-profile-form';
+export type { ProfileFormField, ProfileFormSection, ProfileFormAction } from './s-profile-form';
+
+export { SSecurityForm, sSecurityFormVariants } from './s-security-form';
+export type { SecurityDevice, SecuritySetting, SecuritySection } from './s-security-form';
+
+export { SSettingsForm, sSettingsFormVariants } from './s-settings-form';
+export type { SettingField, SettingOption, SettingsSection } from './s-settings-form';
+
+export { SConnectionsList, sConnectionsListVariants } from './s-connections-list';
+export type { SocialConnection, ConnectionAction } from './s-connections-list';
+
+export { SPermissionsList, sPermissionsListVariants } from './s-permissions-list';
+export type { DevicePermission, PermissionAction, PermissionStatus, PermissionRisk, PermissionType } from './s-permissions-list';
+
+export { SListItemLink, sListItemLinkVariants } from './s-list-item-link';
+export type { ListItemLinkProps } from './s-list-item-link';
+
+export { SListItemSwitch, sListItemSwitchVariants } from './s-list-item-switch';
+export type { ListItemSwitchProps } from './s-list-item-switch';

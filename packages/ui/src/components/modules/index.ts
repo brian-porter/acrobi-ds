@@ -103,3 +103,41 @@ export { GrantPermissions } from './grant-permissions';
 
 // Enhanced AAE Scanner Module (Epic 41)
 export { Scanner, type ScannerProps } from '../../modules/scanner';
+
+// PRD v11 Account Interface Module components
+// M-ImgEdit/M-FileAdd - Image uploading and editing workflow
+export { MImgEdit } from './m-img-edit';
+export type { ImageEditFile, MImgEditProps } from './m-img-edit';
+
+// M-PasswordEdit - Change password dialog
+export { MPasswordEdit } from './m-password-edit';
+export type { MPasswordEditProps } from './m-password-edit';
+
+// M-DeleteAccount - Multi-state delete/recover account dialog
+export { MDeleteAccount } from './m-delete-account';
+export type { AccountData, MDeleteAccountProps } from './m-delete-account';
+
+// M-Grant - Device permissions request dialog
+export { MGrant } from './m-grant';
+export type { Permission, PermissionType, PermissionStatus, MGrant as MGrantProps } from './m-grant';
+
+// M-SearchDialog - Search and favorite items dialog
+export { MSearchDialog } from './m-search-dialog';
+export type { 
+  SearchItem, 
+  SearchItemType, 
+  SearchCategory, 
+  SearchFilters, 
+  MSearchDialogProps 
+} from './m-search-dialog';
+
+// PRD v12 Epic 88 - M-AuthFlow state machine module
+export { MAuthFlow } from './m-auth-flow';
+export type { 
+  AuthFlowProps,
+  AuthFlowState,
+  AuthFlowType,
+  AuthFlowEvent,
+  AuthFlowContext,
+  AuthFlowMachine
+} from './m-auth-flow';

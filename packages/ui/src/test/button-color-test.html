@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button Color Test</title>
+    <link rel="stylesheet" href="../styles/globals.css">
+    <link rel="stylesheet" href="../styles/themes/theme-acrobi.css">
+    <link rel="stylesheet" href="../styles/themes/theme-bluequeue.css">
+    <link rel="stylesheet" href="../styles/themes/semantic-bridge.css">
+    <style>
+        body { 
+            font-family: system-ui, sans-serif; 
+            padding: 2rem; 
+            background: var(--background);
+            color: var(--foreground);
+            transition: all 0.3s ease;
+        }
+        .theme-switcher { 
+            margin-bottom: 2rem; 
+            padding: 1rem; 
+            border: 1px solid var(--border); 
+            border-radius: 8px;
+            background: var(--card);
+        }
+        .button-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+            gap: 1rem; 
+            margin: 2rem 0;
+        }
+        .button-demo { 
+            padding: 1rem; 
+            border: 1px solid var(--border); 
+            border-radius: 8px;
+            background: var(--card);
+        }
+        .btn { margin: 0.5rem; }
+        h2 { color: var(--foreground); }
+        .color-info {
+            font-size: 0.875rem;
+            color: var(--muted-foreground);
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body data-theme="acrobi">
+    <div class="theme-switcher">
+        <h2>Button Color Test - Hybrid Theme System</h2>
+        <p>Switch between themes to verify button text colors work correctly:</p>
+        <button onclick="setTheme('acrobi')" class="btn" data-btn-style="pl" data-btn-size="m">
+            Acrobi Theme
+        </button>
+        <button onclick="setTheme('bluequeue')" class="btn" data-btn-style="pl" data-btn-size="m">
+            BlueQueue Theme
+        </button>
+        <div class="color-info">
+            Current theme: <span id="current-theme">acrobi</span><br>
+            Primary: <span id="primary-color">--</span><br>
+            Primary Foreground: <span id="primary-fg-color">--</span>
+        </div>
+    </div>
+
+    <div class="button-grid">
+        <div class="button-demo">
+            <h3>Primary Buttons</h3>
+            <button class="btn" data-btn-style="pf" data-btn-size="m">Primary Filled</button>
+            <button class="btn" data-btn-style="pl" data-btn-size="m">Primary Line</button>
+            <button class="btn" data-btn-style="pt" data-btn-size="m">Primary Text</button>
+            <div class="color-info">
+                Filled button should have white text on colored background
+            </div>
+        </div>
+
+        <div class="button-demo">
+            <h3>Neutral Buttons</h3>
+            <button class="btn" data-btn-style="nf" data-btn-size="m">Neutral Filled</button>
+            <button class="btn" data-btn-style="nl" data-btn-size="m">Neutral Line</button>
+            <button class="btn" data-btn-style="nt" data-btn-size="m">Neutral Text</button>
+            <div class="color-info">
+                Filled button should have white text on gray background
+            </div>
+        </div>
+
+        <div class="button-demo">
+            <h3>Other Variants</h3>
+            <button class="btn" data-btn-style="ff" data-btn-size="m">Focus Filled</button>
+            <button class="btn" data-btn-style="df" data-btn-size="m">Danger Filled</button>
+            <button class="btn" data-btn-style="wf" data-btn-size="m">Warning Filled</button>
+            <div class="color-info">
+                All filled buttons should have readable text colors
+            </div>
+        </div>
+
+        <div class="button-demo">
+            <h3>Button Sizes</h3>
+            <button class="btn" data-btn-style="pf" data-btn-size="xs">Extra Small</button>
+            <button class="btn" data-btn-style="pf" data-btn-size="s">Small</button>
+            <button class="btn" data-btn-style="pf" data-btn-size="m">Medium</button>
+            <button class="btn" data-btn-style="pf" data-btn-size="l">Large</button>
+            <div class="color-info">
+                Text color should be consistent across all sizes
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function setTheme(themeName) {
+            document.body.setAttribute('data-theme', themeName);
+            document.getElementById('current-theme').textContent = themeName;
+            updateColorInfo();
+        }
+
+        function updateColorInfo() {
+            const computedStyle = getComputedStyle(document.body);
+            const primary = computedStyle.getPropertyValue('--primary').trim();
+            const primaryFg = computedStyle.getPropertyValue('--primary-foreground').trim();
+            
+            document.getElementById('primary-color').textContent = primary || 'undefined';
+            document.getElementById('primary-fg-color').textContent = primaryFg || 'undefined';
+        }
+
+        // Update color info on load
+        updateColorInfo();
+    </script>
+</body>
+</html>

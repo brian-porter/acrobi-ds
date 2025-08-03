@@ -158,6 +158,31 @@ export interface ShareTargetSupport {
 }
 
 /**
+ * Protocol handler definition for registering custom URL schemes
+ * Enables the PWA to handle custom protocols and standard protocols like mailto:
+ */
+export interface ProtocolHandler {
+  /**
+   * The protocol scheme to handle (e.g., "mailto", "tel", "web+myapp")
+   * Custom protocols should use "web+" prefix for security
+   */
+  protocol: string;
+
+  /**
+   * The URL template to handle the protocol
+   * Use %s as a placeholder for the full protocol URL
+   * Example: "/handle-protocol?url=%s"
+   */
+  url: string;
+
+  /**
+   * Human-readable title describing the protocol handler
+   * This may be shown to users when selecting a handler
+   */
+  title?: string;
+}
+
+/**
  * App shortcut definition for quick access to specific app functions
  * Provides users with quick access to key tasks within your app
  */
@@ -269,11 +294,11 @@ export interface WebAppManifest {
   /** Installation prompt handling */
   iarc_rating_id?: string;
 
-  /** Custom protocol handlers */
-  protocol_handlers?: Array<{
-    protocol: string;
-    url: string;
-  }>;
+  /** 
+   * Custom protocol handlers for registering the PWA as a handler for specific URL schemes
+   * Enables deep linking and protocol handling capabilities
+   */
+  protocol_handlers?: ProtocolHandler[];
 
   /** File handlers for opening specific file types */
   file_handlers?: Array<{
@@ -789,6 +814,7 @@ export type {
   ShareTargetHandlerOptions,
   ShareTargetValidation,
   ShareTargetSupport,
+  ProtocolHandler,
   ShortcutItem,
   WebAppManifest,
 };

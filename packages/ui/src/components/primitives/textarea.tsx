@@ -121,6 +121,21 @@ export interface TextareaProps
    */
   maxLength?: number;
   /**
+   * Warning threshold percentage (0-1) for character count
+   * @default 0.8 (80%)
+   */
+  warningThreshold?: number;
+  /**
+   * Error threshold percentage (0-1) for character count
+   * @default 1.0 (100%)
+   */
+  errorThreshold?: number;
+  /**
+   * Show visual feedback for character count status
+   * @default true
+   */
+  showCounterFeedback?: boolean;
+  /**
    * @deprecated Use fieldBorderColor and showFeedback props instead
    */
   variant?: 'default' | 'error' | 'success';
@@ -217,6 +232,9 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
       resize = 'vertical',
       showCount = false,
       maxLength,
+      warningThreshold = 0.8,
+      errorThreshold = 1.0,
+      showCounterFeedback = true,
       disabled = false,
       value,
       onChange,
@@ -233,6 +251,19 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
     if (!visible) return null;
 
     const currentLength = typeof value === 'string' ? value.length : 0;
+    const isAtWarning = maxLength && currentLength >= maxLength * warningThreshold;
+    const isAtError = maxLength && currentLength >= maxLength * errorThreshold;
+    
+    // Calculate character counter status for accessibility and styling
+    const getCounterStatus = () => {
+      if (!maxLength) return 'normal';
+      if (isAtError) return 'error';
+      if (isAtWarning) return 'warning';
+      return 'normal';
+    };
+    
+    const counterStatus = getCounterStatus();
+    const hasCounterFeedback = showCount && maxLength && showCounterFeedback;
 
     // Handle backward compatibility
     const actualFieldBorderColor = getFieldBorderColor(
@@ -282,21 +313,78 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
           )}
         </div>
 
-        {/* Character count */}
+        {/* Enhanced Character Counter with Visual Feedback */}
         {showCount && maxLength && (
-          <div className='character-count mt-1 text-right'>
-            <span
-              className={cn(
-                'text-xs',
-                currentLength > maxLength
-                  ? 'text-destructive'
-                  : 'text-muted-foreground'
+          <div className='character-count mt-1 flex items-center justify-between'>
+            <div className='flex items-center gap-2'>
+              {/* Visual feedback indicator */}
+              {hasCounterFeedback && counterStatus !== 'normal' && (
+                <div className='flex items-center gap-1'>
+                  {counterStatus === 'warning' && (
+                    <svg
+                      className='h-3 w-3 text-amber-500'
+                      fill='currentColor'
+                      viewBox='0 0 20 20'
+                      aria-hidden='true'
+                    >
+                      <path
+                        fillRule='evenodd'
+                        d='M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495zM10 5a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 0110 5zm0 9a1 1 0 100-2 1 1 0 000 2z'
+                        clipRule='evenodd'
+                      />
+                    </svg>
+                  )}
+                  {counterStatus === 'error' && (
+                    <svg
+                      className='h-3 w-3 text-red-500'
+                      fill='currentColor'
+                      viewBox='0 0 20 20'
+                      aria-hidden='true'
+                    >
+                      <path
+                        fillRule='evenodd'
+                        d='M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z'
+                        clipRule='evenodd'
+                      />
+                    </svg>
+                  )}
+                  <span
+                    className={cn(
+                      'text-xs font-medium',
+                      counterStatus === 'warning' && 'text-amber-600',
+                      counterStatus === 'error' && 'text-red-600'
+                    )}
+                  >
+                    {counterStatus === 'warning' && 'Approaching limit'}
+                    {counterStatus === 'error' && 'Limit exceeded'}
+                  </span>
+                </div>
               )}
-              data-fs='r4'
-              data-clr={currentLength > maxLength ? 'fd500' : 'n700'}
-            >
-              {currentLength}/{maxLength}
-            </span>
+            </div>
+            
+            {/* Character count with ARIA live region */}
+            <div className='text-right'>
+              <span
+                className={cn(
+                  'text-xs',
+                  counterStatus === 'normal' && 'text-muted-foreground',
+                  counterStatus === 'warning' && 'text-amber-600 font-medium',
+                  counterStatus === 'error' && 'text-red-600 font-medium'
+                )}
+                data-fs='r4'
+                data-clr={
+                  counterStatus === 'error'
+                    ? 'fd500'
+                    : counterStatus === 'warning'
+                    ? 'fw500'
+                    : 'n700'
+                }
+                aria-live='polite'
+                aria-label={`${currentLength} of ${maxLength} characters used${counterStatus === 'error' ? ', limit exceeded' : counterStatus === 'warning' ? ', approaching limit' : ''}`}
+              >
+                {currentLength}/{maxLength}
+              </span>
+            </div>
           </div>
         )}
       </div>

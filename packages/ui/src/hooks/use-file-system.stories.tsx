@@ -5,7 +5,25 @@
 
 import React, { useState, useEffect } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { useFileSystem, FileSystemUtils } from './use-file-system';
+import { useFileSystem } from './use-file-system';
+
+// Mock FileSystemUtils for story compatibility
+const FileSystemUtils = {
+  getBrowserCompatibility: () => ({
+    browserInfo: navigator.userAgent,
+    isSupported: 'showOpenFilePicker' in window,
+    limitations: [
+      'File System Access API is experimental',
+      'Only supported in Chromium-based browsers',
+      'Requires user gesture to open files'
+    ]
+  }),
+  FILE_TYPES: {
+    TEXT: [{ description: 'Text files', accept: { 'text/*': ['.txt', '.md'] } }],
+    IMAGES: [{ description: 'Images', accept: { 'image/*': ['.png', '.jpg', '.jpeg'] } }],
+    JSON: [{ description: 'JSON files', accept: { 'application/json': ['.json'] } }]
+  }
+};
 
 const meta: Meta = {
   title: 'AAE/File System Access/useFileSystem',

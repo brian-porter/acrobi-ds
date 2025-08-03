@@ -8,8 +8,18 @@ export type {
   Spacing,
   FontFamily,
   BorderRadius,
+  ThemeMetadata,
 } from '../theme';
-export { themeToCSSProperties } from '../theme';
+export { 
+  themeToCSSProperties, 
+  themeToCSSString, 
+  mergeThemes, 
+  validateTheme 
+} from '../theme';
+
+// Export dynamic assets
+export * from './base';
+export type { DynamicAssets } from './base';
 
 // Available themes registry
 export const themes = {

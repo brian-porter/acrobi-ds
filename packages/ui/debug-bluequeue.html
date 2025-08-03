@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="bluequeue-light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BlueQueue Debug</title>
+    <link rel="stylesheet" href="src/styles/themes/theme-acrobi.css">
+    <link rel="stylesheet" href="src/styles/themes/theme-bluequeue.css">
+    <link rel="stylesheet" href="src/styles/themes/semantic-bridge.css">
+    <style>
+        body {
+            font-family: system-ui, sans-serif;
+            padding: 2rem;
+            background: var(--background, white);
+            color: var(--foreground, black);
+        }
+        .debug-info {
+            background: #f0f0f0;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔵 BlueQueue Debug Test</h1>
+    
+    <div class="debug-info">
+        <h3>Current CSS Variables:</h3>
+        <p><strong>--color--p500:</strong> <span id="p500-value">--</span></p>
+        <p><strong>--primary:</strong> <span id="primary-value">--</span></p>
+        <p><strong>Theme attribute:</strong> <span id="theme-value">--</span></p>
+    </div>
+
+    <h3>🔘 Button Test</h3>
+    <button class="btn" data-btn-style="pf" data-btn-size="m" style="margin: 1rem;">
+        Primary Button - Should be BLUE
+    </button>
+
+    <div class="debug-info">
+        <h3>Button Computed Styles:</h3>
+        <p><strong>Background:</strong> <span id="button-bg">--</span></p>
+        <p><strong>Border:</strong> <span id="button-border">--</span></p>
+        <p><strong>Color:</strong> <span id="button-color">--</span></p>
+    </div>
+
+    <script>
+        function updateDebugInfo() {
+            const computedStyle = getComputedStyle(document.documentElement);
+            
+            // CSS variables
+            const p500 = computedStyle.getPropertyValue('--color--p500').trim();
+            const primary = computedStyle.getPropertyValue('--primary').trim();
+            const theme = document.documentElement.getAttribute('data-theme');
+            
+            document.getElementById('p500-value').textContent = p500 || 'undefined';
+            document.getElementById('primary-value').textContent = primary || 'undefined';
+            document.getElementById('theme-value').textContent = theme || 'none';
+            
+            // Button styles
+            const button = document.querySelector('[data-btn-style="pf"]');
+            if (button) {
+                const buttonStyle = getComputedStyle(button);
+                document.getElementById('button-bg').textContent = buttonStyle.backgroundColor;
+                document.getElementById('button-border').textContent = buttonStyle.borderColor;
+                document.getElementById('button-color').textContent = buttonStyle.color;
+                
+                // Visual check
+                if (buttonStyle.backgroundColor.includes('25, 117, 240') || 
+                    buttonStyle.backgroundColor.includes('#1975f0')) {
+                    document.getElementById('button-bg').style.color = 'green';
+                    document.getElementById('button-bg').textContent += ' ✅ CORRECT!';
+                } else {
+                    document.getElementById('button-bg').style.color = 'red';
+                    document.getElementById('button-bg').textContent += ' ❌ WRONG!';
+                }
+            }
+        }
+
+        // Update on load
+        updateDebugInfo();
+        setInterval(updateDebugInfo, 1000);
+    </script>
+</body>
+</html>

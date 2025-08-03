@@ -3,6 +3,9 @@
 /* Import our theme CSS variables */
 @import './themes/theme-acrobi.css';
 
+/* Import Webflow matching styles */
+@import './webflow-matching.css';
+
 /* Import Tailwind CSS base styles */
 @tailwind base;
 @tailwind components;

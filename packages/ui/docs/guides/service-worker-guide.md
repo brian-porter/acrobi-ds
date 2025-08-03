@@ -620,198 +620,615 @@ Create a compelling offline experience:
 
 ## Advanced Background Capabilities
 
-Service Workers enable powerful background capabilities that enhance the user experience even when the app isn't actively being used.
+Service Workers enable powerful background capabilities that enhance the user experience even when the app isn't actively being used. This section covers the core background APIs and their integration patterns.
 
 ### Push Notifications
 
-Enable real-time communication with users through push notifications:
+Enable real-time communication with users through push notifications. This example shows a complete push notification implementation:
 
 ```javascript
 // In your Service Worker (sw.js)
 self.addEventListener('push', (event) => {
-  const options = {
-    body: event.data ? event.data.text() : 'New notification',
+  console.log('[SW] Push Received:', event);
+  
+  let notificationData = {
+    title: 'New Notification',
+    body: 'You have a new message',
     icon: '/icons/icon-192x192.png',
     badge: '/icons/badge-72x72.png',
+    tag: 'default',
+    requireInteraction: false,
+    silent: false
+  };
+
+  // Parse push data if available
+  if (event.data) {
+    try {
+      const data = event.data.json();
+      notificationData = { ...notificationData, ...data };
+    } catch (error) {
+      notificationData.body = event.data.text();
+    }
+  }
+
+  const options = {
+    body: notificationData.body,
+    icon: notificationData.icon,
+    badge: notificationData.badge,
+    tag: notificationData.tag,
+    requireInteraction: notificationData.requireInteraction,
+    silent: notificationData.silent,
     vibrate: [100, 50, 100],
     data: {
+      url: notificationData.url || '/',
       dateOfArrival: Date.now(),
-      primaryKey: '2'
+      primaryKey: notificationData.id || crypto.randomUUID()
     },
     actions: [
       {
-        action: 'explore',
-        title: 'Explore this new world',
-        icon: '/icons/checkmark.png'
+        action: 'open',
+        title: 'Open App',
+        icon: '/icons/open.png'
       },
       {
-        action: 'close',
-        title: 'Close',
-        icon: '/icons/xmark.png'
+        action: 'dismiss',
+        title: 'Dismiss',
+        icon: '/icons/close.png'
       }
     ]
   };
 
   event.waitUntil(
-    self.registration.showNotification('Push Notification', options)
+    self.registration.showNotification(notificationData.title, options)
   );
 });
 
 self.addEventListener('notificationclick', (event) => {
+  console.log('[SW] Notification click:', event);
+  
   event.notification.close();
 
-  if (event.action === 'explore') {
-    // Open specific page
-    event.waitUntil(
-      clients.openWindow('/explore')
-    );
-  } else if (event.action === 'close') {
-    // Just close the notification
-    return;
-  } else {
-    // Default action - open the app
-    event.waitUntil(
-      clients.openWindow('/')
-    );
+  const urlToOpen = event.notification.data?.url || '/';
+
+  switch (event.action) {
+    case 'open':
+      event.waitUntil(
+        clients.matchAll({ type: 'window', includeUncontrolled: true })
+          .then(windowClients => {
+            // Focus existing window if available
+            const existingClient = windowClients.find(client => 
+              client.url === urlToOpen && 'focus' in client
+            );
+            
+            if (existingClient) {
+              return existingClient.focus();
+            }
+            
+            // Open new window
+            if (clients.openWindow) {
+              return clients.openWindow(urlToOpen);
+            }
+          })
+      );
+      break;
+    case 'dismiss':
+      // Just close, no action needed
+      break;
+    default:
+      // Default action - open the app
+      event.waitUntil(
+        clients.openWindow(urlToOpen)
+      );
   }
 });
 ```
 
-**Learn more**: [Push Notifications Guide](../hooks/use-push-notifications)
+**Client-side subscription management:**
+
+```javascript
+// In your main app - Push subscription management
+async function subscribeToPush() {
+  const registration = await navigator.serviceWorker.ready;
+  
+  // Check if already subscribed
+  let subscription = await registration.pushManager.getSubscription();
+  
+  if (!subscription) {
+    try {
+      subscription = await registration.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY)
+      });
+    } catch (error) {
+      console.error('Failed to subscribe:', error);
+      return null;
+    }
+  }
+  
+  // Send subscription to your server
+  await sendSubscriptionToServer(subscription);
+  return subscription;
+}
+
+function urlBase64ToUint8Array(base64String) {
+  const padding = '='.repeat((4 - base64String.length % 4) % 4);
+  const base64 = (base64String + padding)
+    .replace(/-/g, '+')
+    .replace(/_/g, '/');
+
+  const rawData = window.atob(base64);
+  const outputArray = new Uint8Array(rawData.length);
+
+  for (let i = 0; i < rawData.length; ++i) {
+    outputArray[i] = rawData.charCodeAt(i);
+  }
+  return outputArray;
+}
+```
 
 ### Background Sync
 
-Ensure data synchronization even when offline:
+Ensure data synchronization even when offline. This implementation provides a robust queuing system:
 
 ```javascript
-// Register background sync
+// Service Worker - Background Sync Handler
 self.addEventListener('sync', (event) => {
-  if (event.tag === 'background-sync') {
-    event.waitUntil(doBackgroundSync());
+  console.log('[SW] Background Sync:', event.tag);
+  
+  switch (event.tag) {
+    case 'background-sync':
+      event.waitUntil(doBackgroundSync());
+      break;
+    case 'user-data-sync':
+      event.waitUntil(syncUserData());
+      break;
+    case 'offline-actions':
+      event.waitUntil(processOfflineActions());
+      break;
+    default:
+      console.warn('Unknown sync tag:', event.tag);
   }
 });
 
 async function doBackgroundSync() {
   try {
+    console.log('[SW] Starting background sync...');
+    
     // Get pending data from IndexedDB
     const pendingData = await getPendingSyncData();
+    console.log(`[SW] Found ${pendingData.length} items to sync`);
+    
+    const syncResults = [];
     
     for (const data of pendingData) {
-      await fetch('/api/sync', {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers: {
-          'Content-Type': 'application/json'
+      try {
+        const response = await fetch('/api/sync', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Background-Sync': 'true'
+          },
+          body: JSON.stringify(data.payload)
+        });
+
+        if (response.ok) {
+          await removePendingSyncData(data.id);
+          syncResults.push({ id: data.id, success: true });
+        } else {
+          syncResults.push({ id: data.id, success: false, error: response.statusText });
         }
-      });
-      
-      // Remove from pending sync after successful upload
-      await removePendingSyncData(data.id);
+      } catch (error) {
+        console.error(`[SW] Sync failed for item ${data.id}:`, error);
+        syncResults.push({ id: data.id, success: false, error: error.message });
+      }
     }
+    
+    // Notify clients about sync results
+    const clients = await self.clients.matchAll();
+    clients.forEach(client => {
+      client.postMessage({
+        type: 'BACKGROUND_SYNC_COMPLETE',
+        results: syncResults
+      });
+    });
+    
+    console.log('[SW] Background sync completed:', syncResults);
   } catch (error) {
-    console.error('Background sync failed:', error);
-    // Will retry on next sync event
+    console.error('[SW] Background sync failed:', error);
+    throw error; // Let browser retry
+  }
+}
+
+// IndexedDB operations for sync queue
+async function getPendingSyncData() {
+  return new Promise((resolve, reject) => {
+    const request = indexedDB.open('SyncDatabase', 1);
+    
+    request.onerror = () => reject(request.error);
+    request.onsuccess = () => {
+      const db = request.result;
+      const transaction = db.transaction(['sync-queue'], 'readonly');
+      const store = transaction.objectStore('sync-queue');
+      const getAllRequest = store.getAll();
+      
+      getAllRequest.onsuccess = () => resolve(getAllRequest.result);
+      getAllRequest.onerror = () => reject(getAllRequest.error);
+    };
+    
+    request.onupgradeneeded = (event) => {
+      const db = event.target.result;
+      if (!db.objectStoreNames.contains('sync-queue')) {
+        const store = db.createObjectStore('sync-queue', { keyPath: 'id' });
+        store.createIndex('timestamp', 'timestamp');
+      }
+    };
+  });
+}
+
+async function removePendingSyncData(id) {
+  return new Promise((resolve, reject) => {
+    const request = indexedDB.open('SyncDatabase', 1);
+    
+    request.onsuccess = () => {
+      const db = request.result;
+      const transaction = db.transaction(['sync-queue'], 'readwrite');
+      const store = transaction.objectStore('sync-queue');
+      const deleteRequest = store.delete(id);
+      
+      deleteRequest.onsuccess = () => resolve();
+      deleteRequest.onerror = () => reject(deleteRequest.error);
+    };
+  });
+}
+```
+
+**Client-side queue management:**
+
+```javascript
+// Add data to sync queue when offline
+async function queueForBackgroundSync(data) {
+  const db = await openSyncDB();
+  const transaction = db.transaction(['sync-queue'], 'readwrite');
+  const store = transaction.objectStore('sync-queue');
+  
+  const syncItem = {
+    id: crypto.randomUUID(),
+    payload: data,
+    timestamp: Date.now(),
+    retryCount: 0
+  };
+  
+  await store.add(syncItem);
+  
+  // Register background sync
+  if ('serviceWorker' in navigator && 'sync' in window.ServiceWorkerRegistration.prototype) {
+    const registration = await navigator.serviceWorker.ready;
+    await registration.sync.register('background-sync');
   }
 }
 ```
 
-**Learn more**: [Background Sync Guide](../hooks/use-background-sync)
-
 ### Periodic Background Sync
 
-Keep content fresh with periodic updates:
+Keep content fresh with periodic updates. Note: This is experimental and requires Chrome with flags enabled:
 
 ```javascript
+// Service Worker - Periodic Sync Handler
 self.addEventListener('periodicsync', (event) => {
-  if (event.tag === 'content-sync') {
-    event.waitUntil(updateContent());
+  console.log('[SW] Periodic sync triggered:', event.tag);
+  
+  switch (event.tag) {
+    case 'content-sync':
+      event.waitUntil(updateContent());
+      break;
+    case 'news-refresh':
+      event.waitUntil(refreshNews());
+      break;
+    case 'cache-maintenance':
+      event.waitUntil(performCacheMaintenance());
+      break;
+    default:
+      console.warn('Unknown periodic sync tag:', event.tag);
   }
 });
 
 async function updateContent() {
   try {
-    const response = await fetch('/api/content/latest');
+    console.log('[SW] Updating content via periodic sync...');
+    
+    const response = await fetch('/api/content/latest', {
+      headers: { 'X-Periodic-Sync': 'true' }
+    });
+    
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+    
     const content = await response.json();
     
     // Update cache with fresh content
-    const cache = await caches.open('content-cache');
-    await cache.put('/api/content/latest', new Response(JSON.stringify(content)));
+    const cache = await caches.open('content-cache-v1');
+    await cache.put('/api/content/latest', new Response(JSON.stringify(content), {
+      headers: { 'Content-Type': 'application/json' }
+    }));
     
-    // Notify user of new content if app is open
+    // Store content update timestamp
+    await cache.put('/content-last-updated', new Response(Date.now().toString()));
+    
+    // Notify open clients
     const clients = await self.clients.matchAll();
-    clients.forEach(client => {
-      client.postMessage({
-        type: 'CONTENT_UPDATED',
-        payload: content
+    if (clients.length > 0) {
+      clients.forEach(client => {
+        client.postMessage({
+          type: 'CONTENT_UPDATED',
+          payload: content,
+          timestamp: Date.now()
+        });
       });
-    });
+    }
+    
+    console.log('[SW] Periodic content update completed');
   } catch (error) {
-    console.error('Periodic sync failed:', error);
+    console.error('[SW] Periodic content update failed:', error);
+    // Don't throw - let browser handle retry
+  }
+}
+
+async function performCacheMaintenance() {
+  try {
+    console.log('[SW] Starting cache maintenance...');
+    
+    const cacheNames = await caches.keys();
+    const oldCaches = cacheNames.filter(name => 
+      name.includes('v1.1') || name.includes('old-') || name.includes('temp-')
+    );
+    
+    // Clean up old caches
+    await Promise.all(oldCaches.map(name => caches.delete(name)));
+    
+    // Refresh frequently accessed resources
+    const importantUrls = ['/', '/dashboard', '/profile'];
+    const cache = await caches.open('app-shell-v1.2.0');
+    
+    for (const url of importantUrls) {
+      try {
+        const response = await fetch(url);
+        if (response.ok) {
+          await cache.put(url, response);
+        }
+      } catch (error) {
+        console.warn(`Failed to refresh ${url}:`, error);
+      }
+    }
+    
+    console.log('[SW] Cache maintenance completed');
+  } catch (error) {
+    console.error('[SW] Cache maintenance failed:', error);
   }
 }
 ```
-
-**Learn more**: [Periodic Background Sync Guide](../hooks/use-periodic-sync)
 
 ### Background Fetch
 
 Handle large downloads that continue even if the app is closed:
 
 ```javascript
+// Service Worker - Background Fetch Handlers
 self.addEventListener('backgroundfetch', (event) => {
+  console.log('[SW] Background fetch:', event.tag);
+  
   if (event.tag === 'large-download') {
-    event.waitUntil(
-      (async () => {
-        const bgFetch = await self.registration.backgroundFetch.fetch(
-          'large-download',
-          '/api/large-file',
-          {
-            icons: [{ src: '/icons/download.png', sizes: '256x256', type: 'image/png' }],
-            title: 'Downloading large file...',
-            downloadTotal: 50 * 1024 * 1024 // 50MB
-          }
-        );
-      })()
-    );
+    event.waitUntil(handleLargeDownload(event));
   }
 });
 
+async function handleLargeDownload(event) {
+  try {
+    const bgFetch = await self.registration.backgroundFetch.fetch(
+      'large-download',
+      '/api/large-file.zip',
+      {
+        icons: [{ 
+          src: '/icons/download.png', 
+          sizes: '256x256', 
+          type: 'image/png' 
+        }],
+        title: 'Downloading content...',
+        downloadTotal: 50 * 1024 * 1024, // 50MB
+        text: 'Large file download in progress'
+      }
+    );
+    
+    console.log('[SW] Background fetch initiated:', bgFetch.id);
+  } catch (error) {
+    console.error('[SW] Background fetch failed to start:', error);
+  }
+}
+
 self.addEventListener('backgroundfetchsuccess', (event) => {
-  console.log('[SW]: Background Fetch Success', event.tag);
+  console.log('[SW] Background fetch success:', event.tag);
   
   event.waitUntil(
     (async () => {
-      // Process the downloaded content
-      const cache = await caches.open('downloads');
-      const records = await event.registration.matchAll();
-      
-      for (const record of records) {
-        const response = await record.responseReady;
-        await cache.put(record.request, response);
+      try {
+        // Process downloaded content
+        const cache = await caches.open('downloads-v1');
+        const records = await event.registration.matchAll();
+        
+        let totalSize = 0;
+        for (const record of records) {
+          const response = await record.responseReady;
+          if (response && response.ok) {
+            await cache.put(record.request, response.clone());
+            totalSize += parseInt(response.headers.get('content-length') || '0');
+          }
+        }
+        
+        // Update download UI
+        await self.registration.showNotification('Download Complete', {
+          body: `Downloaded ${Math.round(totalSize / 1024 / 1024)}MB successfully`,
+          icon: '/icons/download-complete.png',
+          tag: 'download-success'
+        });
+        
+        // Notify clients
+        const clients = await self.clients.matchAll();
+        clients.forEach(client => {
+          client.postMessage({
+            type: 'DOWNLOAD_COMPLETE',
+            tag: event.tag,
+            totalSize
+          });
+        });
+      } catch (error) {
+        console.error('[SW] Error processing background fetch success:', error);
       }
     })()
   );
 });
+
+self.addEventListener('backgroundfetchfail', (event) => {
+  console.log('[SW] Background fetch failed:', event.tag);
+  
+  event.waitUntil(
+    self.registration.showNotification('Download Failed', {
+      body: 'Download could not be completed',
+      icon: '/icons/download-error.png',
+      tag: 'download-failed'
+    })
+  );
+});
+
+self.addEventListener('backgroundfetchabort', (event) => {
+  console.log('[SW] Background fetch aborted:', event.tag);
+  
+  event.waitUntil(
+    self.registration.showNotification('Download Cancelled', {
+      body: 'Download was cancelled',
+      icon: '/icons/download-cancelled.png',
+      tag: 'download-cancelled'
+    })
+  );
+});
 ```
 
-**Learn more**: [Background Fetch Guide](../hooks/use-background-fetch)
+**Client-side background fetch management:**
+
+```javascript
+// Initiate background fetch from client
+async function startBackgroundDownload(url, options = {}) {
+  const registration = await navigator.serviceWorker.ready;
+  
+  try {
+    const bgFetch = await registration.backgroundFetch.fetch(
+      'large-download',
+      url,
+      {
+        icons: [{ src: '/icons/download.png', sizes: '256x256', type: 'image/png' }],
+        title: options.title || 'Downloading...',
+        downloadTotal: options.size || 0,
+        ...options
+      }
+    );
+    
+    console.log('Background fetch started:', bgFetch.id);
+    
+    // Monitor progress
+    bgFetch.addEventListener('progress', (event) => {
+      const percent = Math.round((event.loaded / event.total) * 100);
+      console.log(`Download progress: ${percent}%`);
+    });
+    
+    return bgFetch;
+  } catch (error) {
+    console.error('Failed to start background fetch:', error);
+    throw error;
+  }
+}
+```
+
+### Protocol Handlers Integration
+
+Service Workers can enhance protocol handling for custom URL schemes:
+
+```javascript
+// Service Worker - Handle protocol requests
+self.addEventListener('fetch', (event) => {
+  const url = new URL(event.request.url);
+  
+  // Handle custom protocol redirects
+  if (url.pathname.startsWith('/handle-')) {
+    event.respondWith(handleProtocolRequest(event.request));
+  }
+});
+
+async function handleProtocolRequest(request) {
+  const url = new URL(request.url);
+  const protocolData = url.searchParams.get('data');
+  
+  if (protocolData) {
+    // Cache the protocol data for offline access
+    const cache = await caches.open('protocol-cache-v1');
+    const cacheKey = `/protocol-data/${Date.now()}`;
+    
+    await cache.put(cacheKey, new Response(protocolData, {
+      headers: { 'Content-Type': 'text/plain' }
+    }));
+  }
+  
+  // Let the request continue to the page
+  return fetch(request);
+}
+```
+
+**Advanced Integration Patterns:**
+
+For comprehensive implementations of these capabilities, explore the related guides:
+- **[Advanced Fetch & Caching](./advanced-fetch-caching)** - Production-ready request handling patterns  
+- **[Periodic Background Sync](./periodic-background-sync)** - Detailed implementation with fallback strategies
+- **[Protocol Handlers](./protocol-handlers)** - Complete custom URL scheme handling
 
 ## Production Deployment
 
-### Build Integration
+### Build Integration & Framework Setup
 
-Ensure your Service Worker is properly built and deployed:
+#### Next.js Integration
+
+Configure Next.js for optimal Service Worker deployment:
 
 ```javascript
-// next.config.js (Next.js)
+// next.config.js (Next.js App Router & Pages Router)
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Copy Service Worker to public directory during build
+  // Rewrite Service Worker requests
   async rewrites() {
     return [
       {
         source: '/sw.js',
         destination: '/_next/static/sw.js',
+      },
+      {
+        source: '/service-worker.js',
+        destination: '/_next/static/service-worker.js',
+      }
+    ];
+  },
+  
+  // Service Worker specific headers
+  async headers() {
+    return [
+      {
+        source: '/sw.js',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=0, must-revalidate',
+          },
+          {
+            key: 'Service-Worker-Allowed',
+            value: '/',
+          },
+        ],
       },
     ];
   },
@@ -822,7 +1239,9 @@ const nextConfig = {
       config.plugins.push(
         new webpack.DefinePlugin({
           'process.env.BUILD_ID': JSON.stringify(buildId),
-          'process.env.CACHE_NAME': JSON.stringify(`my-pwa-${buildId}`),
+          'process.env.CACHE_NAME': JSON.stringify(`acrobi-pwa-${buildId}`),
+          'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+          'process.env.VERSION': JSON.stringify(process.env.npm_package_version || '1.0.0'),
         })
       );
     }
@@ -834,149 +1253,1184 @@ const nextConfig = {
 module.exports = nextConfig;
 ```
 
-### Cache Versioning Strategy
+#### Vite/React Integration
 
-Implement automatic cache versioning:
+For Vite-based projects:
 
 ```javascript
-// Use build-time variables for cache names
-const BUILD_ID = process.env.BUILD_ID || 'dev';
-const CACHE_NAME = `my-pwa-${BUILD_ID}`;
-const RUNTIME_CACHE = `runtime-${BUILD_ID}`;
+// vite.config.js
+import { defineConfig } from 'vite';
+import { VitePWA } from 'vite-plugin-pwa';
 
-// This ensures new deployments create new caches
-// and old caches are automatically cleaned up
+export default defineConfig({
+  plugins: [
+    VitePWA({
+      strategies: 'injectManifest',
+      srcDir: 'src',
+      filename: 'sw.js',
+      includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
+      manifest: {
+        name: 'Acrobi PWA',
+        short_name: 'AcrobiPWA',
+        description: 'My Awesome Acrobi PWA',
+        theme_color: '#ffffff',
+        icons: [
+          {
+            src: 'pwa-192x192.png',
+            sizes: '192x192',
+            type: 'image/png'
+          }
+        ]
+      },
+      injectManifest: {
+        swSrc: 'src/sw.js',
+        swDest: 'dist/sw.js',
+        globDirectory: 'dist',
+        globPatterns: [
+          '**/*.{js,css,html,ico,png,svg,woff2}'
+        ]
+      }
+    })
+  ]
+});
 ```
 
-### Performance Monitoring
+### Cache Versioning Strategy
 
-Monitor Service Worker performance:
+Implement robust cache versioning for production deployments:
 
 ```javascript
-// Add performance tracking to your Service Worker
-self.addEventListener('fetch', (event) => {
-  const startTime = performance.now();
-  
-  event.respondWith(
-    handleRequest(event.request).then((response) => {
-      const endTime = performance.now();
-      const duration = endTime - startTime;
+// sw.js - Production cache versioning
+const VERSION = process.env.VERSION || '1.0.0';
+const BUILD_ID = process.env.BUILD_ID || 'dev';
+const CACHE_TIMESTAMP = Date.now();
+
+// Cache name generation
+const CACHE_NAMES = {
+  STATIC: `acrobi-static-${VERSION}-${BUILD_ID}`,
+  DYNAMIC: `acrobi-dynamic-${VERSION}`,
+  API: `acrobi-api-${VERSION}`,
+  IMAGES: `acrobi-images-${VERSION}`,
+  RUNTIME: `acrobi-runtime-${BUILD_ID}`
+};
+
+// Cache configuration
+const CACHE_CONFIG = {
+  // Static assets - long cache duration
+  STATIC: {
+    maxAge: 365 * 24 * 60 * 60 * 1000, // 1 year
+    maxEntries: 100
+  },
+  // API responses - short cache duration
+  API: {
+    maxAge: 5 * 60 * 1000, // 5 minutes
+    maxEntries: 50
+  },
+  // Images - medium cache duration
+  IMAGES: {
+    maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+    maxEntries: 200
+  }
+};
+
+// Activation - Clean up old caches
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    (async () => {
+      // Get all cache names
+      const cacheNames = await caches.keys();
       
-      // Log performance metrics
-      console.log(`[SW] ${event.request.url}: ${duration}ms`);
+      // Identify old caches
+      const oldCaches = cacheNames.filter(cacheName => {
+        // Keep current version caches
+        const isCurrentCache = Object.values(CACHE_NAMES).includes(cacheName);
+        
+        // Remove old acrobi caches
+        const isAcrobiCache = cacheName.startsWith('acrobi-');
+        
+        return isAcrobiCache && !isCurrentCache;
+      });
       
-      // Send to analytics service
-      if (duration > 1000) { // Log slow requests
-        self.registration.sync.register('performance-log');
-      }
+      console.log(`[SW] Cleaning up ${oldCaches.length} old caches`);
       
-      return response;
-    })
+      // Delete old caches
+      await Promise.all(
+        oldCaches.map(cacheName => {
+          console.log(`[SW] Deleting cache: ${cacheName}`);
+          return caches.delete(cacheName);
+        })
+      );
+      
+      // Take control of all pages
+      await self.clients.claim();
+      
+      console.log('[SW] Cache cleanup completed, service worker activated');
+    })()
   );
 });
+```
+
+### Environment-Specific Configuration
+
+Handle different environments properly:
+
+```javascript
+// sw.js - Environment configuration
+const ENV = process.env.NODE_ENV || 'development';
+const IS_PRODUCTION = ENV === 'production';
+const IS_DEVELOPMENT = ENV === 'development';
+
+// Development-specific features
+if (IS_DEVELOPMENT) {
+  // Enable detailed logging
+  console.log('[SW] Development mode - verbose logging enabled');
+  
+  // Skip waiting for faster development
+  self.addEventListener('install', () => {
+    self.skipWaiting();
+  });
+  
+  // Bypass cache for certain requests in development
+  self.addEventListener('fetch', (event) => {
+    const url = new URL(event.request.url);
+    
+    // Always fetch fresh in development for API routes
+    if (url.pathname.startsWith('/api/') && IS_DEVELOPMENT) {
+      event.respondWith(fetch(event.request));
+      return;
+    }
+    
+    // Continue with normal caching logic
+  });
+}
+
+// Production optimizations
+if (IS_PRODUCTION) {
+  // Comprehensive error tracking
+  self.addEventListener('error', (event) => {
+    console.error('[SW] Error:', event.error);
+    // Send to monitoring service
+    reportError(event.error);
+  });
+  
+  self.addEventListener('unhandledrejection', (event) => {
+    console.error('[SW] Unhandled rejection:', event.reason);
+    reportError(event.reason);
+  });
+}
+
+// Cross-environment utilities
+function reportError(error) {
+  if (IS_PRODUCTION) {
+    // Send to your error tracking service
+    // e.g., Sentry, LogRocket, etc.
+    fetch('/api/errors', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        error: error.message,
+        stack: error.stack,
+        timestamp: Date.now(),
+        url: self.location.href
+      })
+    }).catch(() => {
+      // Silently fail error reporting
+    });
+  }
+}
+```
+
+### Performance Monitoring & Analytics
+
+Implement comprehensive performance tracking:
+
+```javascript
+// sw.js - Performance monitoring
+class ServiceWorkerAnalytics {
+  constructor() {
+    this.metrics = new Map();
+    this.startTimes = new Map();
+  }
+  
+  startTimer(requestId) {
+    this.startTimes.set(requestId, performance.now());
+  }
+  
+  endTimer(requestId, success = true, cacheHit = false) {
+    const startTime = this.startTimes.get(requestId);
+    if (startTime) {
+      const duration = performance.now() - startTime;
+      this.recordMetric(requestId, duration, success, cacheHit);
+      this.startTimes.delete(requestId);
+    }
+  }
+  
+  recordMetric(requestId, duration, success, cacheHit) {
+    const metric = {
+      requestId,
+      duration: Math.round(duration),
+      success,
+      cacheHit,
+      timestamp: Date.now()
+    };
+    
+    this.metrics.set(requestId, metric);
+    
+    // Log slow requests
+    if (duration > 1000) {
+      console.warn(`[SW] Slow request (${duration}ms):`, requestId);
+    }
+    
+    // Send to analytics (batch for efficiency)
+    this.maybeSendMetrics();
+  }
+  
+  maybeSendMetrics() {
+    if (this.metrics.size >= 10) {
+      this.sendMetrics();
+    }
+  }
+  
+  async sendMetrics() {
+    if (this.metrics.size === 0) return;
+    
+    const metricsArray = Array.from(this.metrics.values());
+    this.metrics.clear();
+    
+    try {
+      await fetch('/api/sw-metrics', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          metrics: metricsArray,
+          serviceWorkerVersion: VERSION,
+          timestamp: Date.now()
+        })
+      });
+    } catch (error) {
+      console.error('[SW] Failed to send metrics:', error);
+    }
+  }
+}
+
+const analytics = new ServiceWorkerAnalytics();
+
+// Enhanced fetch handler with analytics
+self.addEventListener('fetch', (event) => {
+  const requestId = crypto.randomUUID();
+  const url = new URL(event.request.url);
+  
+  // Skip analytics for certain requests
+  if (url.pathname.startsWith('/api/sw-metrics')) {
+    return;
+  }
+  
+  analytics.startTimer(requestId);
+  
+  event.respondWith(
+    (async () => {
+      try {
+        const response = await handleRequest(event.request);
+        const cacheHit = response.headers.get('x-cache') === 'HIT';
+        
+        analytics.endTimer(requestId, response.ok, cacheHit);
+        
+        return response;
+      } catch (error) {
+        analytics.endTimer(requestId, false, false);
+        throw error;
+      }
+    })()
+  );
+});
+
+// Periodic metrics flush
+setInterval(() => {
+  analytics.sendMetrics();
+}, 30000); // Send metrics every 30 seconds
+```
+
+### Security Headers & CSP
+
+Configure security headers for Service Worker deployment:
+
+```javascript
+// next.config.js - Security headers
+const nextConfig = {
+  async headers() {
+    return [
+      {
+        source: '/sw.js',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=0, must-revalidate',
+          },
+          {
+            key: 'Service-Worker-Allowed',
+            value: '/',
+          },
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
+          },
+        ],
+      },
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'Content-Security-Policy',
+            value: [
+              "default-src 'self'",
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+              "style-src 'self' 'unsafe-inline'",
+              "img-src 'self' data: https:",
+              "connect-src 'self' https:",
+              "font-src 'self' data:",
+              "object-src 'none'",
+              "base-uri 'self'",
+              "form-action 'self'",
+              "frame-ancestors 'none'",
+              "upgrade-insecure-requests"
+            ].join('; '),
+          },
+        ],
+      },
+    ];
+  },
+};
+```
+
+### Deployment Checklist
+
+**Pre-deployment verification:**
+
+1. **Service Worker Registration**
+   - [ ] SW registration code in main app
+   - [ ] Proper error handling for registration failures
+   - [ ] Update notification mechanism implemented
+
+2. **Cache Strategy**
+   - [ ] Appropriate caching strategies for different resource types
+   - [ ] Cache versioning based on build ID
+   - [ ] Old cache cleanup implemented
+
+3. **Offline Experience**
+   - [ ] Offline page created and cached
+   - [ ] Critical app shell resources pre-cached
+   - [ ] Network failure fallbacks implemented
+
+4. **Performance**
+   - [ ] Performance monitoring implemented
+   - [ ] Critical resources prioritized
+   - [ ] Large resources handled with background fetch
+
+5. **Security**
+   - [ ] HTTPS enabled (required for Service Workers)
+   - [ ] Proper CSP headers configured
+   - [ ] Input validation in Service Worker
+
+6. **Browser Compatibility**
+   - [ ] Feature detection implemented
+   - [ ] Graceful fallbacks for unsupported browsers
+   - [ ] Progressive enhancement approach
+
+**Post-deployment monitoring:**
+
+```javascript
+// Client-side deployment monitoring
+function monitorServiceWorkerDeployment() {
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      console.log('[Client] Service Worker updated');
+      
+      // Track deployment success
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'sw_updated', {
+          custom_map: { version: VERSION }
+        });
+      }
+    });
+    
+    // Monitor Service Worker errors
+    navigator.serviceWorker.addEventListener('error', (error) => {
+      console.error('[Client] Service Worker error:', error);
+      
+      // Report critical errors
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'sw_error', {
+          error_message: error.message
+        });
+      }
+    });
+  }
+}
+
+// Initialize monitoring
+monitorServiceWorkerDeployment();
 ```
 
 ## Troubleshooting
 
 ### Common Issues and Solutions
 
-**1. Service Worker not updating**
-```javascript
-// Force update in development
-if (process.env.NODE_ENV === 'development') {
-  self.addEventListener('install', () => {
-    self.skipWaiting();
-  });
-  
-  self.addEventListener('activate', () => {
-    self.clients.claim();
-  });
-}
-```
+#### 1. Service Worker Not Registering
 
-**2. Cache not working**
-```javascript
-// Debug cache issues
-self.addEventListener('fetch', (event) => {
-  console.log('[SW] Intercepting:', event.request.url);
-  
-  event.respondWith(
-    caches.match(event.request).then((response) => {
-      if (response) {
-        console.log('[SW] Cache hit:', event.request.url);
-      } else {
-        console.log('[SW] Cache miss:', event.request.url);
-      }
-      return response || fetch(event.request);
-    })
-  );
-});
-```
+**Problem**: Service Worker fails to register or doesn't activate.
 
-**3. HTTPS requirement**
-Service Workers require HTTPS in production. For development:
-```javascript
-// Development setup
-if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
-  // Service Worker will work on localhost
-  registerServiceWorker();
-} else if (location.protocol === 'https:') {
-  // Only register on HTTPS in production
-  registerServiceWorker();
-} else {
-  console.warn('Service Worker requires HTTPS');
-}
-```
-
-### Testing Service Workers
+**Solutions**:
 
 ```javascript
-// Test Service Worker registration
-async function testServiceWorker() {
-  if ('serviceWorker' in navigator) {
-    try {
-      const registration = await navigator.serviceWorker.register('/sw.js');
-      console.log('✅ Service Worker registered');
-      
-      // Test cache
-      const cache = await caches.open('test-cache');
-      await cache.add('/');
-      console.log('✅ Cache working');
-      
-      // Test offline
-      navigator.serviceWorker.addEventListener('message', (event) => {
-        if (event.data.type === 'CACHE_UPDATED') {
-          console.log('✅ Cache updated');
-        }
-      });
-      
-    } catch (error) {
-      console.error('❌ Service Worker test failed:', error);
+// Enhanced registration with detailed error handling
+async function registerServiceWorker() {
+  if (!('serviceWorker' in navigator)) {
+    console.warn('[SW] Service Workers not supported');
+    return false;
+  }
+
+  try {
+    console.log('[SW] Attempting registration...');
+    
+    const registration = await navigator.serviceWorker.register('/sw.js', {
+      scope: '/'
+    });
+
+    console.log('[SW] Registration successful:', registration);
+
+    // Wait for Service Worker to be ready
+    const activeWorker = await navigator.serviceWorker.ready;
+    console.log('[SW] Service Worker ready:', activeWorker);
+
+    return registration;
+  } catch (error) {
+    console.error('[SW] Registration failed:', error);
+    
+    // Detailed error analysis
+    if (error.name === 'SecurityError') {
+      console.error('[SW] Security error - check HTTPS and Service Worker scope');
+    } else if (error.name === 'TypeError') {
+      console.error('[SW] Network error - check Service Worker file exists');
     }
-  } else {
-    console.error('❌ Service Worker not supported');
+    
+    return false;
+  }
+}
+
+// Check registration status
+function checkServiceWorkerStatus() {
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then(registrations => {
+      console.log('[SW] Current registrations:', registrations.length);
+      
+      registrations.forEach((reg, index) => {
+        console.log(`[SW] Registration ${index}:`, {
+          scope: reg.scope,
+          active: !!reg.active,
+          installing: !!reg.installing,
+          waiting: !!reg.waiting
+        });
+      });
+    });
   }
 }
 ```
 
+**Common causes**:
+- Service Worker file not found (404 error)
+- HTTPS not enabled in production
+- Incorrect scope configuration
+- Syntax errors in Service Worker file
+
+#### 2. Service Worker Not Updating
+
+**Problem**: New Service Worker versions don't activate or take control.
+
+**Solutions**:
+
+```javascript
+// Client-side update handling
+function handleServiceWorkerUpdate() {
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      console.log('[SW] New Service Worker took control');
+      
+      // Show user notification
+      showUpdateNotification('App updated! Refresh to see changes.');
+    });
+
+    // Check for updates periodically
+    setInterval(() => {
+      navigator.serviceWorker.getRegistrations().then(registrations => {
+        registrations.forEach(reg => reg.update());
+      });
+    }, 60000); // Check every minute
+  }
+}
+
+// Force update in development
+if (process.env.NODE_ENV === 'development') {
+  self.addEventListener('install', (event) => {
+    console.log('[SW] Development mode - skipping waiting');
+    self.skipWaiting();
+  });
+  
+  self.addEventListener('activate', (event) => {
+    console.log('[SW] Development mode - claiming clients');
+    event.waitUntil(self.clients.claim());
+  });
+}
+
+// Production update with user confirmation
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    console.log('[SW] Received skip waiting message');
+    self.skipWaiting();
+  }
+});
+
+// Client-side update confirmation
+function promptForUpdate() {
+  if (confirm('A new version is available. Update now?')) {
+    // Tell Service Worker to skip waiting
+    navigator.serviceWorker.controller?.postMessage({
+      type: 'SKIP_WAITING'
+    });
+  }
+}
+```
+
+#### 3. Cache Issues
+
+**Problem**: Resources not caching properly or cache not being used.
+
+**Solutions**:
+
+```javascript
+// Debug cache operations
+self.addEventListener('fetch', (event) => {
+  const url = new URL(event.request.url);
+  console.log(`[SW] Intercepting: ${event.request.method} ${url.pathname}`);
+  
+  event.respondWith(
+    (async () => {
+      try {
+        // Check cache first
+        const cachedResponse = await caches.match(event.request);
+        
+        if (cachedResponse) {
+          console.log(`[SW] ✅ Cache HIT: ${url.pathname}`);
+          
+          // Add cache indicator header
+          const response = cachedResponse.clone();
+          response.headers.set('X-Cache', 'HIT');
+          return response;
+        }
+        
+        console.log(`[SW] ❌ Cache MISS: ${url.pathname}`);
+        
+        // Fetch from network
+        const networkResponse = await fetch(event.request);
+        
+        // Cache successful responses
+        if (networkResponse.ok) {
+          const cache = await caches.open('runtime-cache-v1');
+          console.log(`[SW] 💾 Caching: ${url.pathname}`);
+          cache.put(event.request, networkResponse.clone());
+        }
+        
+        return networkResponse;
+      } catch (error) {
+        console.error(`[SW] ❌ Fetch failed for ${url.pathname}:`, error);
+        
+        // Try to return cached version as fallback
+        const cachedResponse = await caches.match(event.request);
+        if (cachedResponse) {
+          console.log(`[SW] 🆘 Fallback to cache: ${url.pathname}`);
+          return cachedResponse;
+        }
+        
+        throw error;
+      }
+    })()
+  );
+});
+
+// Cache inspection utilities
+async function inspectCaches() {
+  const cacheNames = await caches.keys();
+  console.log('[SW] Available caches:', cacheNames);
+  
+  for (const cacheName of cacheNames) {
+    const cache = await caches.open(cacheName);
+    const requests = await cache.keys();
+    console.log(`[SW] Cache "${cacheName}" contains ${requests.length} entries:`);
+    
+    requests.slice(0, 5).forEach(request => {
+      console.log(`  - ${request.url}`);
+    });
+    
+    if (requests.length > 5) {
+      console.log(`  ... and ${requests.length - 5} more`);
+    }
+  }
+}
+
+// Clear specific cache
+async function clearCache(cacheName) {
+  const deleted = await caches.delete(cacheName);
+  console.log(`[SW] Cache "${cacheName}" ${deleted ? 'deleted' : 'not found'}`);
+}
+```
+
+#### 4. HTTPS and Security Issues
+
+**Problem**: Service Worker fails due to security restrictions.
+
+**Solutions**:
+
+```javascript
+// Environment-aware registration
+function secureServiceWorkerRegistration() {
+  const isLocalhost = location.hostname === 'localhost' || 
+                     location.hostname === '127.0.0.1' ||
+                     location.hostname === '[::1]';
+  
+  const isHTTPS = location.protocol === 'https:';
+  
+  if (isLocalhost || isHTTPS) {
+    console.log('[SW] Secure context detected, registering Service Worker');
+    registerServiceWorker();
+  } else {
+    console.warn('[SW] Service Worker requires HTTPS in production');
+    showHTTPSWarning();
+  }
+}
+
+function showHTTPSWarning() {
+  const banner = document.createElement('div');
+  banner.innerHTML = `
+    <div style="background: #ff6b35; color: white; padding: 16px; text-align: center; position: fixed; top: 0; left: 0; right: 0; z-index: 9999;">
+      <strong>HTTPS Required:</strong> Service Worker features require HTTPS for security.
+      <button onclick="this.parentElement.remove()" style="float: right; background: none; border: 1px solid white; color: white; padding: 4px 8px; cursor: pointer;">×</button>
+    </div>
+  `;
+  document.body.prepend(banner);
+}
+```
+
+#### 5. Scope and Path Issues
+
+**Problem**: Service Worker doesn't intercept requests from expected paths.
+
+**Solutions**:
+
+```javascript
+// Verify and debug scope issues
+async function debugServiceWorkerScope() {
+  if ('serviceWorker' in navigator) {
+    const registrations = await navigator.serviceWorker.getRegistrations();
+    
+    registrations.forEach((registration, index) => {
+      console.log(`[SW] Registration ${index}:`);
+      console.log(`  Scope: ${registration.scope}`);
+      console.log(`  Active: ${!!registration.active}`);
+      
+      if (registration.active) {
+        console.log(`  Script URL: ${registration.active.scriptURL}`);
+      }
+    });
+    
+    // Check current page scope coverage
+    const currentUrl = location.href;
+    const coveredByWorker = registrations.some(reg => 
+      currentUrl.startsWith(reg.scope)
+    );
+    
+    console.log(`[SW] Current page (${currentUrl}) covered: ${coveredByWorker}`);
+  }
+}
+
+// Fix scope issues
+navigator.serviceWorker.register('/sw.js', {
+  scope: '/' // Explicit scope - must be at or below SW file location
+}).then(registration => {
+  console.log('[SW] Registered with scope:', registration.scope);
+}).catch(error => {
+  if (error.message.includes('scope')) {
+    console.error('[SW] Scope error - Service Worker file must be at same level or above desired scope');
+  }
+});
+```
+
+### Advanced Debugging Techniques
+
+#### Service Worker DevTools Debugging
+
+```javascript
+// Enhanced logging for debugging
+const DEBUG = process.env.NODE_ENV === 'development';
+
+function debugLog(message, data = null) {
+  if (DEBUG) {
+    const timestamp = new Date().toISOString();
+    console.log(`[SW:${timestamp}] ${message}`, data || '');
+  }
+}
+
+// Service Worker lifecycle debugging
+self.addEventListener('install', (event) => {
+  debugLog('Install event triggered');
+  
+  event.waitUntil(
+    (async () => {
+      debugLog('Starting installation...');
+      
+      try {
+        const cache = await caches.open('app-shell-v1');
+        const urls = ['/', '/offline.html', '/manifest.json'];
+        
+        await cache.addAll(urls);
+        debugLog('App shell cached successfully');
+        
+        if (DEBUG) {
+          self.skipWaiting();
+          debugLog('Skipping waiting in development mode');
+        }
+      } catch (error) {
+        debugLog('Installation failed:', error);
+        throw error;
+      }
+    })()
+  );
+});
+
+self.addEventListener('activate', (event) => {
+  debugLog('Activate event triggered');
+  
+  event.waitUntil(
+    (async () => {
+      debugLog('Starting activation...');
+      
+      // Clean up old caches
+      const cacheNames = await caches.keys();
+      const oldCaches = cacheNames.filter(name => 
+        name.startsWith('app-shell-') && name !== 'app-shell-v1'
+      );
+      
+      if (oldCaches.length > 0) {
+        debugLog('Cleaning up old caches:', oldCaches);
+        await Promise.all(oldCaches.map(name => caches.delete(name)));
+      }
+      
+      if (DEBUG) {
+        await self.clients.claim();
+        debugLog('Claimed all clients in development mode');
+      }
+      
+      debugLog('Activation completed');
+    })()
+  );
+});
+
+self.addEventListener('fetch', (event) => {
+  const url = new URL(event.request.url);
+  debugLog(`Fetch: ${event.request.method} ${url.pathname}`);
+});
+```
+
+#### Network Debugging
+
+```javascript
+// Network request debugging
+self.addEventListener('fetch', (event) => {
+  const startTime = performance.now();
+  const url = new URL(event.request.url);
+  
+  event.respondWith(
+    (async () => {
+      try {
+        debugLog(`Starting fetch for: ${url.pathname}`);
+        
+        const response = await handleRequest(event.request);
+        const duration = performance.now() - startTime;
+        
+        debugLog(`Fetch completed for: ${url.pathname} (${Math.round(duration)}ms)`, {
+          status: response.status,
+          fromCache: response.headers.get('x-cache') === 'HIT',
+          size: response.headers.get('content-length')
+        });
+        
+        return response;
+      } catch (error) {
+        const duration = performance.now() - startTime;
+        debugLog(`Fetch failed for: ${url.pathname} (${Math.round(duration)}ms)`, error);
+        throw error;
+      }
+    })()
+  );
+});
+```
+
+### Testing Service Workers
+
+#### Unit Testing
+
+```javascript
+// Test Service Worker functionality
+describe('Service Worker', () => {
+  let mockSelf;
+  let mockCaches;
+  
+  beforeEach(() => {
+    // Mock Service Worker global scope
+    mockSelf = {
+      addEventListener: jest.fn(),
+      registration: {
+        showNotification: jest.fn()
+      },
+      clients: {
+        matchAll: jest.fn().mockResolvedValue([]),
+        claim: jest.fn().mockResolvedValue(),
+        openWindow: jest.fn().mockResolvedValue()
+      }
+    };
+    
+    mockCaches = {
+      open: jest.fn().mockResolvedValue({
+        match: jest.fn(),
+        put: jest.fn(),
+        addAll: jest.fn()
+      }),
+      match: jest.fn(),
+      keys: jest.fn().mockResolvedValue([]),
+      delete: jest.fn()
+    };
+    
+    global.self = mockSelf;
+    global.caches = mockCaches;
+  });
+  
+  test('should register event listeners', () => {
+    require('./sw.js');
+    
+    expect(mockSelf.addEventListener).toHaveBeenCalledWith('install', expect.any(Function));
+    expect(mockSelf.addEventListener).toHaveBeenCalledWith('activate', expect.any(Function));
+    expect(mockSelf.addEventListener).toHaveBeenCalledWith('fetch', expect.any(Function));
+  });
+  
+  test('should cache app shell on install', async () => {
+    const cache = {
+      addAll: jest.fn().mockResolvedValue()
+    };
+    mockCaches.open.mockResolvedValue(cache);
+    
+    require('./sw.js');
+    
+    // Simulate install event
+    const installHandler = mockSelf.addEventListener.mock.calls
+      .find(call => call[0] === 'install')[1];
+    
+    const event = {
+      waitUntil: jest.fn()
+    };
+    
+    installHandler(event);
+    
+    expect(event.waitUntil).toHaveBeenCalled();
+    expect(mockCaches.open).toHaveBeenCalledWith(expect.stringContaining('app-shell'));
+  });
+});
+```
+
+#### Integration Testing
+
+```javascript
+// Integration test for Service Worker registration
+async function testServiceWorkerIntegration() {
+  console.log('[Test] Starting Service Worker integration test...');
+  
+  if (!('serviceWorker' in navigator)) {
+    console.error('[Test] ❌ Service Worker not supported');
+    return false;
+  }
+  
+  try {
+    // 1. Test registration
+    console.log('[Test] 1. Testing registration...');
+    const registration = await navigator.serviceWorker.register('/sw.js');
+    console.log('[Test] ✅ Registration successful');
+    
+    // 2. Wait for Service Worker to be active
+    console.log('[Test] 2. Waiting for Service Worker to activate...');
+    await new Promise((resolve) => {
+      if (registration.active) {
+        resolve();
+      } else {
+        registration.addEventListener('updatefound', () => {
+          const newWorker = registration.installing;
+          newWorker.addEventListener('statechange', () => {
+            if (newWorker.state === 'activated') {
+              resolve();
+            }
+          });
+        });
+      }
+    });
+    console.log('[Test] ✅ Service Worker activated');
+    
+    // 3. Test caching
+    console.log('[Test] 3. Testing cache functionality...');
+    const cache = await caches.open('test-cache');
+    await cache.add('/');
+    const cachedResponse = await cache.match('/');
+    if (cachedResponse) {
+      console.log('[Test] ✅ Cache working');
+    } else {
+      throw new Error('Cache test failed');
+    }
+    
+    // 4. Test fetch interception
+    console.log('[Test] 4. Testing fetch interception...');
+    const response = await fetch('/test-endpoint');
+    console.log('[Test] ✅ Fetch interception working');
+    
+    // 5. Clean up
+    await caches.delete('test-cache');
+    console.log('[Test] ✅ All tests passed!');
+    
+    return true;
+  } catch (error) {
+    console.error('[Test] ❌ Test failed:', error);
+    return false;
+  }
+}
+
+// Run integration test
+testServiceWorkerIntegration().then(success => {
+  if (success) {
+    console.log('[Test] 🎉 Service Worker integration test completed successfully');
+  } else {
+    console.log('[Test] 💥 Service Worker integration test failed');
+  }
+});
+```
+
+#### Performance Testing
+
+```javascript
+// Performance testing utilities
+class ServiceWorkerPerformanceTester {
+  constructor() {
+    this.metrics = [];
+  }
+  
+  async testCachePerformance() {
+    console.log('[Perf] Testing cache performance...');
+    
+    const testUrls = [
+      '/',
+      '/dashboard',
+      '/profile',
+      '/api/user',
+      '/api/data'
+    ];
+    
+    // Test cache miss (first request)
+    const cacheMissResults = await this.measureRequests(testUrls, 'cache-miss');
+    
+    // Test cache hit (second request)
+    const cacheHitResults = await this.measureRequests(testUrls, 'cache-hit');
+    
+    this.compareResults(cacheMissResults, cacheHitResults);
+  }
+  
+  async measureRequests(urls, scenario) {
+    const results = [];
+    
+    for (const url of urls) {
+      const start = performance.now();
+      
+      try {
+        const response = await fetch(url);
+        const end = performance.now();
+        
+        results.push({
+          url,
+          duration: end - start,
+          status: response.status,
+          cacheHit: response.headers.get('x-cache') === 'HIT'
+        });
+      } catch (error) {
+        results.push({
+          url,
+          duration: -1,
+          error: error.message
+        });
+      }
+    }
+    
+    console.log(`[Perf] ${scenario} results:`, results);
+    return results;
+  }
+  
+  compareResults(cacheMiss, cacheHit) {
+    console.log('[Perf] Performance comparison:');
+    
+    const avgCacheMiss = cacheMiss.reduce((sum, r) => sum + r.duration, 0) / cacheMiss.length;
+    const avgCacheHit = cacheHit.reduce((sum, r) => sum + r.duration, 0) / cacheHit.length;
+    
+    const improvement = ((avgCacheMiss - avgCacheHit) / avgCacheMiss * 100).toFixed(1);
+    
+    console.log(`  Cache Miss Average: ${avgCacheMiss.toFixed(2)}ms`);
+    console.log(`  Cache Hit Average: ${avgCacheHit.toFixed(2)}ms`);
+    console.log(`  Performance Improvement: ${improvement}%`);
+    
+    if (improvement > 50) {
+      console.log('[Perf] ✅ Excellent cache performance!');
+    } else if (improvement > 20) {
+      console.log('[Perf] ✅ Good cache performance');
+    } else {
+      console.log('[Perf] ⚠️ Cache performance could be improved');
+    }
+  }
+}
+
+// Run performance tests
+const perfTester = new ServiceWorkerPerformanceTester();
+perfTester.testCachePerformance();
+```
+
+### Browser-Specific Issues
+
+#### Chrome DevTools Integration
+
+```javascript
+// Chrome DevTools debugging enhancements
+if (typeof chrome !== 'undefined' && chrome.runtime) {
+  // Enhanced DevTools integration
+  self.addEventListener('message', (event) => {
+    if (event.data?.source === 'devtools') {
+      switch (event.data.type) {
+        case 'INSPECT_CACHES':
+          inspectCaches().then(data => {
+            event.ports[0].postMessage({ type: 'CACHE_DATA', data });
+          });
+          break;
+        case 'CLEAR_CACHE':
+          clearCache(event.data.cacheName).then(() => {
+            event.ports[0].postMessage({ type: 'CACHE_CLEARED' });
+          });
+          break;
+      }
+    }
+  });
+}
+```
+
+#### Firefox Debugging
+
+```javascript
+// Firefox-specific debugging
+if (navigator.userAgent.includes('Firefox')) {
+  // Firefox has different DevTools integration
+  console.log('[SW] Firefox detected - using Firefox-optimized debugging');
+  
+  // Firefox-specific performance monitoring
+  self.addEventListener('fetch', (event) => {
+    if (event.request.mode === 'navigate') {
+      console.log('[SW] Firefox navigation request:', event.request.url);
+    }
+  });
+}
+```
+
+#### Safari/iOS Debugging
+
+```javascript
+// Safari/iOS specific handling
+const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+
+if (isSafari || isIOS) {
+  console.log('[SW] Safari/iOS detected - limited Service Worker features');
+  
+  // Safari has limited Service Worker support
+  // Focus on essential caching strategies
+  self.addEventListener('fetch', (event) => {
+    // Simplified handling for Safari
+    if (event.request.method === 'GET') {
+      event.respondWith(
+        caches.match(event.request)
+          .then(response => response || fetch(event.request))
+      );
+    }
+  });
+}
+
 ## Next Steps
 
-After implementing this Service Worker foundation:
+After implementing this comprehensive Service Worker foundation, you can enhance your PWA with advanced capabilities:
 
-1. **Add Push Notifications**: Implement real-time messaging
-2. **Enable Background Sync**: Ensure data persistence when offline  
-3. **Implement Periodic Sync**: Keep content automatically updated
-4. **Add Background Fetch**: Handle large downloads
-5. **Monitor Performance**: Track cache hit rates and loading times
-6. **Test Thoroughly**: Test offline scenarios, updates, and edge cases
+### 1. Advanced Capabilities Implementation
+- **[Push Notifications](../hooks/use-push-notifications)**: Add real-time messaging with VAPID keys and subscription management
+- **[Background Sync](../hooks/use-background-sync)**: Implement robust offline data synchronization queues
+- **[Periodic Background Sync](./periodic-background-sync)**: Set up automatic content updates (experimental)
+- **[Background Fetch](../hooks/use-background-fetch)**: Handle large file downloads that continue when app is closed
 
-## Related Guides
+### 2. Enhanced PWA Features
+- **[Protocol Handlers](./protocol-handlers)**: Register your PWA to handle custom URL schemes and deep linking
+- **[App Badging](./app-badging)**: Display notification badges on your PWA icon
+- **[File System Access](./file-system-access)**: Enable direct file system integration for desktop-like experiences
+- **[Window Management](./window-management)**: Control multiple windows and display positioning
 
-- [Push Notifications Implementation](../hooks/use-push-notifications)
-- [Background Sync Guide](../hooks/use-background-sync)
-- [Periodic Background Sync](../hooks/use-periodic-sync)
-- [Background Fetch Guide](../hooks/use-background-fetch)
-- [PWA Feature Detection](../hooks/use-feature-detection)
-- [Platform Detection](../hooks/use-platform)
+### 3. Performance & Optimization
+- **[Advanced Fetch & Caching](./advanced-fetch-caching)**: Implement sophisticated request optimization and multi-strategy caching
+- **[Performance Guide](./performance-guide)**: Optimize loading times and resource delivery
+- **Cache Analytics**: Monitor cache hit rates, loading times, and Service Worker performance
+- **Network Strategies**: Fine-tune caching strategies based on user behavior and usage patterns
+
+### 4. Production Readiness
+- **Security Hardening**: Implement CSP headers, input validation, and secure HTTPS deployment
+- **Error Monitoring**: Set up comprehensive error tracking and reporting
+- **A/B Testing**: Test different caching strategies and Service Worker configurations
+- **Progressive Enhancement**: Ensure graceful fallbacks for unsupported browsers
+
+### 5. Testing & Quality Assurance
+- **Unit Testing**: Comprehensive test coverage for Service Worker functionality
+- **Integration Testing**: End-to-end PWA feature testing
+- **Performance Testing**: Cache performance benchmarking and optimization
+- **Cross-browser Testing**: Ensure compatibility across different browsers and devices
+
+### 6. Team Development
+- **Documentation**: Keep Service Worker implementation docs updated as features evolve
+- **Code Reviews**: Establish Service Worker-specific code review guidelines
+- **Deployment Pipelines**: Integrate Service Worker validation into CI/CD processes
+- **Monitoring Dashboards**: Set up real-time PWA performance monitoring
+
+## Related PWA Guides
+
+### Advanced Service Worker Capabilities
+- [Advanced Fetch & Caching Patterns](./advanced-fetch-caching) - Sophisticated caching strategies and request optimization
+- [Periodic Background Sync](./periodic-background-sync) - Automatic content updates in the background
+- [PWA Protocol Handlers](./protocol-handlers) - Handle custom URL schemes and deep linking
+
+### PWA Features & APIs
+- [PWA App Badging](./app-badging) - Display notification badges on app icons
+- [PWA Window Management](./window-management) - Multi-window and display control
+- [PWA File System Access](./file-system-access) - Direct file system integration
+- [PWA Web Share Target](./web-share-target) - Receive shared content from other apps
+
+### Core Guides
+- [Performance Optimization](./performance-guide) - Network performance and loading optimization
+- [Security Best Practices](./security-guide) - Secure PWA implementation patterns
+- [Accessibility Guide](./accessibility-guide) - Creating inclusive PWA experiences
+
+### Hooks & Components
+- [useFeatureDetection](../hooks/use-feature-detection) - Detect PWA capabilities
+- [usePlatform](../hooks/use-platform) - Platform-specific functionality
+- [useGeolocation](../hooks/use-geolocation) - Location services integration
+- [useCamera](../hooks/use-camera) - Camera access and image capture
+- [useBarcodeScanner](../hooks/use-barcode-scanner) - QR code and barcode scanning
 
 This Service Worker implementation provides a robust foundation for building production-ready PWAs with excellent offline support, efficient caching, and advanced background capabilities.
