@@ -60,7 +60,11 @@ export const themeUtils = {
 
   // Check if theme supports a feature
   supportsFeature: (feature: string, theme: Theme = acrobiBaseTheme): boolean => {
-    return theme.metadata?.features?.[feature] === true;
+    const features = theme.metadata?.features;
+    if (Array.isArray(features)) {
+      return features.includes(feature);
+    }
+    return features?.[feature] === true;
   },
 
   // Get theme category tokens

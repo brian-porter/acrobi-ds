@@ -1,6 +1,6 @@
 // packages/ui/src/theme.ts
 
-import type { DynamicAssets } from './themes/base';
+// Remove unused DynamicAssets import
 
 // Defines the structure for HSL color values
 export interface ColorValue {
@@ -80,7 +80,7 @@ export interface ThemeMetadata {
     rtl?: boolean;
     colorBlindAccessible?: boolean;
   };
-  features?: string[];
+  features?: string[] | Record<string, boolean>;
 }
 
 // Helper function to convert theme to CSS custom properties
