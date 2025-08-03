@@ -429,7 +429,7 @@ const SSecurityForm = React.forwardRef<HTMLDivElement, SSecurityFormProps>(
         {/* Password Change Section */}
         <div className={cn(sSecuritySectionVariants({ variant: 'bordered' }))}>
           <div className="flex items-center gap-2 mb-4">
-            <Icon name="lock" size="s" color="n500" />
+            <Icon name="lock" size="sm" color="n500" />
             <h3 className="font-semibold text-base">Change Password</h3>
           </div>
           
@@ -489,7 +489,7 @@ const SSecurityForm = React.forwardRef<HTMLDivElement, SSecurityFormProps>(
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     {section.icon && (
-                      <Icon name={section.icon} size="s" color="n500" />
+                      <Icon name={section.icon} size="sm" color="n500" />
                     )}
                     <div>
                       <h3 className="font-semibold text-base">{section.title}</h3>
@@ -529,7 +529,7 @@ const SSecurityForm = React.forwardRef<HTMLDivElement, SSecurityFormProps>(
                       >
                         <div className="flex items-start gap-3 flex-1">
                           {setting.icon && (
-                            <Icon name={setting.icon} size="s" color="n500" className="mt-0.5" />
+                            <Icon name={setting.icon} size="sm" color="n500" className="mt-0.5" />
                           )}
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2">
@@ -592,7 +592,7 @@ const SSecurityForm = React.forwardRef<HTMLDivElement, SSecurityFormProps>(
         {devices.length > 0 && (
           <div className={cn(sSecuritySectionVariants({ variant: 'bordered' }))}>
             <div className="flex items-center gap-2 mb-4">
-              <Icon name="devices" size="s" color="n500" />
+              <Icon name="devices" size="sm" color="n500" />
               <h3 className="font-semibold text-base">Active Devices</h3>
               <Badge variant="outline" className="text-xs">{devices.length}</Badge>
             </div>
@@ -644,7 +644,7 @@ const SSecurityForm = React.forwardRef<HTMLDivElement, SSecurityFormProps>(
         {/* Danger Zone */}
         <div className={cn(sSecuritySectionVariants({ variant: 'danger' }))}>
           <div className="flex items-center gap-2 mb-4">
-            <Icon name="warning" size="s" color="red" />
+            <Icon name="warning" size="sm" color="red" />
             <h3 className="font-semibold text-base text-red-700">Danger Zone</h3>
           </div>
           

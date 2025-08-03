@@ -393,7 +393,7 @@ const SSectionCard = React.forwardRef<HTMLDivElement, SSectionCardProps>(
 
           {error && !loading && (
             <div className="flex items-center gap-2 text-destructive text-sm py-4">
-              <Icon name="alert-circle" size="s" color="inherit" />
+              <Icon name="alert-circle" size="sm" color="inherit" />
               <span>{errorMessage || 'Something went wrong'}</span>
             </div>
           )}

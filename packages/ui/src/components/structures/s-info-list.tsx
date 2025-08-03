@@ -409,7 +409,7 @@ const SInfoList = React.forwardRef<HTMLDivElement, SInfoListProps>(
                     <Icon
                       name={item.icon}
                       color={item.iconColor || 'n500'}
-                      size="s"
+                      size="sm"
                     />
                   )}
                   <span>{item.label}</span>

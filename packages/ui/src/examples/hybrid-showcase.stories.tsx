@@ -130,7 +130,7 @@ const SimpleMixedUsage: React.FC = () => {
               <h3 className="text-foreground font-semibold mb-4">Button Sizes</h3>
               <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
                 <Button styling="pf" size="xs">XS</Button>
-                <Button styling="pf" size="s">Small</Button>
+                <Button styling="pf" size="sm">Small</Button>
                 <Button styling="pf" size="m">Medium</Button>
                 <Button styling="pf" size="l">Large</Button>
               </div>
@@ -174,7 +174,7 @@ const SimpleMixedUsage: React.FC = () => {
                   <p className="text-foreground font-semibold">Product Name</p>
                   <p className="text-muted-foreground text-sm">Using Tailwind utilities</p>
                 </div>
-                <Button styling="pf" size="s">
+                <Button styling="pf" size="sm">
                   Acrobi Button
                 </Button>
               </div>

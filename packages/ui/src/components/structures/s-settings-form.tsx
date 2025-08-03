@@ -542,7 +542,7 @@ const SSettingsForm = React.forwardRef<HTMLDivElement, SSettingsFormProps>(
               {field.icon && (
                 <Icon
                   name={field.icon}
-                  size="s"
+                  size="sm"
                   color={field.iconColor || 'n500'}
                   className="mt-0.5 flex-shrink-0"
                 />
@@ -600,7 +600,7 @@ const SSettingsForm = React.forwardRef<HTMLDivElement, SSettingsFormProps>(
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     {section.icon && (
-                      <Icon name={section.icon} size="s" color="n500" />
+                      <Icon name={section.icon} size="sm" color="n500" />
                     )}
                     <div>
                       <h3 className="font-semibold text-base">{section.title}</h3>

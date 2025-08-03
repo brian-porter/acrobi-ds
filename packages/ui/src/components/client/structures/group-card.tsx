@@ -39,7 +39,7 @@ const groupItemVariants = cva(
   }
 );
 
-export interface GroupData {
+export interface GroupCardData {
   /**
    * Simple view (opposite of cover)
    * @default true
@@ -178,7 +178,7 @@ export interface GroupCardProps
   /**
    * Groups data array
    */
-  groups?: GroupData[];
+  groups?: GroupCardData[];
   /**
    * Empty state visibility
    * @default false
@@ -248,7 +248,7 @@ const GroupCard = React.forwardRef<HTMLDivElement, GroupCardProps>(
       });
     }
 
-    const renderGroupItem = (group: GroupData, index: number) => {
+    const renderGroupItem = (group: GroupCardData, index: number) => {
       const avatars = [
         { visible: group.avtr1, src: group.avtr1Src },
         { visible: group.avtr2, src: group.avtr2Src },
@@ -575,4 +575,4 @@ const GroupCard = React.forwardRef<HTMLDivElement, GroupCardProps>(
 
 GroupCard.displayName = 'GroupCard';
 
-export { GroupCard, groupCardVariants, type GroupData };
+export { GroupCard, groupCardVariants, type GroupCardData };
