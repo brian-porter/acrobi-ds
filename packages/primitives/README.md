@@ -1,31 +1,48 @@
 # @acrobi/primitives
 
-Core UI building blocks for Acrobi applications. This package provides 50+ primitive React components including buttons, inputs, cards, badges, and form controls.
+**Foundation UI Component Library for Acrobi Design System**
 
-## Installation
+Core UI building blocks for Acrobi applications. This package provides 50+ accessible, type-safe React components built with Tailwind CSS and Radix UI primitives. It serves as the foundational layer with **zero dependencies on other @acrobi packages**.
+
+## 📦 Installation
 
 ```bash
-npm install @acrobi/primitives
-# or
+# Using pnpm (recommended for monorepo)
 pnpm add @acrobi/primitives
-# or
+
+# Using npm
+npm install @acrobi/primitives
+
+# Using yarn
 yarn add @acrobi/primitives
 ```
 
-## Usage
+## 🎯 Key Features
+
+- ✅ **50+ Components** - Comprehensive component library covering all UI needs
+- ✅ **TypeScript First** - Full type safety with detailed prop types and interfaces
+- ✅ **WCAG 2.1 Compliant** - Fully accessible, keyboard navigable components
+- ✅ **Dark Mode Ready** - Built-in theme support with CSS custom properties
+- ✅ **Tree-Shakeable** - Import only what you need, minimal bundle impact
+- ✅ **CVA Variants** - Powerful variant system with Class Variance Authority
+- ✅ **Zero @acrobi deps** - Foundation package, no circular dependencies
+- ✅ **Framework Integration** - Native Acrobi Framework extension support
+
+## 🚀 Quick Start
 
 ```tsx
 import { Button, Card, CardHeader, CardTitle, CardContent, Input } from '@acrobi/primitives';
 
-function MyComponent() {
+function LoginForm() {
   return (
-    <Card>
+    <Card className="w-96 p-6">
       <CardHeader>
-        <CardTitle>Welcome</CardTitle>
+        <CardTitle>Welcome Back</CardTitle>
       </CardHeader>
-      <CardContent>
-        <Input placeholder="Enter your name" />
-        <Button variant="prime">Submit</Button>
+      <CardContent className="space-y-4">
+        <Input type="email" placeholder="Email address" />
+        <Input type="password" placeholder="Password" />
+        <Button variant="prime" className="w-full">Sign In</Button>
       </CardContent>
     </Card>
   );
