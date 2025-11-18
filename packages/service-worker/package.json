@@ -1,0 +1,53 @@
+{
+  "name": "@acrobi/service-worker",
+  "version": "1.0.0-alpha.1",
+  "description": "PWA service worker capabilities with multi-strategy caching, background sync, and offline support",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./sw": "./dist/sw.js"
+  },
+  "files": [
+    "dist",
+    "src",
+    "acrobi.json",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest",
+    "lint": "eslint src/",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {},
+  "peerDependencies": {},
+  "devDependencies": {
+    "@acrobi/tsconfig": "workspace:*",
+    "typescript": "^5.0.0",
+    "tsup": "^8.0.0",
+    "vitest": "^2.0.0",
+    "eslint": "^8.0.0"
+  },
+  "keywords": [
+    "acrobi",
+    "pwa",
+    "service-worker",
+    "offline",
+    "caching",
+    "background-sync"
+  ],
+  "author": "Acrobi",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/acrobi/acrobi-design-system",
+    "directory": "packages/service-worker"
+  }
+}

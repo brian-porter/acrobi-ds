@@ -1,0 +1,909 @@
+/**
+ * @fileoverview Persistent Form Hook Stories for Epic 64
+ * Interactive demonstrations of automatic form state persistence
+ */
+
+import React, { useState } from 'react';
+import type { Meta, StoryObj } from '@storybook/react';
+import { usePersistentForm, PersistentFormUtils } from './use-persistent-form';
+
+const meta: Meta = {
+  title: "Hooks/usePersistentForm",
+  parameters: {
+    docs: {
+      description: {
+        component: 'Hook for automatic form state persistence using localStorage. Prevents data loss on page refresh with auto-save and validation features.'
+      }
+    }
+  }
+};
+
+export default meta;
+type Story = StoryObj;
+
+// Contact Form Demo
+const ContactFormDemo: React.FC = () => {
+  const form = usePersistentForm('demo-contact-form', {
+    name: '',
+    email: '',
+    phone: '',
+    subject: '',
+    message: '',
+    priority: 'medium',
+    subscribe: false
+  }, {
+    autoSaveDelay: 1000,
+    debug: true,
+    onAutoSave: (formState) => {
+      console.log('Form auto-saved:', formState);
+    },
+    onLoad: (formState) => {
+      console.log('Form loaded from storage:', formState);
+    },
+    onClear: () => {
+      console.log('Form cleared from storage');
+    }
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (form.validateForm()) {
+      alert('Form submitted successfully!\n\n' + JSON.stringify(form.formData, null, 2));
+      form.clearForm();
+    } else {
+      alert('Please fix form errors before submitting');
+    }
+  };
+
+  return (
+    <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
+      <h2>Contact Form with Auto-Save</h2>
+      
+      {!form.isSupported && (
+        <div style={{ 
+          padding: '10px', 
+          backgroundColor: '#fee', 
+          border: '1px solid #fcc',
+          borderRadius: '4px',
+          marginBottom: '20px'
+        }}>
+          ⚠️ LocalStorage is not supported, form data will not be persisted
+        </div>
+      )}
+
+      <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '20px' }}>
+        {/* Form */}
+        <div style={{ 
+          padding: '20px', 
+          backgroundColor: '#f9f9f9', 
+          borderRadius: '8px',
+          border: '1px solid #ddd'
+        }}>
+          <form onSubmit={handleSubmit}>
+            <div style={{ marginBottom: '15px' }}>
+              <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
+                Name *
+              </label>
+              <input
+                type="text"
+                value={form.formData.name}
+                onChange={(e) => form.updateField('name', e.target.value)}
+                required
+                style={{
+                  width: '100%',
+                  padding: '8px',
+                  borderRadius: '4px',
+                  border: form.fieldErrors.name ? '2px solid #dc3545' : '1px solid #ccc',
+                  backgroundColor: form.isFieldDirty('name') ? '#fff3cd' : 'white'
+                }}
+              />
+              {form.fieldErrors.name && (
+                <div style={{ color: '#dc3545', fontSize: '12px', marginTop: '4px' }}>
+                  {form.fieldErrors.name}
+                </div>
+              )}
+            </div>
+
+            <div style={{ marginBottom: '15px' }}>
+              <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
+                Email *
+              </label>
+              <input
+                type="email"
+                value={form.formData.email}
+                onChange={(e) => form.updateField('email', e.target.value)}
+                required
+                style={{
+                  width: '100%',
+                  padding: '8px',
+                  borderRadius: '4px',
+                  border: form.fieldErrors.email ? '2px solid #dc3545' : '1px solid #ccc',
+                  backgroundColor: form.isFieldDirty('email') ? '#fff3cd' : 'white'
+                }}
+              />
+              {form.fieldErrors.email && (
+                <div style={{ color: '#dc3545', fontSize: '12px', marginTop: '4px' }}>
+                  {form.fieldErrors.email}
+                </div>
+              )}
+            </div>
+
+            <div style={{ marginBottom: '15px' }}>
+              <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
+                Phone
+              </label>
+              <input
+                type="tel"
+                value={form.formData.phone}
+                onChange={(e) => form.updateField('phone', e.target.value)}
+                style={{
+                  width: '100%',
+                  padding: '8px',
+                  borderRadius: '4px',
+                  border: '1px solid #ccc',
+                  backgroundColor: form.isFieldDirty('phone') ? '#fff3cd' : 'white'
+                }}
+              />
+            </div>
+
+            <div style={{ marginBottom: '15px' }}>
+              <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
+                Subject *
+              </label>
+              <input
+                type="text"
+                value={form.formData.subject}
+                onChange={(e) => form.updateField('subject', e.target.value)}
+                required
+                style={{
+                  width: '100%',
+                  padding: '8px',
+                  borderRadius: '4px',
+                  border: '1px solid #ccc',
+                  backgroundColor: form.isFieldDirty('subject') ? '#fff3cd' : 'white'
+                }}
+              />
+            </div>
+
+            <div style={{ marginBottom: '15px' }}>
+              <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
+                Priority
+              </label>
+              <select
+                value={form.formData.priority}
+                onChange={(e) => form.updateField('priority', e.target.value)}
+                style={{
+                  width: '100%',
+                  padding: '8px',
+                  borderRadius: '4px',
+                  border: '1px solid #ccc',
+                  backgroundColor: form.isFieldDirty('priority') ? '#fff3cd' : 'white'
+                }}
+              >
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+                <option value="urgent">Urgent</option>
+              </select>
+            </div>
+
+            <div style={{ marginBottom: '15px' }}>
+              <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
+                Message *
+              </label>
+              <textarea
+                value={form.formData.message}
+                onChange={(e) => form.updateField('message', e.target.value)}
+                required
+                rows={4}
+                style={{
+                  width: '100%',
+                  padding: '8px',
+                  borderRadius: '4px',
+                  border: '1px solid #ccc',
+                  backgroundColor: form.isFieldDirty('message') ? '#fff3cd' : 'white',
+                  resize: 'vertical'
+                }}
+              />
+            </div>
+
+            <div style={{ marginBottom: '20px' }}>
+              <label style={{ display: 'flex', alignItems: 'center' }}>
+                <input
+                  type="checkbox"
+                  checked={form.formData.subscribe}
+                  onChange={(e) => form.updateField('subscribe', e.target.checked)}
+                  style={{ marginRight: '8px' }}
+                />
+                Subscribe to newsletter
+              </label>
+            </div>
+
+            <div style={{ display: 'flex', gap: '10px' }}>
+              <button
+                type="submit"
+                style={{
+                  padding: '10px 20px',
+                  backgroundColor: '#28a745',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '4px',
+                  cursor: 'pointer',
+                  fontWeight: 'bold'
+                }}
+              >
+                Submit
+              </button>
+              
+              <button
+                type="button"
+                onClick={() => form.resetForm()}
+                style={{
+                  padding: '10px 20px',
+                  backgroundColor: '#6c757d',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '4px',
+                  cursor: 'pointer'
+                }}
+              >
+                Reset
+              </button>
+              
+              <button
+                type="button"
+                onClick={() => form.clearForm()}
+                style={{
+                  padding: '10px 20px',
+                  backgroundColor: '#dc3545',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '4px',
+                  cursor: 'pointer'
+                }}
+              >
+                Clear Storage
+              </button>
+            </div>
+          </form>
+        </div>
+
+        {/* Status Panel */}
+        <div style={{ 
+          padding: '15px', 
+          backgroundColor: '#f8f9fa', 
+          borderRadius: '8px',
+          border: '1px solid #dee2e6'
+        }}>
+          <h3>Form Status</h3>
+          
+          <div style={{ marginBottom: '15px' }}>
+            <div style={{ 
+              padding: '8px', 
+              backgroundColor: form.isAutoSaving ? '#fff3cd' : form.isSaved ? '#d4edda' : '#f8d7da',
+              borderRadius: '4px',
+              fontSize: '12px',
+              textAlign: 'center'
+            }}>
+              {form.isAutoSaving ? '💾 Auto-saving...' : 
+               form.isSaved ? '✅ Saved' : 
+               form.isDirty ? '⚠️ Unsaved changes' : '📝 Ready'}
+            </div>
+          </div>
+
+          <div style={{ fontSize: '12px', marginBottom: '15px' }}>
+            <div><strong>Dirty:</strong> {form.isDirty ? 'Yes' : 'No'}</div>
+            <div><strong>Has Changes:</strong> {form.hasChanges() ? 'Yes' : 'No'}</div>
+            <div><strong>Loaded from Storage:</strong> {form.hasLoadedFromStorage ? 'Yes' : 'No'}</div>
+            <div><strong>Storage Size:</strong> {(form.storageSize / 1024).toFixed(2)} KB</div>
+            <div><strong>Last Saved:</strong> {
+              form.lastSaved ? new Date(form.lastSaved).toLocaleTimeString() : 'Never'
+            }</div>
+          </div>
+
+          <div style={{ marginBottom: '15px' }}>
+            <h4 style={{ fontSize: '14px', margin: '0 0 8px 0' }}>Field Status</h4>
+            {Object.keys(form.formData).map(field => (
+              <div key={field} style={{ 
+                fontSize: '10px', 
+                display: 'flex', 
+                justifyContent: 'space-between',
+                marginBottom: '2px'
+              }}>
+                <span>{field}:</span>
+                <span style={{ 
+                  color: form.isFieldDirty(field as any) ? '#ffc107' : '#6c757d' 
+                }}>
+                  {form.isFieldDirty(field as any) ? 'Modified' : 'Clean'}
+                </span>
+              </div>
+            ))}
+          </div>
+
+          {Object.keys(form.fieldErrors).length > 0 && (
+            <div style={{ marginBottom: '15px' }}>
+              <h4 style={{ fontSize: '14px', margin: '0 0 8px 0', color: '#dc3545' }}>
+                Field Errors
+              </h4>
+              {Object.entries(form.fieldErrors).map(([field, error]) => (
+                <div key={field} style={{ fontSize: '10px', color: '#dc3545', marginBottom: '2px' }}>
+                  {field}: {error}
+                </div>
+              ))}
+            </div>
+          )}
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <button
+              onClick={() => form.saveForm()}
+              style={{
+                padding: '6px 12px',
+                backgroundColor: '#007bff',
+                color: 'white',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                fontSize: '12px'
+              }}
+            >
+              Manual Save
+            </button>
+            
+            <button
+              onClick={() => form.loadForm()}
+              style={{
+                padding: '6px 12px',
+                backgroundColor: '#17a2b8',
+                color: 'white',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                fontSize: '12px'
+              }}
+            >
+              Reload from Storage
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div style={{ 
+        marginTop: '20px', 
+        padding: '10px', 
+        backgroundColor: '#e7f3ff', 
+        borderRadius: '4px',
+        fontSize: '14px'
+      }}>
+        <strong>Auto-Save Demo:</strong> Form data is automatically saved as you type (with 1-second delay).
+        Try refreshing the page to see persistence in action. Yellow backgrounds indicate modified fields.
+        Check the browser console for detailed auto-save logging.
+      </div>
+    </div>
+  );
+};
+
+// Multi-Step Form Demo
+const MultiStepFormDemo: React.FC = () => {
+  const [currentStep, setCurrentStep] = useState(1);
+  const totalSteps = 3;
+
+  const form = usePersistentForm('demo-multi-step-form', {
+    // Step 1: Personal Info
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    
+    // Step 2: Address
+    street: '',
+    city: '',
+    state: '',
+    zipCode: '',
+    country: 'USA',
+    
+    // Step 3: Preferences
+    notifications: {
+      email: true,
+      sms: false,
+      push: true
+    },
+    interests: [],
+    comments: ''
+  }, {
+    autoSaveDelay: 500,
+    debug: true,
+    excludeFields: ['currentStep'], // Don't persist the current step
+    onAutoSave: (formState) => {
+      console.log('Multi-step form auto-saved:', formState);
+    }
+  });
+
+  const nextStep = () => {
+    if (currentStep < totalSteps) {
+      setCurrentStep(prev => prev + 1);
+    }
+  };
+
+  const prevStep = () => {
+    if (currentStep > 1) {
+      setCurrentStep(prev => prev - 1);
+    }
+  };
+
+  const handleInterestToggle = (interest: string) => {
+    const interests = form.formData.interests.includes(interest)
+      ? form.formData.interests.filter(i => i !== interest)
+      : [...form.formData.interests, interest];
+    
+    form.updateField('interests', interests);
+  };
+
+  const handleNotificationChange = (type: string, value: boolean) => {
+    form.updateForm({
+      notifications: {
+        ...form.formData.notifications,
+        [type]: value
+      }
+    });
+  };
+
+  const handleSubmit = () => {
+    if (form.validateForm()) {
+      alert('Multi-step form completed!\n\n' + JSON.stringify(form.formData, null, 2));
+      form.clearForm();
+      setCurrentStep(1);
+    }
+  };
+
+  const getStepProgress = () => (currentStep / totalSteps) * 100;
+
+  const renderStep = () => {
+    switch (currentStep) {
+      case 1:
+        return (
+          <div>
+            <h3>Step 1: Personal Information</h3>
+            
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', marginBottom: '15px' }}>
+              <div>
+                <label style={{ display: 'block', marginBottom: '5px' }}>First Name *</label>
+                <input
+                  type="text"
+                  value={form.formData.firstName}
+                  onChange={(e) => form.updateField('firstName', e.target.value)}
+                  required
+                  style={{
+                    width: '100%',
+                    padding: '8px',
+                    borderRadius: '4px',
+                    border: '1px solid #ccc',
+                    backgroundColor: form.isFieldDirty('firstName') ? '#fff3cd' : 'white'
+                  }}
+                />
+              </div>
+              
+              <div>
+                <label style={{ display: 'block', marginBottom: '5px' }}>Last Name *</label>
+                <input
+                  type="text"
+                  value={form.formData.lastName}
+                  onChange={(e) => form.updateField('lastName', e.target.value)}
+                  required
+                  style={{
+                    width: '100%',
+                    padding: '8px',
+                    borderRadius: '4px',
+                    border: '1px solid #ccc',
+                    backgroundColor: form.isFieldDirty('lastName') ? '#fff3cd' : 'white'
+                  }}
+                />
+              </div>
+            </div>
+
+            <div style={{ marginBottom: '15px' }}>
+              <label style={{ display: 'block', marginBottom: '5px' }}>Email *</label>
+              <input
+                type="email"
+                value={form.formData.email}
+                onChange={(e) => form.updateField('email', e.target.value)}
+                required
+                style={{
+                  width: '100%',
+                  padding: '8px',
+                  borderRadius: '4px',
+                  border: '1px solid #ccc',
+                  backgroundColor: form.isFieldDirty('email') ? '#fff3cd' : 'white'
+                }}
+              />
+            </div>
+
+            <div style={{ marginBottom: '15px' }}>
+              <label style={{ display: 'block', marginBottom: '5px' }}>Phone</label>
+              <input
+                type="tel"
+                value={form.formData.phone}
+                onChange={(e) => form.updateField('phone', e.target.value)}
+                style={{
+                  width: '100%',
+                  padding: '8px',
+                  borderRadius: '4px',
+                  border: '1px solid #ccc',
+                  backgroundColor: form.isFieldDirty('phone') ? '#fff3cd' : 'white'
+                }}
+              />
+            </div>
+          </div>
+        );
+
+      case 2:
+        return (
+          <div>
+            <h3>Step 2: Address Information</h3>
+            
+            <div style={{ marginBottom: '15px' }}>
+              <label style={{ display: 'block', marginBottom: '5px' }}>Street Address *</label>
+              <input
+                type="text"
+                value={form.formData.street}
+                onChange={(e) => form.updateField('street', e.target.value)}
+                required
+                style={{
+                  width: '100%',
+                  padding: '8px',
+                  borderRadius: '4px',
+                  border: '1px solid #ccc',
+                  backgroundColor: form.isFieldDirty('street') ? '#fff3cd' : 'white'
+                }}
+              />
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 100px', gap: '15px', marginBottom: '15px' }}>
+              <div>
+                <label style={{ display: 'block', marginBottom: '5px' }}>City *</label>
+                <input
+                  type="text"
+                  value={form.formData.city}
+                  onChange={(e) => form.updateField('city', e.target.value)}
+                  required
+                  style={{
+                    width: '100%',
+                    padding: '8px',
+                    borderRadius: '4px',
+                    border: '1px solid #ccc',
+                    backgroundColor: form.isFieldDirty('city') ? '#fff3cd' : 'white'
+                  }}
+                />
+              </div>
+              
+              <div>
+                <label style={{ display: 'block', marginBottom: '5px' }}>State *</label>
+                <input
+                  type="text"
+                  value={form.formData.state}
+                  onChange={(e) => form.updateField('state', e.target.value)}
+                  required
+                  style={{
+                    width: '100%',
+                    padding: '8px',
+                    borderRadius: '4px',
+                    border: '1px solid #ccc',
+                    backgroundColor: form.isFieldDirty('state') ? '#fff3cd' : 'white'
+                  }}
+                />
+              </div>
+              
+              <div>
+                <label style={{ display: 'block', marginBottom: '5px' }}>ZIP *</label>
+                <input
+                  type="text"
+                  value={form.formData.zipCode}
+                  onChange={(e) => form.updateField('zipCode', e.target.value)}
+                  required
+                  style={{
+                    width: '100%',
+                    padding: '8px',
+                    borderRadius: '4px',
+                    border: '1px solid #ccc',
+                    backgroundColor: form.isFieldDirty('zipCode') ? '#fff3cd' : 'white'
+                  }}
+                />
+              </div>
+            </div>
+
+            <div style={{ marginBottom: '15px' }}>
+              <label style={{ display: 'block', marginBottom: '5px' }}>Country</label>
+              <select
+                value={form.formData.country}
+                onChange={(e) => form.updateField('country', e.target.value)}
+                style={{
+                  width: '100%',
+                  padding: '8px',
+                  borderRadius: '4px',
+                  border: '1px solid #ccc',
+                  backgroundColor: form.isFieldDirty('country') ? '#fff3cd' : 'white'
+                }}
+              >
+                <option value="USA">United States</option>
+                <option value="CAN">Canada</option>
+                <option value="MEX">Mexico</option>
+                <option value="GBR">United Kingdom</option>
+                <option value="FRA">France</option>
+                <option value="DEU">Germany</option>
+              </select>
+            </div>
+          </div>
+        );
+
+      case 3:
+        return (
+          <div>
+            <h3>Step 3: Preferences</h3>
+            
+            <div style={{ marginBottom: '20px' }}>
+              <label style={{ display: 'block', marginBottom: '10px', fontWeight: 'bold' }}>
+                Notification Preferences
+              </label>
+              
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <label style={{ display: 'flex', alignItems: 'center' }}>
+                  <input
+                    type="checkbox"
+                    checked={form.formData.notifications.email}
+                    onChange={(e) => handleNotificationChange('email', e.target.checked)}
+                    style={{ marginRight: '8px' }}
+                  />
+                  Email notifications
+                </label>
+                
+                <label style={{ display: 'flex', alignItems: 'center' }}>
+                  <input
+                    type="checkbox"
+                    checked={form.formData.notifications.sms}
+                    onChange={(e) => handleNotificationChange('sms', e.target.checked)}
+                    style={{ marginRight: '8px' }}
+                  />
+                  SMS notifications
+                </label>
+                
+                <label style={{ display: 'flex', alignItems: 'center' }}>
+                  <input
+                    type="checkbox"
+                    checked={form.formData.notifications.push}
+                    onChange={(e) => handleNotificationChange('push', e.target.checked)}
+                    style={{ marginRight: '8px' }}
+                  />
+                  Push notifications
+                </label>
+              </div>
+            </div>
+
+            <div style={{ marginBottom: '20px' }}>
+              <label style={{ display: 'block', marginBottom: '10px', fontWeight: 'bold' }}>
+                Interests
+              </label>
+              
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+                {['Technology', 'Sports', 'Music', 'Travel', 'Food', 'Books'].map(interest => (
+                  <label key={interest} style={{ display: 'flex', alignItems: 'center' }}>
+                    <input
+                      type="checkbox"
+                      checked={form.formData.interests.includes(interest)}
+                      onChange={() => handleInterestToggle(interest)}
+                      style={{ marginRight: '8px' }}
+                    />
+                    {interest}
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            <div style={{ marginBottom: '15px' }}>
+              <label style={{ display: 'block', marginBottom: '5px' }}>Additional Comments</label>
+              <textarea
+                value={form.formData.comments}
+                onChange={(e) => form.updateField('comments', e.target.value)}
+                rows={3}
+                style={{
+                  width: '100%',
+                  padding: '8px',
+                  borderRadius: '4px',
+                  border: '1px solid #ccc',
+                  backgroundColor: form.isFieldDirty('comments') ? '#fff3cd' : 'white',
+                  resize: 'vertical'
+                }}
+              />
+            </div>
+          </div>
+        );
+
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
+      <h2>Multi-Step Form with Persistence</h2>
+
+      {/* Progress Bar */}
+      <div style={{ marginBottom: '30px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
+          <span style={{ fontSize: '14px', fontWeight: 'bold' }}>
+            Step {currentStep} of {totalSteps}
+          </span>
+          <span style={{ fontSize: '12px', color: '#666' }}>
+            {form.isAutoSaving ? '💾 Auto-saving...' : form.isSaved ? '✅ Saved' : '⚠️ Unsaved'}
+          </span>
+        </div>
+        
+        <div style={{
+          width: '100%',
+          height: '8px',
+          backgroundColor: '#e9ecef',
+          borderRadius: '4px',
+          overflow: 'hidden'
+        }}>
+          <div style={{
+            width: `${getStepProgress()}%`,
+            height: '100%',
+            backgroundColor: '#28a745',
+            transition: 'width 0.3s ease'
+          }} />
+        </div>
+      </div>
+
+      <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '20px' }}>
+        {/* Form Content */}
+        <div style={{ 
+          padding: '20px', 
+          backgroundColor: '#f9f9f9', 
+          borderRadius: '8px',
+          border: '1px solid #ddd',
+          minHeight: '400px'
+        }}>
+          {renderStep()}
+          
+          {/* Navigation */}
+          <div style={{ 
+            display: 'flex', 
+            justifyContent: 'space-between', 
+            marginTop: '30px',
+            paddingTop: '20px',
+            borderTop: '1px solid #ddd'
+          }}>
+            <button
+              onClick={prevStep}
+              disabled={currentStep === 1}
+              style={{
+                padding: '10px 20px',
+                backgroundColor: currentStep === 1 ? '#ccc' : '#6c757d',
+                color: 'white',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: currentStep === 1 ? 'not-allowed' : 'pointer'
+              }}
+            >
+              Previous
+            </button>
+            
+            <div style={{ display: 'flex', gap: '10px' }}>
+              <button
+                onClick={() => form.clearForm()}
+                style={{
+                  padding: '10px 20px',
+                  backgroundColor: '#dc3545',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '4px',
+                  cursor: 'pointer'
+                }}
+              >
+                Clear All
+              </button>
+              
+              {currentStep === totalSteps ? (
+                <button
+                  onClick={handleSubmit}
+                  style={{
+                    padding: '10px 20px',
+                    backgroundColor: '#28a745',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '4px',
+                    cursor: 'pointer',
+                    fontWeight: 'bold'
+                  }}
+                >
+                  Submit
+                </button>
+              ) : (
+                <button
+                  onClick={nextStep}
+                  style={{
+                    padding: '10px 20px',
+                    backgroundColor: '#007bff',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '4px',
+                    cursor: 'pointer'
+                  }}
+                >
+                  Next
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Data Preview */}
+        <div style={{ 
+          padding: '15px', 
+          backgroundColor: '#f8f9fa', 
+          borderRadius: '8px',
+          border: '1px solid #dee2e6'
+        }}>
+          <h3>Form Data Preview</h3>
+          
+          <div style={{ 
+            maxHeight: '350px', 
+            overflowY: 'auto',
+            backgroundColor: 'white',
+            border: '1px solid #ddd',
+            borderRadius: '4px',
+            padding: '10px'
+          }}>
+            <pre style={{ 
+              fontSize: '10px', 
+              margin: 0,
+              whiteSpace: 'pre-wrap',
+              wordBreak: 'break-word'
+            }}>
+              {JSON.stringify(form.formData, null, 2)}
+            </pre>
+          </div>
+          
+          <div style={{ marginTop: '15px', fontSize: '12px' }}>
+            <div><strong>Storage Size:</strong> {(form.storageSize / 1024).toFixed(2)} KB</div>
+            <div><strong>Has Changes:</strong> {form.hasChanges() ? 'Yes' : 'No'}</div>
+            <div><strong>Loaded from Storage:</strong> {form.hasLoadedFromStorage ? 'Yes' : 'No'}</div>
+          </div>
+        </div>
+      </div>
+
+      <div style={{ 
+        marginTop: '20px', 
+        padding: '10px', 
+        backgroundColor: '#fff3cd', 
+        borderRadius: '4px',
+        fontSize: '14px'
+      }}>
+        <strong>Multi-Step Persistence:</strong> Each step is automatically saved as you progress.
+        Navigate between steps or refresh the page - your data remains intact.
+        The current step is not persisted, so you'll always start from step 1 on reload.
+      </div>
+    </div>
+  );
+};
+
+export const ContactForm: Story = {
+  render: () => <ContactFormDemo />,
+  parameters: {
+    docs: {
+      description: {
+        story: 'Contact form with automatic persistence and real-time save status. Shows field-level dirty tracking, validation, and comprehensive form state management.'
+      }
+    }
+  }
+};
+
+export const MultiStepForm: Story = {
+  render: () => <MultiStepFormDemo />,
+  parameters: {
+    docs: {
+      description: {
+        story: 'Multi-step form with persistent state across navigation. Demonstrates complex form data handling, step progression, and automatic save functionality.'
+      }
+    }
+  }
+};

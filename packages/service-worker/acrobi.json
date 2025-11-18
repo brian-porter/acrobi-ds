@@ -1,0 +1,72 @@
+{
+  "id": "acrobi.service-worker",
+  "name": "Acrobi Service Worker",
+  "version": "1.0.0-alpha.1",
+  "description": "PWA service worker with advanced caching strategies, background sync, and offline support",
+  "author": {
+    "name": "Acrobi",
+    "email": "design-system@acrobi.com",
+    "url": "https://acrobi.com"
+  },
+  "license": {
+    "type": "MIT",
+    "url": "https://opensource.org/licenses/MIT"
+  },
+  "category": "tool",
+  "keywords": [
+    "pwa",
+    "service-worker",
+    "offline",
+    "caching",
+    "background-sync",
+    "workbox"
+  ],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "homepage": "https://github.com/acrobi/acrobi-design-system/tree/main/packages/service-worker",
+  "repository": "https://github.com/acrobi/acrobi-design-system",
+  "bugs": "https://github.com/acrobi/acrobi-design-system/issues",
+  "dependencies": [],
+  "coreVersion": ">=0.1.0",
+  "capabilities": [
+    {
+      "id": "sw.caching",
+      "name": "Service Worker Caching",
+      "description": "Multi-strategy caching for PWA apps",
+      "version": "1.0.0"
+    },
+    {
+      "id": "sw.offline",
+      "name": "Offline Support",
+      "description": "Offline fallback and support",
+      "version": "1.0.0"
+    },
+    {
+      "id": "sw.backgroundSync",
+      "name": "Background Sync",
+      "description": "Background synchronization for offline operations",
+      "version": "1.0.0"
+    }
+  ],
+  "configSchema": {
+    "type": "object",
+    "properties": {
+      "cacheStrategy": {
+        "type": "string",
+        "enum": ["cacheFirst", "networkFirst", "staleWhileRevalidate"],
+        "default": "networkFirst",
+        "description": "Default caching strategy"
+      },
+      "enableBackgroundSync": {
+        "type": "boolean",
+        "default": true,
+        "description": "Enable background sync"
+      },
+      "cacheName": {
+        "type": "string",
+        "default": "acrobi-cache-v1",
+        "description": "Cache storage name"
+      }
+    }
+  }
+}

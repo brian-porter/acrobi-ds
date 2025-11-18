@@ -1,0 +1,49 @@
+{
+  "id": "acrobi.aae-hooks",
+  "name": "Acrobi Advanced Experience Hooks",
+  "version": "1.0.0-alpha.1",
+  "description": "50+ React hooks for accessing modern web platform APIs including camera, GPS, Bluetooth, NFC, WebAuthn, and more",
+  "author": {
+    "name": "Acrobi",
+    "email": "design-system@acrobi.com",
+    "url": "https://acrobi.com"
+  },
+  "license": {
+    "type": "MIT",
+    "url": "https://opensource.org/licenses/MIT"
+  },
+  "category": "tool",
+  "keywords": [
+    "hooks",
+    "web-apis",
+    "camera",
+    "geolocation",
+    "bluetooth",
+    "nfc",
+    "webauthn",
+    "pwa",
+    "sensors",
+    "device-apis"
+  ],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "homepage": "https://github.com/acrobi/acrobi-design-system/tree/main/packages/aae-hooks",
+  "repository": "https://github.com/acrobi/acrobi-design-system",
+  "bugs": "https://github.com/acrobi/acrobi-design-system/issues",
+  "dependencies": [],
+  "coreVersion": ">=0.1.0",
+  "capabilities": [
+    {
+      "id": "aae.hooks",
+      "name": "Advanced Experience Hooks",
+      "description": "Provides 50+ hooks for platform capabilities",
+      "version": "1.0.0"
+    },
+    {
+      "id": "aae.feature-detection",
+      "name": "Feature Detection",
+      "description": "Browser feature detection utilities",
+      "version": "1.0.0"
+    }
+  ]
+}

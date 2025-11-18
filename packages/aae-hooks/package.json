@@ -1,0 +1,73 @@
+{
+  "name": "@acrobi/aae-hooks",
+  "version": "1.0.0-alpha.1",
+  "description": "Advanced Acrobi Experience (AAE) hooks for modern web platform APIs - 50+ React hooks for camera, GPS, Bluetooth, NFC, and more",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "src",
+    "acrobi.json",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest",
+    "lint": "eslint src/",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {},
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "socket.io-client": "^4.0.0",
+    "@zxing/library": "^0.20.0",
+    "@zxing/browser": "^0.1.0"
+  },
+  "peerDependenciesMeta": {
+    "socket.io-client": {
+      "optional": true
+    },
+    "@zxing/library": {
+      "optional": true
+    },
+    "@zxing/browser": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@acrobi/tsconfig": "workspace:*",
+    "@types/react": "^18.0.0",
+    "typescript": "^5.0.0",
+    "tsup": "^8.0.0",
+    "vitest": "^2.0.0",
+    "eslint": "^8.0.0"
+  },
+  "keywords": [
+    "acrobi",
+    "aae",
+    "hooks",
+    "react",
+    "camera",
+    "geolocation",
+    "bluetooth",
+    "nfc",
+    "webauthn",
+    "pwa"
+  ],
+  "author": "Acrobi",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/acrobi/acrobi-design-system",
+    "directory": "packages/aae-hooks"
+  }
+}
