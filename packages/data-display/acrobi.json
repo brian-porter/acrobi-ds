@@ -1,0 +1,17 @@
+{
+  "id": "acrobi.data-display",
+  "name": "Acrobi Data Display",
+  "version": "1.0.0",
+  "description": "Data display components including tables, grids, and empty states",
+  "author": {
+    "name": "Acrobi"
+  },
+  "category": "ui-component",
+  "keywords": ["data", "table", "grid", "empty-state", "breadcrumb"],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "dependencies": [
+    "acrobi.primitives"
+  ],
+  "coreVersion": ">=0.1.0"
+}

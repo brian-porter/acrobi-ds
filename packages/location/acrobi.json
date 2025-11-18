@@ -1,0 +1,17 @@
+{
+  "id": "acrobi.location",
+  "name": "Acrobi Location Services",
+  "version": "1.0.0",
+  "description": "GPS location and interactive maps",
+  "author": {
+    "name": "Acrobi"
+  },
+  "category": "tool",
+  "keywords": ["geolocation", "gps", "maps", "leaflet"],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "dependencies": [
+    "acrobi.aae-hooks"
+  ],
+  "coreVersion": ">=0.1.0"
+}

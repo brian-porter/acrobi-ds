@@ -1,0 +1,71 @@
+{
+  "name": "@acrobi/location",
+  "version": "1.0.0-alpha.1",
+  "description": "Location services and interactive mapping",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "src",
+    "acrobi.json",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest",
+    "lint": "eslint src/",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@acrobi/aae-hooks": "workspace:*",
+    "@acrobi/primitives": "workspace:*"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "leaflet": "^1.9.0",
+    "react-leaflet": "^4.0.0 || ^5.0.0"
+  },
+  "peerDependenciesMeta": {
+    "leaflet": {
+      "optional": true
+    },
+    "react-leaflet": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@acrobi/tsconfig": "workspace:*",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "@types/leaflet": "^1.9.0",
+    "typescript": "^5.0.0",
+    "tsup": "^8.0.0",
+    "vitest": "^2.0.0",
+    "eslint": "^8.0.0"
+  },
+  "keywords": [
+    "acrobi",
+    "geolocation",
+    "gps",
+    "maps",
+    "leaflet",
+    "location"
+  ],
+  "author": "Acrobi",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/acrobi/acrobi-design-system",
+    "directory": "packages/location"
+  }
+}

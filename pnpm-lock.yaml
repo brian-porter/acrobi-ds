@@ -70,6 +70,46 @@ importers:
         specifier: ^2.0.0
         version: 2.1.9(@types/node@20.19.9)(@vitest/ui@2.1.9)(jsdom@25.0.1)
 
+  packages/auth-flow:
+    dependencies:
+      '@acrobi/aae-hooks':
+        specifier: workspace:*
+        version: link:../aae-hooks
+      '@acrobi/form-components':
+        specifier: workspace:*
+        version: link:../form-components
+      '@acrobi/primitives':
+        specifier: workspace:*
+        version: link:../primitives
+      react:
+        specifier: ^18.0.0
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.0.0
+        version: 18.3.1(react@18.3.1)
+    devDependencies:
+      '@acrobi/tsconfig':
+        specifier: workspace:*
+        version: link:../tsconfig
+      '@types/react':
+        specifier: ^18.0.0
+        version: 18.3.23
+      '@types/react-dom':
+        specifier: ^18.0.0
+        version: 18.3.7(@types/react@18.3.23)
+      eslint:
+        specifier: ^8.0.0
+        version: 8.57.1
+      tsup:
+        specifier: ^8.0.0
+        version: 8.5.1(jiti@1.21.7)(postcss@8.5.6)(tsx@4.20.3)(typescript@5.8.3)(yaml@2.8.0)
+      typescript:
+        specifier: ^5.0.0
+        version: 5.8.3
+      vitest:
+        specifier: ^2.0.0
+        version: 2.1.9(@types/node@20.19.9)(@vitest/ui@2.1.9)(jsdom@25.0.1)
+
   packages/cli:
     dependencies:
       chalk:
@@ -98,6 +138,154 @@ importers:
         specifier: ^4.0.0
         version: 4.20.3
 
+  packages/data-display:
+    dependencies:
+      '@acrobi/primitives':
+        specifier: workspace:*
+        version: link:../primitives
+      react:
+        specifier: ^18.0.0
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.0.0
+        version: 18.3.1(react@18.3.1)
+    devDependencies:
+      '@acrobi/tsconfig':
+        specifier: workspace:*
+        version: link:../tsconfig
+      '@types/react':
+        specifier: ^18.0.0
+        version: 18.3.23
+      '@types/react-dom':
+        specifier: ^18.0.0
+        version: 18.3.7(@types/react@18.3.23)
+      eslint:
+        specifier: ^8.0.0
+        version: 8.57.1
+      tsup:
+        specifier: ^8.0.0
+        version: 8.5.1(jiti@1.21.7)(postcss@8.5.6)(tsx@4.20.3)(typescript@5.8.3)(yaml@2.8.0)
+      typescript:
+        specifier: ^5.0.0
+        version: 5.8.3
+      vitest:
+        specifier: ^2.0.0
+        version: 2.1.9(@types/node@20.19.9)(@vitest/ui@2.1.9)(jsdom@25.0.1)
+
+  packages/form-components:
+    dependencies:
+      '@acrobi/primitives':
+        specifier: workspace:*
+        version: link:../primitives
+      react:
+        specifier: ^18.0.0
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.0.0
+        version: 18.3.1(react@18.3.1)
+    devDependencies:
+      '@acrobi/tsconfig':
+        specifier: workspace:*
+        version: link:../tsconfig
+      '@types/react':
+        specifier: ^18.0.0
+        version: 18.3.23
+      '@types/react-dom':
+        specifier: ^18.0.0
+        version: 18.3.7(@types/react@18.3.23)
+      eslint:
+        specifier: ^8.0.0
+        version: 8.57.1
+      tsup:
+        specifier: ^8.0.0
+        version: 8.5.1(jiti@1.21.7)(postcss@8.5.6)(tsx@4.20.3)(typescript@5.8.3)(yaml@2.8.0)
+      typescript:
+        specifier: ^5.0.0
+        version: 5.8.3
+      vitest:
+        specifier: ^2.0.0
+        version: 2.1.9(@types/node@20.19.9)(@vitest/ui@2.1.9)(jsdom@25.0.1)
+
+  packages/location:
+    dependencies:
+      '@acrobi/aae-hooks':
+        specifier: workspace:*
+        version: link:../aae-hooks
+      '@acrobi/primitives':
+        specifier: workspace:*
+        version: link:../primitives
+      leaflet:
+        specifier: ^1.9.0
+        version: 1.9.4
+      react:
+        specifier: ^18.0.0
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.0.0
+        version: 18.3.1(react@18.3.1)
+      react-leaflet:
+        specifier: ^4.0.0 || ^5.0.0
+        version: 5.0.0(leaflet@1.9.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+    devDependencies:
+      '@acrobi/tsconfig':
+        specifier: workspace:*
+        version: link:../tsconfig
+      '@types/leaflet':
+        specifier: ^1.9.0
+        version: 1.9.20
+      '@types/react':
+        specifier: ^18.0.0
+        version: 18.3.23
+      '@types/react-dom':
+        specifier: ^18.0.0
+        version: 18.3.7(@types/react@18.3.23)
+      eslint:
+        specifier: ^8.0.0
+        version: 8.57.1
+      tsup:
+        specifier: ^8.0.0
+        version: 8.5.1(jiti@1.21.7)(postcss@8.5.6)(tsx@4.20.3)(typescript@5.8.3)(yaml@2.8.0)
+      typescript:
+        specifier: ^5.0.0
+        version: 5.8.3
+      vitest:
+        specifier: ^2.0.0
+        version: 2.1.9(@types/node@20.19.9)(@vitest/ui@2.1.9)(jsdom@25.0.1)
+
+  packages/menu-system:
+    dependencies:
+      '@acrobi/primitives':
+        specifier: workspace:*
+        version: link:../primitives
+      react:
+        specifier: ^18.0.0
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.0.0
+        version: 18.3.1(react@18.3.1)
+    devDependencies:
+      '@acrobi/tsconfig':
+        specifier: workspace:*
+        version: link:../tsconfig
+      '@types/react':
+        specifier: ^18.0.0
+        version: 18.3.23
+      '@types/react-dom':
+        specifier: ^18.0.0
+        version: 18.3.7(@types/react@18.3.23)
+      eslint:
+        specifier: ^8.0.0
+        version: 8.57.1
+      tsup:
+        specifier: ^8.0.0
+        version: 8.5.1(jiti@1.21.7)(postcss@8.5.6)(tsx@4.20.3)(typescript@5.8.3)(yaml@2.8.0)
+      typescript:
+        specifier: ^5.0.0
+        version: 5.8.3
+      vitest:
+        specifier: ^2.0.0
+        version: 2.1.9(@types/node@20.19.9)(@vitest/ui@2.1.9)(jsdom@25.0.1)
+
   packages/primitives:
     dependencies:
       class-variance-authority:
@@ -121,6 +309,49 @@ importers:
       vaul:
         specifier: ^1.0.0
         version: 1.1.2(@types/react-dom@18.3.7(@types/react@18.3.23))(@types/react@18.3.23)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+    devDependencies:
+      '@acrobi/tsconfig':
+        specifier: workspace:*
+        version: link:../tsconfig
+      '@types/react':
+        specifier: ^18.0.0
+        version: 18.3.23
+      '@types/react-dom':
+        specifier: ^18.0.0
+        version: 18.3.7(@types/react@18.3.23)
+      eslint:
+        specifier: ^8.0.0
+        version: 8.57.1
+      tsup:
+        specifier: ^8.0.0
+        version: 8.5.1(jiti@1.21.7)(postcss@8.5.6)(tsx@4.20.3)(typescript@5.8.3)(yaml@2.8.0)
+      typescript:
+        specifier: ^5.0.0
+        version: 5.8.3
+      vitest:
+        specifier: ^2.0.0
+        version: 2.1.9(@types/node@20.19.9)(@vitest/ui@2.1.9)(jsdom@25.0.1)
+
+  packages/scanning:
+    dependencies:
+      '@acrobi/aae-hooks':
+        specifier: workspace:*
+        version: link:../aae-hooks
+      '@acrobi/primitives':
+        specifier: workspace:*
+        version: link:../primitives
+      '@zxing/browser':
+        specifier: ^0.1.0
+        version: 0.1.5(@zxing/library@0.20.0)
+      '@zxing/library':
+        specifier: ^0.20.0
+        version: 0.20.0
+      react:
+        specifier: ^18.0.0
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.0.0
+        version: 18.3.1(react@18.3.1)
     devDependencies:
       '@acrobi/tsconfig':
         specifier: workspace:*

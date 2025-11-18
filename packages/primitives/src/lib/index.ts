@@ -14,3 +14,6 @@ export {
   FileSaverUtils,
 } from './file-saver';
 export type { SaveFileOptions, DownloadProgress } from './file-saver';
+
+// Utility functions and re-exports
+export * from './utils';

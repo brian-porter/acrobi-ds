@@ -1,0 +1,17 @@
+{
+  "id": "acrobi.scanning",
+  "name": "Acrobi Scanning",
+  "version": "1.0.0",
+  "description": "Barcode and QR code scanning",
+  "author": {
+    "name": "Acrobi"
+  },
+  "category": "tool",
+  "keywords": ["barcode", "qr-code", "scanner", "zxing"],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "dependencies": [
+    "acrobi.aae-hooks"
+  ],
+  "coreVersion": ">=0.1.0"
+}
