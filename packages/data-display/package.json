@@ -1,0 +1,59 @@
+{
+  "name": "@acrobi/data-display",
+  "version": "1.0.0-alpha.1",
+  "description": "Data display components including tables, grids, and empty states",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "src",
+    "acrobi.json",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest",
+    "lint": "eslint src/",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@acrobi/primitives": "workspace:*"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "devDependencies": {
+    "@acrobi/tsconfig": "workspace:*",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "typescript": "^5.0.0",
+    "tsup": "^8.0.0",
+    "vitest": "^2.0.0",
+    "eslint": "^8.0.0"
+  },
+  "keywords": [
+    "acrobi",
+    "data",
+    "table",
+    "grid",
+    "empty-state",
+    "breadcrumb"
+  ],
+  "author": "Acrobi",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/acrobi/acrobi-design-system",
+    "directory": "packages/data-display"
+  }
+}

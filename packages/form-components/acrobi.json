@@ -1,0 +1,11 @@
+{
+  "id": "acrobi.form-components",
+  "name": "Acrobi Form Components",
+  "version": "1.0.0-alpha.1",
+  "description": "Complete form system with 8 field types, validation, and accessibility",
+  "category": "ui-component",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "dependencies": ["acrobi.primitives"],
+  "coreVersion": ">=0.1.0"
+}

@@ -1,0 +1,17 @@
+{
+  "id": "acrobi.menu-system",
+  "name": "Acrobi Menu System",
+  "version": "1.0.0",
+  "description": "Complete menu system with pre-built menu types",
+  "author": {
+    "name": "Acrobi"
+  },
+  "category": "ui-component",
+  "keywords": ["menu", "navigation", "ui"],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "dependencies": [
+    "acrobi.primitives"
+  ],
+  "coreVersion": ">=0.1.0"
+}

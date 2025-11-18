@@ -1,0 +1,53 @@
+{
+  "id": "acrobi.theme-system",
+  "name": "Acrobi Theme System",
+  "version": "1.0.0-alpha.1",
+  "description": "Dynamic theming system with CSS custom properties supporting light/dark modes and multiple theme presets",
+  "author": {
+    "name": "Acrobi",
+    "email": "design-system@acrobi.com",
+    "url": "https://acrobi.com"
+  },
+  "license": {
+    "type": "MIT",
+    "url": "https://opensource.org/licenses/MIT"
+  },
+  "category": "tool",
+  "keywords": [
+    "theme",
+    "design-tokens",
+    "css-variables",
+    "dark-mode",
+    "tailwind"
+  ],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "homepage": "https://github.com/acrobi/acrobi-design-system/tree/main/packages/theme-system",
+  "repository": "https://github.com/acrobi/acrobi-design-system",
+  "bugs": "https://github.com/acrobi/acrobi-design-system/issues",
+  "dependencies": [],
+  "coreVersion": ">=0.1.0",
+  "capabilities": [
+    {
+      "id": "theme.provider",
+      "name": "Theme Provider",
+      "description": "Provides dynamic theming capabilities with CSS custom properties",
+      "version": "1.0.0"
+    }
+  ],
+  "configSchema": {
+    "type": "object",
+    "properties": {
+      "defaultTheme": {
+        "type": "string",
+        "description": "Default theme name",
+        "default": "acrobi"
+      },
+      "enableDarkMode": {
+        "type": "boolean",
+        "description": "Enable dark mode support",
+        "default": true
+      }
+    }
+  }
+}

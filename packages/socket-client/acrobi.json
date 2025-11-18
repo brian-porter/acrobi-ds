@@ -1,0 +1,9 @@
+{
+  "id": "acrobi.socket-client",
+  "name": "Acrobi Socket Client",
+  "version": "1.0.0-alpha.1",
+  "category": "tool",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "coreVersion": ">=0.1.0"
+}

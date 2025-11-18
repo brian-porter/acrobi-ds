@@ -1,0 +1,42 @@
+{
+  "id": "acrobi.primitives",
+  "name": "Acrobi UI Primitives",
+  "version": "1.0.0-alpha.1",
+  "description": "Core UI building blocks for Acrobi applications - 24+ primitive components including buttons, inputs, cards, badges, and basic layout components",
+  "author": {
+    "name": "Acrobi",
+    "email": "design-system@acrobi.com",
+    "url": "https://acrobi.com"
+  },
+  "license": {
+    "type": "MIT",
+    "url": "https://opensource.org/licenses/MIT"
+  },
+  "category": "ui-component",
+  "keywords": [
+    "ui",
+    "components",
+    "primitives",
+    "react",
+    "tailwind",
+    "button",
+    "input",
+    "card",
+    "form"
+  ],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "homepage": "https://github.com/acrobi/acrobi-design-system/tree/main/packages/primitives",
+  "repository": "https://github.com/acrobi/acrobi-design-system",
+  "bugs": "https://github.com/acrobi/acrobi-design-system/issues",
+  "dependencies": [],
+  "coreVersion": ">=0.1.0",
+  "capabilities": [
+    {
+      "id": "ui.primitives",
+      "name": "UI Primitives Provider",
+      "description": "Provides core UI building blocks including buttons, inputs, cards, and form controls",
+      "version": "1.0.0"
+    }
+  ]
+}

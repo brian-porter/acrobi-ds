@@ -1,0 +1,64 @@
+{
+  "name": "@acrobi/primitives",
+  "version": "1.0.0-alpha.1",
+  "description": "Core UI building blocks for Acrobi applications",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./styles.css": "./dist/styles.css"
+  },
+  "files": [
+    "dist",
+    "src",
+    "acrobi.json",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest",
+    "lint": "eslint src/",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.0.0",
+    "tailwind-merge": "^2.5.0"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "gsap": "^3.12.0",
+    "vaul": "^1.0.0"
+  },
+  "devDependencies": {
+    "@acrobi/tsconfig": "workspace:*",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "typescript": "^5.0.0",
+    "tsup": "^8.0.0",
+    "vitest": "^2.0.0",
+    "eslint": "^8.0.0"
+  },
+  "keywords": [
+    "acrobi",
+    "ui",
+    "components",
+    "primitives",
+    "react",
+    "tailwind"
+  ],
+  "author": "Acrobi",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/acrobi/acrobi-design-system",
+    "directory": "packages/primitives"
+  }
+}

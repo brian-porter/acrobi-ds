@@ -1,0 +1,27 @@
+{
+  "id": "acrobi.auth-flow",
+  "name": "Acrobi Authentication Flow",
+  "version": "1.0.0",
+  "description": "Complete authentication and onboarding workflow",
+  "author": {
+    "name": "Acrobi"
+  },
+  "category": "workflow",
+  "keywords": ["auth", "authentication", "onboarding", "state-machine"],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "dependencies": [
+    "acrobi.primitives",
+    "acrobi.form-components",
+    "acrobi.aae-hooks"
+  ],
+  "coreVersion": ">=0.1.0",
+  "capabilities": [
+    {
+      "id": "auth.flow",
+      "name": "Authentication Flow",
+      "description": "Complete user onboarding workflow",
+      "version": "1.0.0"
+    }
+  ]
+}
